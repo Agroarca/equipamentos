@@ -11,8 +11,8 @@ class CategoriaController extends Controller
 {
     public function inicio($categoriaId = null){
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
-
         $categorias = Categoria::where('categoria_mae_id', $categoriaId)->orderBy('nome')->with(['categoriaMae'])->paginate(15);
+
         return Inertia::render('Admin/Categoria/Inicio', [
             'categorias' => $categorias,
             'categoria' => $categoria
