@@ -1,12 +1,32 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Pagination from "@/Components/Admin/Pagination.vue";
+import { Link, Head } from "@inertiajs/inertia-vue3";
 
-const props = defineProps(['categorias']);
+const props = defineProps(['categorias', 'categoria']);
 </script>
 
 <template>
-    <AdminLayout titulo="Categorias" link="admin.categorias.criar" button-text="Nova Categoria">
+    <AdminLayout>
+        <template #header>
+            <Head title="Categorias" />
+                <header class="row pb-4">
+                    <div class="col-sm-8">
+                        <h1>Categorias</h1>
+                    </div>
+                    <div class="col-sm-4 pt-3 pt-sm-0">
+                        <Link :href="route('admin.categorias.criar', categoria?.id ?? undefined)" class="btn btn-primary float-sm-end">
+                            <i class="fas fa-plus-circle pr-1"></i> Nova Categoria
+                        </Link>
+                    </div>
+                </header>
+        </template>
+
+        <Link v-if="categoria" class="btn btn-primary mb-3" :href="route('admin.categorias', categoria.categoria_mae_id ?? undefined)">
+            <i class="fas fa-arrow-left me-1"></i>
+            {{ categoria.categoria_mae?.nome ?? "Categorias" }}
+        </Link>
+
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-stripped table-hover">
@@ -23,7 +43,23 @@ const props = defineProps(['categorias']);
                                     {{ categoria.categoriaMae.nome }}
                                 </span>
                             </td>
-                            <td></td>
+                            <td class="acoes">
+                                <Link class="btn btn-primary" :href="route('admin.categorias', categoria.id)">
+                                    <i class="fas fa-bars-staggered"></i>
+                                    Subcategorias
+                                </Link>
+                                <Link class="btn btn-primary" :href="route('admin.categorias.editar', categoria.id)">
+                                    <i class="fas fa-pen-to-square"></i>
+                                    Editar
+                                </Link>
+                                <Link class="btn btn-danger" :href="route('admin.categorias.excluir', categoria.id)">
+                                    <i class="fas fa-eraser"></i>
+                                    Excluir
+                                </Link>
+                            </td>
+                        </tr>
+                        <tr v-if="categorias.data.length == 0">
+                            <td colspan="3">Nenhum registro encontrado</td>
                         </tr>
                     </tbody>
                 </table>
