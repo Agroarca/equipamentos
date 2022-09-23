@@ -67,4 +67,10 @@ class CategoriaRequest extends FormRequest
             'categoria_mae_id' => 'Categoria Mãe',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $attributes['categoria_mae_id'] = $this->input('categoria_mae_id') ?? null;
+        $this->merge($attributes);
+    }
 }

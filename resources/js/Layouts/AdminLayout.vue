@@ -49,7 +49,7 @@
                         <h1>{{ titulo }}</h1>
                     </div>
                     <div class="col-sm-4 pt-3 pt-sm-0">
-                        <Link :href="route(link)" class="btn btn-primary float-sm-end">
+                        <Link :href="link" class="btn btn-primary float-sm-end">
                             <i class="fas fa-plus-circle pr-1"></i> {{ buttonText }}
                         </Link>
                     </div>
