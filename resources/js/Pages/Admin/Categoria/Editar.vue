@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { useForm, Head } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "../../../Components/FormError.vue";
 import AlterarCategoriaMae from "./partials/AlterarCategoriaMae.vue";
 import { ref } from "vue";
