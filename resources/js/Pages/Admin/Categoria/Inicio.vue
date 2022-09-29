@@ -1,28 +1,16 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Pagination from "@/Components/Admin/Pagination.vue";
-import { Link, Head } from "@inertiajs/inertia-vue3";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps(['categorias', 'categoria']);
+
+const titulo = props.categoria?.nome ? 'Categorias de ' + props.categoria.nome : 'Categorias'
 </script>
 
 <template>
-    <AdminLayout>
-        <template #header>
-            <Head title="Categorias" />
-                <header class="row pb-4">
-                    <div class="col-sm-8">
-                        <h1>Categorias</h1>
-                    </div>
-                    <div class="col-sm-4 pt-3 pt-sm-0">
-                        <Link :href="route('admin.categorias.criar', categoria?.id ?? undefined)" class="btn btn-primary float-sm-end">
-                            <i class="fas fa-plus-circle pr-1"></i> Nova Categoria
-                        </Link>
-                    </div>
-                </header>
-        </template>
-
-        <Link v-if="categoria" class="btn btn-primary mb-3" :href="route('admin.categorias', categoria.categoria_mae_id ?? undefined)">
+    <AdminLayout :titulo="titulo" :link="route('admin.categorias.criar', categoria?.id)" buttonText="Nova Categoria">
+        <Link v-if="categoria" class="btn btn-primary mb-3" :href="route('admin.categorias', categoria.categoria_mae_id)">
             <i class="fas fa-arrow-left me-1"></i>
             {{ categoria.categoria_mae?.nome ?? "Categorias" }}
         </Link>
@@ -33,27 +21,31 @@ const props = defineProps(['categorias', 'categoria']);
                     <thead>
                         <th>Nome</th>
                         <th>Categoria Mãe</th>
-                        <th>Ações</th>
+                        <th></th>
                     </thead>
                     <tbody>
                         <tr v-for="categoria in categorias.data" :key="categoria.id">
                             <td>{{ categoria.nome }}</td>
                             <td>
-                                <span v-if="categoria.categoriaMae">
-                                    {{ categoria.categoriaMae.nome }}
+                                <span v-if="categoria.categoria_mae">
+                                    {{ categoria.categoria_mae.nome }}
                                 </span>
                             </td>
-                            <td class="acoes">
-                                <Link class="btn btn-primary" :href="route('admin.categorias', categoria.id)">
-                                    <i class="fas fa-bars-staggered"></i>
+                            <td>
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.caracteristicas', categoria.id)">
+                                    <i class="fas fa-sliders pe-1"></i>
+                                    Características
+                                </Link>
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias', categoria.id)">
+                                    <i class="fas fa-bars-staggered pe-1"></i>
                                     Subcategorias
                                 </Link>
-                                <Link class="btn btn-primary" :href="route('admin.categorias.editar', categoria.id)">
-                                    <i class="fas fa-pen-to-square"></i>
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.editar', categoria.id)">
+                                    <i class="fas fa-pen-to-square pe-1"></i>
                                     Editar
                                 </Link>
                                 <Link class="btn btn-danger" :href="route('admin.categorias.excluir', categoria.id)">
-                                    <i class="fas fa-eraser"></i>
+                                    <i class="fas fa-eraser pe-1"></i>
                                     Excluir
                                 </Link>
                             </td>
