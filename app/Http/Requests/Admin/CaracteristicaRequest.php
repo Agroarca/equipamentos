@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Caracteristicas;
+namespace App\Http\Requests\Admin;
 
 use App\Enums\Caracteristicas\TipoCaracteristica;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CaracteristicasRequest extends FormRequest
+class CaracteristicaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

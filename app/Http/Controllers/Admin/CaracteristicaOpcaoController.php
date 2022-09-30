@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Caracteristicas\CaracteristicaOpcaoRequest;
+use App\Http\Requests\Admin\CaracteristicaOpcaoRequest;
 use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Caracteristicas\CaracteristicaOpcao;
 use Inertia\Inertia;
 
-class CaracteristicaOpcoesController extends Controller
+class CaracteristicaOpcaoController extends Controller
 {
     public function criar($categoriaId, $caracteristicaId)
     {

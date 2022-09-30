@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Equipamentos;
+namespace App\Http\Requests\Admin;
 
 use App\Models\Equipamentos\Categoria;
 use Illuminate\Contracts\Validation\Factory;
