@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\CaracteristicaOpcaoController;
 use App\Http\Controllers\Admin\CaracteristicaController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EquipamentoController;
+use App\Http\Controllers\Admin\MarcaController;
+use App\Http\Controllers\Admin\ModeloController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,5 +50,23 @@ Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('marcas')->name('.marcas')->group(function () {
+        Route::get('', [MarcaController::class, 'inicio'])->name('');
+        Route::get('criar/{categoriaId?}', [MarcaController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [MarcaController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [MarcaController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [MarcaController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [MarcaController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('modelos')->name('.modelos')->group(function () {
+        Route::get('', [ModeloController::class, 'inicio'])->name('');
+        Route::get('criar/{categoriaId?}', [ModeloController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [ModeloController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [ModeloController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
     });
 });

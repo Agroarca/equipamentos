@@ -27,6 +27,16 @@ class MenuService
                     'title' => 'Equipamentos',
                     'icon' => '',
                     'route' => 'admin.equipamentos'
+                ],
+                [
+                    'title' => 'Marcas',
+                    'icon' => '',
+                    'route' => 'admin.marcas'
+                ],
+                [
+                    'title' => 'Modelos',
+                    'icon' => '',
+                    'route' => 'admin.modelos'
                 ]
             ];
         }
