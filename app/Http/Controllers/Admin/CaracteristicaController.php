@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Caracteristicas\TipoCaracteristica;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Caracteristicas\CaracteristicasRequest;
+use App\Http\Requests\Admin\CaracteristicasRequest;
 use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Categoria;
 use Inertia\Inertia;
 
-class CaracteristicasController extends Controller
+class CaracteristicaController extends Controller
 {
     public function inicio($categoriaId)
     {

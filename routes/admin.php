@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CaracteristicaOpcoesController;
-use App\Http\Controllers\Admin\CaracteristicasController;
+use App\Http\Controllers\Admin\CaracteristicaOpcaoController;
+use App\Http\Controllers\Admin\CaracteristicaController;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\EquipamentoController;
+use App\Http\Controllers\Admin\MarcaController;
+use App\Http\Controllers\Admin\ModeloController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,17 +29,44 @@ Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
         Route::get('pesquisar/{categoriaId?}', [CategoriaController::class, 'pesquisar'])->name('.pesquisar');
 
         Route::prefix('{categoriaId}/caracteristicas')->name('.caracteristicas')->group(function () {
-            Route::get('', [CaracteristicasController::class, 'inicio'])->name('');
-            Route::get('criar', [CaracteristicasController::class, 'criar'])->name('.criar');
-            Route::post('salvar', [CaracteristicasController::class, 'salvar'])->name('.salvar');
-            Route::get('{id}/visualizar', [CaracteristicasController::class, 'visualizar'])->name('.visualizar');
-            Route::get('{id}/excluir', [CaracteristicasController::class, 'excluir'])->name('.excluir');
+            Route::get('', [CaracteristicaController::class, 'inicio'])->name('');
+            Route::get('criar', [CaracteristicaController::class, 'criar'])->name('.criar');
+            Route::post('salvar', [CaracteristicaController::class, 'salvar'])->name('.salvar');
+            Route::get('{id}/visualizar', [CaracteristicaController::class, 'visualizar'])->name('.visualizar');
+            Route::get('{id}/excluir', [CaracteristicaController::class, 'excluir'])->name('.excluir');
 
             Route::prefix('{caracteristicaId}/opcoes')->name('.opcoes')->group(function () {
-                Route::get('criar', [CaracteristicaOpcoesController::class, 'criar'])->name('.criar');
-                Route::post('salvar', [CaracteristicaOpcoesController::class, 'salvar'])->name('.salvar');
-                Route::get('{id}/excluir', [CaracteristicaOpcoesController::class, 'excluir'])->name('.excluir');
+                Route::get('criar', [CaracteristicaOpcaoController::class, 'criar'])->name('.criar');
+                Route::post('salvar', [CaracteristicaOpcaoController::class, 'salvar'])->name('.salvar');
+                Route::get('{id}/excluir', [CaracteristicaOpcaoController::class, 'excluir'])->name('.excluir');
             });
         });
+    });
+
+    Route::prefix('equipamentos')->name('.equipamentos')->group(function () {
+        Route::get('', [EquipamentoController::class, 'inicio'])->name('');
+        Route::get('criar/{categoriaId?}', [EquipamentoController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('marcas')->name('.marcas')->group(function () {
+        Route::get('', [MarcaController::class, 'inicio'])->name('');
+        Route::get('criar/{categoriaId?}', [MarcaController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [MarcaController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [MarcaController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [MarcaController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [MarcaController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('modelos')->name('.modelos')->group(function () {
+        Route::get('', [ModeloController::class, 'inicio'])->name('');
+        Route::get('criar/{categoriaId?}', [ModeloController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [ModeloController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [ModeloController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
     });
 });

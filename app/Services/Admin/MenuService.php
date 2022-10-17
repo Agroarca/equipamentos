@@ -4,12 +4,14 @@ namespace App\Services\Admin;
 
 use Illuminate\Support\Facades\Auth;
 
-class MenuService {
+class MenuService
+{
 
-    public static function getAuthMenus(){
+    public static function getAuthMenus()
+    {
         $menus = [];
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $menus = [
                 [
                     'title' => 'Dashboard',
@@ -20,6 +22,21 @@ class MenuService {
                     'title' => 'Categorias',
                     'icon' => '',
                     'route' => 'admin.categorias'
+                ],
+                [
+                    'title' => 'Equipamentos',
+                    'icon' => '',
+                    'route' => 'admin.equipamentos'
+                ],
+                [
+                    'title' => 'Marcas',
+                    'icon' => '',
+                    'route' => 'admin.marcas'
+                ],
+                [
+                    'title' => 'Modelos',
+                    'icon' => '',
+                    'route' => 'admin.modelos'
                 ]
             ];
         }

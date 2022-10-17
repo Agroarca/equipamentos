@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Caracteristicas;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CaracteristicaOpcaoRequest extends FormRequest
+class MarcaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CaracteristicaOpcaoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'string|required|min:3|max:50'
+            'nome' => 'string|required|min:3|max:50',
         ];
     }
 

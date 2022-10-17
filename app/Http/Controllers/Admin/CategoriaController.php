@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Equipamentos\CategoriaRequest;
+use App\Http\Requests\Admin\CategoriaRequest;
 use App\Models\Equipamentos\Categoria;
 use Inertia\Inertia;
 
@@ -48,7 +48,9 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::findOrFail($id);
         $categoriaMaeId = $categoria->categoria_mae_id;
-        return redirect()->route('admin.categorias');
+        $categoria->delete();
+
+        return redirect()->route('admin.categorias', $categoriaMaeId);
     }
 
     public function pesquisar($categoriaId = null)
