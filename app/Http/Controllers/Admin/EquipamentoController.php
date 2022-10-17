@@ -32,10 +32,8 @@ class EquipamentoController extends Controller
 
     public function editar($id)
     {
-        $modelos = Modelo::all()->pluck('nome', 'id');
-        $categorias = Categoria::all()->pluck('nome', 'id');
-        $equipamento = Equipamento::findOrFail($id);
-        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento', 'modelos', 'categorias'));
+        $equipamento = Equipamento::with(['categoria', 'modelo'])->findOrFail($id);
+        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento'));
     }
 
     public function atualizar(EquipamentoRequest $request, $id)

@@ -6,11 +6,12 @@ import FormError from "../../../Components/FormError.vue";
 const props = defineProps(['equipamento','modelos', 'categorias']);
 
 const form = useForm({
+    'id': props.equipamento.id,
     'titulo': props.equipamento.titulo,
     'valor': props.equipamento.valor,
     'ano': props.equipamento.ano,
-    'modelo_id': props.equipamento.modelo_id,
-    'categoria_id': props.equipamento.categoria_id,
+    'modelo': props.equipamento.modelo.nome,
+    'categoria': props.equipamento.categoria.nome,
 })
 
 function submit() {
@@ -39,18 +40,14 @@ function submit() {
                         <FormError :error="form.errors.ano" />
                     </div>
                     <div class="mb-3">
-                        <label for="modelo_id">Modelo</label>
-                        <select id="modelo_id" class="form-select" v-model="form.modelo_id" required>
-                            <option v-for="(modelo, index) in modelos" :key="index" :value="index">{{ modelo }}</option>
-                        </select>
-                        <FormError :error="form.errors.modelo_id" />
+                        <label for="modelo">Modelo</label>
+                        <input class="form-control" type="text" id="ano" v-model="form.modelo" disabled>
+                        <FormError :error="form.errors.modelo" />
                     </div>
                     <div class="mb-3">
-                        <label for="categoria_id">Categoria</label>
-                        <select id="categoria_id" class="form-select" v-model="form.categoria_id" required>
-                            <option v-for="(categoria, index) in categorias" :key="index" :value="index">{{ categoria }}</option>
-                        </select>
-                        <FormError :error="form.errors.categoria_id" />
+                        <label for="categoria">Categoria</label>
+                        <input class="form-control" type="text" id="ano" v-model="form.categoria" disabled>
+                        <FormError :error="form.errors.categoria" />
                     </div>
                 </div>
                 <div class="card-footer">

@@ -27,11 +27,12 @@ class EquipamentoRequest extends FormRequest
     {
         $ano = Carbon::now()->year + 1;
         return [
+            'id' => 'integer',
             'titulo' => 'string|required|min:10|max:100',
             'valor' => 'numeric|required',
             'ano' => ['integer', 'required', 'min:1900', "max:{$ano}"],
-            'modelo_id' => 'integer|required|exists:modelos,id',
-            'categoria_id' => 'integer|required|exists:categorias,id'
+            'modelo_id' => 'integer|required_without:id|exists:modelos,id',
+            'categoria_id' => 'integer|required_without:id|exists:categorias,id'
         ];
     }
 
