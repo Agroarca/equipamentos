@@ -4,20 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\EquipamentoRequest;
+use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
+use App\Models\Equipamentos\Modelo;
 use Inertia\Inertia;
 
 class EquipamentoController extends Controller
 {
     public function inicio()
     {
-        $equipamentos = Equipamento::with('categorias')->paginate(10);
+        $equipamentos = Equipamento::with('categoria')->paginate(10);
         return Inertia::render('Admin/Equipamento/Inicio', compact('equipamentos'));
     }
 
     public function criar()
     {
-        return Inertia::render('Admin/Equipamento/Criar');
+        $modelos = Modelo::all()->pluck('nome', 'id');
+        $categorias = Categoria::all()->pluck('nome', 'id');
+        return Inertia::render('Admin/Equipamento/Criar', compact('modelos', 'categorias'));
     }
 
     public function salvar(EquipamentoRequest $request)
@@ -28,8 +32,10 @@ class EquipamentoController extends Controller
 
     public function editar($id)
     {
+        $modelos = Modelo::all()->pluck('nome', 'id');
+        $categorias = Categoria::all()->pluck('nome', 'id');
         $equipamento = Equipamento::findOrFail($id);
-        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento'));
+        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento', 'modelos', 'categorias'));
     }
 
     public function atualizar(EquipamentoRequest $request, $id)

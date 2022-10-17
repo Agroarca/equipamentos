@@ -2,54 +2,55 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "../../../Components/FormError.vue";
-import AlterarCategoriaMae from "./partials/AlterarCategoriaMae.vue";
-import { ref } from "vue";
 
-const props = defineProps(['categoria']);
-let alterarCategoria = ref(null)
+const props = defineProps(['equipamento','modelos', 'categorias']);
 
 const form = useForm({
-    'nome': props.categoria.nome,
-    'categoria_mae_id': props.categoria.categoria_mae_id
+    'titulo': props.equipamento.titulo,
+    'valor': props.equipamento.valor,
+    'ano': props.equipamento.ano,
+    'modelo_id': props.equipamento.modelo_id,
+    'categoria_id': props.equipamento.categoria_id,
 })
 
 function submit() {
-    form.post(route('admin.categorias.atualizar', props.categoria.id))
-}
-
-function openModal(){
-    alterarCategoria.value.show()
-}
-
-function moverCategoria(categoriaId){
-    form.categoria_mae_id = categoriaId
-    submit()
+    form.post(route('admin.equipamentos.atualizar', props.equipamento.id))
 }
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Categoria">
+    <AdminLayout titulo="Editar Equipamento">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="nome">Nome</label>
-                        <input class="form-control" type="text" id="nome" v-model="form.nome" required>
-                        <FormError :error="form.errors.nome" />
+                        <label for="titulo">Título</label>
+                        <input class="form-control" type="text" id="titulo" v-model="form.titulo" required>
+                        <FormError :error="form.errors.titulo" />
                     </div>
                     <div class="mb-3">
-                        <label for="nome">Categoria Mãe</label>
-                        <div class="d-flex">
-                            <div class="flex-grow-1">
-                                <input class="form-control" type="text" id="nome" :value="categoria.categoria_mae?.nome" disabled>
-                            </div>
-                            <div class="ms-2">
-                                <button class="btn btn-primary" @click.prevent="openModal()">
-                                    <i class="fas fa-rotate"></i>
-                                    Mover
-                                </button>
-                            </div>
-                        </div>
+                        <label for="valor">Valor</label>
+                        <input class="form-control" type="text" id="valor" v-model="form.valor" required>
+                        <FormError :error="form.errors.valor" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="ano">Ano</label>
+                        <input class="form-control" type="text" id="ano" v-model="form.ano" required>
+                        <FormError :error="form.errors.ano" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo_id">Modelo</label>
+                        <select id="modelo_id" class="form-select" v-model="form.modelo_id" required>
+                            <option v-for="(modelo, index) in modelos" :key="index" :value="index">{{ modelo }}</option>
+                        </select>
+                        <FormError :error="form.errors.modelo_id" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoria_id">Categoria</label>
+                        <select id="categoria_id" class="form-select" v-model="form.categoria_id" required>
+                            <option v-for="(categoria, index) in categorias" :key="index" :value="index">{{ categoria }}</option>
+                        </select>
+                        <FormError :error="form.errors.categoria_id" />
                     </div>
                 </div>
                 <div class="card-footer">
@@ -57,6 +58,5 @@ function moverCategoria(categoriaId){
                 </div>
             </div>
         </form>
-        <AlterarCategoriaMae :categoria="categoria" ref="alterarCategoria" @moverCategoria="moverCategoria"></AlterarCategoriaMae>
     </AdminLayout>
 </template>
