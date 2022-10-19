@@ -4,7 +4,7 @@
         "dev": "vite",
         "build": "vite build"
     },
-    "devDependencies": {
+    "dependencies": {
         "@fortawesome/fontawesome-free": "^6.2.0",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
@@ -15,11 +15,12 @@
         "bootstrap": "^5.2.0",
         "laravel-vite-plugin": "^0.5.0",
         "lodash": "^4.17.19",
-        "postcss": "^8.4.16",
+        "postcss": "^8.4.18",
         "postcss-nested": "^5.0.6",
         "postcss-simple-vars": "^7.0.0",
         "sass": "^1.54.8",
         "vite": "^3.0.0",
-        "vue": "^3.2.31"
+        "vue": "^3.2.31",
+        "postcss-mixins": "^9.0.4"
     }
 }

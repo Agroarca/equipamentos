@@ -9,6 +9,7 @@
 </script>
 
 <template>
+    <Loader></Loader>
     <header class="main-header navbar sticky-top bg-light flex-md-nowrap p-0 shadow">
         <Link class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" :href="route('inicio')">Equipamentos</Link>
 

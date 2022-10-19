@@ -1,0 +1,5 @@
+@define-mixin breakpoint-down $media {
+    @media screen and (max-width: $max-width-$(media)) {
+        @mixin-content;
+    }
+}
