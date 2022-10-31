@@ -17,11 +17,6 @@ use Inertia\Inertia;
 |
 */
 
-if (App::environment('production')) {
-    URL::forceScheme('https');
-    URL::forceRootUrl(config('app.url'));
-}
-
 Route::get('/', function () {
     return Inertia::render('Inicio');
 })->name("inicio");
