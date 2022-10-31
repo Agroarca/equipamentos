@@ -13,5 +13,4 @@ enum TipoCaracteristica: int
     case TextoCurto = 3;
     case TextoLongo = 4;
     case Selecao = 5;
-    case SelecaoMultipla = 6;
 }

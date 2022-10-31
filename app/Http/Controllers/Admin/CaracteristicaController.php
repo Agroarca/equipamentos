@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Caracteristicas\TipoCaracteristica;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CaracteristicasRequest;
+use App\Http\Requests\Admin\CaracteristicaRequest;
 use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Categoria;
 use Inertia\Inertia;
@@ -27,7 +27,7 @@ class CaracteristicaController extends Controller
         return Inertia::render('Admin/Caracteristicas/Criar', compact('categoria', 'tipos'));
     }
 
-    public function salvar($categoriaId, CaracteristicasRequest $request)
+    public function salvar($categoriaId, CaracteristicaRequest $request)
     {
         $caracteristica = new Caracteristica($request->all());
         $caracteristica->categoria_id = $categoriaId;

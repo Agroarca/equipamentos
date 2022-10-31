@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('caracteristicas_opcoes_id');
             $table->foreign('caracteristicas_opcoes_id', 'fk_caracteristicas_opcoes_selecao')->references('id')->on('caracteristicas_opcoes');
 
-            $table->foreignId('caracteristicas_equipamento_id');
-            $table->foreign('caracteristicas_equipamento_id', 'fk_caracteristicas_equipamento_selecao')->references('id')->on('caracteristicas_equipamento');
+            $table->foreignId('caracteristica_equipamento_id');
+            $table->foreign('caracteristica_equipamento_id', 'fk_caracteristica_equipamento_selecao')->references('id')->on('caracteristicas_equipamento');
 
             $table->timestamps();
         });

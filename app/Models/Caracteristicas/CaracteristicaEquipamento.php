@@ -19,15 +19,18 @@ class CaracteristicaEquipamento extends Model
         'equipamento_id',
     ];
 
-    public function caracteristica(){
+    public function caracteristica()
+    {
         return $this->belongsTo(Caracteristica::class);
     }
 
-    public function equipamento(){
+    public function equipamento()
+    {
         return $this->belongsTo(Equipamento::class);
     }
 
-    public function valor(){
-        return $this->belongsTo(CaracteristicaValor::$tipo[$this->caracteristica_valor_tipo]);
+    public function caracteristicaValor()
+    {
+        return $this->hasOne(CaracteristicaValor::$tipo[$this->caracteristica_valor_tipo]);
     }
 }

@@ -50,6 +50,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
+
+        Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
     });
 
     Route::prefix('marcas')->name('.marcas')->group(function () {

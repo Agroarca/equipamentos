@@ -18,8 +18,8 @@ return new class extends Migration
 
             $table->integer('valor');
 
-            $table->foreignId('caracteristicas_equipamento_id');
-            $table->foreign('caracteristicas_equipamento_id', 'fk_caracteristicas_equipamento_inteiro')->references('id')->on('caracteristicas_equipamento');
+            $table->foreignId('caracteristica_equipamento_id');
+            $table->foreign('caracteristica_equipamento_id', 'fk_caracteristica_equipamento_inteiro')->references('id')->on('caracteristicas_equipamento');
 
             $table->timestamps();
         });
