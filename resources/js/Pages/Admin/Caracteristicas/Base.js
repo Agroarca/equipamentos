@@ -6,8 +6,6 @@ export function tituloTamanhoMinimo(tipo) {
         case 3:
         case 4:
             return "Tamanho Mínimo"
-        case 6:
-            return "Número Mínimo de Opções"
         default:
             return ""
     }
@@ -21,15 +19,13 @@ export function tituloTamanhoMaximo(tipo) {
         case 3:
         case 4:
             return "Tamanho Máximo"
-        case 6:
-            return "Número Máximo de Opções"
         default:
             return ""
     }
 }
 
 export function mostrarTamanhos(tipo) {
-    return [1, 2, 3, 4, 6].includes(tipo)
+    return [1, 2, 3, 4].includes(tipo)
 }
 
 export function mostrarCasasDecimais(tipo) {
@@ -37,5 +33,5 @@ export function mostrarCasasDecimais(tipo) {
 }
 
 export function mostrarOpcoes(tipo) {
-    return [5, 6].includes(tipo)
+    return tipo === 5
 }

@@ -18,8 +18,8 @@ return new class extends Migration
 
             $table->decimal('valor', 30, 10);
 
-            $table->foreignId('caracteristicas_equipamento_id');
-            $table->foreign('caracteristicas_equipamento_id', 'fk_caracteristicas_equipamento_decimal')->references('id')->on('caracteristicas_equipamento');
+            $table->foreignId('caracteristica_equipamento_id');
+            $table->foreign('caracteristica_equipamento_id', 'fk_caracteristica_equipamento_decimal')->references('id')->on('caracteristicas_equipamento');
 
 
             $table->timestamps();

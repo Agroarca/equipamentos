@@ -2,8 +2,9 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "../../../Components/FormError.vue";
+import Caracteristicas from './Caracteristicas/Inicio.vue'
 
-const props = defineProps(['equipamento','modelos', 'categorias']);
+const props = defineProps(['equipamento', 'caracteristicas']);
 
 const form = useForm({
     'id': props.equipamento.id,
@@ -16,6 +17,10 @@ const form = useForm({
 
 function submit() {
     form.post(route('admin.equipamentos.atualizar', props.equipamento.id))
+}
+
+function submitCaracteristicas(){
+
 }
 </script>
 
@@ -55,5 +60,7 @@ function submit() {
                 </div>
             </div>
         </form>
+
+        <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5"></Caracteristicas>
     </AdminLayout>
 </template>
