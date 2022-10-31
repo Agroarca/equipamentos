@@ -1,0 +1,1 @@
+import{_ as e}from"./AdminLayout.615e25dd.js";import{o as a,a as o,w as s,b as t}from"./app.7abc4061.js";import"./Loader.9d72debc.js";const r=t("header",null,"Dashboard",-1),_=t("article",null,"content",-1),u={__name:"Inicio",setup(c){return(n,i)=>(a(),o(e,null,{default:s(()=>[r,_]),_:1}))}};export{u as default};
