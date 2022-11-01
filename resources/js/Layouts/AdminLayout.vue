@@ -3,10 +3,23 @@
     import Loader from "@/Components/Loader.vue"
 
     import { Head, Link, usePage } from "@inertiajs/inertia-vue3";
-    import { computed } from "vue";
-    const menus = computed(() => usePage().props.value.admin.menus)
+    import { computed, onMounted, onUnmounted, ref } from "vue";
+    import { Offcanvas } from 'bootstrap';
 
+    const elOffcanvas = ref(null)
+    const menus = computed(() => usePage().props.value.admin.menus)
     const props = defineProps(['titulo', 'link', 'buttonText'])
+
+    let offcanvas
+    onMounted(() => {
+        offcanvas = new Offcanvas(elOffcanvas.value)
+    })
+
+    onUnmounted(() => {
+        // Correção de bug do overflow hidden após clicar nos menus
+        offcanvas.hide()
+    })
+
 </script>
 
 <template>
@@ -25,7 +38,7 @@
         </div>
     </header>
     <aside>
-        <nav class="offcanvas offcanvas-start" id="main-menu" tabindex="-1" aria-labelledby="main-menu-label">
+        <nav class="offcanvas offcanvas-start" id="main-menu" tabindex="-1" aria-labelledby="main-menu-label" ref="elOffcanvas">
             <div class="offcanvas-header menu-header">
                 <h5 class="offcanvas-title" id="main-menu-label">Equipamentos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
