@@ -18,10 +18,6 @@ const form = useForm({
 function submit() {
     form.post(route('admin.equipamentos.atualizar', props.equipamento.id))
 }
-
-function submitCaracteristicas(){
-
-}
 </script>
 
 <template>

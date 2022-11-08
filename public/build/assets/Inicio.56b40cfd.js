@@ -1,0 +1,1 @@
+import{_ as o}from"./SiteLayout.c85a8e62.js";import{o as t,a,w as e,b as s}from"./app.d421352d.js";import"./_plugin-vue_export-helper.81eaa9a9.js";const _=s("p",null,"inicio",-1),m={__name:"Inicio",setup(c){return(r,i)=>(t(),a(o,null,{default:e(()=>[_]),_:1}))}};export{m as default};

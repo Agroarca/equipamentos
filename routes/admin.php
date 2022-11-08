@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\EquipamentoController;
 use App\Http\Controllers\Admin\MarcaController;
 use App\Http\Controllers\Admin\ModeloController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return Inertia::render('Admin/Inicio');
+    })->name('.dashboard');
+
     Route::prefix('categorias')->name('.categorias')->group(function () {
         Route::get('{categoriaId?}', [CategoriaController::class, 'inicio'])->name('');
         Route::get('criar/{categoriaId?}', [CategoriaController::class, 'criar'])->name('.criar');

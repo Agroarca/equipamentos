@@ -1,185 +1,187 @@
-.header-contact {
-    background-color: $header-contact-background;
-    font-size: 18px;
-    color: $header-contact-text;
-    font-family: Roboto, sans-serif;
-
-    @mixin breakpoint-down md {
-        font-size: 12px;
-    }
-
-    i {
-        padding: .5em;
-    }
-
-    a {
-        color: white;
-    }
-
-    .contact-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-}
-
-
-header {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03) !important;
-
-    .header-item {
-        display: flex;
-        align-items: center;
-        flex-wrap: nowrap;
-    }
-
-    .main {
-        display: flex;
-        align-items: center;
-        margin: 1.7rem 0;
-        justify-content: space-between;
-        gap: 30px;
-        padding: 0 6rem;
-
-        @mixin breakpoint-down xl {
-            margin: 1rem 0;
-        }
+.site {
+    .header-contact {
+        background-color: $header-contact-background;
+        font-size: 18px;
+        color: $header-contact-text;
+        font-family: Roboto, sans-serif;
 
         @mixin breakpoint-down md {
-            margin: .5rem 0;
-            padding: 0 .5rem;
-            gap: .5rem;
+            font-size: 12px;
+        }
+
+        i {
+            padding: .5em;
+        }
+
+        a {
+            color: white;
+        }
+
+        .contact-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     }
 
-    .logo {
-        width: 325px;
-        height: 100px;
 
-        @mixin breakpoint-down xl {
-            width: 130px;
-            height: 40px;
+    header {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03) !important;
+
+        .header-item {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
         }
-    }
 
-    .search-container {
-        min-width: 20rem;
-        font-size: 20px;
-
-        button {
-            width: 64px;
-            padding-right: 1rem;
-            height: 4rem;
-            border: unset;
-            border-top-right-radius: 1rem;
-            border-bottom-right-radius: 1rem;
+        .main {
+            display: flex;
+            align-items: center;
+            margin: 1.7rem 0;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 0 6rem;
 
             @mixin breakpoint-down xl {
-                height: 3rem;
+                margin: 1rem 0;
             }
 
-            i {
-                color: $search-button-color;
+            @mixin breakpoint-down md {
+                margin: .5rem 0;
+                padding: 0 .5rem;
+                gap: .5rem;
             }
         }
 
-        input {
-            background-color: $search-input-background;
-            color: $search-input-color;
-            border: none;
-            outline: none;
-            height: 4rem;
-            font-size: 24px;
-            padding: 0 1.5rem;
-            border-radius: 1rem;
-            border-top-right-radius: unset;
-            border-bottom-right-radius: unset;
+        .logo {
+            width: 325px;
+            height: 100px;
 
             @mixin breakpoint-down xl {
-                font-size: 18px;
-                height: 3rem;
+                width: 130px;
+                height: 40px;
+            }
+        }
+
+        .search-container {
+            min-width: 20rem;
+            font-size: 20px;
+
+            button {
+                width: 64px;
+                padding-right: 1rem;
+                height: 4rem;
+                border: unset;
+                border-top-right-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+
+                @mixin breakpoint-down xl {
+                    height: 3rem;
+                }
+
+                i {
+                    color: $search-button-color;
+                }
             }
 
-            &::placeholder {
-                font-size: 24px;
-                padding-bottom: 2rem;
+            input {
+                background-color: $search-input-background;
                 color: $search-input-color;
+                border: none;
+                outline: none;
+                height: 4rem;
+                font-size: 24px;
+                padding: 0 1.5rem;
+                border-radius: 1rem;
+                border-top-right-radius: unset;
+                border-bottom-right-radius: unset;
 
                 @mixin breakpoint-down xl {
                     font-size: 18px;
+                    height: 3rem;
+                }
+
+                &::placeholder {
+                    font-size: 24px;
+                    padding-bottom: 2rem;
+                    color: $search-input-color;
+
+                    @mixin breakpoint-down xl {
+                        font-size: 18px;
+                    }
                 }
             }
         }
-    }
 
-    .profile-container {
-        background-color: $profile-button-background;
-        font-size: 18px;
-        padding: 1.3rem 2.8rem;
-        border-radius: 0.8rem;
-        color: $profile-button-color;
-        font-weight: bold;
-        text-decoration: none;
-        text-transform: uppercase;
-        white-space: nowrap;
-
-        @mixin breakpoint-down xl {
-            padding: 1rem 1.5rem;
-        }
-
-        &:hover {
-            color: $profile-button-hover;
-        }
-
-        i {
-            font-size: 24px;
-        }
-
-        span {
-            padding-left: 1rem;
-        }
-    }
-
-    .menu {
-        display: flex;
-        align-items: center;
-        padding: 1.7rem 6rem;
-        justify-content: space-between;
-
-        @mixin breakpoint-down md {
-            padding: .5rem;
-            padding-top: 0;
-        }
-
-        .menu-item {
-            padding: 0 .5rem;
+        .profile-container {
+            background-color: $profile-button-background;
             font-size: 18px;
-            color: $menu-item-color;
+            padding: 1.3rem 2.8rem;
+            border-radius: 0.8rem;
+            color: $profile-button-color;
+            font-weight: bold;
             text-decoration: none;
+            text-transform: uppercase;
+            white-space: nowrap;
 
-            @mixin breakpoint-down md {
-                padding: 0 .5rem;
+            @mixin breakpoint-down xl {
+                padding: 1rem 1.5rem;
+            }
+
+            &:hover {
+                color: $profile-button-hover;
+            }
+
+            i {
+                font-size: 24px;
+            }
+
+            span {
+                padding-left: 1rem;
             }
         }
-    }
 
-    .menu-button {
-        background-color: $profile-button-background;
-        font-size: 18px;
-        padding: 1.3rem 2.8rem;
-        border-radius: 0.8rem;
-        color: $profile-button-color;
+        .menu {
+            display: flex;
+            align-items: center;
+            padding: 1.7rem 6rem;
+            justify-content: space-between;
 
-        @mixin breakpoint-down xl {
-            padding: 1rem 1.5rem;
+            @mixin breakpoint-down md {
+                padding: .5rem;
+                padding-top: 0;
+            }
+
+            .menu-item {
+                padding: 0 .5rem;
+                font-size: 18px;
+                color: $menu-item-color;
+                text-decoration: none;
+
+                @mixin breakpoint-down md {
+                    padding: 0 .5rem;
+                }
+            }
         }
 
-        &:hover {
-            color: $profile-button-hover;
-        }
+        .menu-button {
+            background-color: $profile-button-background;
+            font-size: 18px;
+            padding: 1.3rem 2.8rem;
+            border-radius: 0.8rem;
+            color: $profile-button-color;
 
-        i {
-            font-size: 24px;
+            @mixin breakpoint-down xl {
+                padding: 1rem 1.5rem;
+            }
+
+            &:hover {
+                color: $profile-button-hover;
+            }
+
+            i {
+                font-size: 24px;
+            }
         }
     }
 }

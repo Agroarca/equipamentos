@@ -14,9 +14,14 @@ class MenuService
         if (Auth::check()) {
             $menus = [
                 [
+                    'title' => 'Início',
+                    'icon' => '',
+                    'route' => 'inicio'
+                ],
+                [
                     'title' => 'Dashboard',
                     'icon' => '',
-                    'route' => 'dashboard'
+                    'route' => 'admin.dashboard'
                 ],
                 [
                     'title' => 'Categorias',

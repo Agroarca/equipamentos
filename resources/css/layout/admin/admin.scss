@@ -1,45 +1,48 @@
+@import '../app/app.scss';
 @import "cores.scss";
 
-body {
+body.admin {
     background-color: #f4f6f9;
 }
 
-table.table {
-    margin: 0;
+.admin {
+    table.table {
+        margin: 0;
 
-    td,
-    th {
-        padding: 0.75rem;
-    }
-}
-
-.main-header {
-    .navbar-brand {
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-        background-color: $cor-navbar-brand-background;
-        box-shadow: inset -1px 0 0 rgb(0 0 0 / 25%);
-        color: $cor-navbar-brand-color;
-        font-weight: bold;
+        td,
+        th {
+            padding: 0.75rem;
+        }
     }
 
-    .navbar-toggler {
-        top: 0.25rem;
-        right: 1rem;
+    .main-header {
+        .navbar-brand {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            background-color: $cor-navbar-brand-background;
+            box-shadow: inset -1px 0 0 rgb(0 0 0 / 25%);
+            color: $cor-navbar-brand-color;
+            font-weight: bold;
+        }
+
+        .navbar-toggler {
+            top: 0.25rem;
+            right: 1rem;
+            border: none;
+            padding: 6px;
+            box-shadow: none;
+        }
+    }
+
+    #main-menu {
+        .menu-header {
+            background-color: $cor-main-menu-background;
+            color: $cor-main-menu-color;
+        }
+    }
+
+    .card {
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
         border: none;
-        padding: 6px;
-        box-shadow: none;
     }
-}
-
-#main-menu {
-    .menu-header {
-        background-color: $cor-main-menu-background;
-        color: $cor-main-menu-color;
-    }
-}
-
-.card {
-    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
-    border: none;
 }

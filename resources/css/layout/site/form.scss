@@ -1,0 +1,32 @@
+.site {
+    .btn-primary {
+        background-color: $form-btn !important;
+        border: none;
+        border-radius: .8rem;
+        padding: 1.3rem 2.8rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: "Lato", Arial, Helvetica, sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+
+
+        &:hover,
+        &:active {
+            color: $form-btn-hover;
+        }
+    }
+
+    .btn-link {
+        color: $form-btn;
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 0;
+
+        &:hover,
+        &:active {
+            color: $form-btn-hover;
+        }
+    }
+}

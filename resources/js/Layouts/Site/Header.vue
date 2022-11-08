@@ -32,7 +32,7 @@ import Menu from "./Menu.vue";
                 <i class="fas fa-user-circle"></i>
                 <span class="d-none d-xl-block">Minha Conta</span>
             </Link>
-            <button class="header-item menu-container menu-button navbar-toggler collapsed order-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu" aria-expanded="false" aria-label="Mostrar Menu">
+            <button class="header-item menu-container menu-button navbar-toggler collapsed order-4 d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu" aria-expanded="false" aria-label="Mostrar Menu">
                 <div class="d-flex flex-nowrap">
                     <span class="fa-solid fa-bars"></span>
                 </div>

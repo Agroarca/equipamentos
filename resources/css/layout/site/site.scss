@@ -1,8 +1,17 @@
-@import 'vars.scss';
-@import 'mixins.scss';
+@import '../app/app.scss';
 @import 'cores.scss';
 @import 'header.scss';
+@import 'auth.scss';
+@import 'form.scss';
 
-body {
+body.site {
     background-color: #fff;
+}
+
+.site {
+    .container-600 {
+        max-width: 600px;
+        margin: auto;
+        padding: 1rem;
+    }
 }

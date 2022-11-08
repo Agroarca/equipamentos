@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-Regular.ttf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-Medium.ttf");
+    font-display: swap;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-SemiBold.ttf");
+    font-display: swap;
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "Lato";
+    src: url("/fonts/Lato/Lato-Regular.ttf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Lato";
+    src: url("/fonts/Lato/Lato-Bold.ttf");
+    font-display: swap;
+    font-weight: 700;
+}
+
+body {
+    font-family: "Lato", Arial, Helvetica, sans-serif;
+}

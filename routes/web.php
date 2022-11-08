@@ -21,9 +21,5 @@ Route::get('/', function () {
     return Inertia::render('Inicio');
 })->name("inicio");
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Inicio');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
