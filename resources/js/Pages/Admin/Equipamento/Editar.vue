@@ -3,6 +3,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "../../../Components/FormError.vue";
 import Caracteristicas from './Caracteristicas/Inicio.vue'
+import Imagens from './Imagens/Inicio.vue'
 
 const props = defineProps(['equipamento', 'caracteristicas']);
 
@@ -58,5 +59,6 @@ function submit() {
         </form>
 
         <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5"></Caracteristicas>
+        <Imagens :equipamento="equipamento" class="mt-5"></Imagens>
     </AdminLayout>
 </template>

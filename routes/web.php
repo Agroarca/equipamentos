@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Site\SiteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,11 @@ use Inertia\Inertia;
 |
 */
 
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';
+
 Route::get('/', function () {
     return Inertia::render('Inicio');
 })->name("inicio");
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/admin.php';
+Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('equipamento');

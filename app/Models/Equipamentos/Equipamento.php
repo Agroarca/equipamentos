@@ -19,15 +19,23 @@ class Equipamento extends Model
         'categoria_id',
     ];
 
-    public function modelo(){
+    public function modelo()
+    {
         return $this->belongsTo(Modelo::class);
     }
 
-    public function categoria(){
+    public function categoria()
+    {
         return $this->belongsTo(Categoria::class);
     }
 
-    public function caracteristicas(){
+    public function caracteristicas()
+    {
         return $this->hasMany(CaracteristicaEquipamento::class);
+    }
+
+    public function imagens()
+    {
+        return $this->hasMany(EquipamentoImagem::class);
     }
 }

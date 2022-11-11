@@ -58,6 +58,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
 
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
+        Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
+        Route::get('{id}/imagens/{imagemId}/deletar', [EquipamentoController::class, 'deletarImagem'])->name('.imagens.delete');
     });
 
     Route::prefix('marcas')->name('.marcas')->group(function () {

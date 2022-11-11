@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CaracteristicasValorRequest;
 use App\Http\Requests\Admin\EquipamentoRequest;
+use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
+use App\Models\Equipamentos\EquipamentoImagem;
 use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class EquipamentoController extends Controller
@@ -36,7 +40,8 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with([
             'categoria',
-            'modelo'
+            'modelo',
+            'imagens'
         ])->findOrFail($id);
 
         $caracteristicas = EquipamentoCaracteristicaService::getCaracteristicasCategoria($equipamento->categoria_id);
@@ -71,5 +76,30 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
         EquipamentoCaracteristicaService::salvarCaracteristicas($equipamento, $request->all());
         return redirect()->route('admin.equipamentos.editar', $id);
+    }
+
+    public function adicionarImagem(EquipamentoImagemRequest $request, $equipamentoId)
+    {
+        $equipamento = Equipamento::findOrFail($equipamentoId);
+
+        $file = $request->file('imagem');
+        $file->store(config("equipamentos.path_imagens"));
+
+        $imagem = new EquipamentoImagem();
+        $imagem->descricao = $request->input('descricao');
+        $imagem->nome_arquivo = $file->hashName();
+        $imagem->equipamento_id = $equipamento->id;
+        $imagem->save();
+
+        return redirect()->route('admin.equipamentos.editar', $equipamentoId);
+    }
+
+    public function deletarImagem($equipamentoId, $imagemId)
+    {
+        $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
+        Storage::delete(config("equipamentos.path_imagens") . $imagem->nome_arquivo);
+        $imagem->delete();
+
+        return redirect()->route('admin.equipamentos.editar', $equipamentoId);
     }
 }

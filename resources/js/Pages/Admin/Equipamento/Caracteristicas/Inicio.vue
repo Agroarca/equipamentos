@@ -20,7 +20,7 @@ function submit(){
     <form @submit.prevent="submit">
         <div class="card card-default">
             <div class="card-header">
-                <h5>Características</h5>
+                <h5 class="card-title">Características</h5>
             </div>
             <div class="card-body p-0">
                 <table class="table table-stripped table-hover">

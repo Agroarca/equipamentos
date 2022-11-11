@@ -13,7 +13,7 @@ import { Link } from "@inertiajs/inertia-vue3";
                     <Link class="menu-item" :href="route('inicio')">Todas as Categorias</Link>
                 </li>
                 <li class="nav-item">
-                    <Link class="menu-item" :href="route('inicio')">Produto Exemplo</Link>
+                    <Link class="menu-item" :href="route('equipamento', [1])">Produto Exemplo</Link>
                 </li>
                 <li class="nav-item"></li>
             </ul>
