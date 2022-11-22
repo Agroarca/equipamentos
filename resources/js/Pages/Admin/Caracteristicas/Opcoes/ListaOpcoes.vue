@@ -17,7 +17,7 @@ const props = defineProps(['caracteristica'])
             </div>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-stripped table-hover">
+            <table class="table table-stri=ped table-hover">
                 <thead>
                     <th>Nome</th>
                     <th></th>

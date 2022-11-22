@@ -1,0 +1,85 @@
+.site .equipamento {
+    $border-radius: 12px;
+
+    .imagem {
+        max-width: 800px;
+
+        img {
+            border-radius: $border-radius;
+        }
+    }
+
+    .info {
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        border: 1px solid $equip-info-borda;
+        border-radius: $border-radius;
+        padding: 1rem;
+
+        .ano {
+            font-size: 18px;
+        }
+
+        .titulo {
+            font-size: 26px;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        .valor {
+            display: block;
+            margin-top: 1rem;
+            color: $equip-valor;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .botao {
+            margin-top: 1rem;
+        }
+    }
+
+    .descricao-header {
+        background-color: $equip-descricao-header-bg;
+        margin: 2rem 0;
+        font-size: 22px;
+        color: $equip-descricao-header;
+        padding: 1.2rem;
+        border-radius: $border-radius;
+    }
+
+    .caracteristicas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        overflow-wrap: anywhere;
+
+        @mixin breakpoint-down md {
+            grid-template-columns: 1fr;
+        }
+
+        .caracteristica {
+            border-radius: $border-radius;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+
+            .nome,
+            .valor {
+                border: 1px solid $equip-carac-borda;
+            }
+
+            .nome {
+                padding: .8rem;
+                background-color: $equip-carac-nome-bg;
+                border-right: none;
+                border-radius: $border-radius 0 0 $border-radius;
+            }
+
+            .valor {
+                padding: .8rem;
+                border-left: none;
+                border-radius: 0 $border-radius $border-radius 0;
+            }
+        }
+    }
+}

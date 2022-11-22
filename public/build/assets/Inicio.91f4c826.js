@@ -1,1 +1,0 @@
-import{_ as a}from"./SiteLayout.882bdf78.js";import{o as e,a as o,w as i,b as n,t as r}from"./app.581310a4.js";import"./_plugin-vue_export-helper.4f1ee863.js";const l={__name:"Inicio",props:["equipamento"],setup(t){return(s,p)=>(e(),o(a,null,{default:i(()=>[n("p",null,"equipamento "+r(t.equipamento.titulo),1)]),_:1}))}};export{l as default};

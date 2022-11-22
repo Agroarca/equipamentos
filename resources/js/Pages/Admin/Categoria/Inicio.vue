@@ -17,7 +17,7 @@ const titulo = props.categoria?.nome ? 'Categorias de ' + props.categoria.nome :
 
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
-                <table class="table table-stripped table-hover">
+                <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
                         <th>Categoria Mãe</th>

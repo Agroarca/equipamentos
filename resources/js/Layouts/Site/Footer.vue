@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="footer">
+    <div class="footer mt-4">
         <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
         <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
         <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>

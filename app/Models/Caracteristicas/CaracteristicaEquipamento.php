@@ -29,8 +29,8 @@ class CaracteristicaEquipamento extends Model
         return $this->belongsTo(Equipamento::class);
     }
 
-    public function caracteristicaValor()
+    public function valor()
     {
-        return $this->hasOne(CaracteristicaValor::$tipo[$this->caracteristica_valor_tipo]);
+        return $this->morphTo();
     }
 }

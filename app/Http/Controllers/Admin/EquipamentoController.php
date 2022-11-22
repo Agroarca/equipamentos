@@ -48,11 +48,11 @@ class EquipamentoController extends Controller
 
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
-            if (is_null($equipCarac) || is_null($equipCarac->caracteristicaValor)) {
+            if (is_null($equipCarac) || is_null($equipCarac->valor)) {
                 continue;
             }
 
-            $caracteristicas[$key]->valor = $equipCarac->caracteristicaValor->valor;
+            $caracteristicas[$key]->valor = $equipCarac->valor->valor;
         }
 
         return Inertia::render('Admin/Equipamento/Editar', compact('equipamento', 'caracteristicas'));

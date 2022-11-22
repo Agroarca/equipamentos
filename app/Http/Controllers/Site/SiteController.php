@@ -11,12 +11,16 @@ class SiteController extends Controller
 {
     public function equipamento($id)
     {
-        $equipamento = Equipamento::with([
+        $equipamento = Equipamento::findOrFail($id);
+
+        $equipamento->load([
             'caracteristicas',
+            'caracteristicas.caracteristica',
+            'caracteristicas.valor',
             'categoria',
             'modelo',
             'imagens'
-        ])->findOrFail($id);
+        ]);
 
         return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
     }

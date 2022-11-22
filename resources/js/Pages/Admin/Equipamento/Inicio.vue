@@ -10,7 +10,7 @@ const props = defineProps(['equipamentos']);
     <AdminLayout titulo="Equipamentos" :link="route('admin.equipamentos.criar')" buttonText="Novo Equipamento">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
-                <table class="table table-stripped table-hover">
+                <table class="table table-striped table-hover">
                     <thead>
                         <th>Título</th>
                         <th>Categoria</th>

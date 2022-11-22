@@ -2,6 +2,7 @@
 
 namespace App\Models\Caracteristicas\Valor;
 
+use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +20,9 @@ abstract class CaracteristicaValor extends Model
         CaracteristicaTextoLongo::class,
         CaracteristicaSelecao::class,
     ];
+
+    public function caracteristicaEquipamento()
+    {
+        return $this->morphOne(CaracteristicaEquipamento::class, 'valor');
+    }
 }

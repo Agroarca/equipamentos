@@ -10,7 +10,7 @@ const props = defineProps(['categoria', 'tipos'])
     <AdminLayout :titulo="'Características de ' + categoria.nome" :link="route('admin.categorias.caracteristicas.criar', categoria.id)" buttonText="Nova Característica">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
-                <table class="table table-stripped table-hover">
+                <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
                         <th>Tipo</th>

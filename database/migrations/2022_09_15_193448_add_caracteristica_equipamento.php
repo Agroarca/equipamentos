@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('caracteristicas_equipamento', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('caracteristica_valor_id')->nullable();
-            $table->smallInteger('caracteristica_valor_tipo');
+            $table->nullableMorphs('valor');
 
             $table->foreignId('caracteristica_id');
             $table->foreign('caracteristica_id')->references('id')->on('caracteristicas');

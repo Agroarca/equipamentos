@@ -51,18 +51,22 @@ class EquipamentoCaracteristicaService
             $caracEquip = new CaracteristicaEquipamento();
             $caracEquip->caracteristica_id = $id;
             $caracEquip->equipamento_id = $equipamento->id;
-            $caracEquip->caracteristica_valor_tipo = $caracEquip->caracteristica->tipo;
             $caracEquip->save();
         }
 
         $caracValor = $caracEquip->caracteristicaValor;
 
         if (is_null($caracValor)) {
-            $caracValor = new CaracteristicaValor::$tipo[$caracEquip->caracteristica_valor_tipo]();
+            $caracValor = new CaracteristicaValor::$tipo[$caracEquip->caracteristica->tipo]();
+            $caracValor->valor = $valor;
             $caracValor->caracteristica_equipamento_id = $caracEquip->id;
-        }
+            $caracValor->save();
 
-        $caracValor->valor = $valor;
-        $caracValor->save();
+            $caracEquip->valor()->associate($caracValor);
+            $caracEquip->save();
+        } else {
+            $caracValor->valor = $valor;
+            $caracValor->save();
+        }
     }
 }

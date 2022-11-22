@@ -23,7 +23,7 @@ function submit(){
                 <h5 class="card-title">Características</h5>
             </div>
             <div class="card-body p-0">
-                <table class="table table-stripped table-hover">
+                <table class="table table-striped table-hover">
                     <thead>
                         <td>Nome</td>
                         <td>Valor</td>
