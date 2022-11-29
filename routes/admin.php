@@ -55,6 +55,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
         Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
+        Route::post('{id}/atualizardescricao', [EquipamentoController::class, 'atualizarDescricao'])->name('.atualizarDescricao');
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
 
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');

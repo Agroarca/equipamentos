@@ -15,6 +15,7 @@ class Equipamento extends Model
         'titulo',
         'valor',
         'ano',
+        'descricao',
         'modelo_id',
         'categoria_id',
     ];

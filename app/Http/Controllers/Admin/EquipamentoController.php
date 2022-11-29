@@ -11,6 +11,7 @@ use App\Models\Equipamentos\Equipamento;
 use App\Models\Equipamentos\EquipamentoImagem;
 use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -62,6 +63,14 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->update($request->all());
+        return redirect()->route('admin.equipamentos.editar', $id);
+    }
+
+    public function atualizarDescricao(Request $request, $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
+        $equipamento->save();
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 

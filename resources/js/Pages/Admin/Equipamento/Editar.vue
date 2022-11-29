@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "../../../Components/FormError.vue";
 import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
+import Descricao from "./Descricao/Descricao.vue";
 
 const props = defineProps(['equipamento', 'caracteristicas']);
 
@@ -23,42 +24,45 @@ function submit() {
 
 <template>
     <AdminLayout titulo="Editar Equipamento">
-        <form @submit.prevent="submit">
-            <div class="card card-default">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="titulo">Título</label>
-                        <input class="form-control" type="text" id="titulo" v-model="form.titulo" required>
-                        <FormError :error="form.errors.titulo" />
+        <div  class="equipamento">
+            <form @submit.prevent="submit">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="titulo">Título</label>
+                            <input class="form-control" type="text" id="titulo" v-model="form.titulo" required>
+                            <FormError :error="form.errors.titulo" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="valor">Valor</label>
+                            <input class="form-control" type="text" id="valor" v-model="form.valor" required>
+                            <FormError :error="form.errors.valor" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="ano">Ano</label>
+                            <input class="form-control" type="text" id="ano" v-model="form.ano" required>
+                            <FormError :error="form.errors.ano" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="modelo">Modelo</label>
+                            <input class="form-control" type="text" id="ano" v-model="form.modelo" disabled>
+                            <FormError :error="form.errors.modelo" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria">Categoria</label>
+                            <input class="form-control" type="text" id="ano" v-model="form.categoria" disabled>
+                            <FormError :error="form.errors.categoria" />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="valor">Valor</label>
-                        <input class="form-control" type="text" id="valor" v-model="form.valor" required>
-                        <FormError :error="form.errors.valor" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="ano">Ano</label>
-                        <input class="form-control" type="text" id="ano" v-model="form.ano" required>
-                        <FormError :error="form.errors.ano" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="modelo">Modelo</label>
-                        <input class="form-control" type="text" id="ano" v-model="form.modelo" disabled>
-                        <FormError :error="form.errors.modelo" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="categoria">Categoria</label>
-                        <input class="form-control" type="text" id="ano" v-model="form.categoria" disabled>
-                        <FormError :error="form.errors.categoria" />
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </div>
-        </form>
+            </form>
 
-        <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5"></Caracteristicas>
-        <Imagens :equipamento="equipamento" class="mt-5"></Imagens>
+            <Descricao :equipamento="equipamento" class="mt-5"></Descricao>
+            <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5"></Caracteristicas>
+            <Imagens :equipamento="equipamento" class="mt-5"></Imagens>
+        </div>
     </AdminLayout>
 </template>
