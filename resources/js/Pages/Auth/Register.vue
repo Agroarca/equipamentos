@@ -2,6 +2,8 @@
 import SiteLayout from "@/Layouts/SiteLayout.vue";
 import { useForm, Head, Link } from "@inertiajs/inertia-vue3";
 import FormError from "../../Components/FormError.vue";
+import { Mask } from "@/Components/InputMask";
+import { onMounted } from "@vue/runtime-core";
 
 const form = useForm({
     nome: '',
@@ -10,6 +12,10 @@ const form = useForm({
     celular: '',
     password: '',
     password_confirmation: ''
+})
+
+onMounted(() => {
+    Mask.email('#email')
 })
 
 function submit() {
