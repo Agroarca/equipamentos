@@ -20,7 +20,7 @@ import Menu from "./Menu.vue";
     <header class="py-0 py-md-3 mb-4 navbar navbar-expand-md d-block">
         <div class="container-fluid main flex-wrap flex-md-nowrap">
             <div class="header-item text-decoration-none logo-container order-1">
-                <Link :href="route('inicio')">
+                <Link :href="route('site.inicio')">
                     <img class="logo" src="/img/logo.png">
                 </Link>
             </div>
@@ -28,7 +28,7 @@ import Menu from "./Menu.vue";
                 <input placeholder="Pequisar produtos..." type="text" class="search form-control">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </div>
-            <Link class="header-item profile-container order-4" :href="route('inicio')">
+            <Link class="header-item profile-container order-4" :href="route('site.perfil')">
                 <i class="fas fa-user-circle"></i>
                 <span class="d-none d-xl-block">Minha Conta</span>
             </Link>

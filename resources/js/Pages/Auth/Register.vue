@@ -50,6 +50,8 @@ function submit() {
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
                     <input class="form-control" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" required autocomplete="cpf_cnpj">
                     <FormError :error="form.errors.cpf_cnpj" />
+                    <FormError :error="form.errors.cnpj" />
+                    <FormError :error="form.errors.cpf" />
                 </div>
 
                 <div class="mb-3">

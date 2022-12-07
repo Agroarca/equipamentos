@@ -16,7 +16,7 @@ class MenuService
                 [
                     'title' => 'Início',
                     'icon' => '',
-                    'route' => 'inicio'
+                    'route' => 'site.inicio'
                 ],
                 [
                     'title' => 'Dashboard',

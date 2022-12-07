@@ -7,7 +7,9 @@ use App\Rules\CNPJ;
 use App\Rules\CPF;
 use App\Rules\Telefone;
 use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -36,15 +38,29 @@ class RegisteredUserRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'cpf_cnpj' => 'bail|required|cpf_cnpj',
-            'celular' => ['bail', 'required', new Telefone()],
-            'cpf' => ['bail', 'nullable', new CPF()],
-            'cnpj' => ['bail', 'nullable', new CNPJ()],
-        ];
+        if (Auth::check()) {
+
+            return [
+                'nome' => 'nullable|string|max:255',
+                'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('usuarios')->ignore(Auth::id())],
+                'password' => ['nullable', 'confirmed', Password::defaults()],
+                'cpf_cnpj' => 'bail|nullable|cpf_cnpj',
+                'celular' => ['bail', 'nullable', new Telefone()],
+                'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')->ignore(Auth::id())],
+                'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')->ignore(Auth::id())],
+            ];
+        } else {
+
+            return [
+                'nome' => 'required|string|max:255',
+                'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('usuarios')],
+                'password' => ['required', 'confirmed', Password::defaults()],
+                'cpf_cnpj' => 'bail|required|cpf_cnpj',
+                'celular' => ['bail', 'required', new Telefone()],
+                'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')],
+                'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')],
+            ];
+        }
     }
 
     public function attributes()
@@ -69,19 +85,23 @@ class RegisteredUserRequest extends FormRequest
     protected function prepareForValidation()
     {
         $attributes = [];
-        $cpf_cnpj = preg_replace('/\D/', '', (string) $this->input('cpf_cnpj'));
-        $len = strlen($cpf_cnpj);
+        if ($this->has('cpf_cnpj')) {
+            $cpf_cnpj = preg_replace('/\D/', '', (string) $this->input('cpf_cnpj'));
+            $len = strlen($cpf_cnpj);
 
-        if ($len == 11) {
-            $attributes['cpf'] = $cpf_cnpj;
-            $attributes['tipo_pessoa'] = TipoPessoa::Fisica;
-        } elseif ($len == 14) {
-            $attributes['cnpj'] = $cpf_cnpj;
-            $attributes['tipo_pessoa'] = TipoPessoa::Juridica;
+            if ($len == 11) {
+                $attributes['cpf'] = $cpf_cnpj;
+                $attributes['tipo_pessoa'] = TipoPessoa::Fisica;
+            } elseif ($len == 14) {
+                $attributes['cnpj'] = $cpf_cnpj;
+                $attributes['tipo_pessoa'] = TipoPessoa::Juridica;
+            }
         }
 
-        $celular = preg_replace('/\D/', '', (string) $this->input('celular'));
-        $attributes['celular'] = $celular;
+        if ($this->has('celular')) {
+            $celular = preg_replace('/\D/', '', (string) $this->input('celular'));
+            $attributes['celular'] = $celular;
+        }
 
         $this->merge($attributes);
     }

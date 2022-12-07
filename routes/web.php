@@ -21,8 +21,12 @@ use Inertia\Inertia;
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
-Route::get('/', function () {
-    return Inertia::render('Inicio');
-})->name("inicio");
+Route::name('site.')->group(function () {
+    Route::get('', [SiteController::class, 'inicio'])->name('inicio');
+    Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('equipamento');
 
-Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('equipamento');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('perfil', [SiteController::class, 'perfil'])->name('perfil');
+        Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('perfil.atualizar');
+    });
+});
