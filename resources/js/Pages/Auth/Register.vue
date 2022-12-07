@@ -4,6 +4,7 @@ import { useForm, Head, Link } from "@inertiajs/inertia-vue3";
 import FormError from "../../Components/FormError.vue";
 import { Mask } from "@/Components/InputMask";
 import { onMounted } from "@vue/runtime-core";
+import {ref} from "vue"
 
 const form = useForm({
     nome: '',
@@ -14,8 +15,12 @@ const form = useForm({
     password_confirmation: ''
 })
 
+const elCpf_cnpj = ref(null)
+const elCelular = ref(null)
+
 onMounted(() => {
-    Mask.email('#email')
+    Mask.cpf_cnpj(elCpf_cnpj.value)
+    Mask.telefone(elCelular.value)
 })
 
 function submit() {
@@ -48,7 +53,7 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
-                    <input class="form-control" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" required autocomplete="cpf_cnpj">
+                    <input class="form-control" ref="elCpf_cnpj" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" required autocomplete="cpf_cnpj">
                     <FormError :error="form.errors.cpf_cnpj" />
                     <FormError :error="form.errors.cnpj" />
                     <FormError :error="form.errors.cpf" />
@@ -56,7 +61,7 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="celular">Celular</label>
-                    <input class="form-control" type="text" id="celular" v-model="form.celular" required autocomplete="celular">
+                    <input class="form-control" ref="elCelular" type="text" id="celular" v-model="form.celular" required autocomplete="celular">
                     <FormError :error="form.errors.celular" />
                 </div>
 

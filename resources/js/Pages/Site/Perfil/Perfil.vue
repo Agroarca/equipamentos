@@ -3,11 +3,11 @@ import SiteLayout from "@/Layouts/SiteLayout.vue"
 import { useForm } from "@inertiajs/inertia-vue3";
 import FormError from "@/Components/FormError.vue";
 import { onMounted } from "@vue/runtime-core";
+import { Mask } from "@/Components/InputMask";
+import inputmask from "inputmask";
+import {ref} from "vue"
 
 const props = defineProps(['user'])
-
-console.log('setup')
-
 const form = useForm({
     nome: props.user.nome,
     email: props.user.email,
@@ -17,10 +17,20 @@ const form = useForm({
     password_confirmation: ''
 })
 
-form.defaults()
+const elCpf_cnpj = ref(null)
+const elCelular = ref(null)
+
+onMounted(() => {
+    Mask.cpf_cnpj(elCpf_cnpj.value)
+    Mask.telefone(elCelular.value)
+})
 
 function submit(){
-    form.post(route('site.perfil.atualizar'), {
+    form.transform((data)=> ({
+        ...data,
+        celular: data.celular.replaceAll(/\D/g, ''),
+        cpf_cnpj: data.cpf_cnpj.replaceAll(/\D/g, '')
+    })).post(route('site.perfil.atualizar'), {
         onFinish: () => form.reset('password', 'password_confirmation')
     })
 }
@@ -47,7 +57,7 @@ function submit(){
 
                 <div class="mb-3">
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
-                    <input class="form-control" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" autocomplete="cpf_cnpj">
+                    <input class="form-control" ref="elCpf_cnpj" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" autocomplete="cpf_cnpj">
                     <FormError :error="form.errors.cpf_cnpj" />
                     <FormError :error="form.errors.cpf" />
                     <FormError :error="form.errors.cnpj" />
@@ -55,19 +65,19 @@ function submit(){
 
                 <div class="mb-3">
                     <label for="celular">Celular</label>
-                    <input class="form-control" type="text" id="celular" v-model="form.celular" autocomplete="celular">
+                    <input class="form-control" ref="elCelular" type="text" id="celular" v-model="form.celular" autocomplete="celular">
                     <FormError :error="form.errors.celular" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <input class="form-control" type="password" id="password" v-model="form.password" autocomplete="new-password">
+                    <input class="form-control" type="password" id="password" autocomplete="new-password">
                     <FormError :error="form.errors.password" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password_confirmation">Confirmar Senha</label>
-                    <input class="form-control" type="password" id="password_confirmation" v-model="form.password_confirmation" autocomplete="new-password">
+                    <input class="form-control" type="password" id="password_confirmation" autocomplete="new-password">
                     <FormError :error="form.errors.password_confirmation" />
                 </div>
 
