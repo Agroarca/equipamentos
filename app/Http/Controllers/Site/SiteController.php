@@ -8,6 +8,7 @@ use App\Models\Equipamentos\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class SiteController extends Controller
@@ -47,6 +48,6 @@ class SiteController extends Controller
         $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
         $user->update($attributes);
 
-        return redirect()->route('site.perfil');
+        return Redirect::route('site.perfil');
     }
 }

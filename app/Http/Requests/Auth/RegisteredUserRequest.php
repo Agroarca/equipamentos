@@ -38,29 +38,23 @@ class RegisteredUserRequest extends FormRequest
 
     public function rules()
     {
+        $rules = [
+            'nome' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('usuarios')->ignore(Auth::id())],
+            'password' => ['nullable', 'confirmed', Password::defaults()],
+            'cpf_cnpj' => 'bail|required|cpf_cnpj',
+            'celular' => ['bail', 'required', new Telefone()],
+            'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')->ignore(Auth::id())],
+            'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')->ignore(Auth::id())],
+        ];
+
         if (Auth::check()) {
-
-            return [
-                'nome' => 'nullable|string|max:255',
-                'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('usuarios')->ignore(Auth::id())],
-                'password' => ['nullable', 'confirmed', Password::defaults()],
-                'cpf_cnpj' => 'bail|nullable|cpf_cnpj',
-                'celular' => ['bail', 'nullable', new Telefone()],
-                'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')->ignore(Auth::id())],
-                'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')->ignore(Auth::id())],
-            ];
+            $rules['password'] = ['nullable', 'confirmed', Password::defaults()];
         } else {
-
-            return [
-                'nome' => 'required|string|max:255',
-                'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('usuarios')],
-                'password' => ['required', 'confirmed', Password::defaults()],
-                'cpf_cnpj' => 'bail|required|cpf_cnpj',
-                'celular' => ['bail', 'required', new Telefone()],
-                'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')],
-                'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')],
-            ];
+            $rules['password'] = ['required', 'confirmed', Password::defaults()];
         }
+
+        return $rules;
     }
 
     public function attributes()

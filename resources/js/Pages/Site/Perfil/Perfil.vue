@@ -6,6 +6,8 @@ import { onMounted } from "@vue/runtime-core";
 
 const props = defineProps(['user'])
 
+console.log('setup')
+
 const form = useForm({
     nome: props.user.nome,
     email: props.user.email,
