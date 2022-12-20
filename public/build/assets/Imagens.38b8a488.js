@@ -1,0 +1,1 @@
+import{o as e,h as s}from"./app.1319b50a.js";const a={class:"imagem"},t=["src"],n={key:1,class:"card-img-top",src:"/img/Placeholder.png"},r={__name:"Imagens",props:["imagens"],setup(c){return(o,m)=>(e(),s("div",a,[c.imagens.length>0?(e(),s("img",{key:0,class:"card-img-top",src:c.imagens[0].url},null,8,t)):(e(),s("img",n))]))}};export{r as default};
