@@ -14,7 +14,7 @@
                     <span class="ano">Ano: {{ equipamento.ano }}</span>
                     <h1 class="titulo">{{ equipamento.titulo }}</h1>
                     <span class="valor">{{ equipamento.valor }}</span>
-                    <button class="botao btn btn-primary">Estou Interessado!</button>
+                    <a :href="route('site.conversa.equipamento', equipamento.id)" class="botao btn btn-primary">Estou Interessado!</a>
                 </div>
             </div>
             <div class="descricao-header">
