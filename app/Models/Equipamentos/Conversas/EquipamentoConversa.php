@@ -28,4 +28,9 @@ class EquipamentoConversa extends Model
     {
         return $this->hasMany(Mensagem::class);
     }
+
+    public function visualizacao()
+    {
+        return $this->hasMany(Visualizacao::class);
+    }
 }
