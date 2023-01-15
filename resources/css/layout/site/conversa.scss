@@ -23,7 +23,7 @@
         flex-direction: column;
         height: 70vh;
         overflow-y: scroll;
-
+        width: 100%;
     }
 
     .mensagem {
@@ -54,5 +54,32 @@
     .btn {
         padding: .5rem 1rem;
         margin-left: .5rem;
+    }
+
+    .container-mensagens {
+        position: relative;
+        width: 100%;
+    }
+
+    .novas-mensagens {
+        position: absolute;
+        background-color: $conversa-mensagem-novas-fundo;
+        color: $conversa-mensagem-novas-cor;
+        padding: .5rem 2rem;
+        border-radius: 3rem;
+        font-weight: bold;
+        bottom: 1rem;
+        left: 50%;
+        transform: translate(-50%);
+        outline: none;
+        border: none;
+    }
+
+    .textcount {
+        display: flex;
+        justify-content: center;
+        font-size: .8rem;
+        font-weight: bold;
+        color: $conversa-textcount-color;
     }
 }

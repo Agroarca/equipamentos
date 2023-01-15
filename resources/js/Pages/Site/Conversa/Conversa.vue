@@ -1,99 +1,155 @@
 <script setup>
     import SiteLayout from '@/Layouts/SiteLayout.vue';
-    import { useForm } from "@inertiajs/inertia-vue3";
-    import { debounce } from 'lodash';
-    import { ref, reactive, nextTick, onMounted } from 'vue';
+    import EventoConversa from '@/Components/Eventos/EventoConversa.js'
+    import { ref, onMounted, reactive} from 'vue';
+    import { nextTick } from "vue";
     import axios from 'axios';
+    import { debounce } from 'lodash';
 
-    const scrollMargin = 25;
-    const elMensagens = ref(null);
     const props = defineProps(['conversa', 'usuario_id'])
-    const scroll = debounce(onScroll, 100, {maxWait: 250})
-    const enviarUltimaVisualizacao = debounce(dEnviarUltimaVisualizacao, 500, {maxWait: 10000})
+    let scroll = debounce(onScroll, 100, { maxWait: 250 })
+    let enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
 
-    const form = useForm({
-        mensagem: '',
-    })
+    const scrollMargin = 25
+    const maxlengthText = 2500
+    let ultimaVisualizadaId = props.conversa.visualizacao.ultima_mensagem_id
+    const elMensagens = ref(null);
 
-    const _chat = reactive({
-        antes: props.conversa.mensagens.length > 0,
-        depois: props.conversa.mensagens.length > 0,
+    let chat = reactive({
         mensagens: props.conversa.mensagens,
-        visualizada: props.conversa.visualizacao.ultima_mensagem_id,
+        mensagem: '',
+        mensagensAnteriores: true,
+        novasMensagens: false
     })
 
+    EventoConversa.addListener(eventoConversa)
     onMounted(() => {
-        let proximaMensagem = _chat.mensagens.findLast(m => m.id <= _chat.visualizada)
+        setScrollVisualizada()
+    })
 
-        if(proximaMensagem){
-            setMensagensScrolltop(getOffsetMensagem(proximaMensagem.id) - (elMensagens.value.clientHeight / 2))
-        }else{
+    function enviarMensagem() {
+        return axios.post(route('site.conversa.enviar', props.conversa.id), {
+            mensagem: chat.mensagem
+        }).then(() => {
+            chat.mensagem = ''
+        }).catch((e) => {
+            location.reload()
+        })
+    }
+
+    function getUltimaVisualizada() {
+        return chat.mensagens.findLast(m => m.id <= ultimaVisualizadaId)
+    }
+
+    function setScrollVisualizada() {
+        let ultimaVisualizada = getUltimaVisualizada()
+
+        if (ultimaVisualizada) {
+            setMensagensScrolltop(getOffsetMensagem(ultimaVisualizada.id) - (elMensagens.value.clientHeight / 2))
+        } else {
             setMensagensScrolltop(elMensagens.value.querySelector('.loader-inline').clientHeight)
         }
-    })
-
-    function submit() {
-        form.post(route('site.conversa.enviar', props.conversa.equipamento.id), {
-            onSuccess: () => form.reset('mensagem'),
-            preserveScroll: true
-        })
     }
 
-    function onScroll(event){
-
-        if(elMensagens.value.scrollTop <= scrollMargin){
-            atualizarMensagensAnteriores()
-        }
-
-        let ultimaVisualizada = getUltimaMensagemVisualizada();
-        if(ultimaVisualizada && ultimaVisualizada.id > _chat.visualizada){
-            _chat.visualizada = ultimaVisualizada.id
+    function novasMensagens(){
+        chat.novasMensagens = false
+        let proximaMensagem = getProximaMensagem()
+        if(proximaMensagem){
+            setMensagensScrolltop(getOffsetMensagem(proximaMensagem.id) - (elMensagens.value.clientHeight / 2))
+            ultimaVisualizadaId = proximaMensagem.id
             enviarUltimaVisualizacao()
+        }else{
+            setScrollVisualizada()
         }
     }
 
-    function atualizarMensagensAnteriores(){
-        if(!_chat.antes){
-            return;
-        }
-        let mensagemId = _chat.mensagens[0].id
-        axios.get(route('site.conversa.mensagens.anteriores', [props.conversa.id, mensagemId]))
-        .then((response) => {
-            _chat.mensagens = response.data.mensagens.concat(_chat.mensagens);
-            _chat.antes = response.data.mais
-            nextTick(()=>{
-                setMensagensScrolltop(getOffsetMensagem(mensagemId));
-            })
-        })
+    function getProximaMensagem(){
+        return chat.mensagens.find(m => m.id > ultimaVisualizadaId)
     }
 
-    function getOffsetMensagem(id){
-        return elMensagens.value.querySelector('#msg-' + id).offsetTop - elMensagens.value.offsetTop;
-    }
-
-    function getMensagemVisualizada(id){
-        let el = elMensagens.value.querySelector('#msg-' + id)
-
-        let elOffset = el.offsetTop + el.clientHeight - el.parentElement.offsetTop
-        return elOffset > el.parentElement.scrollTop && elOffset < el.parentElement.scrollTop + el.parentElement.clientHeight
-    }
-
-    function getUltimaMensagemVisualizada(){
-        let idxUltima = _chat.mensagens.findIndex(m => m.id > _chat.visualizada)
-        return _chat.mensagens.slice(idxUltima).findLast(m => getMensagemVisualizada(m.id))
-    }
-
-    function dEnviarUltimaVisualizacao(mensagem){
-        axios.post(route('site.conversa.mensagens.visualizacao', [props.conversa.id, _chat.visualizada]))
-    }
-
-    function setMensagensScrolltop(px){
+    function setMensagensScrolltop(px) {
         elMensagens.value.scrollTop = px
 
         setTimeout(() => {
             scroll.cancel()
         }, 100)
     }
+
+    function getOffsetMensagem(id) {
+        return elMensagens.value.querySelector('#msg-' + id).offsetTop - elMensagens.value.offsetTop;
+    }
+
+    function onScroll(event) {
+
+        if (elMensagens.value.scrollTop <= scrollMargin) {
+            atualizarMensagensAnteriores()
+        }
+
+        let ultimaVisualizada = procuraUltimaMensagemVisualizada();
+        if (ultimaVisualizada && ultimaVisualizada.id > ultimaVisualizadaId) {
+            ultimaVisualizadaId = ultimaVisualizada.id
+            enviarUltimaVisualizacao()
+        }
+
+        if((elMensagens.value.scrollTop + elMensagens.value.clientHeight) >= (elMensagens.value.scrollHeight - scrollMargin)){
+            chat.novasMensagens = false;
+        }
+    }
+
+    function procuraUltimaMensagemVisualizada() {
+        let idxUltima = chat.mensagens.findIndex(m => m.id > ultimaVisualizadaId)
+        return chat.mensagens.slice(idxUltima).findLast(m => verificaMensagemVisualizada(m.id))
+    }
+
+    function verificaMensagemVisualizada(id) {
+        let el = elMensagens.value.querySelector('#msg-' + id)
+
+        let elOffset = el.offsetTop + el.clientHeight - el.parentElement.offsetTop
+        return elOffset > el.parentElement.scrollTop && elOffset < el.parentElement.scrollTop + el.parentElement.clientHeight
+    }
+
+    function enviarUltimaVisualizacao() {
+        axios.post(route('site.conversa.mensagens.visualizacao', [props.conversa.id, ultimaVisualizadaId]))
+    }
+
+    function atualizarMensagens() {
+        let ultimaMensagem = chat.mensagens.findLast(() => true)
+
+        if (!ultimaMensagem) return;
+
+        axios.get(route('site.conversa.mensagens', [props.conversa.id, ultimaMensagem.id]))
+        .then((response) => {
+
+            if (response.data.mensagens.length > 0) {
+                chat.mensagens = chat.mensagens.concat(response.data.mensagens);
+                chat.novasMensagens = true
+            }
+        })
+    }
+
+    function eventoConversa(e) {
+        if (e.mensagem_id > 10) {
+            atualizarMensagens();
+            e.cancelled = true
+        }
+    }
+
+    function atualizarMensagensAnteriores() {
+        if (!chat.mensagensAnteriores && chat.mensagens > 0) {
+            return;
+        }
+
+        let mensagemId = chat.mensagens[0].id
+        axios.get(route('site.conversa.mensagens.anteriores', [props.conversa.id, mensagemId]))
+        .then((response) => {
+            chat.mensagens = response.data.mensagens.concat(chat.mensagens);
+            chat.mensagensAnteriores = response.data.mais
+            nextTick(() => {
+                setMensagensScrolltop(getOffsetMensagem(mensagemId));
+            })
+        })
+    }
+
 </script>
 
 <template>
@@ -101,17 +157,27 @@
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
             <div class="conteudo">
-                <div class="mensagens" @scroll="scroll" ref="elMensagens">
-                    <div class="loader-inline" v-if="_chat.antes">
-                        <span class="elemento"></span>
+                <div class="container-mensagens">
+                    <div class="mensagens" @scroll="scroll" ref="elMensagens">
+                        <div class="loader-inline" v-if="chat.mensagensAnteriores">
+                            <span class="elemento"></span>
+                        </div>
+                        <span class="mensagem" :id="'msg-'+mensagem.id" v-for="mensagem in chat.mensagens" :key="mensagem.id" :class="{'autor': mensagem.usuario_id == usuario_id }">
+                            {{ mensagem.mensagem }}
+                        </span>
                     </div>
-                    <span class="mensagem" :id="'msg-'+mensagem.id" v-for="mensagem in _chat.mensagens" :key="mensagem.id" :class="{'autor': mensagem.usuario_id == usuario_id }">
-                        {{ mensagem.id }} - {{ mensagem.mensagem }}
-                    </span>
+                    <Transition name="fade-transition" duration="100">
+                        <button class="novas-mensagens" v-if="chat.novasMensagens" @click="novasMensagens">
+                            <span>Novas Mensagens</span>
+                        </button>
+                    </Transition>
                 </div>
-                <form @submit.prevent="submit" class="mensagens-footer">
-                    <textarea class="form-control" v-model="form.mensagem"></textarea>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                <form @submit.prevent="enviarMensagem" class="mensagens-footer">
+                    <textarea class="form-control" v-model="chat.mensagem" :maxlength="maxlengthText" rows="3"></textarea>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <span class="textcount">{{ chat.mensagem.length + ' / ' + maxlengthText }}</span>
+                    </div>
                 </form>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models\Equipamentos\Conversas;
 
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class Mensagem extends Model
     public function equipamentoConversa()
     {
         return $this->belongsTo(EquipamentoConversa::class);
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services\Equipamentos;
 
-use App\Exceptions\Caracteristicas\ValorIncorretoCaracteristicaException;
 use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Caracteristicas\Valor\CaracteristicaValor;
