@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  equipamentos:
+    container_name: equipamentos
+    build: .
+    volumes:
+      - /var/www/equipamentos:/var/www/html
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    tty: true
+    networks:
+      - database
+      - socketi
+    restart: always
+
+networks:
+  database:
+    name: database
+  socketi:
+    name: socketi
