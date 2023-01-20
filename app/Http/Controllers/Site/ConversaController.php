@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Conversa\EnviarMensagemRequest;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
-use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Equipamentos\Equipamento;
-use Illuminate\Database\Query\Builder;
+use App\Services\Conversa\ConversaService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -24,10 +23,24 @@ class ConversaController extends Controller
     public function conversaEquipamento($equipamento_id)
     {
         $equipamento = Equipamento::findOrFail($equipamento_id);
+
+        if ($equipamento->usuario_id == Auth::id()) {
+
+            $conversas = $equipamento->conversas()->with([
+                'usuario',
+                'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
+            ])->orderBy('updated_at', 'desc')->paginate();
+            return Inertia::render('Site/Conversa/Conversas', compact(['equipamento', 'conversas']));
+        }
+
         $conversa = EquipamentoConversa::firstOrCreate([
             'equipamento_id' => $equipamento->id,
             'usuario_id' => Auth::id()
         ]);
+
+        if ($conversa->wasRecentlyCreated) {
+            ConversaService::criarVisualizacoes($conversa);
+        }
 
         return redirect()->route('site.conversa', $conversa->id);
     }
@@ -58,14 +71,25 @@ class ConversaController extends Controller
 
         $visualizacao = $conversa->visualizacao()->firstOrNew(['usuario_id' => Auth::id()]);
         $visualizacao->ultima_mensagem_id = $mensagem->id;
+        $visualizacao->save();
 
-        return redirect()->route('site.conversa', $conversa->id);
+        ConversaService::contarMensagensNaoVisualizadas($conversa);
+        ConversaService::notificarOutros($mensagem, $conversa);
+
+        return response()->json(['status' =>  'ok']);
     }
 
     public function mensagensAnteriores($idConversa, $id)
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $query = $conversa->mensagens()->where('id', '<', $id);
+        return response()->json($this->retornarMensagens($query));
+    }
+
+    public function mensagensPosteriores($idConversa, $id)
+    {
+        $conversa = EquipamentoConversa::findOrFail($idConversa);
+        $query = $conversa->mensagens()->where('id', '>', $id);
         return response()->json($this->retornarMensagens($query));
     }
 
@@ -86,6 +110,7 @@ class ConversaController extends Controller
         if ($mensagem->id > $visualizacao->ultima_mensagem_id) {
             $visualizacao->ultima_mensagem_id = $mensagem->id;
             $visualizacao->save();
+            ConversaService::contarMensagensNaoVisualizadas($conversa);
         }
     }
 }

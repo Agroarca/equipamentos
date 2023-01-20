@@ -36,6 +36,7 @@ Route::name('site.')->group(function () {
             Route::post('{id}/enviar', [ConversaController::class, 'enviar'])->name('.enviar');
 
             Route::get('{id_conversa}/mensagens/anteriores/{id}', [ConversaController::class, 'mensagensAnteriores'])->name('.mensagens.anteriores');
+            Route::get('{id_conversa}/mensagens/posteriores/{id}', [ConversaController::class, 'mensagensPosteriores'])->name('.mensagens');
             Route::post('{id_conversa}/mensagens/visualizacao/{id}', [ConversaController::class, 'visualizacao'])->name('.mensagens.visualizacao');
         });
     });

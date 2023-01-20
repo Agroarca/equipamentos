@@ -14,6 +14,7 @@ use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EquipamentoController extends Controller
@@ -33,7 +34,10 @@ class EquipamentoController extends Controller
 
     public function salvar(EquipamentoRequest $request)
     {
-        Equipamento::create($request->all());
+        Equipamento::create([
+            ...$request->all(),
+            'usuario_id' => Auth::id()
+        ]);
         return redirect()->route('admin.equipamentos');
     }
 

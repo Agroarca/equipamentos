@@ -4,6 +4,7 @@ namespace App\Models\Equipamentos;
 
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,7 @@ class Equipamento extends Model
         'descricao',
         'modelo_id',
         'categoria_id',
+        'usuario_id',
     ];
 
     public function modelo()
@@ -44,5 +46,10 @@ class Equipamento extends Model
     public function conversas()
     {
         return $this->hasMany(EquipamentoConversa::class);
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
     }
 }
