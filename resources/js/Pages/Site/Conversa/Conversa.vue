@@ -18,13 +18,17 @@
     let chat = reactive({
         mensagens: props.conversa.mensagens,
         mensagem: '',
-        mensagensAnteriores: true,
+        mensagensAnteriores: false,
         novasMensagens: false
     })
 
     EventoConversa.addListener(eventoConversa)
     onMounted(() => {
         setScrollVisualizada()
+
+        if(elMensagens.value.scrollHeight > (elMensagens.value.clientHeight + scrollMargin)){
+            chat.mensagensAnteriores = true
+        }
     })
 
     function enviarMensagem() {
@@ -47,7 +51,7 @@
         if (ultimaVisualizada) {
             setMensagensScrolltop(getOffsetMensagem(ultimaVisualizada.id) - (elMensagens.value.clientHeight / 2))
         } else {
-            setMensagensScrolltop(elMensagens.value.querySelector('.loader-inline').clientHeight)
+            setMensagensScrolltop(elMensagens.value.querySelector('.loader-inline')?.clientHeight)
         }
     }
 
@@ -61,7 +65,7 @@
         }else{
             setScrollVisualizada()
         }
-    }
+   }
 
     function getProximaMensagem(){
         return chat.mensagens.find(m => m.id > ultimaVisualizadaId)
@@ -113,11 +117,7 @@
     }
 
     function atualizarMensagens() {
-        let ultimaMensagem = chat.mensagens.findLast(() => true)
-
-        if (!ultimaMensagem) return;
-
-        axios.get(route('site.conversa.mensagens', [props.conversa.id, ultimaMensagem.id]))
+        axios.get(route('site.conversa.mensagens', [props.conversa.id, (chat.mensagens.findLast(() => true)?.id ?? 0)]))
         .then((response) => {
 
             if (response.data.mensagens.length > 0) {
@@ -128,7 +128,7 @@
     }
 
     function eventoConversa(e) {
-        if (e.mensagem_id > 10) {
+        if(e.mensagem_id > (chat.mensagens.findLast(() => true)?.id ?? 0)){
             atualizarMensagens();
             e.cancelled = true
         }

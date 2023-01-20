@@ -22,7 +22,7 @@
         display: flex;
         flex-direction: column;
         height: 70vh;
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 100%;
     }
 
@@ -33,6 +33,7 @@
         border-radius: .5rem;
         word-break: break-all;
         white-space: pre-wrap;
+        align-self: flex-start;
     }
 
     .mensagens-footer {
@@ -81,5 +82,27 @@
         font-size: .8rem;
         font-weight: bold;
         color: $conversa-textcount-color;
+    }
+}
+
+.container.conversas {
+    .conversa {
+        border: 1px solid $conversas-conversa-borda;
+        border-radius: 2rem;
+        padding: 1rem 2rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nome {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .ultima_mensagem {
+        color: $conversas_ultima_mensagem_color;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 }

@@ -14,6 +14,7 @@ class Visualizacao extends Model
         'equipamento_conversa_id',
         'usuario_id',
         'ultima_mensagem_id',
+        'mensagens_nao_visualizadas'
     ];
 
     public function equipamentoConversa()
