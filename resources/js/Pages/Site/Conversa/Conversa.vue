@@ -24,11 +24,11 @@
 
     EventoConversa.addListener(eventoConversa)
     onMounted(() => {
-        setScrollVisualizada()
-
         if(elMensagens.value.scrollHeight > (elMensagens.value.clientHeight + scrollMargin)){
             chat.mensagensAnteriores = true
         }
+
+        nextTick(setScrollPagina)
     })
 
     function enviarMensagem() {
@@ -45,14 +45,18 @@
         return chat.mensagens.findLast(m => m.id <= ultimaVisualizadaId)
     }
 
-    function setScrollVisualizada() {
+    function setScrollPagina() {
         let ultimaVisualizada = getUltimaVisualizada()
 
         if (ultimaVisualizada) {
             setMensagensScrolltop(getOffsetMensagem(ultimaVisualizada.id) - (elMensagens.value.clientHeight / 2))
-        } else {
+        }
+
+        if(elMensagens.value.scrollTop < elMensagens.value.querySelector('.loader-inline')?.clientHeight){
             setMensagensScrolltop(elMensagens.value.querySelector('.loader-inline')?.clientHeight)
         }
+
+        nextTick(verificaUltimaVisualizada)
     }
 
     function novasMensagens(){
@@ -63,7 +67,7 @@
             ultimaVisualizadaId = proximaMensagem.id
             enviarUltimaVisualizacao()
         }else{
-            setScrollVisualizada()
+            setScrollPagina()
         }
    }
 
@@ -89,14 +93,18 @@
             atualizarMensagensAnteriores()
         }
 
+        verificaUltimaVisualizada()
+
+        if((elMensagens.value.scrollTop + elMensagens.value.clientHeight) >= (elMensagens.value.scrollHeight - scrollMargin)){
+            chat.novasMensagens = false;
+        }
+    }
+
+    function verificaUltimaVisualizada(){
         let ultimaVisualizada = procuraUltimaMensagemVisualizada();
         if (ultimaVisualizada && ultimaVisualizada.id > ultimaVisualizadaId) {
             ultimaVisualizadaId = ultimaVisualizada.id
             enviarUltimaVisualizacao()
-        }
-
-        if((elMensagens.value.scrollTop + elMensagens.value.clientHeight) >= (elMensagens.value.scrollHeight - scrollMargin)){
-            chat.novasMensagens = false;
         }
     }
 
@@ -135,7 +143,7 @@
     }
 
     function atualizarMensagensAnteriores() {
-        if (!chat.mensagensAnteriores && chat.mensagens > 0) {
+        if (!chat.mensagensAnteriores || chat.mensagens > 0) {
             return;
         }
 

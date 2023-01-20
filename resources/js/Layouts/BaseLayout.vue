@@ -1,6 +1,8 @@
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
 import setupNotificacoes from '@/Components/Notificacoes';
+import { onMounted } from "vue";
+import { usePage } from "@inertiajs/inertia-vue3";
 
 Inertia.on("navigate", (event) => {
     document.body.classList.remove("admin");

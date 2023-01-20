@@ -86,12 +86,26 @@
 }
 
 .container.conversas {
+    .lista {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
     .conversa {
         border: 1px solid $conversas-conversa-borda;
         border-radius: 2rem;
         padding: 1rem 2rem;
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .infos,
+    .botao {
+        display: flex;
         flex-direction: column;
+        justify-content: center;
     }
 
     .nome {
@@ -104,5 +118,9 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    a {
+        padding: .5rem 1rem;
     }
 }

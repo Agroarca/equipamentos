@@ -29,8 +29,7 @@ class ConversaController extends Controller
             $conversas = $equipamento->conversas()->with([
                 'usuario',
                 'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
-                'mensagens' => fn ($query) => $query->latest()->first()
-            ])->paginate();
+            ])->orderBy('updated_at', 'desc')->paginate();
             return Inertia::render('Site/Conversa/Conversas', compact(['equipamento', 'conversas']));
         }
 
@@ -111,6 +110,7 @@ class ConversaController extends Controller
         if ($mensagem->id > $visualizacao->ultima_mensagem_id) {
             $visualizacao->ultima_mensagem_id = $mensagem->id;
             $visualizacao->save();
+            ConversaService::contarMensagensNaoVisualizadas($conversa);
         }
     }
 }

@@ -28,8 +28,9 @@ class ConversaService
         DB::statement('update equipamento_conversa_visualizacao visualizacao
                 set visualizacao.mensagens_nao_visualizadas = (
                     select count(*) from equipamento_conversa_mensagens mensagens
-                    where mensagens.id > visualizacao.ultima_mensagem_id)
-                where visualizacao.equipamento_conversa_id = ?', [$conversa->id]);
+                    where mensagens.id > visualizacao.ultima_mensagem_id
+                    and mensagens.equipamento_conversa_id = ?)
+                where visualizacao.equipamento_conversa_id = ?', [$conversa->id, $conversa->id]);
     }
 
     public static function criarVisualizacoes(EquipamentoConversa $conversa)
