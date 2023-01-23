@@ -1,18 +1,19 @@
-<script setup>
+<script setup lang="ts">
     import SiteLayout from '@/Layouts/SiteLayout.vue';
-    import EventoConversa from '@/Components/Eventos/EventoConversa.js'
+    import EventoConversa from '@/Components/Eventos/EventoConversa'
     import { ref, onMounted, reactive} from 'vue';
     import { nextTick } from "vue";
     import axios from 'axios';
-    import { debounce } from 'lodash';
+    import {debounce} from 'lodash';
+    import Listener from '@/Components/Eventos/Listener';
 
     const props = defineProps(['conversa', 'usuario_id'])
     let scroll = debounce(onScroll, 100, { maxWait: 250 })
     let enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
 
-    const scrollMargin = 25
-    const maxlengthText = 2500
-    let ultimaVisualizadaId = props.conversa.visualizacao.ultima_mensagem_id
+    const scrollMargin:number = 25
+    const maxlengthText:number = 2500
+    let ultimaVisualizadaId:number = props.conversa.visualizacao.ultima_mensagem_id
     const elMensagens = ref(null);
 
     let chat = reactive({
@@ -22,7 +23,7 @@
         novasMensagens: false
     })
 
-    EventoConversa.addListener(eventoConversa)
+    EventoConversa.addListener(new Listener(eventoConversa, 1))
     onMounted(() => {
         if(elMensagens.value.scrollHeight > (elMensagens.value.clientHeight + scrollMargin)){
             chat.mensagensAnteriores = true
@@ -135,7 +136,7 @@
         })
     }
 
-    function eventoConversa(e) {
+    function eventoConversa(e:EventoConversa) {
         if(e.mensagem_id > (chat.mensagens.findLast(() => true)?.id ?? 0)){
             atualizarMensagens();
             e.cancelled = true
@@ -174,7 +175,7 @@
                             {{ mensagem.mensagem }}
                         </span>
                     </div>
-                    <Transition name="fade-transition" duration="100">
+                    <Transition name="fade-transition" :duration="100">
                         <button class="novas-mensagens" v-if="chat.novasMensagens" @click="novasMensagens">
                             <span>Novas Mensagens</span>
                         </button>
