@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/inertia-vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import Modal from "@/Components/Admin/Modal.vue";
 import { ref } from 'vue';
 

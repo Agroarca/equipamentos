@@ -1,6 +1,6 @@
 <script setup>
     import Editor from '@/Components/Editor/Editor.vue'
-    import { useForm } from '@inertiajs/inertia-vue3';
+    import { useForm } from '@inertiajs/vue3';
 
     const props = defineProps(['equipamento'])
     const form = useForm({

@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/vue3";
 import { computed } from "@vue/runtime-core";
 import FormError from "../../../Components/FormError.vue";
 import * as base from './Base';

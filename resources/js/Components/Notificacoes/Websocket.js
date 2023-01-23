@@ -1,6 +1,6 @@
 import Echo from "laravel-echo";
 import Pusher from 'pusher-js';
-import { usePage } from "@inertiajs/inertia-vue3";
+import { usePage } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 import EventoConversa from "../Eventos/EventoConversa";
 
@@ -21,11 +21,11 @@ export default function conectarWS() {
             client: new Pusher(options.key, options),
         })
 
-        if (!usePage()?.props?.value?.auth?.user) {
+        if (!usePage()?.props?.auth?.user) {
             return;
         }
 
-        window.Echo.private('notificacoes.' + usePage().props.value.auth.user.id)
+        window.Echo.private('notificacoes.' + usePage().props.auth.user.id)
             .listen('.ConversaWebSocket', (e) => conversaWebSocket(e))
             .listenToAll((e, d) => console.log([e, d]))
 

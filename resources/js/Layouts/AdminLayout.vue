@@ -3,11 +3,11 @@
     import BaseLayout from './BaseLayout.vue';
     import Loader from "@/Components/Loader.vue"
 
-    import { Head, Link, usePage } from "@inertiajs/inertia-vue3";
+    import { Head, Link, usePage } from "@inertiajs/vue3";
     import { computed, onMounted, onUnmounted, ref } from "vue";
     import { Offcanvas } from 'bootstrap';
 
-    const menus = computed(() => usePage().props.value.admin.menus)
+    const menus = computed(() => usePage().props.admin.menus)
     const props = defineProps(['titulo', 'link', 'buttonText'])
 
     const elOffcanvas = ref(null)

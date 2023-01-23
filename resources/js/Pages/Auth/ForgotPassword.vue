@@ -1,6 +1,6 @@
 <script setup>
 import SiteLayout from "@/Layouts/SiteLayout.vue";
-import { useForm, Head, Link } from "@inertiajs/inertia-vue3";
+import { useForm, Head, Link } from "@inertiajs/vue3";
 import FormError from "../../Components/FormError.vue";
 
 const form = useForm({

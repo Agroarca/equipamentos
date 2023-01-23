@@ -1,10 +1,10 @@
 <script setup>
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/vue3";
 import setupNotificacoes from '@/Components/Notificacoes';
 import { onMounted } from "vue";
-import { usePage } from "@inertiajs/inertia-vue3";
+import { usePage } from "@inertiajs/vue3";
 
-Inertia.on("navigate", (event) => {
+router.on("navigate", (event) => {
     document.body.classList.remove("admin");
     document.body.classList.remove("site");
 

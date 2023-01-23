@@ -1,6 +1,6 @@
 <script setup>
 import SiteLayout from "@/Layouts/SiteLayout.vue"
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/vue3";
 import FormError from "@/Components/FormError.vue";
 import { onMounted } from "@vue/runtime-core";
 import { Mask } from "@/Components/InputMask";
