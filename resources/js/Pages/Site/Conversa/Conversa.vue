@@ -4,7 +4,7 @@
     import { ref, onMounted, reactive} from 'vue';
     import { nextTick } from "vue";
     import axios from 'axios';
-    import {debounce} from 'lodash';
+    import {debounce, last} from 'lodash';
     import Listener from '@/Components/Eventos/Listener';
 
     const props = defineProps(['conversa', 'usuario_id'])
@@ -126,20 +126,37 @@
     }
 
     function atualizarMensagens() {
-        axios.get(route('site.conversa.mensagens', [props.conversa.id, (chat.mensagens.findLast(() => true)?.id ?? 0)]))
-        .then((response) => {
+        function _atualizarMensagens() {
+            return axios.get(route('site.conversa.mensagens', [props.conversa.id, (last(chat.mensagens)?.id ?? 0)]))
+            .then((response) => {
 
-            if (response.data.mensagens.length > 0) {
-                chat.mensagens = chat.mensagens.concat(response.data.mensagens);
-                chat.novasMensagens = true
+                if (response.data.mensagens.length > 0) {
+                    chat.mensagens = chat.mensagens.concat(response.data.mensagens);
+                    chat.novasMensagens = true
+                }
+            })
+        }
+
+        if(atualizarMensagens.bloquear){
+            atualizarMensagens.atualizar = true
+            return
+        }
+
+        atualizarMensagens.bloquear = true
+        atualizarMensagens.atualizar = false
+
+        _atualizarMensagens().finally(() => {
+            atualizarMensagens.bloquear = false;
+
+            if(atualizarMensagens.atualizar){
+                atualizarMensagens()
             }
         })
     }
 
     function eventoConversa(e:EventoConversa) {
-        if(e.mensagem_id > (chat.mensagens.findLast(() => true)?.id ?? 0)){
+        if(e.mensagem_id > (last(chat.mensagens)?.id ?? 0)){
             atualizarMensagens();
-            e.cancelled = true
         }
     }
 

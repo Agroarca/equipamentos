@@ -3,10 +3,10 @@
 namespace App\Notifications;
 
 use App\Models\Equipamentos\Conversas\Mensagem;
-use App\Notifications\Channel\ConversaWebSocket;
+use App\Notifications\Channel\ConversaWebSocketChannel;
 use Illuminate\Notifications\Notification;
 
-class ConversaNotification extends Notification
+class MensagemWebsocket extends Notification
 {
     public function __construct(
         public Mensagem $mensagem
@@ -15,6 +15,6 @@ class ConversaNotification extends Notification
 
     public function via()
     {
-        return [ConversaWebSocket::class];
+        return [ConversaWebSocketChannel::class];
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ConversaWebSocket implements ShouldBroadcast
+class ConversaWebSocketChannel implements ShouldBroadcast
 {
     use Queueable;
 

@@ -9,14 +9,16 @@ use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Models\Equipamentos\Equipamento;
 use App\Services\Conversa\ConversaService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ConversaController extends Controller
 {
     private $mensagensPorPagina;
 
-    public function __construct()
-    {
+    public function __construct(
+        public ConversaService $conversaService
+    ) {
         $this->mensagensPorPagina = config('equipamentos.mensagens_por_pagina');
     }
 
@@ -39,7 +41,7 @@ class ConversaController extends Controller
         ]);
 
         if ($conversa->wasRecentlyCreated) {
-            ConversaService::criarVisualizacoes($conversa);
+            $this->conversaService->criarVisualizacoes($conversa);
         }
 
         return redirect()->route('site.conversa', $conversa->id);
@@ -51,7 +53,7 @@ class ConversaController extends Controller
         $conversa = EquipamentoConversa::findOrFail($conversaId);
         $conversa->load('equipamento');
 
-        $conversa->visualizacao = $conversa->visualizacao()->firstOrCreate(['usuario_id' => $usuario_id], ['ultima_mensagem_id' => 0]);
+        $conversa->visualizacao = $conversa->visualizacao()->where('usuario_id', $usuario_id)->first();
 
         $mensagensAnteriores = $conversa->mensagens()->where('id', '<=', $conversa->visualizacao->ultima_mensagem_id)->latest('id')->take($this->mensagensPorPagina)->get();
         $mensagensProximas = $conversa->mensagens()->where('id', '>', $conversa->visualizacao->ultima_mensagem_id)->get();
@@ -62,21 +64,20 @@ class ConversaController extends Controller
 
     public function enviar(EnviarMensagemRequest $request, $id)
     {
-        $conversa = EquipamentoConversa::findOrFail($id);
-        $mensagem = new Mensagem();
-        $mensagem->equipamento_conversa_id = $conversa->id;
-        $mensagem->usuario_id = Auth::id();
-        $mensagem->mensagem = $request->input('mensagem');
-        $mensagem->save();
+        DB::transaction(function () use ($request, $id) {
+            $conversa = EquipamentoConversa::findOrFail($id);
+            $mensagem = new Mensagem();
+            $mensagem->equipamento_conversa_id = $conversa->id;
+            $mensagem->usuario_id = Auth::id();
+            $mensagem->mensagem = $request->input('mensagem');
+            $mensagem->save();
 
-        $visualizacao = $conversa->visualizacao()->firstOrNew(['usuario_id' => Auth::id()]);
-        $visualizacao->ultima_mensagem_id = $mensagem->id;
-        $visualizacao->save();
+            $visualizacao = $conversa->visualizacao()->where('usuario_id', Auth::id())->first();
+            $visualizacao->ultima_mensagem_id = $mensagem->id;
+            $visualizacao->save();
 
-        ConversaService::contarMensagensNaoVisualizadas($conversa);
-        ConversaService::notificarOutros($mensagem, $conversa);
-
-        return response()->json(['status' =>  'ok']);
+            $this->conversaService->processarEnvioMensagem($mensagem);
+        });
     }
 
     public function mensagensAnteriores($idConversa, $id)
@@ -105,12 +106,12 @@ class ConversaController extends Controller
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $mensagem = $conversa->mensagens()->findOrFail($id);
-        $visualizacao = $conversa->visualizacao()->firstOrCreate(['usuario_id' => Auth::id()], ['ultima_mensagem_id' => 0]);
+        $visualizacao = $conversa->visualizacao()->where('usuario_id', Auth::id())->first();
 
         if ($mensagem->id > $visualizacao->ultima_mensagem_id) {
             $visualizacao->ultima_mensagem_id = $mensagem->id;
             $visualizacao->save();
-            ConversaService::contarMensagensNaoVisualizadas($conversa);
+            $this->conversaService->processarVisualizacao($conversa);
         }
     }
 }

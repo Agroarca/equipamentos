@@ -19,8 +19,3 @@ RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /de
 
 EXPOSE 8000
 
-ENTRYPOINT \
-  composer install && \
-  php artisan cache:clear && \
-  php artisan serve --host 0.0.0.0
-
