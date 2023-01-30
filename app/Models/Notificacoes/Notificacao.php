@@ -16,6 +16,7 @@ class Notificacao extends Model
         'processar_apos',
         'visualizado',
         'usuario_id',
+        'titulo',
         'texto',
         'tipo_id',
         'tipo_type',

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->smallInteger('passo')->default(0);
             $table->dateTime('processar_apos')->nullable();
             $table->boolean('visualizado')->default(false);
+            $table->string('titulo');
             $table->string('texto');
 
             $table->foreignId('tipo_id');

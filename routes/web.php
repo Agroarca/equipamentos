@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Site\ConversaController;
+use App\Http\Controllers\Site\NotificacaoController;
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
@@ -39,5 +40,7 @@ Route::name('site.')->group(function () {
             Route::get('{id_conversa}/mensagens/posteriores/{id}', [ConversaController::class, 'mensagensPosteriores'])->name('.mensagens');
             Route::post('{id_conversa}/mensagens/visualizacao/{id}', [ConversaController::class, 'visualizacao'])->name('.mensagens.visualizacao');
         });
+
+        Route::get('notificacao/{id}', [NotificacaoController::class, 'notificacao'])->name('notificacao');
     });
 });

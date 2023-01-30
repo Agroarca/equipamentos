@@ -1,14 +1,12 @@
-import { isGloballyWhitelisted } from "@vue/shared"
-import { forEach } from "lodash"
 import Evento from "./Evento"
 import Listener from "./Listener"
 
 export default class EventoConversa implements Evento {
-    equipamento_conversa_id
-    usuario_id
-    mensagem
-    mensagem_id
     cancelled = false
+    equipamento_conversa_id: number
+    usuario_id: number
+    mensagem: string
+    mensagem_id: number
 
     static listeners: Array<Listener> = []
 

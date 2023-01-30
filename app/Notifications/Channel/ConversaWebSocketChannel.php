@@ -21,7 +21,7 @@ class ConversaWebSocketChannel implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return config('equipamentos.notificacoes.ws_evento_conversa');
+        return 'ConversaWebSocket';
     }
 
     public function send($notifiable, Notification $notification)

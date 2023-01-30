@@ -21,7 +21,7 @@ class NotificacaoWebSocketChannel implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return config('equipamentos.notificacoes.ws_evento_notificacao');
+        return 'NotificacaoWebSocket';
     }
 
     public function send($notifiable, Notification $notification)

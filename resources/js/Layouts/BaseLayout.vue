@@ -1,8 +1,8 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
-import setupNotificacoes from '@/Components/Notificacoes';
 import { onMounted } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import Notificacoes from "@/Components/Notificacoes/Notificacoes.vue"
 
 router.on("navigate", (event) => {
     document.body.classList.remove("admin");
@@ -15,9 +15,9 @@ router.on("navigate", (event) => {
     }
 });
 
-setupNotificacoes()
 </script>
 
 <template>
-  <slot></slot>
+    <Notificacoes />
+    <slot></slot>
 </template>

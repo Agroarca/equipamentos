@@ -10,9 +10,7 @@ use App\Models\Notificacoes\NotificacaoConversa;
 use App\Models\Usuario;
 use App\Notifications\MensagemWebsocket;
 use App\Notifications\Notificacao;
-use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class ConversaService
@@ -83,7 +81,8 @@ class ConversaService
 
             $notificacao = new NotificacoesModel([
                 'usuario_id' => $usuario->id,
-                'texto' => $texto
+                'texto' => $texto,
+                'titulo' => 'Conversa de ' . $mensagem->equipamentoConversa->equipamento->titulo,
             ]);
 
             $conversa->notificacao()->save($notificacao);
