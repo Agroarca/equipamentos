@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npm update
+npm install
 npm run build
 
 composer install
