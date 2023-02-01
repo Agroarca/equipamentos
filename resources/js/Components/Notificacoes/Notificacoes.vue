@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import setupNotificacoes from '@/Components/Notificacoes';
+import setupNotificacoes from '@/Components/Notificacoes/NotificacaoService';
 import { onMounted, ref } from 'vue';
 import Notificacao from './Notificacao.vue';
 import EventoNotificacaoWS from '@/Components/Eventos/EventoNotificacaoWS'

@@ -1,1 +1,0 @@
-import{g as e,o as s}from"./app.aecaaf5c.js";const a={class:"imagem"},t=["src"],n={key:1,class:"card-img-top",src:"/img/Placeholder.png"},r={__name:"Imagens",props:["imagens"],setup(c){return(o,m)=>(s(),e("div",a,[c.imagens.length>0?(s(),e("img",{key:0,class:"card-img-top",src:c.imagens[0].url},null,8,t)):(s(),e("img",n))]))}};export{r as default};
