@@ -50,10 +50,10 @@ class FirebaseCloudMessaging
             ]
         ];
         try {
-            $this->montarCliente()->post('https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send', $data);
-        } catch (\GuzzleHttp\Exception\RequestException $ex) {
             Log::error('data:');
             Log::error($data);
+            $this->montarCliente()->post('https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send', $data);
+        } catch (\GuzzleHttp\Exception\RequestException $ex) {
             Log::error('response:');
             Log::error($ex->getResponse()?->getBody()?->getContents());
             throw $ex;
