@@ -17,7 +17,7 @@ class FirebaseCloudMessaging
 
         $link = route('site.notificacao', [$notificacao->id]);
         foreach ($usuario->tokens as $token) {
-            $this->enviarMensagem($token->token, $notificacao->titulo, $notificacao->mensagem, $link);
+            $this->enviarMensagem($token->token, $notificacao->titulo, $notificacao->texto, $link);
         }
     }
 
