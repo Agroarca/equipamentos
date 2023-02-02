@@ -14,8 +14,10 @@ class FirebaseCloudMessaging
     public function enviarNotificacao(Usuario $usuario, Notificacao $notificacao)
     {
         $tokens = [];
+
+        $link = route('site.notificacao', [$notificacao->id]);
         foreach ($usuario->tokens as $token) {
-            $this->enviarMensagem($token, $notificacao->titulo, $notificacao->mensagem);
+            $this->enviarMensagem($token, $notificacao->titulo, $notificacao->mensagem, $link);
         }
     }
 
@@ -44,7 +46,6 @@ class FirebaseCloudMessaging
                         'notification' => [
                             'title' => $titulo,
                             'body' => $mensagem,
-                            'image' => null
                         ],
                         'fcm_options' => [
                             'link' => $link

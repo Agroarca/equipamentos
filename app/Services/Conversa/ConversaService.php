@@ -69,11 +69,9 @@ class ConversaService
             $visualizacao = $mensagem->equipamentoConversa->visualizacao()->where('usuario_id', $usuario->id)->first();
             $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
 
-            if ($naoVisualizadas == 1) {
-                $texto = $naoVisualizadas . ' mensagem não visualizada';
-            } else {
-                $texto = $naoVisualizadas . ' mensagens não visualizadas';
-            }
+            $texto = "Você tem $naoVisualizadas" .
+                ($naoVisualizadas == 1) ? ' nova mensagem' : ' novas mensagens' .
+                "em $mensagem->equipamentoConversa->equipamento->titulo";
 
             $conversa = NotificacaoConversa::create([
                 'conversa_id' => $mensagem->equipamento_conversa_id
@@ -82,7 +80,7 @@ class ConversaService
             $notificacao = new NotificacoesModel([
                 'usuario_id' => $usuario->id,
                 'texto' => $texto,
-                'titulo' => 'Conversa de ' . $mensagem->equipamentoConversa->equipamento->titulo,
+                'titulo' => 'Nova Mensagem!'
             ]);
 
             $conversa->notificacao()->save($notificacao);
