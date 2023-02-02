@@ -5,7 +5,7 @@ services:
     container_name: equipamentos
     build: .
     volumes:
-      - /var/www/equipamentos:/var/www/html
+      - /var/www/equipamentos/projeto:/var/www/html
     ports:
       - 8000:8000
     expose:
@@ -19,7 +19,7 @@ services:
     container_name: equipamentos_queue
     build: .
     volumes:
-      - /var/www/equipamentos:/var/www/html
+      - /var/www/equipamentos/projeto:/var/www/html
     networks:
       - database
       - socketi
