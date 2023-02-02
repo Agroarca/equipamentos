@@ -46,9 +46,6 @@ class FirebaseCloudMessaging
                         'notification' => [
                             'title' => $titulo,
                             'body' => $mensagem,
-                        ],
-                        'fcm_options' => [
-                            'link' => $link
                         ]
                     ]
                 ]
