@@ -39,8 +39,6 @@ class SiteController extends Controller
     {
         $user = Auth::user();
 
-        FirebaseCloudMessaging::sendNotification();
-
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
 

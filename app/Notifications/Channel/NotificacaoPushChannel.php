@@ -3,8 +3,8 @@
 namespace App\Notifications\Channel;
 
 use Illuminate\Bus\Queueable;
-use App\Models\Notificacoes\Notificacao;
 use App\Models\Usuario;
+use App\Notifications\Notificacao as NotificationsNotificacao;
 use App\Services\Util\FirebaseCloudMessaging;
 
 class NotificacaoPushChannel
@@ -16,12 +16,12 @@ class NotificacaoPushChannel
     ) {
     }
 
-    public function send(Usuario $usuario, Notificacao $notificacao)
+    public function send(Usuario $usuario, NotificationsNotificacao $notificacao)
     {
-        if ($notificacao->visualizado) {
+        if ($notificacao->notificacao->visualizado) {
             return;
         }
 
-        $this->messagingService->enviarNotificacao($usuario, $notificacao->titulo, $notificacao->texto);
+        $this->messagingService->enviarNotificacao($usuario, $notificacao->notificacao);
     }
 }
