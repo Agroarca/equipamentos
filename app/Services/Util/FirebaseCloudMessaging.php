@@ -38,19 +38,23 @@ class FirebaseCloudMessaging
     function enviarMensagem($token, $titulo, $mensagem, $link = null)
     {
 
-        try {
-            $this->montarCliente()->post('https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send', [
-                'json' => [
-                    'message' => [
-                        'token' => $token,
-                        'notification' => [
-                            'title' => $titulo,
-                            'body' => $mensagem,
-                        ]
+        $data = [
+            'json' => [
+                'message' => [
+                    'token' => $token,
+                    'notification' => [
+                        'title' => $titulo,
+                        'body' => $mensagem,
                     ]
                 ]
-            ]);
+            ]
+        ];
+        try {
+            $this->montarCliente()->post('https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send', $data);
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
+            Log::error('data:');
+            Log::error($data);
+            Log::error('response:');
             Log::error($ex->getResponse()?->getBody()?->getContents());
             throw $ex;
         }
