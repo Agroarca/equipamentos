@@ -70,8 +70,8 @@ class ConversaService
             $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
 
             $texto = "Você tem $naoVisualizadas" .
-                ($naoVisualizadas == 1) ? ' nova mensagem' : ' novas mensagens' .
-                "em $mensagem->equipamentoConversa->equipamento->titulo";
+                (($naoVisualizadas == 1) ? ' nova mensagem' : ' novas mensagens') .
+                "em {$mensagem->equipamentoConversa->equipamento->titulo}";
 
             $conversa = NotificacaoConversa::create([
                 'conversa_id' => $mensagem->equipamento_conversa_id
