@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app"
 import { getAnalytics } from "firebase/analytics"
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { onMounted } from "vue";
-import { usePage } from "@inertiajs/vue3";
+import axios from "axios";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE",
@@ -21,7 +21,6 @@ export class Push {
     app
     messaging
     analytics
-    contexto
 
     constructor() {
         this.app = initializeApp(firebaseConfig)
@@ -54,18 +53,10 @@ export class Push {
     }
 
     iniciarNotificacoes(): void {
-        this.contexto = 'app'
         onMounted(() => {
             this.solicitarPermissao().then(this.registrarListeners)
         })
 
-    }
-
-    iniciarServiceWorker(): void {
-        this.contexto = 'worker'
-        if (Notification.permission === "granted") {
-            this.registrarListeners()
-        }
     }
 
     registrarListeners(): void {
@@ -79,12 +70,13 @@ export class Push {
     }
 
     salvarToken(token): void {
-        console.log('token:')
-        console.log(token)
+        axios.post(route('site.notificacao.salvarToken'), {
+            token: token
+        })
     }
 
     onMessage(payload): void {
-        this.notificar(this.contexto + ' onMessage ' + JSON.stringify(payload))
+        this.notificar(' onMessage ' + JSON.stringify(payload))
     }
 
     notificar(texto): void {

@@ -14,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode/*
 !.vscode/settings.json
+agroarca-equipamentos-credential.json

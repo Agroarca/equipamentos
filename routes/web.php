@@ -23,15 +23,15 @@ use Inertia\Inertia;
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
-Route::name('site.')->group(function () {
-    Route::get('', [SiteController::class, 'inicio'])->name('inicio');
-    Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('equipamento');
+Route::name('site')->group(function () {
+    Route::get('', [SiteController::class, 'inicio'])->name('.inicio');
+    Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('.equipamento');
 
     Route::middleware(['auth'])->group(function () {
-        Route::get('perfil', [SiteController::class, 'perfil'])->name('perfil');
-        Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('perfil.atualizar');
+        Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
+        Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
 
-        Route::prefix('conversa')->name('conversa')->group(function () {
+        Route::prefix('conversa')->name('.conversa')->group(function () {
             Route::get('{id}', [ConversaController::class, 'conversa'])->name('');
             Route::get('equipamento/{id}', [ConversaController::class, 'conversaEquipamento'])->name('.equipamento');
             Route::post('{id}/enviar', [ConversaController::class, 'enviar'])->name('.enviar');
@@ -41,6 +41,9 @@ Route::name('site.')->group(function () {
             Route::post('{id_conversa}/mensagens/visualizacao/{id}', [ConversaController::class, 'visualizacao'])->name('.mensagens.visualizacao');
         });
 
-        Route::get('notificacao/{id}', [NotificacaoController::class, 'notificacao'])->name('notificacao');
+        Route::prefix('notificacao')->name('.notificacao')->group(function () {
+            Route::get('{id}', [NotificacaoController::class, 'notificacao'])->name('');
+            Route::post('token', [NotificacaoController::class, 'salvarToken'])->name('.salvarToken');
+        });
     });
 });

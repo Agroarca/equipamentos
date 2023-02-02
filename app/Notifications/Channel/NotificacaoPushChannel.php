@@ -3,31 +3,25 @@
 namespace App\Notifications\Channel;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Models\Notificacoes\Notificacao;
+use App\Models\Usuario;
+use App\Services\Util\FirebaseCloudMessaging;
 
-class NotificacaoPushChannel implements ShouldBroadcast
+class NotificacaoPushChannel
 {
     use Queueable;
 
-    public $usuarioId;
-    public $notification;
-
-    public function broadcastOn()
-    {
-        return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_notificacao') . $this->usuarioId);
+    public function __construct(
+        public FirebaseCloudMessaging $messagingService
+    ) {
     }
 
-    public function broadcastAs()
+    public function send(Usuario $usuario, Notificacao $notificacao)
     {
-        return 'NotificacaoPush';
-    }
+        if ($notificacao->visualizado) {
+            return;
+        }
 
-    public function send($notifiable, Notification $notification)
-    {
-        $this->usuarioId = $notifiable->id;
-        $this->notification = $notification;
-        //broadcast($this);
+        $this->messagingService->enviarNotificacao($usuario, $notificacao->titulo, $notificacao->texto);
     }
 }

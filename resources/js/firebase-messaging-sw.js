@@ -7,9 +7,3 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 let messaging = firebase.messaging()
-
-//onMessage(messaging, onSwMessage)
-
-//function onSwMessage(payload) {
-//    new Notification('SW Notification ' + JSON.stringify(payload))
-//}
