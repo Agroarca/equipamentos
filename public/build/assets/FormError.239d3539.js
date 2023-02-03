@@ -1,1 +1,0 @@
-import{o as r,g as o,b as t,t as s,i as a}from"./app.f74d8266.js";const c={key:0},n={class:"erro"},p={__name:"FormError",props:["error"],setup(e){return(_,i)=>e.error?(r(),o("div",c,[t("p",n,s(e.error),1)])):a("",!0)}};export{p as _};
