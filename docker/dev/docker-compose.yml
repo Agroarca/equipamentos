@@ -1,0 +1,36 @@
+version: "3.3"
+
+services:
+  equipamentos:
+    container_name: equipamentos
+    build: .
+    volumes:
+      - /var/www/equipamentos/projeto:/var/www/html
+      - /var/www/equipamentos/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    networks:
+      - database
+      - socketi
+    restart: always
+    entrypoint: './docker_entrypoint_web.sh'
+  equipamentos_queue:
+    container_name: equipamentos_queue
+    build: .
+    volumes:
+      - /var/www/equipamentos/projeto:/var/www/html
+      - /var/www/equipamentos/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+    networks:
+      - database
+      - socketi
+    restart: always
+    entrypoint: './docker_entrypoint_queue.sh'
+
+
+networks:
+  database:
+    name: database
+  socketi:
+    name: socketi
