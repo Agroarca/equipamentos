@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Site\ConversaController;
+use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,7 @@ require __DIR__ . '/admin.php';
 Route::name('site')->group(function () {
     Route::get('', [SiteController::class, 'inicio'])->name('.inicio');
     Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('.equipamento');
+    Route::get('categoria/{id?}', [ListaController::class, 'categoria'])->name('.categoria');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
