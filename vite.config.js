@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
+import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 
 export default defineConfig({
@@ -15,16 +15,16 @@ export default defineConfig({
                     base: null,
                     includeAbsolute: false,
                 },
-            }
+            },
         }),
         copy({
             targets: [
                 {
                     src: 'resources/js/firebase-messaging-sw.js',
-                    dest: 'public'
-                }
+                    dest: 'public',
+                },
             ],
-            hook: 'writeBundle'
+            hook: 'writeBundle',
         }),
     ],
-});
+})
