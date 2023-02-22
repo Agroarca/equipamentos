@@ -13,7 +13,7 @@ class NotificacaoController extends Controller
     {
         UsuarioTokenFCM::firstOrCreate([
             'usuario_id' => Auth::id(),
-            'token' => $request->input('token')
+            'token' => $request->input('token'),
         ]);
 
         return response()->json(['status' => 'OK']);

@@ -13,18 +13,21 @@ class ModeloController extends Controller
     public function inicio()
     {
         $modelos = Modelo::with('marca')->paginate(10);
+
         return Inertia::render('Admin/Modelo/Inicio', compact('modelos'));
     }
 
     public function criar()
     {
         $marcas = Marca::all();
+
         return Inertia::render('Admin/Modelo/Criar', compact('marcas'));
     }
 
     public function salvar(ModeloRequest $request)
     {
         Modelo::create($request->all());
+
         return redirect()->route('admin.modelos');
     }
 
@@ -32,18 +35,21 @@ class ModeloController extends Controller
     {
         $modelo = Modelo::findOrFail($id);
         $marcas = Marca::all();
+
         return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas'));
     }
 
     public function atualizar(ModeloRequest $request, $id)
     {
         Modelo::findOrFail($id)->update($request->all());
+
         return redirect()->route('admin.modelos');
     }
 
     public function excluir($id)
     {
         Modelo::findOrFail($id)->delete();
+
         return redirect()->route('admin.modelos');
     }
 }

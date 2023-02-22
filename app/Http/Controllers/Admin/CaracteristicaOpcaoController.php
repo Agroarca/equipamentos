@@ -13,6 +13,7 @@ class CaracteristicaOpcaoController extends Controller
     public function criar($categoriaId, $caracteristicaId)
     {
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)->findOrFail($caracteristicaId);
+
         return Inertia::render('Admin/Caracteristicas/Opcoes/Criar', compact('caracteristica'));
     }
 

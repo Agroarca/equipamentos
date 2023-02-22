@@ -21,23 +21,22 @@ class FirebaseCloudMessaging
         }
     }
 
-    function montarCliente()
+    public function montarCliente()
     {
-        $middleware  = ApplicationDefaultCredentials::getMiddleware(['https://www.googleapis.com/auth/firebase.messaging']);
+        $middleware = ApplicationDefaultCredentials::getMiddleware(['https://www.googleapis.com/auth/firebase.messaging']);
         $stack = HandlerStack::create();
         $stack->push($middleware);
 
         $client = new Client([
             'auth' => 'google_auth',
-            'handler' => $stack
+            'handler' => $stack,
         ]);
 
         return $client;
     }
 
-    function enviarMensagem($token, $titulo, $mensagem, $link = null)
+    public function enviarMensagem($token, $titulo, $mensagem, $link = null)
     {
-
         $data = [
             'json' => [
                 'message' => [
@@ -45,9 +44,9 @@ class FirebaseCloudMessaging
                     'notification' => [
                         'title' => $titulo,
                         'body' => $mensagem,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
         try {
             Log::error('data:');

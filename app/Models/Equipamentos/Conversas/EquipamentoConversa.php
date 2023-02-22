@@ -12,6 +12,7 @@ class EquipamentoConversa extends Model
     use HasFactory;
 
     protected $table = 'equipamento_conversas';
+
     protected $fillable = ['equipamento_id', 'usuario_id'];
 
     public function equipamento()

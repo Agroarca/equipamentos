@@ -15,6 +15,7 @@ class Usuario extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
+
     protected $fillable = [
         'nome',
         'email',
@@ -24,7 +25,8 @@ class Usuario extends Authenticatable
         'cnpj',
         'celular',
     ];
-    protected $hidden = ['password', 'remember_token',];
+
+    protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',

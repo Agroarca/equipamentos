@@ -77,15 +77,15 @@ class CaracteristicasValorRequest extends FormRequest
             $rules[] = 'nullable';
         }
 
-        if (!is_null($caracteristica->minimo)) {
+        if (! is_null($caracteristica->minimo)) {
             $rules[] = "min:{$caracteristica->minimo}";
         }
 
-        if (!is_null($caracteristica->maximo)) {
+        if (! is_null($caracteristica->maximo)) {
             $rules[] = "max:{$caracteristica->maximo}";
         }
 
-        if (!is_null($caracteristica->quantidade)) {
+        if (! is_null($caracteristica->quantidade)) {
             $rules[] = "regex:/^\d*\.?\d{0,$caracteristica->quantidade}$/";
         }
 

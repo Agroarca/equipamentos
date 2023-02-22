@@ -11,11 +11,13 @@ class Mensagem extends Model
     use HasFactory;
 
     protected $table = 'equipamento_conversa_mensagens';
+
     protected $touches = ['equipamentoConversa'];
+
     protected $fillable = [
         'equipamento_conversa_id',
         'usuario_id',
-        'mensagem'
+        'mensagem',
     ];
 
     public function equipamentoConversa()

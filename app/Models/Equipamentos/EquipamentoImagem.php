@@ -11,17 +11,19 @@ class EquipamentoImagem extends Model
     use HasFactory;
 
     protected $table = 'equipamento_imagens';
+
     protected $fillable = [
         'descricao',
         'nome_arquivo',
-        'equipamento_id'
+        'equipamento_id',
     ];
+
     protected $appends = ['url'];
 
     public function url(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => asset(config("equipamentos.public_path_imagens") . $attributes['nome_arquivo'])
+            get: fn ($value, $attributes) => asset(config('equipamentos.public_path_imagens').$attributes['nome_arquivo'])
         );
     }
 

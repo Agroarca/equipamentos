@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('titulo', 100);
-            $table->decimal('valor' , 12, 2);
+            $table->decimal('valor', 12, 2);
             $table->smallInteger('ano');
 
             $table->foreignId('modelo_id');

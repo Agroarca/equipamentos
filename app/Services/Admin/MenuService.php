@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MenuService
 {
-
     public static function getAuthMenus()
     {
         $menus = [];
@@ -16,33 +15,33 @@ class MenuService
                 [
                     'title' => 'Início',
                     'icon' => '',
-                    'route' => 'site.inicio'
+                    'route' => 'site.inicio',
                 ],
                 [
                     'title' => 'Dashboard',
                     'icon' => '',
-                    'route' => 'admin.dashboard'
+                    'route' => 'admin.dashboard',
                 ],
                 [
                     'title' => 'Categorias',
                     'icon' => '',
-                    'route' => 'admin.categorias'
+                    'route' => 'admin.categorias',
                 ],
                 [
                     'title' => 'Equipamentos',
                     'icon' => '',
-                    'route' => 'admin.equipamentos'
+                    'route' => 'admin.equipamentos',
                 ],
                 [
                     'title' => 'Marcas',
                     'icon' => '',
-                    'route' => 'admin.marcas'
+                    'route' => 'admin.marcas',
                 ],
                 [
                     'title' => 'Modelos',
                     'icon' => '',
-                    'route' => 'admin.modelos'
-                ]
+                    'route' => 'admin.modelos',
+                ],
             ];
         }
 

@@ -12,6 +12,7 @@ class MarcaController extends Controller
     public function inicio()
     {
         $marcas = Marca::paginate(10);
+
         return Inertia::render('Admin/Marca/Inicio', compact('marcas'));
     }
 
@@ -23,24 +24,28 @@ class MarcaController extends Controller
     public function salvar(MarcaRequest $request)
     {
         Marca::create($request->all());
+
         return redirect()->route('admin.marcas');
     }
 
     public function editar($id)
     {
         $marca = Marca::findOrFail($id);
+
         return Inertia::render('Admin/Marca/Editar', compact('marca'));
     }
 
     public function atualizar(MarcaRequest $request, $id)
     {
         Marca::findOrFail($id)->update($request->all());
+
         return redirect()->route('admin.marcas');
     }
 
     public function excluir($id)
     {
         Marca::findOrFail($id)->delete();
+
         return redirect()->route('admin.marcas');
     }
 }

@@ -11,21 +11,26 @@ class Categoria extends Model
     use HasFactory;
 
     protected $table = 'categorias';
+
     protected $fillable = ['nome', 'categoria_mae_id'];
 
-    public function categoriaMae(){
+    public function categoriaMae()
+    {
         return $this->belongsTo(Categoria::class);
     }
 
-    public function categorias(){
+    public function categorias()
+    {
         return $this->hasMany(Categoria::class, 'categoria_mae_id');
     }
 
-    public function equipamentos(){
+    public function equipamentos()
+    {
         return $this->hasMany(Equipamento::class);
     }
 
-    public function caracteristicas(){
+    public function caracteristicas()
+    {
         return $this->hasMany(Caracteristica::class);
     }
 }

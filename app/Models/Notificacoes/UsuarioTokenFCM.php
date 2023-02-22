@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class UsuarioTokenFCM extends Model
 {
     use HasFactory;
+
     protected $table = 'usuario_token_fcm';
+
     protected $fillable = [
         'token',
-        'usuario_id'
+        'usuario_id',
     ];
 
     public function usuario()

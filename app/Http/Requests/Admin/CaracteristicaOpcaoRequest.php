@@ -24,7 +24,7 @@ class CaracteristicaOpcaoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'string|required|min:3|max:50'
+            'nome' => 'string|required|min:3|max:50',
         ];
     }
 

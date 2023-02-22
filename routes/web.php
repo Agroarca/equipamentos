@@ -5,10 +5,7 @@ use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +18,8 @@ use Inertia\Inertia;
 |
 */
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/admin.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
 
 Route::name('site')->group(function () {
     Route::get('', [SiteController::class, 'inicio'])->name('.inicio');

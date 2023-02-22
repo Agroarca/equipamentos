@@ -10,6 +10,7 @@ class CaracteristicaOpcao extends Model
     use HasFactory;
 
     protected $table = 'caracteristicas_opcoes';
+
     protected $fillable = ['nome', 'caracteristica_id'];
 
     public function caracteristica()

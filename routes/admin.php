@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\CaracteristicaOpcaoController;
 use App\Http\Controllers\Admin\CaracteristicaController;
+use App\Http\Controllers\Admin\CaracteristicaOpcaoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EquipamentoController;
 use App\Http\Controllers\Admin\MarcaController;
@@ -20,7 +20,6 @@ use Inertia\Inertia;
 */
 
 Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
-
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Inicio');
     })->name('.dashboard');

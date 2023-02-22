@@ -25,7 +25,7 @@ class ModeloRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:50',
-            'marca_id' => 'bail|nullable|integer|exists:marcas,id'
+            'marca_id' => 'bail|nullable|integer|exists:marcas,id',
         ];
     }
 

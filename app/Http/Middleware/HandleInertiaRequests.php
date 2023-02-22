@@ -22,14 +22,14 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => function () use ($request) {
+            'ziggy' => function () {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => config('app.url'),
                 ]);
             },
             'admin' => [
-                'menus' => MenuService::getAuthMenus()
-            ]
+                'menus' => MenuService::getAuthMenus(),
+            ],
         ]);
     }
 }

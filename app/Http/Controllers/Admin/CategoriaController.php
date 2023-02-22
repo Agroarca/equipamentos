@@ -20,12 +20,14 @@ class CategoriaController extends Controller
     public function criar($categoriaId = null)
     {
         $categoria_mae = Categoria::find($categoriaId);
+
         return Inertia::render('Admin/Categoria/Criar', compact('categoria_mae'));
     }
 
     public function salvar(CategoriaRequest $request)
     {
         $categoria = Categoria::create($request->all());
+
         return redirect()->route('admin.categorias', $categoria->categoria_mae_id);
     }
 
@@ -41,6 +43,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::findOrFail($id);
         $categoria->update($request->all());
+
         return redirect()->route('admin.categorias', $categoria->categoria_mae_id);
     }
 
@@ -64,7 +67,7 @@ class CategoriaController extends Controller
 
         return response()->json([
             'categoria' => $categoria,
-            'categorias' => $categorias
+            'categorias' => $categorias,
         ]);
     }
 }

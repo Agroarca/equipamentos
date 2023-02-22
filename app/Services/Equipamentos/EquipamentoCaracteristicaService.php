@@ -10,16 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class EquipamentoCaracteristicaService
 {
-
     /** Retorna todas as caracteristicas ordenadas pela ordem */
     public static function getCaracteristicasCategoria($categoriaId)
     {
         return Caracteristica::whereRaw(
-            "categoria_id in (
+            'categoria_id in (
                 with recursive cats(id) as (
                     select id from categorias where @id = id
                     union all select cat.categoria_mae_id from categorias cat inner join cats on cat.id = cats.id
-                ) select id from cats , (select @id := ?) inicializacao)",
+                ) select id from cats , (select @id := ?) inicializacao)',
             [$categoriaId]
         )
             ->with(['opcoes'])
@@ -35,8 +34,8 @@ class EquipamentoCaracteristicaService
             $equipamento->load(['caracteristicas']);
 
             foreach ($caracCategoria as $carac) {
-                if (array_key_exists('carac-' . $carac->id, $caracteristicas)) {
-                    self::salvarCaracteristica($equipamento, $carac->id, $caracteristicas['carac-' . $carac->id]);
+                if (array_key_exists('carac-'.$carac->id, $caracteristicas)) {
+                    self::salvarCaracteristica($equipamento, $carac->id, $caracteristicas['carac-'.$carac->id]);
                 }
             }
         });

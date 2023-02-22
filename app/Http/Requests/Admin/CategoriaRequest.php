@@ -16,13 +16,13 @@ class CategoriaRequest extends FormRequest
             'circular',
             function ($attribute, $value, $parameters) {
                 $id = $this->route('id');
-                if (!$value) {
+                if (! $value) {
                     return true;
                 }
 
                 $categoria = Categoria::find($value);
 
-                if (!$categoria) {
+                if (! $categoria) {
                     return true;
                 }
 
@@ -56,7 +56,7 @@ class CategoriaRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:100',
-            'categoria_mae_id' => 'bail|nullable|integer|exists:categorias,id|self|circular'
+            'categoria_mae_id' => 'bail|nullable|integer|exists:categorias,id|self|circular',
         ];
     }
 

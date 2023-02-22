@@ -31,7 +31,7 @@ class CaracteristicaRequest extends FormRequest
             'obrigatorio' => 'boolean|required',
             'minimo' => 'integer|nullable',
             'maximo' => 'integer|nullable',
-            'quantidade' => 'integer|nullable'
+            'quantidade' => 'integer|nullable',
         ];
     }
 

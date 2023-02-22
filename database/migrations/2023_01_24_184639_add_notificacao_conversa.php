@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('conversa_id');
             $table->foreign('conversa_id')->references('id')->on('equipamento_conversas');
 
-
             $table->timestamps();
         });
     }

@@ -13,8 +13,8 @@ use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class EquipamentoController extends Controller
@@ -22,6 +22,7 @@ class EquipamentoController extends Controller
     public function inicio()
     {
         $equipamentos = Equipamento::with('categoria')->paginate(10);
+
         return Inertia::render('Admin/Equipamento/Inicio', compact('equipamentos'));
     }
 
@@ -29,6 +30,7 @@ class EquipamentoController extends Controller
     {
         $modelos = Modelo::all()->pluck('nome', 'id');
         $categorias = Categoria::all()->pluck('nome', 'id');
+
         return Inertia::render('Admin/Equipamento/Criar', compact('modelos', 'categorias'));
     }
 
@@ -36,8 +38,9 @@ class EquipamentoController extends Controller
     {
         Equipamento::create([
             ...$request->all(),
-            'usuario_id' => Auth::id()
+            'usuario_id' => Auth::id(),
         ]);
+
         return redirect()->route('admin.equipamentos');
     }
 
@@ -46,7 +49,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::with([
             'categoria',
             'modelo',
-            'imagens'
+            'imagens',
         ])->findOrFail($id);
 
         $caracteristicas = EquipamentoCaracteristicaService::getCaracteristicasCategoria($equipamento->categoria_id);
@@ -67,6 +70,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->update($request->all());
+
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 
@@ -75,12 +79,14 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
         $equipamento->save();
+
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 
     public function excluir($id)
     {
         Equipamento::findOrFail($id)->delete();
+
         return redirect()->route('admin.equipamentos');
     }
 
@@ -88,6 +94,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         EquipamentoCaracteristicaService::salvarCaracteristicas($equipamento, $request->all());
+
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 
@@ -96,7 +103,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
-        $file->store(config("equipamentos.path_imagens"));
+        $file->store(config('equipamentos.path_imagens'));
 
         $imagem = new EquipamentoImagem();
         $imagem->descricao = $request->input('descricao');
@@ -110,7 +117,7 @@ class EquipamentoController extends Controller
     public function deletarImagem($equipamentoId, $imagemId)
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
-        Storage::delete(config("equipamentos.path_imagens") . $imagem->nome_arquivo);
+        Storage::delete(config('equipamentos.path_imagens').$imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('admin.equipamentos.editar', $equipamentoId);

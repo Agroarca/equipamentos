@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 
 class RegisteredUserController extends Controller
@@ -35,14 +34,13 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisteredUserRequest $request)
     {
-
         $user = new Usuario($request->only([
             'nome',
             'email',
-            'celular' ,
+            'celular',
             'cpf',
             'cnpj',
-            'tipo_pessoa'
+            'tipo_pessoa',
         ]));
 
         $user->password = Hash::make($request->password);

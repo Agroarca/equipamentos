@@ -27,17 +27,17 @@ class ConversaController extends Controller
         $equipamento = Equipamento::findOrFail($equipamento_id);
 
         if ($equipamento->usuario_id == Auth::id()) {
-
             $conversas = $equipamento->conversas()->with([
                 'usuario',
                 'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
             ])->orderBy('updated_at', 'desc')->paginate();
+
             return Inertia::render('Site/Conversa/Conversas', compact(['equipamento', 'conversas']));
         }
 
         $conversa = EquipamentoConversa::firstOrCreate([
             'equipamento_id' => $equipamento->id,
-            'usuario_id' => Auth::id()
+            'usuario_id' => Auth::id(),
         ]);
 
         if ($conversa->wasRecentlyCreated) {
@@ -84,6 +84,7 @@ class ConversaController extends Controller
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $query = $conversa->mensagens()->where('id', '<', $id);
+
         return response()->json($this->retornarMensagens($query));
     }
 
@@ -91,6 +92,7 @@ class ConversaController extends Controller
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $query = $conversa->mensagens()->where('id', '>', $id);
+
         return response()->json($this->retornarMensagens($query));
     }
 
@@ -99,6 +101,7 @@ class ConversaController extends Controller
         $retorno = [];
         $retorno['mais'] = $query->count() > 20;
         $retorno['mensagens'] = $query->latest('id')->take($this->mensagensPorPagina)->get()->sortBy('id')->values();
+
         return $retorno;
     }
 

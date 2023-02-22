@@ -12,6 +12,7 @@ class Caracteristica extends Model
     use HasFactory;
 
     protected $table = 'caracteristicas';
+
     protected $fillable = [
         'nome',
         'tipo', //Enum TipoCaracteristica

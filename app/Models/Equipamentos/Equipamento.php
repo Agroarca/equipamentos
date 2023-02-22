@@ -13,6 +13,7 @@ class Equipamento extends Model
     use HasFactory;
 
     protected $table = 'equipamentos';
+
     protected $fillable = [
         'titulo',
         'valor',

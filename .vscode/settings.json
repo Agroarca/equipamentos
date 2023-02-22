@@ -13,5 +13,7 @@
     },
     "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    }
+    },
+    "laravel-pint.enable": true,
+    "laravel-pint.preset": "auto"
 }

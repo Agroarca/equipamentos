@@ -10,13 +10,16 @@ class Modelo extends Model
     use HasFactory;
 
     protected $table = 'modelos';
+
     protected $fillable = ['nome', 'marca_id'];
 
-    public function marca(){
+    public function marca()
+    {
         return $this->belongsTo(Marca::class);
     }
 
-    public function equipamentos(){
+    public function equipamentos()
+    {
         return $this->hasMany(Equipamento::class);
     }
 }

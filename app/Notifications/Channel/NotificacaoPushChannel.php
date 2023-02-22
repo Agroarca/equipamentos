@@ -2,10 +2,10 @@
 
 namespace App\Notifications\Channel;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Usuario;
 use App\Notifications\Notificacao as NotificationsNotificacao;
 use App\Services\Util\FirebaseCloudMessaging;
+use Illuminate\Bus\Queueable;
 
 class NotificacaoPushChannel
 {

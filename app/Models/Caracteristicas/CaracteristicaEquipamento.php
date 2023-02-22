@@ -2,7 +2,6 @@
 
 namespace App\Models\Caracteristicas;
 
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
 use App\Models\Equipamentos\Equipamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +11,7 @@ class CaracteristicaEquipamento extends Model
     use HasFactory;
 
     protected $table = 'caracteristicas_equipamento';
+
     protected $fillable = [
         'caracteristica_valor_id',
         'caracteristica_valor_tipo',

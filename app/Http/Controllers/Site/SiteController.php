@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisteredUserRequest;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Usuario;
-use App\Services\Util\FirebaseCloudMessaging;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -29,7 +28,7 @@ class SiteController extends Controller
             'caracteristicas.valor',
             'categoria',
             'modelo',
-            'imagens'
+            'imagens',
         ]);
 
         return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
@@ -46,7 +45,7 @@ class SiteController extends Controller
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
-        $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
+        $attributes = Arr::where($request->all(), fn ($v, $k) => ! is_null($v));
         $user->update($attributes);
 
         return Redirect::route('site.perfil');

@@ -7,9 +7,9 @@ use App\Rules\CNPJ;
 use App\Rules\CPF;
 use App\Rules\Telefone;
 use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -66,7 +66,7 @@ class RegisteredUserRequest extends FormRequest
             'cpf_cnpj' => 'Cpf ou Cnpj',
             'celular' => 'Celular',
             'cpf' => 'CPF',
-            'cnpj' => 'CNPJ'
+            'cnpj' => 'CNPJ',
         ];
     }
 

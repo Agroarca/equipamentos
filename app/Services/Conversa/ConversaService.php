@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Notification;
 
 class ConversaService
 {
-
     public function processarEnvioMensagem(Mensagem $mensagem)
     {
         DB::transaction(function () use ($mensagem) {
-
             Visualizacao::where('equipamento_conversa_id', $mensagem->equipamento_conversa_id)
                 ->where('usuario_id', $mensagem->usuario_id)
                 ->update(['ultima_mensagem_id' => $mensagem->id]);
@@ -28,7 +26,7 @@ class ConversaService
 
             $usuarios = [
                 $mensagem->equipamentoConversa->usuario,
-                $mensagem->equipamentoConversa->equipamento->usuario
+                $mensagem->equipamentoConversa->equipamento->usuario,
             ];
 
             foreach ($usuarios as $usuario) {
@@ -65,22 +63,21 @@ class ConversaService
     private function criarNotificacaoMensagem(Mensagem $mensagem, Usuario $usuario)
     {
         DB::transaction(function () use ($mensagem, $usuario) {
-
             $visualizacao = $mensagem->equipamentoConversa->visualizacao()->where('usuario_id', $usuario->id)->first();
             $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
 
-            $texto = "Você tem $naoVisualizadas " .
-                (($naoVisualizadas == 1) ? 'nova mensagem' : 'novas mensagens') .
+            $texto = "Você tem $naoVisualizadas ".
+                (($naoVisualizadas == 1) ? 'nova mensagem' : 'novas mensagens').
                 " em {$mensagem->equipamentoConversa->equipamento->titulo}";
 
             $conversa = NotificacaoConversa::create([
-                'conversa_id' => $mensagem->equipamento_conversa_id
+                'conversa_id' => $mensagem->equipamento_conversa_id,
             ]);
 
             $notificacao = new NotificacoesModel([
                 'usuario_id' => $usuario->id,
                 'texto' => $texto,
-                'titulo' => 'Nova Mensagem!'
+                'titulo' => 'Nova Mensagem!',
             ]);
 
             $conversa->notificacao()->save($notificacao);
