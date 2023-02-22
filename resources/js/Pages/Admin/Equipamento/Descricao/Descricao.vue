@@ -23,7 +23,7 @@ function atualizarDescricao() {
             <Editor v-model="form.descricao" class="descricao" />
         </div>
         <div class="card-footer">
-            <button class="btn btn-primary" @click="atualizarDescricao">
+            <button type="button" class="btn btn-primary" @click="atualizarDescricao">
                 Atualizar Descrição
             </button>
         </div>

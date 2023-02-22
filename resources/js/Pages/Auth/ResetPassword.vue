@@ -4,8 +4,14 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
 
 const props = defineProps({
-    email: String,
-    token: String,
+    email: {
+        type: String,
+        required: true,
+    },
+    token: {
+        type: String,
+        required: true,
+    },
 })
 
 const form = useForm({

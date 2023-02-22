@@ -9,8 +9,8 @@ const value = computed({
     get() {
         return props.modelValue
     },
-    set(value) {
-        emit('update:modelValue', value)
+    set(val) {
+        emit('update:modelValue', val)
     },
 })
 </script>

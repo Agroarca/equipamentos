@@ -41,6 +41,7 @@ module.exports = {
         'no-use-before-define': 'off',
         'vue/first-attribute-linebreak': 'off',
         'vue/max-attributes-per-line': 'off',
+        'class-methods-use-this': 'off',
         'vue/html-closing-bracket-newline': ['error', {
             singleline: 'never',
             multiline: 'never',
