@@ -5,7 +5,7 @@ const props = defineProps(['imagens'])
 
 <template>
     <div class="imagem">
-        <img class="card-img-top" :src="imagens[0].url" v-if="imagens.length > 0">
+        <img v-if="imagens.length > 0" class="card-img-top" :src="imagens[0].url">
         <img v-else class="card-img-top" src="/img/Placeholder.png">
     </div>
 </template>

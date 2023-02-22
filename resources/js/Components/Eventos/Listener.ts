@@ -1,3 +1,5 @@
+import Evento from './Evento'
+
 export default class Listener {
     priority: number
     callback: Function

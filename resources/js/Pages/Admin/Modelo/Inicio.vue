@@ -1,20 +1,20 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import Pagination from "@/Components/Admin/Pagination.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link } from '@inertiajs/vue3'
+import AdminLayout from '@/Layouts/AdminLayout.vue'
+import Pagination from '@/Components/Admin/Pagination.vue'
 
-const props = defineProps(['modelos']);
+const props = defineProps(['modelos'])
 </script>
 
 <template>
-    <AdminLayout titulo="Modelos" :link="route('admin.modelos.criar')" buttonText="Novo Modelo">
+    <AdminLayout titulo="Modelos" :link="route('admin.modelos.criar')" button-text="Novo Modelo">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
                         <th>Marca</th>
-                        <th></th>
+                        <th />
                     </thead>
                     <tbody>
                         <tr v-for="modelo in modelos.data" :key="modelo.id">
@@ -22,22 +22,24 @@ const props = defineProps(['modelos']);
                             <td>{{ modelo.marca.nome }}</td>
                             <td>
                                 <Link class="btn btn-primary me-2" :href="route('admin.modelos.editar', modelo.id)">
-                                    <i class="fas fa-pen-to-square pe-1"></i>
+                                    <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
                                 <Link class="btn btn-danger" :href="route('admin.modelos.excluir', modelo.id)">
-                                    <i class="fas fa-eraser pe-1"></i>
+                                    <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>
                             </td>
                         </tr>
                         <tr v-if="modelos.data.length == 0">
-                            <td colspan="3">Nenhum registro encontrado</td>
+                            <td colspan="3">
+                                Nenhum registro encontrado
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <Pagination class="mt-4" :links="modelos.links"></Pagination>
+        <Pagination class="mt-4" :links="modelos.links" />
     </AdminLayout>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-    import SiteLayout from "@/Layouts/SiteLayout.vue";
+import SiteLayout from '@/Layouts/SiteLayout.vue'
 </script>
 
 <template>

@@ -5,7 +5,7 @@ const props = defineProps(['equipamento'])
 
 <template>
     <a class="produto">
-        <img class="imagem" :src="equipamento.imagens[0]?.url" :alt="equipamento.imagens[0]?.descricao">
+        <img class="imagem" :src="equipamento.imagens[0]?.url" alt="{{equipamento.imagens[0]?.descricao}}">
         <span class="titulo">{{ equipamento.titulo }}</span>
         <span class="valor">{{ equipamento.valor }}</span>
         <span class="btn">Quero saber mais!</span>

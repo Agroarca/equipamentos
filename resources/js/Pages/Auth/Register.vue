@@ -1,10 +1,10 @@
 <script setup>
-import SiteLayout from "@/Layouts/SiteLayout.vue";
-import { useForm, Head, Link } from "@inertiajs/vue3";
-import FormError from "../../Components/FormError.vue";
-import { Mask } from "@/Components/InputMask";
-import { onMounted } from "@vue/runtime-core";
-import {ref} from "vue"
+import { useForm, Head, Link } from '@inertiajs/vue3'
+import { onMounted } from '@vue/runtime-core'
+import { ref } from 'vue'
+import SiteLayout from '@/Layouts/SiteLayout.vue'
+import FormError from '../../Components/FormError.vue'
+import { Mask } from '@/Components/InputMask'
 
 const form = useForm({
     nome: '',
@@ -12,7 +12,7 @@ const form = useForm({
     cpf_cnpj: '',
     celular: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
 })
 
 const elCpf_cnpj = ref(null)
@@ -41,19 +41,19 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="nome">Nome</label>
-                    <input class="form-control" type="text" id="nome" v-model="form.nome" required autocomplete="nome">
+                    <input id="nome" v-model="form.nome" class="form-control" type="text" required autocomplete="nome">
                     <FormError :error="form.errors.nome" />
                 </div>
 
                 <div class="mb-3">
                     <label for="email">E-mail</label>
-                    <input class="form-control" type="email" id="email" v-model="form.email" required autocomplete="email">
+                    <input id="email" v-model="form.email" class="form-control" type="email" required autocomplete="email">
                     <FormError :error="form.errors.email" />
                 </div>
 
                 <div class="mb-3">
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
-                    <input class="form-control" ref="elCpf_cnpj" type="text" id="cpf_cnpj" v-model="form.cpf_cnpj" required autocomplete="cpf_cnpj">
+                    <input id="cpf_cnpj" ref="elCpf_cnpj" v-model="form.cpf_cnpj" class="form-control" type="text" required autocomplete="cpf_cnpj">
                     <FormError :error="form.errors.cpf_cnpj" />
                     <FormError :error="form.errors.cnpj" />
                     <FormError :error="form.errors.cpf" />
@@ -61,27 +61,31 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="celular">Celular</label>
-                    <input class="form-control" ref="elCelular" type="text" id="celular" v-model="form.celular" required autocomplete="celular">
+                    <input id="celular" ref="elCelular" v-model="form.celular" class="form-control" type="text" required autocomplete="celular">
                     <FormError :error="form.errors.celular" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <input class="form-control" type="password" id="password" v-model="form.password" required autocomplete="new-password">
+                    <input id="password" v-model="form.password" class="form-control" type="password" required autocomplete="new-password">
                     <FormError :error="form.errors.password" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password_confirmation">Confirmar Senha</label>
-                    <input class="form-control" type="password" id="password_confirmation" v-model="form.password_confirmation" required autocomplete="new-password">
+                    <input id="password_confirmation" v-model="form.password_confirmation" class="form-control" type="password" required autocomplete="new-password">
                     <FormError :error="form.errors.password_confirmation" />
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Registrar</button>
+                    <button class="btn btn-primary" type="submit">
+                        Registrar
+                    </button>
                 </div>
                 <div class="mb-2">
-                    <Link class="btn btn-link" :href="route('login')">Já possui conta?</Link>
+                    <Link class="btn btn-link" :href="route('login')">
+                        Já possui conta?
+                    </Link>
                 </div>
             </form>
         </div>

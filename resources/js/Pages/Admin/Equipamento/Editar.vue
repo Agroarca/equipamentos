@@ -1,20 +1,20 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { useForm } from "@inertiajs/vue3";
-import FormError from "../../../Components/FormError.vue";
+import { useForm } from '@inertiajs/vue3'
+import AdminLayout from '@/Layouts/AdminLayout.vue'
+import FormError from '../../../Components/FormError.vue'
 import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
-import Descricao from "./Descricao/Descricao.vue";
+import Descricao from './Descricao/Descricao.vue'
 
-const props = defineProps(['equipamento', 'caracteristicas']);
+const props = defineProps(['equipamento', 'caracteristicas'])
 
 const form = useForm({
-    'id': props.equipamento.id,
-    'titulo': props.equipamento.titulo,
-    'valor': props.equipamento.valor,
-    'ano': props.equipamento.ano,
-    'modelo': props.equipamento.modelo.nome,
-    'categoria': props.equipamento.categoria.nome,
+    id: props.equipamento.id,
+    titulo: props.equipamento.titulo,
+    valor: props.equipamento.valor,
+    ano: props.equipamento.ano,
+    modelo: props.equipamento.modelo.nome,
+    categoria: props.equipamento.categoria.nome,
 })
 
 function submit() {
@@ -24,45 +24,47 @@ function submit() {
 
 <template>
     <AdminLayout titulo="Editar Equipamento">
-        <div  class="equipamento">
+        <div class="equipamento">
             <form @submit.prevent="submit">
                 <div class="card card-default">
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="titulo">Título</label>
-                            <input class="form-control" type="text" id="titulo" v-model="form.titulo" required>
+                            <input id="titulo" v-model="form.titulo" class="form-control" type="text" required>
                             <FormError :error="form.errors.titulo" />
                         </div>
                         <div class="mb-3">
                             <label for="valor">Valor</label>
-                            <input class="form-control" type="text" id="valor" v-model="form.valor" required>
+                            <input id="valor" v-model="form.valor" class="form-control" type="text" required>
                             <FormError :error="form.errors.valor" />
                         </div>
                         <div class="mb-3">
                             <label for="ano">Ano</label>
-                            <input class="form-control" type="text" id="ano" v-model="form.ano" required>
+                            <input id="ano" v-model="form.ano" class="form-control" type="text" required>
                             <FormError :error="form.errors.ano" />
                         </div>
                         <div class="mb-3">
                             <label for="modelo">Modelo</label>
-                            <input class="form-control" type="text" id="ano" v-model="form.modelo" disabled>
+                            <input id="ano" v-model="form.modelo" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.modelo" />
                         </div>
                         <div class="mb-3">
                             <label for="categoria">Categoria</label>
-                            <input class="form-control" type="text" id="ano" v-model="form.categoria" disabled>
+                            <input id="ano" v-model="form.categoria" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.categoria" />
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="submit" class="btn btn-primary">
+                            Salvar
+                        </button>
                     </div>
                 </div>
             </form>
 
-            <Descricao :equipamento="equipamento" class="mt-5"></Descricao>
-            <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5"></Caracteristicas>
-            <Imagens :equipamento="equipamento" class="mt-5"></Imagens>
+            <Descricao :equipamento="equipamento" class="mt-5" />
+            <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5" />
+            <Imagens :equipamento="equipamento" class="mt-5" />
         </div>
     </AdminLayout>
 </template>

@@ -1,21 +1,21 @@
-import { initializeApp } from "firebase/app"
-import { getAnalytics } from "firebase/analytics"
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { onMounted } from "vue";
-import axios from "axios";
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from 'firebase/analytics'
+import { getMessaging, getToken, onMessage } from 'firebase/messaging'
+import { onMounted } from 'vue'
+import axios from 'axios'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE",
-    authDomain: "agroarca-equipamentos.firebaseapp.com",
-    projectId: "agroarca-equipamentos",
-    messagingSenderId: "260002359203",
-    appId: "1:260002359203:web:8c19a187bf2fe28079dc16",
-    measurementId: "G-DHSLGFC76R"
+    apiKey: 'AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE',
+    authDomain: 'agroarca-equipamentos.firebaseapp.com',
+    projectId: 'agroarca-equipamentos',
+    messagingSenderId: '260002359203',
+    appId: '1:260002359203:web:8c19a187bf2fe28079dc16',
+    measurementId: 'G-DHSLGFC76R',
 }
 
-const vapidKey = "BPlE43kDpMP4nb3ltOOZZRDDxkJA-CKsdim6elA8c5amJmykNZl-_UmxsRGJGe1P3I0R50Qgwyf7Tlaf9ICUcqU"
+const vapidKey = 'BPlE43kDpMP4nb3ltOOZZRDDxkJA-CKsdim6elA8c5amJmykNZl-_UmxsRGJGe1P3I0R50Qgwyf7Tlaf9ICUcqU'
 
-let instance;
+let instance
 
 export class Push {
     app
@@ -41,7 +41,6 @@ export class Push {
             }
 
             Notification.requestPermission().then((permission) => {
-
                 if (Notification.permission === 'granted') {
                     resolve()
                     return
@@ -56,11 +55,10 @@ export class Push {
         onMounted(() => {
             this.solicitarPermissao().then(this.registrarListeners)
         })
-
     }
 
     registrarListeners(): void {
-        getToken(instance.messaging, { vapidKey: vapidKey }).then((token) => {
+        getToken(instance.messaging, { vapidKey }).then((token) => {
             if (token) {
                 instance.salvarToken(token)
             }
@@ -71,21 +69,22 @@ export class Push {
 
     salvarToken(token): void {
         axios.post(route('site.notificacao.salvarToken'), {
-            token: token
+            token,
         })
     }
 
     onMessage(payload): void {
-        this.notificar(' onMessage ' + JSON.stringify(payload))
+        this.notificar(` onMessage ${JSON.stringify(payload)}`)
     }
 
     notificar(texto): void {
+        // eslint-disable-next-line no-new
         new Notification(texto)
     }
 }
 
 export function getPush(): Push {
-    if (instance) return instance;
+    if (instance) return instance
 
     instance = new Push()
     return instance

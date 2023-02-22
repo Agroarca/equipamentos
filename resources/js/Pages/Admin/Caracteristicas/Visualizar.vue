@@ -1,7 +1,7 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import ListaOpcoes from './Opcoes/ListaOpcoes.vue'
-import * as base from './Base';
+import * as base from './Base'
 
 const props = defineProps(['caracteristica', 'tipos'])
 const tituloMinimo = base.tituloTamanhoMinimo(props.caracteristica.tipo)
@@ -18,31 +18,31 @@ const mostrarOpcoes = base.mostrarOpcoes(props.caracteristica.tipo)
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="nome">Nome</label>
-                        <input class="form-control" type="text" id="nome" :value="caracteristica.nome" disabled>
+                        <input id="nome" class="form-control" type="text" :value="caracteristica.nome" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="tipo">Tipo:</label>
-                        <input class="form-control" type="text" id="tipo" :value="tipos[caracteristica.tipo]" disabled>
+                        <input id="tipo" class="form-control" type="text" :value="tipos[caracteristica.tipo]" disabled>
                     </div>
                     <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" :checked="caracteristica.obrigatorio" id="obrigatorio" disabled>
+                        <input id="obrigatorio" class="form-check-input" type="checkbox" :checked="caracteristica.obrigatorio" disabled>
                         <label class="form-check-label" for="obrigatorio">Obrigatório</label>
                     </div>
-                    <div class="mb-3" v-if="mostrarTamanho">
+                    <div v-if="mostrarTamanho" class="mb-3">
                         <label for="minimo">{{ tituloMinimo }}</label>
-                        <input class="form-control" type="number" id="minimo" :value="caracteristica.minimo" disabled>
+                        <input id="minimo" class="form-control" type="number" :value="caracteristica.minimo" disabled>
                     </div>
-                    <div class="mb-3" v-if="mostrarTamanho">
+                    <div v-if="mostrarTamanho" class="mb-3">
                         <label for="maximo">{{ tituloMaximo }}</label>
-                        <input class="form-control" type="number" id="maximo" :value="caracteristica.maximo" disabled>
+                        <input id="maximo" class="form-control" type="number" :value="caracteristica.maximo" disabled>
                     </div>
-                    <div class="mb-3" v-if="mostrarCasasDecimais">
+                    <div v-if="mostrarCasasDecimais" class="mb-3">
                         <label for="quantidade">Quantidade de Casas Decimais</label>
-                        <input class="form-control" type="number" id="quantidade" :value="caracteristica.quantidade" disabled>
+                        <input id="quantidade" class="form-control" type="number" :value="caracteristica.quantidade" disabled>
                     </div>
                 </div>
             </div>
         </form>
-        <ListaOpcoes v-if="mostrarOpcoes" class="mt-5" :caracteristica="caracteristica"></ListaOpcoes>
+        <ListaOpcoes v-if="mostrarOpcoes" class="mt-5" :caracteristica="caracteristica" />
     </AdminLayout>
 </template>

@@ -1,6 +1,17 @@
 {
     "editor.formatOnSave": true,
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "html.autoClosingTags": true,
+    "eslint.format.enable": true,
     "[vue]": {
-        "editor.formatOnSave": false
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    }
 }

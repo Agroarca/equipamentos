@@ -1,6 +1,6 @@
-import Notificacao from "../Models/Notificacao"
-import Evento from "./Evento"
-import Listener from "./Listener"
+import Notificacao from '../Models/Notificacao'
+import Evento from './Evento'
+import Listener from './Listener'
 
 export default class EventoNotificacaoWS implements Evento {
     cancelled = false
@@ -14,12 +14,10 @@ export default class EventoNotificacaoWS implements Evento {
     }
 
     notify = () => {
-        for (let listener of EventoNotificacaoWS.listeners) {
-            listener.callback(this)
-
-            if (this.cancelled) {
-                break
+        EventoNotificacaoWS.listeners.forEach((listener) => {
+            if (!this.cancelled) {
+                listener.callback(this)
             }
-        }
+        })
     }
 }
