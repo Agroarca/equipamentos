@@ -1,27 +1,27 @@
 <script setup>
-    import { ref, onMounted } from 'vue'
-    import { Toast } from 'bootstrap';
-    import { router } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue'
+import { Toast } from 'bootstrap'
+import { router } from '@inertiajs/vue3'
 
-    const props = defineProps(['id', 'titulo', 'texto'])
-    const toast = ref(null)
-    let bsToast
+const props = defineProps(['id', 'titulo', 'texto'])
+const toast = ref(null)
+let bsToast
 
-    onMounted(() => {
-        bsToast = new Toast(toast.value)
-        bsToast.show({autohide: false})
-    })
+onMounted(() => {
+    bsToast = new Toast(toast.value)
+    bsToast.show({ autohide: false })
+})
 
-    function onClick(){
-        router.visit(route('site.notificacao', [props.id]))
-    }
+function onClick() {
+    router.visit(route('site.notificacao', [props.id]))
+}
 </script>
 
 <template>
-    <div class="toast notificacao" ref="toast" role="alert" @click="onClick">
+    <div ref="toast" class="toast notificacao" role="alert" @click="onClick">
         <div class="toast-header">
             <span class="me-auto">{{ titulo }}</span>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
         </div>
         <div class="toast-body">
             {{ texto }}

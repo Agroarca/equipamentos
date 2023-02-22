@@ -1,21 +1,20 @@
 <script setup>
-import SiteLayout from '@/Layouts/SiteLayout.vue';
+import SiteLayout from '@/Layouts/SiteLayout.vue'
 
 const props = defineProps(['equipamento', 'conversas'])
 
-function getQuantidadeNaoLidas(conversa){
+function getQuantidadeNaoLidas(conversa) {
     return conversa.visualizacao[0]?.mensagens_nao_visualizadas ?? 0
 }
 
-function getNomeNaoLidas(conversa){
-    let naoLidas = getQuantidadeNaoLidas(conversa)
+function getNomeNaoLidas(conversa) {
+    const naoLidas = getQuantidadeNaoLidas(conversa)
 
-
-    if(naoLidas == 1){
-        return naoLidas + ' mensagem não lida'
+    if (naoLidas == 1) {
+        return `${naoLidas} mensagem não lida`
     }
 
-    return naoLidas + ' mensagens não lidas'
+    return `${naoLidas} mensagens não lidas`
 }
 
 </script>
@@ -26,10 +25,10 @@ function getNomeNaoLidas(conversa){
             <h2>Conversas de {{ equipamento.titulo }} </h2>
 
             <div class="lista">
-                <div class="conversa" v-for="conversa in conversas.data">
+                <div v-for="conversa in conversas.data" class="conversa">
                     <div class="infos">
                         <span class="nome">{{ conversa.usuario.nome }}</span>
-                        <span class="mensagens_nao_lidas" v-if="getQuantidadeNaoLidas(conversa) > 0">{{ getNomeNaoLidas(conversa) }}</span>
+                        <span v-if="getQuantidadeNaoLidas(conversa) > 0" class="mensagens_nao_lidas">{{ getNomeNaoLidas(conversa) }}</span>
                     </div>
                     <div class="botao">
                         <a class="btn btn-primary" :href="route('site.conversa', conversa.id)">Acessar</a>

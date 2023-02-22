@@ -1,8 +1,8 @@
 <script setup>
-    import SiteLayout from "@/Layouts/SiteLayout.vue"
-    import Imagens from './Imagens.vue'
+import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Imagens from './Imagens.vue'
 
-    const props = defineProps(['equipamento'])
+const props = defineProps(['equipamento'])
 </script>
 
 <template>
@@ -12,7 +12,9 @@
                 <Imagens :imagens="equipamento.imagens" class="col-md-8" />
                 <div class="info d-flex flex-column col-md-4 ms-md-4 mt-4 mt-md-0">
                     <span class="ano">Ano: {{ equipamento.ano }}</span>
-                    <h1 class="titulo">{{ equipamento.titulo }}</h1>
+                    <h1 class="titulo">
+                        {{ equipamento.titulo }}
+                    </h1>
                     <span class="valor">{{ equipamento.valor }}</span>
                     <a :href="route('site.conversa.equipamento', equipamento.id)" class="botao btn btn-primary">Estou Interessado!</a>
                 </div>
@@ -20,8 +22,8 @@
             <div class="descricao-header">
                 <span>Características</span>
             </div>
-            <div class="caracteristicas" v-if="equipamento.caracteristicas.length > 0">
-                <div class="caracteristica" v-for="caracteristica in equipamento.caracteristicas" :key="caracteristica.id">
+            <div v-if="equipamento.caracteristicas.length > 0" class="caracteristicas">
+                <div v-for="caracteristica in equipamento.caracteristicas" :key="caracteristica.id" class="caracteristica">
                     <span class="nome">{{ caracteristica.caracteristica.nome }}</span>
                     <span class="valor">{{ caracteristica.valor.valor }}</span>
                 </div>
@@ -29,7 +31,7 @@
             <div class="descricao-header">
                 <span>Descrição</span>
             </div>
-            <div class="descricao" v-html="equipamento.descricao"></div>
+            <div class="descricao" v-html="equipamento.descricao" />
         </div>
     </SiteLayout>
 </template>

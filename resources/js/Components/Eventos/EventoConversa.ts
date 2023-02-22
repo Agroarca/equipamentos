@@ -1,5 +1,5 @@
-import Evento from "./Evento"
-import Listener from "./Listener"
+import Evento from './Evento'
+import Listener from './Listener'
 
 export default class EventoConversa implements Evento {
     cancelled = false
@@ -10,18 +10,16 @@ export default class EventoConversa implements Evento {
 
     static listeners: Array<Listener> = []
 
-    static addListener = function (listener: Listener): void {
+    static addListener = function addListener(listener: Listener): void {
         EventoConversa.listeners.push(listener)
         EventoConversa.listeners.sort((a: Listener, b: Listener) => a.priority - b.priority)
     }
 
     notify = () => {
-        for (let listener of EventoConversa.listeners) {
-            listener.callback(this)
-
-            if (this.cancelled) {
-                break
+        EventoConversa.listeners.forEach((listener) => {
+            if (!this.cancelled) {
+                listener.callback(this)
             }
-        }
+        })
     }
 }

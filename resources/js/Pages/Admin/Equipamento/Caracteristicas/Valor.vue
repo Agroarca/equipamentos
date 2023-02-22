@@ -1,39 +1,42 @@
 <script setup>
-import { computed } from "@vue/runtime-core"
+import { computed } from '@vue/runtime-core'
 
 const props = defineProps(['modelValue', 'caracteristica'])
 const emit = defineEmits('update:modelValue')
-const name = 'caracteristica-' + props.caracteristica.id
+const name = `caracteristica-${props.caracteristica.id}`
 
 const value = computed({
-    get(){
+    get() {
         return props.modelValue
-    },set(value){
-        emit('update:modelValue', value)
-    }
+    },
+    set(val) {
+        emit('update:modelValue', val)
+    },
 })
 </script>
 
 <template>
     <div>
         <div v-if="caracteristica.tipo == 0" class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" v-model="value" :id="name" :name="name">
+            <input :id="name" v-model="value" class="form-check-input" type="checkbox" :name="name">
         </div>
         <div v-if="caracteristica.tipo == 1">
-            <input class="form-control" type="number" v-model="value" :id="name" :name="name">
+            <input :id="name" v-model="value" class="form-control" type="number" :name="name">
         </div>
         <div v-if="caracteristica.tipo == 2">
-            <input class="form-control" type="number" v-model="value" :id="name" :name="name">
+            <input :id="name" v-model="value" class="form-control" type="number" :name="name">
         </div>
         <div v-if="caracteristica.tipo == 3">
-            <input class="form-control" type="text" v-model="value" :id="name" :name="name">
+            <input :id="name" v-model="value" class="form-control" type="text" :name="name">
         </div>
         <div v-if="caracteristica.tipo == 4">
-            <textarea class="form-control" v-model="value" :id="name" :name="name" rows="3"></textarea>
+            <textarea :id="name" v-model="value" class="form-control" :name="name" rows="3" />
         </div>
         <div v-if="caracteristica.tipo == 5">
-            <select v-model="value" :id="name" :name="name" class="form-select">
-                <option v-for="opcao in caracteristica.opcoes" :key="opcao.id" :value="opcao.id">{{ opcao.nome }}</option>
+            <select :id="name" v-model="value" :name="name" class="form-select">
+                <option v-for="opcao in caracteristica.opcoes" :key="opcao.id" :value="opcao.id">
+                    {{ opcao.nome }}
+                </option>
             </select>
         </div>
     </div>

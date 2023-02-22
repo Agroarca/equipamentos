@@ -1,10 +1,10 @@
 <script setup>
-import SiteLayout from "@/Layouts/SiteLayout.vue";
-import { useForm, Head } from "@inertiajs/vue3";
-import FormError from "../../Components/FormError.vue";
+import { useForm, Head } from '@inertiajs/vue3'
+import SiteLayout from '@/Layouts/SiteLayout.vue'
+import FormError from '../../Components/FormError.vue'
 
 const form = useForm({
-    password: ''
+    password: '',
 })
 
 function submit() {
@@ -26,13 +26,15 @@ function submit() {
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input class="form-control" type="password" id="password" v-model="form.password" required
-                    autocomplete="current-password">
+                <input id="password" v-model="form.password" class="form-control" type="password" required
+                       autocomplete="current-password">
                 <FormError :error="form.errors.password" />
             </div>
 
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Confirmar</button>
+                <button class="btn btn-primary" type="submit">
+                    Confirmar
+                </button>
             </div>
         </form>
     </SiteLayout>

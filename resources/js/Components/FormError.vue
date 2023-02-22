@@ -1,11 +1,11 @@
 <script setup>
-    defineProps(['error'])
+defineProps(['error'])
 </script>
 
 <template>
     <div v-if="error">
         <p class="erro">
-            {{error}}
+            {{ error }}
         </p>
     </div>
 </template>

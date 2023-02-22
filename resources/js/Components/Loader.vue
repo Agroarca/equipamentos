@@ -1,23 +1,23 @@
 <script setup>
-import {ref} from 'vue'
-let active = ref(false);
+import { ref } from 'vue'
+
+const active = ref(false)
 
 function show() {
-    active.value = true;
+    active.value = true
 }
 
 function hide() {
-    active.value = false;
+    active.value = false
 }
 
-window.loader = {show, hide, active};
+window.loader = { show, hide, active }
 </script>
 
 <template>
     <Transition name="loader" duration="300">
-        <div class="loader" v-if="active">
-            <div class="elemento">
-            </div>
+        <div v-if="active" class="loader">
+            <div class="elemento" />
         </div>
     </Transition>
 </template>

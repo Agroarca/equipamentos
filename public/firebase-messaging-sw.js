@@ -1,9 +1,10 @@
-importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
+/* eslint-disable no-undef */
+importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js')
+importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js')
 
 const firebaseConfig = {
-    messagingSenderId: "260002359203",
+    messagingSenderId: '260002359203',
 }
 
 firebase.initializeApp(firebaseConfig)
-let messaging = firebase.messaging()
+const messaging = firebase.messaging()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SiteLayout from "@/Layouts/SiteLayout.vue"
+import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
 
 const props = defineProps(['equipamentos', 'title'])
@@ -10,13 +10,15 @@ const props = defineProps(['equipamentos', 'title'])
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">
-                    <h2 class="section-title" v-if="title">{{ title }}</h2>
+                    <h2 v-if="title" class="section-title">
+                        {{ title }}
+                    </h2>
                 </slot>
             </div>
 
             <slot>
                 <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
-                    <Equipamento :equipamento="equipamento"></Equipamento>
+                    <Equipamento :equipamento="equipamento" />
                 </template>
             </slot>
         </section>

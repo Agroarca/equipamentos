@@ -15,7 +15,7 @@
 </template>
 
 <style scoped>
-.footer{
+.footer {
     height: 300px;
     background-color: #009934;
     color: #fff

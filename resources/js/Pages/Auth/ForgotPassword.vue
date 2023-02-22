@@ -1,10 +1,10 @@
 <script setup>
-import SiteLayout from "@/Layouts/SiteLayout.vue";
-import { useForm, Head, Link } from "@inertiajs/vue3";
-import FormError from "../../Components/FormError.vue";
+import { useForm, Head, Link } from '@inertiajs/vue3'
+import SiteLayout from '@/Layouts/SiteLayout.vue'
+import FormError from '../../Components/FormError.vue'
 
 const form = useForm({
-    email: ''
+    email: '',
 })
 
 function submit() {
@@ -17,8 +17,6 @@ function submit() {
         <Head title="Recuperar Senha" />
 
         <div class="container-600 auth">
-
-
             <div class="alert alert-info">
                 Esqueceu sua senha?
                 Não se preocupe, informe seu e-mail e enviaremos um e-mail de recuperação
@@ -27,15 +25,19 @@ function submit() {
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="email">E-mail</label>
-                    <input class="form-control" type="email" id="email" v-model="form.email" required>
+                    <input id="email" v-model="form.email" class="form-control" type="email" required>
                     <FormError :error="form.errors.email" />
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Enviar</button>
+                    <button class="btn btn-primary" type="submit">
+                        Enviar
+                    </button>
                 </div>
                 <div class="mb-2">
-                    <Link class="btn btn-link" :href="route('login')">Entrar na Conta</Link>
+                    <Link class="btn btn-link" :href="route('login')">
+                        Entrar na Conta
+                    </Link>
                 </div>
             </form>
         </div>
