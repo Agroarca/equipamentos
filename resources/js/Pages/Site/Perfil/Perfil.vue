@@ -17,11 +17,11 @@ const form = useForm({
     password_confirmation: '',
 })
 
-const elCpf_cnpj = ref(null)
+const elCpfCnpj = ref(null)
 const elCelular = ref(null)
 
 onMounted(() => {
-    Mask.cpf_cnpj(elCpf_cnpj.value)
+    Mask.cpf_cnpj(elCpfCnpj.value)
     Mask.telefone(elCelular.value)
 })
 
@@ -57,7 +57,7 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
-                    <input id="cpf_cnpj" ref="elCpf_cnpj" v-model="form.cpf_cnpj" class="form-control" type="text" autocomplete="cpf_cnpj">
+                    <input id="cpf_cnpj" ref="elCpfCnpj" v-model="form.cpf_cnpj" class="form-control" type="text" autocomplete="cpf_cnpj">
                     <FormError :error="form.errors.cpf_cnpj" />
                     <FormError :error="form.errors.cpf" />
                     <FormError :error="form.errors.cnpj" />
