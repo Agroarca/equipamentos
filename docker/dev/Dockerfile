@@ -20,5 +20,5 @@ RUN pecl install xdebug \
 
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
-EXPOSE 8000, 9003
-
+EXPOSE 8000
+EXPOSE 9003

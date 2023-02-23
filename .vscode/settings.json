@@ -5,6 +5,7 @@
     "files.trimTrailingWhitespace": true,
     "html.autoClosingTags": true,
     "eslint.format.enable": true,
+    "laravel-pint.enable": true,
     "[vue]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
@@ -14,6 +15,4 @@
     "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
-    "laravel-pint.enable": true,
-    "laravel-pint.preset": "auto"
 }
