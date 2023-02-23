@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "absszero.vscode-laravel-goto",
+        "onecentlin.laravel-extension-pack",
+        "bmewburn.vscode-intelephense-client",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "open-southeners.laravel-pint",
+        "Vue.volar",
+        "WakaTime.vscode-wakatime",
+        "xdebug.php-debug",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+    ]
+}
