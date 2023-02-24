@@ -7,8 +7,7 @@
         "EditorConfig.EditorConfig",
         "open-southeners.laravel-pint",
         "Vue.volar",
-        "WakaTime.vscode-wakatime",
         "xdebug.php-debug",
-        "ms-vscode-remote.vscode-remote-extensionpack",
+        "ms-vscode-remote.vscode-remote-extensionpack"
     ]
 }
