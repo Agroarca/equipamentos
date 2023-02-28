@@ -2,11 +2,11 @@
 @import "cores.scss";
 @import "equipamento.scss";
 
-body.admin {
+body:has(.admin-layout) {
     background-color: #f4f6f9;
 }
 
-.admin {
+.admin-layout {
     table.table {
         margin: 0;
 

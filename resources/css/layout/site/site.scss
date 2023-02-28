@@ -6,11 +6,12 @@
 @import 'equipamento.scss';
 @import 'conversa.scss';
 
-body.site {
+
+body:has(.site-layout) {
     background-color: #fff;
 }
 
-.site {
+.site-layout {
     .container-600 {
         max-width: 600px;
         margin: auto;

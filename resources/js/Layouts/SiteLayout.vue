@@ -7,10 +7,12 @@ import Footer from './Site/Footer.vue'
 </script>
 
 <template>
-    <BaseLayout>
-        <Loader />
-        <Header />
-        <slot />
-        <Footer />
-    </BaseLayout>
+    <div class="site-layout">
+        <BaseLayout>
+            <Loader />
+            <Header />
+            <slot />
+            <Footer />
+        </BaseLayout>
+    </div>
 </template>
