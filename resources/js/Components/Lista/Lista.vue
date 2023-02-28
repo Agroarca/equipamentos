@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
+import Paginacao from '@/Components/Paginacao.vue'
 
 const props = defineProps(['equipamentos', 'title'])
 </script>
@@ -17,9 +18,12 @@ const props = defineProps(['equipamentos', 'title'])
             </div>
 
             <slot>
-                <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
-                    <Equipamento :equipamento="equipamento" />
-                </template>
+                <div class="produtos">
+                    <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
+                        <Equipamento :equipamento="equipamento" />
+                    </template>
+                </div>
+                <Paginacao :links="equipamentos.links" class="mt-5" />
             </slot>
         </section>
     </SiteLayout>

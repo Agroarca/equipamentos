@@ -5,7 +5,8 @@
 @import 'form.scss';
 @import 'equipamento.scss';
 @import 'conversa.scss';
-
+@import 'lista.scss';
+@import 'paginacao.scss';
 
 body:has(.site-layout) {
     background-color: #fff;
