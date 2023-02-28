@@ -1,0 +1,14 @@
+.site-layout nav ul.pagination {
+    flex-wrap: wrap;
+
+    .page-link {
+        color: $paginacao-color;
+        white-space: nowrap;
+    }
+
+    .page-link.active {
+        color: $paginacao-active-color;
+        background-color: $paginacao-active-background-color;
+        border-color: $paginacao-active-border-color;
+    }
+}

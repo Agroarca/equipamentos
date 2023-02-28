@@ -1,28 +1,36 @@
+/*** COLOR ***/
+$verde-primary: #009934;
+$verde-secondary: #006633;
+$cinza-primary: #4c4c4c;
+$texto-branco: #F9F9F9;
+
+
+
 /*** HEADER */
-$header-contact-background: #009934;
+$header-contact-background: $verde-primary;
 $header-contact-text: #fff;
 
-$search-button-color: #009934;
+$search-button-color: $verde-primary;
 $search-input-background: #f1f1f1;
-$search-input-color: #4c4c4c;
+$search-input-color: $cinza-primary;
 
-$profile-button-background: #009934;
+$profile-button-background: $verde-primary;
 $profile-button-color: #fff;
-$profile-button-hover: #006633;
+$profile-button-hover: $verde-secondary;
 
-$menu-item-color: #4c4c4c;
+$menu-item-color: $cinza-primary;
 
 $auth-input-borda: #d4d4d4;
-$auth-input-borda-focus: #4c4c4c;
+$auth-input-borda-focus: $cinza-primary;
 
-$form-btn: #009934;
-$form-btn-hover: #006633;
+$form-btn: $verde-primary;
+$form-btn-hover: $verde-secondary;
 
 /*** Equipamento ***/
-$equip-valor: #009934;
+$equip-valor: $verde-primary;
 $equip-info-borda: #D4D4D4;
 $equip-descricao-header-bg: #F9F9F9;
-$equip-descricao-header: #009934;
+$equip-descricao-header: $verde-primary;
 
 $equip-carac-borda: #D4D4D4;
 $equip-carac-nome-bg: #F9F9F9;
@@ -30,9 +38,23 @@ $equip-carac-nome-bg: #F9F9F9;
 /*** Conversa ***/
 $conversa-fundo-cor: #E9E9E9;
 $conversa-mensagem-fundo-cor: #FFF;
-$conversa-mensagem-novas-fundo: #009934;
+$conversa-mensagem-novas-fundo: $verde-primary;
 $conversa-mensagem-novas-cor: #fff;
-$conversa-textcount-color: #4c4c4c;
+$conversa-textcount-color: $cinza-primary;
 
-$conversas-conversa-borda: #009934;
+$conversas-conversa-borda: $verde-primary;
 $conversas_ultima_mensagem_color: #D4D4D4;
+
+/*** Lista ***/
+$listagem-btn-hover-background: $verde-primary;
+$listagem-btn-hover-color: #F9F9F9;
+$listagem-valor-color: $verde-primary;
+$listagem-btn-background-color: #F9F9F9;
+$listagem-btn-color: $verde-primary;
+$listagem-btn-border-color: $verde-primary;
+
+/*** Paginação ***/
+$paginacao-color: $verde-primary;
+$paginacao-active-color: $texto-branco;
+$paginacao-active-background-color: $verde-primary;
+$paginacao-active-border-color: $verde-primary;

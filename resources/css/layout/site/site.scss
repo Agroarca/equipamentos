@@ -5,12 +5,14 @@
 @import 'form.scss';
 @import 'equipamento.scss';
 @import 'conversa.scss';
+@import 'lista.scss';
+@import 'paginacao.scss';
 
-body.site {
+body:has(.site-layout) {
     background-color: #fff;
 }
 
-.site {
+.site-layout {
     .container-600 {
         max-width: 600px;
         margin: auto;
