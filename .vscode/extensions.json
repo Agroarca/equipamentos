@@ -5,9 +5,18 @@
         "bmewburn.vscode-intelephense-client",
         "dbaeumer.vscode-eslint",
         "EditorConfig.EditorConfig",
-        "open-southeners.laravel-pint",
         "Vue.volar",
         "xdebug.php-debug",
-        "ms-vscode-remote.vscode-remote-extensionpack"
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "codingyu.laravel-goto-view",
+        "ctf0.laravel-goto-controller",
+        "glitchbl.laravel-create-view",
+        "mhutchie.git-graph",
+        "mohamedbenhida.laravel-intellisense",
+        "naoray.laravel-goto-components",
+        "neilbrayfield.php-docblocker",
+        "onecentlin.laravel-blade",
+        "ryannaddy.laravel-artisan",
     ]
 }
