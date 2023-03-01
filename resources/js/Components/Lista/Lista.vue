@@ -3,7 +3,10 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
 import Paginacao from '@/Components/Paginacao.vue'
 
-const props = defineProps(['equipamentos', 'title'])
+const props = defineProps({
+    equipamentos: Object,
+    title: String,
+})
 </script>
 
 <template>

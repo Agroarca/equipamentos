@@ -49,17 +49,25 @@ class ConversaController extends Controller
 
     public function conversa($conversaId)
     {
-        $usuario_id = Auth::id();
+        $usuarioId = Auth::id();
         $conversa = EquipamentoConversa::findOrFail($conversaId);
         $conversa->load('equipamento');
 
-        $conversa->visualizacao = $conversa->visualizacao()->where('usuario_id', $usuario_id)->first();
+        $conversa->visualizacao = $conversa->visualizacao()->where('usuario_id', $usuarioId)->first();
 
-        $mensagensAnteriores = $conversa->mensagens()->where('id', '<=', $conversa->visualizacao->ultima_mensagem_id)->latest('id')->take($this->mensagensPorPagina)->get();
-        $mensagensProximas = $conversa->mensagens()->where('id', '>', $conversa->visualizacao->ultima_mensagem_id)->get();
+        $mensagensAnteriores = $conversa->mensagens()
+            ->where('id', '<=', $conversa->visualizacao->ultima_mensagem_id)
+            ->latest('id')
+            ->take($this->mensagensPorPagina)
+            ->get();
+
+        $mensagensProximas = $conversa->mensagens()
+            ->where('id', '>', $conversa->visualizacao->ultima_mensagem_id)
+            ->get();
+
         $conversa->mensagens = collect([$mensagensAnteriores, $mensagensProximas])->collapse()->sortBy('id')->values();
 
-        return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuario_id'));
+        return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuarioId'));
     }
 
     public function enviar(EnviarMensagemRequest $request, $id)

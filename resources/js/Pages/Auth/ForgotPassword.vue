@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm, Head, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
@@ -34,6 +34,7 @@ function submit() {
                         Enviar
                     </button>
                 </div>
+
                 <div class="mb-2">
                     <Link class="btn btn-link" :href="route('login')">
                         Entrar na Conta

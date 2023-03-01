@@ -1,13 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import inputmask from 'inputmask'
 import { ref } from 'vue'
-import { Mask } from '@/Components/InputMask'
+import Mask from '@/Components/InputMask'
 import FormError from '@/Components/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 
-const props = defineProps(['user'])
+const props = defineProps({
+    user: Object,
+})
+
 const form = useForm({
     nome: props.user.nome,
     email: props.user.email,
@@ -43,6 +46,7 @@ function submit() {
                 <div class="mb-3">
                     <h2>Meu Perfil</h2>
                 </div>
+
                 <div class="mb-3">
                     <label for="nome">Nome</label>
                     <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome">

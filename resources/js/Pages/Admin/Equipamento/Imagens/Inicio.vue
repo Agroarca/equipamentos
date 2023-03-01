@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Modal from '@/Components/Admin/Modal.vue'
 
 const modal = ref(null)
-const props = defineProps(['equipamento'])
+const props = defineProps({
+    equipamento: Object,
+})
 
 const form = useForm({
     descricao: '',

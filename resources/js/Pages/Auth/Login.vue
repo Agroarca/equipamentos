@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm, Head, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
@@ -25,6 +25,7 @@ function submit() {
                 <div class="mb-3">
                     <h2>Entrar</h2>
                 </div>
+
                 <div class="mb-3">
                     <label for="email">E-mail</label>
                     <input id="email" v-model="form.email" class="form-control" type="email" required autocomplete="email">
@@ -48,11 +49,13 @@ function submit() {
                         Entrar
                     </button>
                 </div>
+
                 <div class="mb-2">
                     <Link class="btn btn-link" :href="route('password.request')">
                         Esqueceu sua Senha?
                     </Link>
                 </div>
+
                 <div class="mb-2">
                     <Link class="btn btn-link" :href="route('register')">
                         Não possui conta?

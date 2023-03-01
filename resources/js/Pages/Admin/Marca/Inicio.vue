@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import Pagination from '@/Components/Admin/Pagination.vue'
+import Paginacao from '@/Components/Paginacao.vue'
 
-const props = defineProps(['marcas'])
+const props = defineProps({
+    marcas: Object,
+})
 </script>
 
 <template>
@@ -38,6 +40,6 @@ const props = defineProps(['marcas'])
                 </table>
             </div>
         </div>
-        <Pagination class="mt-4" :links="marcas.links" />
+        <Paginacao class="mt-4" :links="marcas.links" />
     </AdminLayout>
 </template>

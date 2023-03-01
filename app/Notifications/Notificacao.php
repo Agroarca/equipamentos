@@ -32,9 +32,15 @@ class Notificacao extends Notification implements ShouldQueue
     public function withDelay($notifiable)
     {
         return [
-            NotificacaoWebSocketChannel::class => now()->addSeconds(config('equipamentos.notificacoes.notificacao_websocket_delay_secs')),
-            NotificacaoPushChannel::class => now()->addSeconds(config('equipamentos.notificacoes.notificacao_push_delay_secs')),
-            NotificacaoEmailChannel::class => now()->addSeconds(config('equipamentos.notificacoes.notificacao_email_delay_secs')),
+            NotificacaoWebSocketChannel::class => now()->addSeconds(
+                config('equipamentos.notificacoes.notificacao_websocket_delay_secs')
+            ),
+            NotificacaoPushChannel::class => now()->addSeconds(
+                config('equipamentos.notificacoes.notificacao_push_delay_secs')
+            ),
+            NotificacaoEmailChannel::class => now()->addSeconds(
+                config('equipamentos.notificacoes.notificacao_email_delay_secs')
+            ),
         ];
     }
 }

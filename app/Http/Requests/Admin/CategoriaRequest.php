@@ -16,13 +16,13 @@ class CategoriaRequest extends FormRequest
             'circular',
             function ($attribute, $value, $parameters) {
                 $id = $this->route('id');
-                if (! $value) {
+                if (!$value) {
                     return true;
                 }
 
                 $categoria = Categoria::find($value);
 
-                if (! $categoria) {
+                if (!$categoria) {
                     return true;
                 }
 
@@ -70,7 +70,8 @@ class CategoriaRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $attributes['categoria_mae_id'] = $this->input('categoria_mae_id') ?? null;
-        $this->merge($attributes);
+        $this->merge([
+            'categoria_mae_id' => $this->input('categoria_mae_id') ?? null
+        ]);
     }
 }

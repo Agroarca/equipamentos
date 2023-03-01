@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 
-const props = defineProps(['marcas'])
+const props = defineProps({
+    marcas: Object,
+})
 
 const form = useForm({
     nome: '',
@@ -15,6 +17,7 @@ function submit() {
 }
 
 </script>
+
 <template>
     <AdminLayout titulo="Novo Modelo">
         <form @submit.prevent="submit">

@@ -117,7 +117,7 @@ class EquipamentoController extends Controller
     public function deletarImagem($equipamentoId, $imagemId)
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
-        Storage::delete(config('equipamentos.path_imagens').$imagem->nome_arquivo);
+        Storage::delete(config('equipamentos.path_imagens') . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('admin.equipamentos.editar', $equipamentoId);

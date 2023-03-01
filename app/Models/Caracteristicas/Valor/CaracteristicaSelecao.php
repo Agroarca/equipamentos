@@ -20,7 +20,7 @@ class CaracteristicaSelecao extends CaracteristicaValor
         return $this->caracteristicas_opcoes_id = $v;
     }
 
-    protected function caracteristicas_opcoes()
+    protected function caracteristicasOpcoes()
     {
         return $this->hasOne(CaracteristicaOpcao::class);
     }

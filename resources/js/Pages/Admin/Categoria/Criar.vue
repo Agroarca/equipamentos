@@ -1,13 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 
-const props = defineProps(['categoria_mae'])
+const props = defineProps({
+    categoriaMae: Object,
+})
 
 const form = useForm({
     nome: '',
-    categoria_mae_id: props.categoria_mae?.id,
+    categoria_mae_id: props.categoriaMae?.id,
 })
 
 function submit() {
@@ -28,7 +30,7 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="nome">Categoria Mãe: </label>
-                        <input id="nome" class="form-control" type="text" :value="categoria_mae?.nome" disabled>
+                        <input id="nome" class="form-control" type="text" :value="categoriaMae?.nome" disabled>
                     </div>
                 </div>
                 <div class="card-footer">

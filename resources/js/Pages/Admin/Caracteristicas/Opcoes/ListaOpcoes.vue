@@ -1,8 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 
-const props = defineProps(['caracteristica'])
+const props = defineProps({
+    caracteristica: Object,
+})
 </script>
+
 <template>
     <div class="card card-default">
         <div class="card-header">

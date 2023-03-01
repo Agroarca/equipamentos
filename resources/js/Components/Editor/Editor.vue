@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
@@ -17,8 +17,10 @@ import { TextAlign } from '@tiptap/extension-text-align'
 
 import Menu from './Menu.vue'
 
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
+const props = defineProps({
+    modelValue: String,
+})
+const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 
 const editor = useEditor({
     content: props.modelValue,

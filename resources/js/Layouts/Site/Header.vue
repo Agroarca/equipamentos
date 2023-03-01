@@ -1,7 +1,6 @@
-<!-- eslint-disable  -->
-<script setup>
-import { Link } from '@inertiajs/vue3';
-import Menu from './Menu.vue';
+<script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
+import Menu from './Menu.vue'
 
 </script>
 

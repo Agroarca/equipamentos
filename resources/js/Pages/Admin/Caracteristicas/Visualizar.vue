@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import ListaOpcoes from './Opcoes/ListaOpcoes.vue'
 import * as base from './Base'
 
-const props = defineProps(['caracteristica', 'tipos'])
+const props = defineProps({
+    caracteristica: Object,
+    tipos: Array,
+})
 const tituloMinimo = base.tituloTamanhoMinimo(props.caracteristica.tipo)
 const tituloMaximo = base.tituloTamanhoMaximo(props.caracteristica.tipo)
 const mostrarTamanho = base.mostrarTamanhos(props.caracteristica.tipo)
@@ -13,7 +16,7 @@ const mostrarOpcoes = base.mostrarOpcoes(props.caracteristica.tipo)
 
 <template>
     <AdminLayout titulo="Visualizar Característica">
-        <form @submit.prevent="submit">
+        <form>
             <div class="card card-default">
                 <div class="card-body">
                     <div class="mb-3">

@@ -12,12 +12,11 @@ class NotificacaoWebSocketChannel implements ShouldBroadcast
     use Queueable;
 
     public $usuarioId;
-
     public $notification;
 
     public function broadcastOn()
     {
-        return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_notificacao').$this->usuarioId);
+        return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_notificacao') . $this->usuarioId);
     }
 
     public function broadcastAs()

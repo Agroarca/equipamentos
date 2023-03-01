@@ -1,5 +1,7 @@
-<script setup>
-const props = defineProps(['editor'])
+<script setup lang="ts">
+const props = defineProps({
+    editor: Object,
+})
 
 const itens = [
     {

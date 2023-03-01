@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'

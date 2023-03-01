@@ -12,16 +12,19 @@ class CategoriaController extends Controller
     public function inicio($categoriaId = null)
     {
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
-        $categorias = Categoria::where('categoria_mae_id', $categoriaId)->orderBy('nome')->with(['categoriaMae'])->paginate(15);
+        $categorias = Categoria::where('categoria_mae_id', $categoriaId)
+            ->orderBy('nome')
+            ->with(['categoriaMae'])
+            ->paginate(15);
 
         return Inertia::render('Admin/Categoria/Inicio', compact('categorias', 'categoria'));
     }
 
     public function criar($categoriaId = null)
     {
-        $categoria_mae = Categoria::find($categoriaId);
+        $categoriaMae = Categoria::find($categoriaId);
 
-        return Inertia::render('Admin/Categoria/Criar', compact('categoria_mae'));
+        return Inertia::render('Admin/Categoria/Criar', compact('categoriaMae'));
     }
 
     public function salvar(CategoriaRequest $request)

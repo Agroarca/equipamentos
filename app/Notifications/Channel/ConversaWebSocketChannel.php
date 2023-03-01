@@ -12,12 +12,11 @@ class ConversaWebSocketChannel implements ShouldBroadcast
     use Queueable;
 
     public $usuarioId;
-
     public $notification;
 
     public function broadcastOn()
     {
-        return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_conversa').$this->usuarioId);
+        return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_conversa') . $this->usuarioId);
     }
 
     public function broadcastAs()
