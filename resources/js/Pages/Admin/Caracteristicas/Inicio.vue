@@ -1,8 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 
-const props = defineProps(['categoria', 'tipos'])
+const props = defineProps({
+    categoria: Object,
+    tipos: Array,
+})
 
 </script>
 

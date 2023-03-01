@@ -1,6 +1,8 @@
 <script setup lang="ts">
 
-const props = defineProps(['equipamento'])
+const props = defineProps({
+    equipamento: Object,
+})
 
 const imagem = {
     url: props.equipamento.imagens[0]?.url ?? '/img/Placeholder.png',

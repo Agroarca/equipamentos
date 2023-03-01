@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 import AlterarCategoriaMae from './partials/AlterarCategoriaMae.vue'
 
-const props = defineProps(['categoria'])
+const props = defineProps({
+    categoria: Object,
+})
 const alterarCategoria = ref(null)
 
 const form = useForm({

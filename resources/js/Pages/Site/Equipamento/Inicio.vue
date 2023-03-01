@@ -1,8 +1,11 @@
-<script setup>
+<script setup lang="ts">
+/* eslint-disable vue/no-v-html */
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Imagens from './Imagens.vue'
 
-const props = defineProps(['equipamento'])
+const props = defineProps({
+    equipamento: Object,
+})
 </script>
 
 <template>

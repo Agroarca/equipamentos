@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 import { ref, reactive } from 'vue'
 import Modal from '@/Components/Admin/Modal.vue'
 
 const modal = ref(null)
-const props = defineProps(['categoria'])
-const emit = defineEmits(['moverCategoria'])
+const props = defineProps({
+    categoria: Object,
+})
+const emit = defineEmits<{(e: 'moverCategoria', value: Number): void}>()
 const state = reactive({
     categoriaAtual: {},
     categorias: [],

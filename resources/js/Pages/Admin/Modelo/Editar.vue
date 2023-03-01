@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 
-const props = defineProps(['modelo', 'marcas'])
+const props = defineProps({
+    modelo: Object,
+    marcas: Object,
+})
 
 const form = useForm({
     nome: props.modelo.nome,

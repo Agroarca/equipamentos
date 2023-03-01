@@ -1,8 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import Editor from '@/Components/Editor/Editor.vue'
 
-const props = defineProps(['equipamento'])
+const props = defineProps({
+    equipamento: Object,
+})
 const form = useForm({
     descricao: props.equipamento.descricao,
 })

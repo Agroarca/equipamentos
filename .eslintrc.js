@@ -11,6 +11,9 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2020,
     },
+    globals: {
+        route: 'readonly',
+    },
     rules: {
         indent: ['error', 4],
         'vue/html-indent': ['error', 4],
@@ -66,20 +69,21 @@ module.exports = {
             registeredComponentsOnly: true,
         }],
         'vue/custom-event-name-casing': ['warn', 'camelCase'],
-        'vue/define-emits-declaration': ['warn', 'type-based'],
-        'vue/define-props-declaration': ['warn', 'type-based'],
         'vue/html-button-has-type': ['error', {
             button: true,
             submit: true,
             reset: true,
         }],
         'vue/next-tick-style': ['error', 'promise'],
-        'vue/no-required-prop-with-default': ['error'],
         'vue/no-static-inline-styles': ['error', {
             allowBinding: false,
         }],
         'vue/no-undef-components': ['error'],
-        'vue/no-undef-properties': ['error'],
+        'vue/no-undef-properties': ['error', {
+            ignores: [
+                'route',
+            ],
+        }],
         'vue/no-unused-properties': ['error', {
             groups: ['props', 'data', 'computed', 'methods', 'setup'],
             deepData: true,
@@ -93,6 +97,8 @@ module.exports = {
         'vue/padding-line-between-tags': ['warn', [
             { blankLine: 'consistent', prev: '*', next: '*' },
         ]],
+
+        'vue/require-default-prop': 'off',
 
     },
     // These are added if you chose also to install Jest plugin for Vue CLI

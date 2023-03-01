@@ -1,7 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 
-const props = defineProps(['equipamento', 'conversas'])
+const props = defineProps({
+    equipamento: Object,
+    conversas: Object,
+})
 
 function getQuantidadeNaoLidas(conversa) {
     return conversa.visualizacao[0]?.mensagens_nao_visualizadas ?? 0
@@ -10,7 +13,7 @@ function getQuantidadeNaoLidas(conversa) {
 function getNomeNaoLidas(conversa) {
     const naoLidas = getQuantidadeNaoLidas(conversa)
 
-    if (naoLidas == 1) {
+    if (naoLidas === 1) {
         return `${naoLidas} mensagem não lida`
     }
 
@@ -25,7 +28,7 @@ function getNomeNaoLidas(conversa) {
             <h2>Conversas de {{ equipamento.titulo }} </h2>
 
             <div class="lista">
-                <div v-for="conversa in conversas.data" class="conversa">
+                <div v-for="conversa in conversas.data" :key="conversa.id" class="conversa">
                     <div class="infos">
                         <span class="nome">{{ conversa.usuario.nome }}</span>
                         <span v-if="getQuantidadeNaoLidas(conversa) > 0" class="mensagens_nao_lidas">{{ getNomeNaoLidas(conversa) }}</span>

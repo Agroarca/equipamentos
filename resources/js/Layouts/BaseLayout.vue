@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 import Notificacoes from '@/Components/Notificacoes/Notificacoes.vue'
 </script>

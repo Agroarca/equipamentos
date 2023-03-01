@@ -1,6 +1,7 @@
-<!-- eslint-disable no-restricted-globals -->
-<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
+/* eslint-disable vue/no-setup-props-destructure */
+/* eslint-disable vuejs-accessibility/form-control-has-label */
+/* eslint-disable no-restricted-globals */
 import { ref, onMounted, reactive, nextTick } from 'vue'
 import axios from 'axios'
 import { debounce, last } from 'lodash'
@@ -8,7 +9,10 @@ import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
 
-const props = defineProps(['conversa', 'usuario_id'])
+const props = defineProps({
+    conversa: Object,
+    usuarioId: Number,
+})
 const scroll = debounce(onScroll, 100, { maxWait: 250 })
 const enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
 
@@ -187,7 +191,7 @@ function atualizarMensagensAnteriores() {
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <span v-for="mensagem in chat.mensagens" :id="'msg-' + mensagem.id" :key="mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuario_id }">
+                        <span v-for="mensagem in chat.mensagens" :id="'msg-' + mensagem.id" :key="mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuarioId }">
                             {{ mensagem.mensagem }}
                         </span>
                     </div>

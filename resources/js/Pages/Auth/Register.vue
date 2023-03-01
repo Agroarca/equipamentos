@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { useForm, Head, Link } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
-import { Mask } from '@/Components/InputMask'
+import Mask from '@/Components/InputMask'
 
 const form = useForm({
     nome: '',
@@ -39,6 +39,7 @@ function submit() {
                 <div class="mb-3">
                     <h2>Registrar</h2>
                 </div>
+
                 <div class="mb-3">
                     <label for="nome">Nome</label>
                     <input id="nome" v-model="form.nome" class="form-control" type="text" required autocomplete="nome">
@@ -82,6 +83,7 @@ function submit() {
                         Registrar
                     </button>
                 </div>
+
                 <div class="mb-2">
                     <Link class="btn btn-link" :href="route('login')">
                         Já possui conta?

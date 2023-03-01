@@ -1,15 +1,19 @@
-<script setup>
+<script setup lang="ts">
+/* eslint-disable vuejs-accessibility/form-control-has-label */
 import { computed } from '@vue/runtime-core'
 
-const props = defineProps(['modelValue', 'caracteristica'])
-const emit = defineEmits('update:modelValue')
+const props = defineProps({
+    modelValue: String,
+    caracteristica: Object,
+})
+const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const name = `caracteristica-${props.caracteristica.id}`
 
 const value = computed({
     get() {
         return props.modelValue
     },
-    set(val) {
+    set(val: string) {
         emit('update:modelValue', val)
     },
 })

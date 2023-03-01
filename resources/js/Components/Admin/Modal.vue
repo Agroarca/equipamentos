@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { Modal } from 'bootstrap'
 import { onMounted, ref } from 'vue'
 
 const elModal = ref(null)
-const props = defineProps([
-    'id',
-    'title',
-    'modalSizeClass',
-])
+const props = defineProps({
+    id: Number,
+    title: String,
+    modalSizeClass: String,
+})
 let modal
 
 onMounted(() => {

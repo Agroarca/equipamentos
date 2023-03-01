@@ -1,7 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 
-const props = defineProps(['links'])
+const props = defineProps({
+    links: Array,
+})
 </script>
 
 <template>

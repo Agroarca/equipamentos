@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import Pagination from '@/Components/Admin/Pagination.vue'
+import Paginacao from '@/Components/Paginacao.vue'
 
-const props = defineProps(['categorias', 'categoria'])
+const props = defineProps({
+    categorias: Object,
+    categoria: Object,
+})
 
 const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` : 'Categorias'
 </script>
@@ -24,27 +27,27 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
                         <th />
                     </thead>
                     <tbody>
-                        <tr v-for="categoria in categorias.data" :key="categoria.id">
+                        <tr v-for="categ in categorias.data" :key="categ.id">
                             <td>{{ categoria.nome }}</td>
                             <td>
-                                <span v-if="categoria.categoria_mae">
-                                    {{ categoria.categoria_mae.nome }}
+                                <span v-if="categ.categoria_mae">
+                                    {{ categ.categoria_mae.nome }}
                                 </span>
                             </td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.caracteristicas', categoria.id)">
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.caracteristicas', categ.id)">
                                     <i class="fas fa-sliders pe-1" />
                                     Características
                                 </Link>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias', categoria.id)">
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias', categ.id)">
                                     <i class="fas fa-bars-staggered pe-1" />
                                     Subcategorias
                                 </Link>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.editar', categoria.id)">
+                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.editar', categ.id)">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="route('admin.categorias.excluir', categoria.id)">
+                                <Link class="btn btn-danger" :href="route('admin.categorias.excluir', categ.id)">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>
@@ -59,6 +62,7 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
                 </table>
             </div>
         </div>
-        <Pagination class="mt-4" :links="categorias.links" />
+
+        <Paginacao class="mt-4" :links="categorias.links" />
     </AdminLayout>
 </template>

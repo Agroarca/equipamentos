@@ -1,11 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { computed } from '@vue/runtime-core'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 import * as base from './Base'
 
-const props = defineProps(['categoria', 'tipos'])
+const props = defineProps({
+    categoria: Object,
+    tipos: Array,
+})
 const form = useForm({
     nome: '',
     tipo: null,

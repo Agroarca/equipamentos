@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import '../../css/site.css'
 import BaseLayout from './BaseLayout.vue'
 import Loader from '@/Components/Loader.vue'

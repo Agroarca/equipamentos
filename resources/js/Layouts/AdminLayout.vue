@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import '../../css/admin.css'
 
 import { Head, Link, usePage } from '@inertiajs/vue3'
@@ -8,7 +8,12 @@ import Loader from '@/Components/Loader.vue'
 import BaseLayout from './BaseLayout.vue'
 
 const menus = computed(() => usePage().props.admin.menus)
-const props = defineProps(['titulo', 'link', 'buttonText'])
+const props = defineProps({
+    titulo: String,
+    link: String,
+    buttonText: String,
+
+})
 
 const elOffcanvas = ref(null)
 let offcanvas
@@ -64,7 +69,6 @@ onUnmounted(() => {
                     </div>
                 </nav>
             </aside>
-
             <div class="admin-wrapper">
                 <main class="container pt-3">
                     <slot name="header">

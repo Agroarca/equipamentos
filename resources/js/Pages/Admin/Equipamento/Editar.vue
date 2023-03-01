@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
@@ -6,7 +6,10 @@ import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
 import Descricao from './Descricao/Descricao.vue'
 
-const props = defineProps(['equipamento', 'caracteristicas'])
+const props = defineProps({
+    equipamento: Object,
+    caracteristicas: Object,
+})
 
 const form = useForm({
     id: props.equipamento.id,
@@ -63,7 +66,9 @@ function submit() {
             </form>
 
             <Descricao :equipamento="equipamento" class="mt-5" />
+
             <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5" />
+
             <Imagens :equipamento="equipamento" class="mt-5" />
         </div>
     </AdminLayout>

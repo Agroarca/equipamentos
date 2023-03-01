@@ -22,9 +22,9 @@ class CategoriaController extends Controller
 
     public function criar($categoriaId = null)
     {
-        $categoria_mae = Categoria::find($categoriaId);
+        $categoriaMae = Categoria::find($categoriaId);
 
-        return Inertia::render('Admin/Categoria/Criar', compact('categoria_mae'));
+        return Inertia::render('Admin/Categoria/Criar', compact('categoriaMae'));
     }
 
     public function salvar(CategoriaRequest $request)

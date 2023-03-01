@@ -1,5 +1,7 @@
-<script setup>
-defineProps(['error'])
+<script setup lang="ts">
+defineProps({
+    error: String,
+})
 </script>
 
 <template>

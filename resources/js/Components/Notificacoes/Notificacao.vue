@@ -1,9 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Toast } from 'bootstrap'
 import { router } from '@inertiajs/vue3'
 
-const props = defineProps(['id', 'titulo', 'texto'])
+const props = defineProps({
+    id: Number,
+    titulo: Number,
+    texto: Number,
+})
 const toast = ref(null)
 let bsToast
 
