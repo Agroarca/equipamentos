@@ -12,7 +12,7 @@ class NotificacaoPushChannel
     use Queueable;
 
     public function __construct(
-        public FirebaseCloudMessaging $messagingService
+        private FirebaseCloudMessaging $messagingService
     ) {
     }
 
