@@ -43,6 +43,7 @@ function submit() {
                 <div class="mb-3">
                     <h2>Meu Perfil</h2>
                 </div>
+
                 <div class="mb-3">
                     <label for="nome">Nome</label>
                     <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome">

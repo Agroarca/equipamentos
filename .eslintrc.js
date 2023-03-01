@@ -49,6 +49,51 @@ module.exports = {
         'object-curly-newline': ['error', {
             ImportDeclaration: 'never',
         }],
+        'vue/block-lang': ['warn', {
+            script: {
+                lang: 'ts',
+            },
+        }],
+        'vue/block-tag-newline': ['error', {
+            singleline: 'consistent',
+            multiline: 'consistent',
+            maxEmptyLines: 1,
+        }],
+        'vue/component-api-style': ['error',
+            ['script-setup', 'composition'],
+        ],
+        'vue/component-name-in-template-casing': ['warn', 'PascalCase', {
+            registeredComponentsOnly: true,
+        }],
+        'vue/custom-event-name-casing': ['warn', 'camelCase'],
+        'vue/define-emits-declaration': ['warn', 'type-based'],
+        'vue/define-props-declaration': ['warn', 'type-based'],
+        'vue/html-button-has-type': ['error', {
+            button: true,
+            submit: true,
+            reset: true,
+        }],
+        'vue/next-tick-style': ['error', 'promise'],
+        'vue/no-required-prop-with-default': ['error'],
+        'vue/no-static-inline-styles': ['error', {
+            allowBinding: false,
+        }],
+        'vue/no-undef-components': ['error'],
+        'vue/no-undef-properties': ['error'],
+        'vue/no-unused-properties': ['error', {
+            groups: ['props', 'data', 'computed', 'methods', 'setup'],
+            deepData: true,
+        }],
+        'vue/no-unused-refs': ['error'],
+        'vue/no-useless-mustaches': ['error'],
+        'vue/no-useless-v-bind': ['error'],
+        'vue/no-v-text': ['error'],
+        'vue/padding-line-between-blocks': ['error', 'always'],
+        'vue/prefer-separate-static-class': ['error'],
+        'vue/padding-line-between-tags': ['warn', [
+            { blankLine: 'consistent', prev: '*', next: '*' },
+        ]],
+
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
     // With my own modifications here as an example
