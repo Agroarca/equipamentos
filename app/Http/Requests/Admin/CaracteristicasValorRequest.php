@@ -7,22 +7,34 @@ use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Equipamento;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class CaracteristicasValorRequest extends FormRequest
 {
     private $caracteristicas = null;
+    private $equipCaracService;
 
     public function authorize()
     {
         return true;
     }
 
+    private function getEquipCaracService()
+    {
+        if (is_null($this->equipCaracService)) {
+            $this->equipCaracService = App::make(EquipamentoCaracteristicaService::class);
+        }
+
+        return $this->equipCaracService;
+    }
+
     public function getCaracteristicas()
     {
         if (is_null($this->caracteristicas)) {
             $equipamento = Equipamento::findOrFail($this->route('id'));
-            $this->caracteristicas = EquipamentoCaracteristicaService::getCaracteristicasCategoria($equipamento->categoria_id);
+            $this->caracteristicas = $this->getEquipCaracService
+                ->getCaracteristicasCategoria($equipamento->categoria_id);
         }
 
         return $this->caracteristicas;
@@ -77,15 +89,15 @@ class CaracteristicasValorRequest extends FormRequest
             $rules[] = 'nullable';
         }
 
-        if (! is_null($caracteristica->minimo)) {
+        if (!is_null($caracteristica->minimo)) {
             $rules[] = "min:{$caracteristica->minimo}";
         }
 
-        if (! is_null($caracteristica->maximo)) {
+        if (!is_null($caracteristica->maximo)) {
             $rules[] = "max:{$caracteristica->maximo}";
         }
 
-        if (! is_null($caracteristica->quantidade)) {
+        if (!is_null($caracteristica->quantidade)) {
             $rules[] = "regex:/^\d*\.?\d{0,$caracteristica->quantidade}$/";
         }
 

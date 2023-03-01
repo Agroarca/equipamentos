@@ -21,7 +21,9 @@ class FirebaseCloudMessaging
 
     public function montarCliente(): Client
     {
-        $middleware = ApplicationDefaultCredentials::getMiddleware(['https://www.googleapis.com/auth/firebase.messaging']);
+        $middleware = ApplicationDefaultCredentials::getMiddleware([
+            'https://www.googleapis.com/auth/firebase.messaging'
+        ]);
         $stack = HandlerStack::create();
         $stack->push($middleware);
 
@@ -47,7 +49,10 @@ class FirebaseCloudMessaging
         try {
             Log::error('data:');
             Log::error($data);
-            $this->montarCliente()->post('https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send', $data);
+            $this->montarCliente()->post(
+                'https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send',
+                $data
+            );
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
             Log::error('response:');
             Log::error($ex->getResponse()?->getBody()?->getContents());

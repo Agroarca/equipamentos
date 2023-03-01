@@ -23,7 +23,9 @@ class EquipamentoImagem extends Model
     public function url(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => asset(config('equipamentos.public_path_imagens').$attributes['nome_arquivo'])
+            get: fn ($value, $attributes) => asset(
+                config('equipamentos.public_path_imagens') . $attributes['nome_arquivo']
+            )
         );
     }
 

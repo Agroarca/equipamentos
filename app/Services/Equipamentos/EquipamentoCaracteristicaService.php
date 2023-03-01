@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class EquipamentoCaracteristicaService
 {
     /** Retorna todas as caracteristicas ordenadas pela ordem */
-    public static function getCaracteristicasCategoria($categoriaId)
+    public function getCaracteristicasCategoria($categoriaId)
     {
         return Caracteristica::whereRaw(
             'categoria_id in (
@@ -27,21 +27,21 @@ class EquipamentoCaracteristicaService
             ->get();
     }
 
-    public static function salvarCaracteristicas(Equipamento $equipamento, array $caracteristicas)
+    public function salvarCaracteristicas(Equipamento $equipamento, array $caracteristicas)
     {
         DB::transaction(function () use ($equipamento, $caracteristicas) {
             $caracCategoria = self::getCaracteristicasCategoria($equipamento->categoria_id);
             $equipamento->load(['caracteristicas']);
 
             foreach ($caracCategoria as $carac) {
-                if (array_key_exists('carac-'.$carac->id, $caracteristicas)) {
-                    self::salvarCaracteristica($equipamento, $carac->id, $caracteristicas['carac-'.$carac->id]);
+                if (array_key_exists('carac-' . $carac->id, $caracteristicas)) {
+                    self::salvarCaracteristica($equipamento, $carac->id, $caracteristicas['carac-' . $carac->id]);
                 }
             }
         });
     }
 
-    public static function salvarCaracteristica(Equipamento $equipamento, $id, $valor)
+    public function salvarCaracteristica(Equipamento $equipamento, $id, $valor)
     {
         $caracEquip = $equipamento->caracteristicas()->firstWhere('caracteristica_id', $id);
 

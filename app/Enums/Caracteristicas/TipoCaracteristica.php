@@ -7,6 +7,7 @@ use App\Enums\EnumToArray;
 enum TipoCaracteristica: int
 {
     use EnumToArray;
+
     case Booleano = 0;
     case Inteiro = 1;
     case Decimal = 2;
