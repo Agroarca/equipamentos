@@ -15,4 +15,5 @@
     "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
+    "php.version": "8.2.0",
 }
