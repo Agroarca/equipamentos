@@ -11,8 +11,8 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.7",
-        "mews/purifier": "^3.3",
         "pusher/pusher-php-server": "^7.2",
+        "stevebauman/purify": "^5.1",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
