@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
-import inputmask from 'inputmask'
 import { ref } from 'vue'
 import Mask from '@/Components/Util/InputMask'
 import FormError from '@/Components/FormError.vue'

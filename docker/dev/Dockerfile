@@ -7,13 +7,7 @@ RUN apt update && apt upgrade -y \
     && apt clean \
     && docker-php-ext-configure zip \
     && docker-php-ext-install bcmath gd pdo_mysql zip \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt install -y nodejs \
-    && apt clean
-
-RUN npm update -g npm
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=compose
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
