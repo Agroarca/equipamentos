@@ -2,7 +2,7 @@
 
 namespace App\Services\Util;
 
-use Mews\Purifier\Facades\Purifier;
+use Stevebauman\Purify\Facades\Purify;
 
 class HTMLPurifier
 {
@@ -13,6 +13,6 @@ class HTMLPurifier
             'CSS.AllowedProperties' => 'text-align',
         ];
 
-        return Purifier::clean($html, $config);
+        return Purify::config($config)->clean($html);
     }
 }

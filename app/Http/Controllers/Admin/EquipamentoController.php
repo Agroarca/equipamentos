@@ -19,6 +19,11 @@ use Inertia\Inertia;
 
 class EquipamentoController extends Controller
 {
+    public function __construct(
+        private EquipamentoCaracteristicaService $equipCaracService
+    ) {
+    }
+
     public function inicio()
     {
         $equipamentos = Equipamento::with('categoria')->paginate(10);
@@ -52,7 +57,7 @@ class EquipamentoController extends Controller
             'imagens',
         ])->findOrFail($id);
 
-        $caracteristicas = EquipamentoCaracteristicaService::getCaracteristicasCategoria($equipamento->categoria_id);
+        $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
 
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
@@ -93,7 +98,7 @@ class EquipamentoController extends Controller
     public function salvarCaracteristicas(CaracteristicasValorRequest $request, $id)
     {
         $equipamento = Equipamento::findOrFail($id);
-        EquipamentoCaracteristicaService::salvarCaracteristicas($equipamento, $request->all());
+        $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
 
         return redirect()->route('admin.equipamentos.editar', $id);
     }

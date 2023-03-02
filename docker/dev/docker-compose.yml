@@ -16,6 +16,10 @@ services:
             - socketi
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_web.sh'
+        deploy:
+            resources:
+                limits:
+                    memory: 600M
     equipamentos_queue:
         container_name: equipamentos_queue
         build: .
@@ -27,6 +31,10 @@ services:
             - socketi
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_queue.sh'
+        deploy:
+            resources:
+                limits:
+                    memory: 400M
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
@@ -41,6 +49,10 @@ services:
             - socketi
         env_file:
             - projeto/docker/dev/socketi.env
+        deploy:
+            resources:
+                limits:
+                    memory: 200M
 
 networks:
     database:
