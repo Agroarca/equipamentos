@@ -7,3 +7,12 @@
 .fade-transition-leave-to {
     opacity: 0;
 }
+.fade-500-enter-active,
+.fade-500-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-500-enter-from,
+.fade-500-leave-to {
+    opacity: 0;
+}

@@ -8,6 +8,7 @@ import { debounce, last } from 'lodash'
 import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
+import Mensagem from './Partial/Mensagem.vue'
 
 const props = defineProps({
     conversa: Object,
@@ -191,9 +192,7 @@ function atualizarMensagensAnteriores() {
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <span v-for="mensagem in chat.mensagens" :id="'msg-' + mensagem.id" :key="mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuarioId }">
-                            {{ mensagem.mensagem }}
-                        </span>
+                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">
