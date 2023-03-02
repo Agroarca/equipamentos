@@ -15,7 +15,7 @@ services:
             - database
             - socketi
         restart: always
-        entrypoint: './docker_entrypoint_web.sh'
+        entrypoint: './docker/dev/docker_entrypoint_web.sh'
     equipamentos_queue:
         container_name: equipamentos_queue
         build: .
@@ -26,7 +26,7 @@ services:
             - database
             - socketi
         restart: always
-        entrypoint: './docker_entrypoint_queue.sh'
+        entrypoint: './docker/dev/docker_entrypoint_queue.sh'
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
