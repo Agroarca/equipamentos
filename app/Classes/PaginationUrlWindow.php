@@ -20,6 +20,11 @@ class PaginationUrlWindow
 
     public function get()
     {
+        if (!$this->hasPages()) {
+            return ['first' => null, 'slider' => null, 'last' => null];
+        }
+
+
         $currentPage = $this->paginator->currentPage();
         $lastPage = $this->paginator->lastPage();
         $onEachSide = $this->paginator->onEachSide;
@@ -33,5 +38,10 @@ class PaginationUrlWindow
             'slider' => null,
             'last' => null,
         ];
+    }
+
+    private function hasPages(): bool
+    {
+        return $this->paginator->lastPage() > 1;
     }
 }
