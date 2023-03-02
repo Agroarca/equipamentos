@@ -7,7 +7,7 @@ RUN apt update && apt upgrade -y \
     && apt clean \
     && docker-php-ext-configure zip \
     && docker-php-ext-install bcmath gd pdo_mysql zip \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=compose
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
