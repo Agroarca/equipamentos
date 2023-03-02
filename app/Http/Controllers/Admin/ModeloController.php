@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ModeloRequest;
 use App\Models\Equipamentos\Marca;
 use App\Models\Equipamentos\Modelo;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ModeloController extends Controller
@@ -51,5 +52,12 @@ class ModeloController extends Controller
         Modelo::findOrFail($id)->delete();
 
         return redirect()->route('admin.modelos');
+    }
+
+    public function pesquisar(Request $request)
+    {
+        $modelos = Modelo::select('id', 'nome as texto')->where('nome', 'like', '%' . $request->input('termo') . '%')->take(10)->get();
+
+        return response()->json($modelos);
     }
 }
