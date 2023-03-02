@@ -24,6 +24,7 @@ class Usuario extends Authenticatable
         'cpf',
         'cnpj',
         'celular',
+        'tipo_usuario',
     ];
 
     protected $hidden = ['password', 'remember_token'];
