@@ -38,7 +38,7 @@ onMounted(() => {
 })
 
 function enviarMensagem() {
-    return axios.post(`/conversa/${props.conversa.id}/enviar`), {
+    return axios.post(`/conversa/${props.conversa.id}/enviar`, {
         mensagem: chat.mensagem,
     }).then(() => {
         chat.mensagem = ''
@@ -131,7 +131,8 @@ function enviarUltimaVisualizacao() {
 
 function atualizarMensagens() {
     function requestAtualizarMensagens() {
-        return axios.get(`conversa/${props.conversa.id}/mensagens/posteriores/${(last(chat.mensagens)?.id ?? 0)}`)
+        let mensagemId = last(chat.mensagens)?.id ?? 0
+        return axios.get(`/conversa/${props.conversa.id}/mensagens/posteriores/${mensagemId}`)
             .then((response) => {
                 if (response.data.mensagens.length > 0) {
                     chat.mensagens = chat.mensagens.concat(response.data.mensagens)
