@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EquipamentoController;
 use App\Http\Controllers\Admin\MarcaController;
 use App\Http\Controllers\Admin\ModeloController;
+use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,7 +20,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::middleware(['auth'])->prefix('admin')->name('admin')->group(function () {
+Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Inicio');
     })->name('.dashboard');
