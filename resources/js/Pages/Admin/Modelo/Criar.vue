@@ -13,7 +13,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.modelos.salvar'))
+    form.post('/admin/modelos/salvar')
 }
 
 </script>

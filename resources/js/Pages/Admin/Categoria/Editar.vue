@@ -16,7 +16,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.categorias.atualizar', props.categoria.id))
+    form.post(`/admin/categorias/${props.categoria.id}/atualizar`)
 }
 
 function openModal() {

@@ -8,7 +8,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.marcas.salvar'))
+    form.post('/admin/marcas/salvar')
 }
 
 </script>

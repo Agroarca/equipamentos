@@ -13,7 +13,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.categorias.salvar'))
+    form.post('/admin/categorias/salvar')
 }
 
 </script>

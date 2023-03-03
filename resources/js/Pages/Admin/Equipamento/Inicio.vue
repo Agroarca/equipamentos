@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout titulo="Equipamentos" :link="route('admin.equipamentos.criar')" button-text="Novo Equipamento">
+    <AdminLayout titulo="Equipamentos" link="/admin/equipamentos/criar/" button-text="Novo Equipamento">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
@@ -23,11 +23,11 @@ const props = defineProps({
                             <td>{{ equipamento.titulo }}</td>
                             <td>{{ equipamento.categoria.nome }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="route('admin.equipamentos.editar', equipamento.id)">
+                                <Link class="btn btn-primary me-2" :href="`/admin/equipamentos/${equipamento.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="route('admin.equipamentos.excluir', equipamento.id)">
+                                <Link class="btn btn-danger" :href="`/admin/equipamentos/${equipamento.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

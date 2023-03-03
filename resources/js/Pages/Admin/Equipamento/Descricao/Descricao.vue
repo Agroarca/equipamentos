@@ -10,7 +10,7 @@ const form = useForm({
 })
 
 function atualizarDescricao() {
-    form.post(route('admin.equipamentos.atualizarDescricao', props.equipamento.id))
+    form.post(`/admin/equipamentos/${props.equipamento.id}/atualizardescricao`)
 }
 </script>
 

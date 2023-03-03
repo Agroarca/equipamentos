@@ -32,7 +32,7 @@ function submit() {
         ...data,
         celular: data.celular.replaceAll(/\D/g, ''),
         cpf_cnpj: data.cpf_cnpj.replaceAll(/\D/g, ''),
-    })).post(route('site.perfil.atualizar'), {
+    })).post('/perfil/atualizar', {
         onFinish: () => form.reset('password', 'password_confirmation'),
     })
 }

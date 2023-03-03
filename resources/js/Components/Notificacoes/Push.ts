@@ -68,7 +68,7 @@ export class Push {
     }
 
     salvarToken(token): void {
-        axios.post(route('site.notificacao.salvarToken'), {
+        axios.post('/notificacao/token', {
             token,
         })
     }
