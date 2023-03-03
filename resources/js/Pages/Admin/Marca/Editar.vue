@@ -12,7 +12,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(`admin/marcas/${props.marca.id}/atualizar`)
+    form.post(`/admin/marcas/${props.marca.id}/atualizar`)
 }
 </script>
 
