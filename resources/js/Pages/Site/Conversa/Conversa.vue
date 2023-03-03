@@ -126,7 +126,7 @@ function verificaMensagemVisualizada(id) {
 }
 
 function enviarUltimaVisualizacao() {
-    axios.post(`conversa/${props.conversa.id}/mensagens/visualizacao/${ultimaVisualizadaId}`)
+    axios.post(`/conversa/${props.conversa.id}/mensagens/visualizacao/${ultimaVisualizadaId}`)
 }
 
 function atualizarMensagens() {
