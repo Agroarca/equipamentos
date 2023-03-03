@@ -170,7 +170,7 @@ function atualizarMensagensAnteriores() {
     }
 
     const mensagemId = chat.mensagens[0].id
-    axios.get(`conversa/${props.conversa.id}/mensagens/anteriores/${mensagemId}`)
+    axios.get(`/conversa/${props.conversa.id}/mensagens/anteriores/${mensagemId}`)
         .then((response) => {
             chat.mensagens = response.data.mensagens.concat(chat.mensagens)
             chat.mensagensAnteriores = response.data.mais
