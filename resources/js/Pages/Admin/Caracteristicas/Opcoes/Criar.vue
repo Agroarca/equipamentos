@@ -12,7 +12,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.categorias.caracteristicas.opcoes.salvar', [props.caracteristica.categoria_id, props.caracteristica.id]))
+    form.post(`/admin/categorias/${props.caracteristica.categoria_id}/caracteristicas/${props.caracteristica.id}/opcoes/salvar`)
 }
 
 </script>

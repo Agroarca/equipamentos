@@ -21,7 +21,7 @@ const props = defineProps({
                         {{ equipamento.titulo }}
                     </h1>
                     <Formatacao class="valor" tipo="preco" :valor="equipamento.valor" />
-                    <Link :href="`conversa/equipamento/${equipamento.id}`" class="botao btn btn-primary">
+                    <Link :href="`/conversa/equipamento/${equipamento.id}`" class="botao btn btn-primary">
                         Estou Interessado!
                     </Link>
                 </div>

@@ -14,7 +14,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.modelos.atualizar', props.modelo.id))
+    form.post(`/admin/modelos/${props.modelo.id}/atualizar`)
 }
 </script>
 

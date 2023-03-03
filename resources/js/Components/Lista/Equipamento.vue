@@ -13,7 +13,7 @@ const imagem = {
 </script>
 
 <template>
-    <Link class="produto" :href="`equipamento/${equipamento.id}`">
+    <Link class="produto" :href="`/equipamento/${equipamento.id}`">
         <img class="imagem" :src="imagem.url" :alt="imagem.descricao">
         <span class="titulo flex-fill">{{ equipamento.titulo }}</span>
         <Formatacao class="valor" tipo="preco" :valor="equipamento.valor" />

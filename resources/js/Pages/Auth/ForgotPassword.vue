@@ -8,7 +8,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('password.email'))
+    form.post('/forgot-password')
 }
 </script>
 
@@ -36,7 +36,7 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" href="login">
+                    <Link class="btn btn-link" href="/login">
                         Entrar na Conta
                     </Link>
                 </div>

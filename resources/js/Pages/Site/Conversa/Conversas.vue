@@ -35,7 +35,7 @@ function getNomeNaoLidas(conversa) {
                         <span v-if="getQuantidadeNaoLidas(conversa) > 0" class="mensagens_nao_lidas">{{ getNomeNaoLidas(conversa) }}</span>
                     </div>
                     <div class="botao">
-                        <Link class="btn btn-primary" :href="`conversa/${conversa.id}`">
+                        <Link class="btn btn-primary" :href="`/conversa/${conversa.id}`">
                             Acessar
                         </Link>
                     </div>

@@ -38,7 +38,7 @@ onMounted(() => {
 })
 
 function enviarMensagem() {
-    return axios.post(route('site.conversa.enviar', props.conversa.id), {
+    return axios.post(`/conversa/${props.conversa.id}/enviar`), {
         mensagem: chat.mensagem,
     }).then(() => {
         chat.mensagem = ''
@@ -126,12 +126,12 @@ function verificaMensagemVisualizada(id) {
 }
 
 function enviarUltimaVisualizacao() {
-    axios.post(route('site.conversa.mensagens.visualizacao', [props.conversa.id, ultimaVisualizadaId]))
+    axios.post(`conversa/${props.conversa.id}/mensagens/visualizacao/${ultimaVisualizadaId}`)
 }
 
 function atualizarMensagens() {
     function requestAtualizarMensagens() {
-        return axios.get(route('site.conversa.mensagens', [props.conversa.id, (last(chat.mensagens)?.id ?? 0)]))
+        return axios.get(`conversa/${props.conversa.id}/mensagens/posteriores/${(last(chat.mensagens)?.id ?? 0)}`)
             .then((response) => {
                 if (response.data.mensagens.length > 0) {
                     chat.mensagens = chat.mensagens.concat(response.data.mensagens)
@@ -169,7 +169,7 @@ function atualizarMensagensAnteriores() {
     }
 
     const mensagemId = chat.mensagens[0].id
-    axios.get(route('site.conversa.mensagens.anteriores', [props.conversa.id, mensagemId]))
+    axios.get(`conversa/${props.conversa.id}/mensagens/anteriores/${mensagemId}`)
         .then((response) => {
             chat.mensagens = response.data.mensagens.concat(chat.mensagens)
             chat.mensagensAnteriores = response.data.mais
