@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
 import Formatacao from '../Util/Formatacao.vue'
 
 const props = defineProps({
@@ -12,10 +13,10 @@ const imagem = {
 </script>
 
 <template>
-    <a class="produto" :href="route('site.equipamento', equipamento.id)">
+    <Link class="produto" :href="`equipamento/${equipamento.id}`">
         <img class="imagem" :src="imagem.url" :alt="imagem.descricao">
         <span class="titulo flex-fill">{{ equipamento.titulo }}</span>
         <Formatacao class="valor" tipo="preco" :valor="equipamento.valor" />
         <span class="btn">Quero saber mais!</span>
-    </a>
+    </Link>
 </template>

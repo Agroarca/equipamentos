@@ -40,7 +40,7 @@ function upload() {
                 <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
                     <img class="card-img-top" :src="imagem.url" :alt="imagem.descricao">
                     <p>{{ imagem.descricao }}</p>
-                    <Link :href="route('admin.equipamentos.imagens.delete', [equipamento.id, imagem.id])" class="btn btn-danger">
+                    <Link :href="`admin/equipamentos/${equipamento.id}/imagens/${imagem.id}/deletar`" class="btn btn-danger">
                         Excluir
                     </Link>
                 </div>

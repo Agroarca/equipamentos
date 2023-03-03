@@ -23,11 +23,11 @@ const props = defineProps({
                             <td>{{ modelo.nome }}</td>
                             <td>{{ modelo.marca.nome }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="route('admin.modelos.editar', modelo.id)">
+                                <Link class="btn btn-primary me-2" :href="`admin/modelos/${modelo.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="route('admin.modelos.excluir', modelo.id)">
+                                <Link class="btn btn-danger" :href="`admin/marcas/${modelo.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

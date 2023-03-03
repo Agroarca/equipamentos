@@ -21,11 +21,11 @@ const props = defineProps({
                         <tr v-for="marca in marcas.data" :key="marca.id">
                             <td>{{ marca.nome }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="route('admin.marcas.editar', marca.id)">
+                                <Link class="btn btn-primary me-2" :href="`admin/marcas/criar/${marca?.id}`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="route('admin.marcas.excluir', marca.id)">
+                                <Link class="btn btn-danger" :href="`admin/marcas/${marca.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>
