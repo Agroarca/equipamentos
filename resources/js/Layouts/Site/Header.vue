@@ -32,7 +32,7 @@ const isAdmin = usePage().props?.auth?.user?.tipo_usuario === 1
                         <i class="fa fa-search" />
                     </button>
                 </div>
-                <Link class="header-item profile-container order-4" href="perfil">
+                <Link class="header-item profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />
                     <span class="d-none d-xl-block">Minha Conta</span>
                 </Link>
