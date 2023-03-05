@@ -12,4 +12,4 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: ./pull_request_checklist.md
+          filePath: .github/workflows/pull_request_checklist.md
