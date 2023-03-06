@@ -10,12 +10,12 @@ import { Link } from '@inertiajs/vue3'
                 <ul class="menu navbar-nav">
                     <li class="nav-item" />
                     <li class="nav-item">
-                        <Link class="menu-item" :href="route('site.categoria')">
+                        <Link class="menu-item" href="/categoria">
                             Todas as Categorias
                         </Link>
                     </li>
                     <li class="nav-item">
-                        <Link class="menu-item" :href="route('site.equipamento', [1])">
+                        <Link class="menu-item" :href="`/equipamento/${[1]}`">
                             Produto Exemplo
                         </Link>
                     </li>

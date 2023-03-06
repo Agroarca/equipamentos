@@ -10,7 +10,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('login'), {
+    form.post('/login', {
         onFinish: () => form.reset('password'),
     })
 }
@@ -51,13 +51,13 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" :href="route('password.request')">
+                    <Link class="btn btn-link" href="/forgot-password">
                         Esqueceu sua Senha?
                     </Link>
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" :href="route('register')">
+                    <Link class="btn btn-link" href="/register">
                         Não possui conta?
                     </Link>
                 </div>

@@ -12,8 +12,8 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
 </script>
 
 <template>
-    <AdminLayout :titulo="titulo" :link="route('admin.categorias.criar', categoria?.id)" button-text="Nova Categoria">
-        <Link v-if="categoria" class="btn btn-primary mb-3" :href="route('admin.categorias', categoria.categoria_mae_id)">
+    <AdminLayout :titulo="titulo" :link="`/admin/categorias/criar/${categoria?.id}`" button-text="Nova Categoria">
+        <Link v-if="categoria" class="btn btn-primary mb-3" :href="`/admin/categorias/${categoria?.id}`">
             <i class="fas fa-arrow-left me-1" />
             {{ categoria.categoria_mae?.nome ?? "Categorias" }}
         </Link>
@@ -35,19 +35,19 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
                                 </span>
                             </td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.caracteristicas', categ.id)">
+                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/caracteristicas`">
                                     <i class="fas fa-sliders pe-1" />
                                     Características
                                 </Link>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias', categ.id)">
+                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ?.id}`">
                                     <i class="fas fa-bars-staggered pe-1" />
                                     Subcategorias
                                 </Link>
-                                <Link class="btn btn-primary me-2" :href="route('admin.categorias.editar', categ.id)">
+                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="route('admin.categorias.excluir', categ.id)">
+                                <Link class="btn btn-danger" :href="`/admin/categorias/${categ.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

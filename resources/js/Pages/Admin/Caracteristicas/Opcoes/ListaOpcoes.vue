@@ -14,7 +14,7 @@ const props = defineProps({
                     <h5>Opções</h5>
                 </div>
                 <div class="col-sm-4 pt-3 pt-sm-0">
-                    <Link :href="route('admin.categorias.caracteristicas.opcoes.criar', [caracteristica.categoria_id, caracteristica.id])"
+                    <Link :href="`/admin/categorias/${caracteristica.categoria_id}/caracteristicas/${caracteristica.id}/opcoes/criar`"
                           class="btn btn-primary float-sm-end">
                         <i class="fas fa-plus-circle pr-1" /> Criar Opção
                     </Link>
@@ -31,8 +31,7 @@ const props = defineProps({
                     <tr v-for="opcao in caracteristica.opcoes" :key="opcao.id">
                         <td>{{ opcao.nome }}</td>
                         <td>
-                            <Link class="btn btn-danger" :href="route('admin.categorias.caracteristicas.opcoes.excluir',
-                                                                      [caracteristica.categoria_id, caracteristica.id, opcao.id])">
+                            <Link class="btn btn-danger" :href="`/admin/categorias/${caracteristica.categoria_id}/caracteristicas/${caracteristica.id}/opcoes/${opcao.id}/excluir`">
                                 <i class="fas fa-eraser pe-1" />
                                 Excluir
                             </Link>

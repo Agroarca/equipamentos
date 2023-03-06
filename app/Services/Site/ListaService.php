@@ -34,4 +34,14 @@ class ListaService
             [$id]
         );
     }
+
+    public function queryMarca($id)
+    {
+
+        return self::queryBase()->whereIn('modelo_id', function ($query) use ($id) {
+            $query->select('id')
+                ->from('modelos')
+                ->where('marca_id', $id);
+        });
+    }
 }

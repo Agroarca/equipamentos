@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 
 const props = defineProps({
@@ -34,7 +35,9 @@ function getNomeNaoLidas(conversa) {
                         <span v-if="getQuantidadeNaoLidas(conversa) > 0" class="mensagens_nao_lidas">{{ getNomeNaoLidas(conversa) }}</span>
                     </div>
                     <div class="botao">
-                        <a class="btn btn-primary" :href="route('site.conversa', conversa.id)">Acessar</a>
+                        <Link class="btn btn-primary" :href="`/conversa/${conversa.id}`">
+                            Acessar
+                        </Link>
                     </div>
                 </div>
             </div>

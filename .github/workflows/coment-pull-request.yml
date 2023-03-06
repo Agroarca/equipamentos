@@ -1,0 +1,15 @@
+name: 'PR Checklist'
+
+on:
+  pull_request
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: .github/workflows/pull_request_checklist.md
