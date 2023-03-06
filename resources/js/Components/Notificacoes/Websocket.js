@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { usePage } from '@inertiajs/vue3'
+import { usePage, router } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
 import EventoConversa from '../Eventos/EventoConversa'
 import EventoNotificacaoWS from '../Eventos/EventoNotificacaoWS'
@@ -17,24 +17,45 @@ const options = {
     authEndpoint: '/broadcasting/auth',
 }
 
+let userId = null
+let channel = null
+
 export default function conectarWS() {
     onMounted(() => {
-        window.Echo = new Echo({
-            ...options,
-            client: new Pusher(options.key, options),
-        })
-
-        if (!usePage()?.props?.auth?.user) {
-            return
-        }
-
-        window.Echo.private(`notificacoes.${usePage().props.auth.user.id}`)
-            .listen('.ConversaWebSocket', (e) => conversaWebSocket(e))
-            .listen('.NotificacaoWebSocket', (e) => notificacaoWebSocket(e))
-            .listenToAll((e, d) => console.log([e, d]))
-
-        window.Pusher = Pusher
+        iniciarNotificacoes()
     })
+}
+
+function iniciarNotificacoes() {
+    if (userId === usePage()?.props?.auth?.user?.id) {
+        return
+    }
+
+    if (channel) {
+        window.Echo.leave(channel)
+    }
+
+    userId = usePage()?.props?.auth?.user?.id
+    if (!userId) {
+        return
+    }
+
+    iniciarPusher()
+}
+
+function iniciarPusher() {
+    window.Echo = new Echo({
+        ...options,
+        client: new Pusher(options.key, options),
+    })
+
+    channel = `notificacoes.${userId}`
+    window.Echo.private(channel)
+        .listen('.ConversaWebSocket', (e) => conversaWebSocket(e))
+        .listen('.NotificacaoWebSocket', (e) => notificacaoWebSocket(e))
+        .listenToAll((e, d) => console.log([e, d]))
+
+    window.Pusher = Pusher
 }
 
 function conversaWebSocket(e) {
@@ -47,7 +68,6 @@ function conversaWebSocket(e) {
 }
 
 function notificacaoWebSocket(e) {
-    console.log('notificacaows')
     const evento = new EventoNotificacaoWS()
     evento.notificacao = new Notificacao()
     evento.notificacao.id = e.notification.notificacao.id

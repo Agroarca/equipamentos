@@ -40,6 +40,11 @@ function getNomeNaoLidas(conversa) {
                         </Link>
                     </div>
                 </div>
+                <div v-if="conversas.data.length == 0">
+                    <div class="alert alert-danger">
+                        Nenhuma Conversa encontrada
+                    </div>
+                </div>
             </div>
         </div>
     </SiteLayout>

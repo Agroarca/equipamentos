@@ -5,8 +5,8 @@ import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     id: Number,
-    titulo: Number,
-    texto: Number,
+    titulo: String,
+    texto: String,
 })
 const toast = ref(null)
 let bsToast
