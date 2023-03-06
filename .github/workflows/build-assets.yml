@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -31,5 +33,3 @@ jobs:
         with:
           commit_message: Github Action - Build Assets
           file_pattern: public/build/
-          push_options: --force
-          skip_checkout: true
