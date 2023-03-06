@@ -11,7 +11,6 @@ const isAdmin = usePage().props?.auth?.user?.tipo_usuario === 1
             <div class="container contact-container d-flex flex-nowrap">
                 <span class="phone"><i class="fas fa-phone-alt" />+55 54 9902-0345</span>
                 <span class="mail"><i class="fas fa-envelope" />contato@agroarca.com.br</span>
-
                 <Link v-if="isAdmin" class="painel" href="/login">
                     <i class="fa-solid fa-chart-line" />
                     <span class="d-none d-sm-inline">Acessar o Painel</span>
