@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: '19'
           check-latest: true
+          cache: 'npm'
 
       - name: Install NPM dependencies
         run: npm install
@@ -30,4 +31,5 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Github Action - Build Assets
+          file_pattern: public/build/
           push_options: --force
