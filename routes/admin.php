@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EquipamentoController;
 use App\Http\Controllers\Admin\MarcaController;
 use App\Http\Controllers\Admin\ModeloController;
+use App\Http\Controllers\Listas\ListaController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -61,6 +62,17 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
         Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
         Route::get('{id}/imagens/{imagemId}/deletar', [EquipamentoController::class, 'deletarImagem'])->name('.imagens.delete');
+    });
+
+    Route::prefix('listas')->name('.listas')->group(function () {
+        Route::get('', [ListaController::class, 'inicio'])->name('');
+        Route::get('criar', [ListaController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [ListaController::class, 'salvar'])->name('.salvar');
+        Route::get('{id}/editar', [ListaController::class, 'editar'])->name('.editar');
+        Route::post('{id}/atualizar', [ListaController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/excluir', [ListaController::class, 'excluir'])->name('.excluir');
+        Route::post('{lista_id}/adicionar/{id}', [ListaController::class, 'adicionar'])->name('.adicionar');
+
     });
 
     Route::prefix('marcas')->name('.marcas')->group(function () {
