@@ -1,15 +1,15 @@
 <script setup lang="ts">
 
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import setupNotificacoes from '@/Components/Notificacoes/NotificacaoService'
 import Notificacao from './Notificacao.vue'
 import EventoNotificacaoWS from '@/Components/Eventos/EventoNotificacaoWS'
 import Listener from '@/Components/Eventos/Listener'
-import NotificacaoModel from '@/Components/Models/Notificacao'
 
 setupNotificacoes()
 
 const notificacoes = ref([])
+
 EventoNotificacaoWS.addListener(new Listener(eventoNotificacao))
 function eventoNotificacao(e: EventoNotificacaoWS) {
     notificacoes.value.push(e.notificacao)
