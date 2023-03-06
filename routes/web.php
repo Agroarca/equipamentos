@@ -25,6 +25,7 @@ Route::name('site')->group(function () {
     Route::get('', [SiteController::class, 'inicio'])->name('.inicio');
     Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('.equipamento');
     Route::get('categoria/{id?}', [ListaController::class, 'categoria'])->name('.categoria');
+    Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
 
     Route::get('modelos/pesquisar', [ModeloController::class, 'pesquisar'])->name('.modelos.pesquisar');
 
