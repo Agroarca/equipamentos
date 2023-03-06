@@ -1,10 +1,7 @@
 name: 'Build Assets'
 
 on:
-  pull_request:
-    paths:
-      - 'resources/css/**'
-      - 'resources/js/**'
+  pull_request
 
 jobs:
   build:
