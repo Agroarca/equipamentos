@@ -24,6 +24,10 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
+        # Ignorar todas as alterações locais
+      - run: git stash push --include-untracked
+      - run: git stash drop
+
       - name: Compile assets for production
         run: npm run build
 
