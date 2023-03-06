@@ -5,7 +5,7 @@ const props = defineProps({
     mensagem: Object,
     usuarioId: Number,
 })
-
+const emit = defineEmits<{(e: 'excluirMensagem', value: Object): void}>()
 const menuAberto = ref(false)
 function mostrarMenu() {
     menuAberto.value = !menuAberto.value
@@ -21,8 +21,8 @@ function fecharMenu(e) {
         console.log('fechar')
     }
 }
-function excluirMensagem(id) {
-
+function excluirMensagem() {
+    emit('excluirMensagem', props.mensagem)
 }
 </script>
 
@@ -33,7 +33,7 @@ function excluirMensagem(id) {
         <Transition name="fade-500" :duration="500">
             <div v-if="menuAberto" class="menu-container">
                 <ul class="list-group">
-                    <li class="list-group-item">Excluir mensagem</li>
+                    <li class="list-group-item" @click="excluirMensagem">Excluir mensagem</li>
                 </ul>
             </div>
         </Transition>

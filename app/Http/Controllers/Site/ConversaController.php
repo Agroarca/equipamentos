@@ -125,4 +125,10 @@ class ConversaController extends Controller
             $this->conversaService->processarVisualizacao($conversa);
         }
     }
+    public function excluirMensagem($idConversa, $id)
+    {
+        $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
+        $mensagem->delete();
+        return response()->json('ok');
+    }
 }

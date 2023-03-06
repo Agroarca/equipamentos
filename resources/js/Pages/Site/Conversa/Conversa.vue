@@ -4,7 +4,7 @@
 /* eslint-disable no-restricted-globals */
 import { ref, onMounted, reactive, nextTick } from 'vue'
 import axios from 'axios'
-import { debounce, last } from 'lodash'
+import { debounce, filter, last } from 'lodash'
 import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
@@ -178,6 +178,12 @@ function atualizarMensagensAnteriores() {
                 setMensagensScrolltop(getOffsetMensagem(mensagemId))
             })
         })
+}
+
+function excluirMensagem(mensagem) {
+    axios.get(`/conversa/${mensagem.equipamento_conversa_id}/mensagem/excluir/${mensagem.id}`).then(() => {
+        chat.mensagens = filter(chat.mensagens, (m) => mensagem.id !== m.id)
+    })
 }
 
 </script>
