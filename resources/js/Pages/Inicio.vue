@@ -5,6 +5,6 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 
 <template>
     <SiteLayout>
-        <p>Início</p>
+        <p>Início aaaaaaaaaaaaa</p>
     </SiteLayout>
 </template>

@@ -32,5 +32,4 @@ jobs:
           commit_message: Github Action - Build Assets
           file_pattern: public/build/
           push_options: --force
-          skip_fetch: true
           skip_checkout: true
