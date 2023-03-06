@@ -1,4 +1,4 @@
-name: 'Build Assets'
+name: 'PR Checklist'
 
 on:
   pull_request
