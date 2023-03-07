@@ -85,10 +85,10 @@ class RegisteredUserRequest extends FormRequest
 
             if ($len == 11) {
                 $attributes['cpf'] = $cpf_cnpj;
-                $attributes['tipo_pessoa'] = TipoPessoa::Fisica;
+                $attributes['tipo_pessoa'] = TipoPessoa::Fisica->value;
             } elseif ($len == 14) {
                 $attributes['cnpj'] = $cpf_cnpj;
-                $attributes['tipo_pessoa'] = TipoPessoa::Juridica;
+                $attributes['tipo_pessoa'] = TipoPessoa::Juridica->value;
             }
         }
 
