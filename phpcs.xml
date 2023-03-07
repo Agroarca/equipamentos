@@ -8,7 +8,6 @@
     </rule>
 
     <file>app</file>
-    <file>resources</file>
     <file>tests</file>
 
     <exclude-pattern>*.scss</exclude-pattern>
