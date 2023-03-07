@@ -35,7 +35,7 @@ class MenuService
                 [
                     'title' => 'Lista de Produtos',
                     'icon' => '',
-                    'url' => '/admin/equipamentos',
+                    'url' => '/admin/lista',
                 ],
                 [
                     'title' => 'Marcas',

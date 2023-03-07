@@ -9,23 +9,29 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout titulo="Marcas" link="/admin/marcas/criar/" button-text="Nova Marca">
+    <AdminLayout titulo="Listas" link="/admin/lista/criar/" button-text="Nova Lista">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
+                        <th>Slug</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr v-for="lista in listas.data" :key="lista.id">
                             <td>{{ lista.nome }}</td>
+                            <td>{{ lista.slug }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/marcas/criar/${lista.id}`">
+                                <Link class="btn btn-success me-2" :href="`/admin/lista/${lista.id}/produtos`">
+                                    <i class="fa-solid fa-boxes-stacked pe-1" />
+                                    Produtos
+                                </Link>
+                                <Link class="btn btn-primary me-2" :href="`/admin/lista/${lista.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="`/admin/marcas/${lista.id}/excluir`">
+                                <Link class="btn btn-danger" :href="`/admin/lista/${lista.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

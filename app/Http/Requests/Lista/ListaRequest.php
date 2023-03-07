@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Lista;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ListaRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class ListaRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:100',
-            'slug' => 'string|nullable|min:3|max:100|regex:/[\w-]*/i'
+            'slug' => ['string', 'nullable', 'min:3', 'max:100', 'regex:/^[a-z0-9-]*$/'],
         ];
     }
 
