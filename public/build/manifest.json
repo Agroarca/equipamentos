@@ -602,13 +602,13 @@
       "__plugin-vue_export-helper.840b61b1.js"
     ]
   },
-  "SiteLayout.css": {
-    "file": "assets/SiteLayout.2949132d.css",
-    "src": "SiteLayout.css"
-  },
   "AdminLayout.css": {
     "file": "assets/AdminLayout.d6b9b18f.css",
     "src": "AdminLayout.css"
+  },
+  "SiteLayout.css": {
+    "file": "assets/SiteLayout.2949132d.css",
+    "src": "SiteLayout.css"
   },
   "resources/js/app.css": {
     "file": "assets/app.20da6061.css",
