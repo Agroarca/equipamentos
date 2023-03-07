@@ -16,4 +16,5 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "php.version": "8.2.0",
+    "volar.inlayHints.eventArgumentInInlineHandlers": false,
 }
