@@ -15,11 +15,13 @@ use Inertia\Inertia;
 class ConversaController extends Controller
 {
     private $mensagensPorPagina;
+    private $mensagensTempoExcluirSecs;
 
     public function __construct(
         public ConversaService $conversaService
     ) {
         $this->mensagensPorPagina = config('equipamentos.mensagens_por_pagina');
+        $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
     }
 
     public function conversaEquipamento($equipamento_id)
@@ -52,6 +54,7 @@ class ConversaController extends Controller
         $usuarioId = Auth::id();
         $conversa = EquipamentoConversa::findOrFail($conversaId);
         $conversa->load('equipamento');
+        $mensagensTempoExcluir = $this->mensagensTempoExcluirSecs;
 
         $conversa->visualizacao = $conversa->visualizacao()->where('usuario_id', $usuarioId)->first();
 
@@ -67,7 +70,7 @@ class ConversaController extends Controller
 
         $conversa->mensagens = collect([$mensagensAnteriores, $mensagensProximas])->collapse()->sortBy('id')->values();
 
-        return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuarioId'));
+        return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuarioId', 'mensagensTempoExcluir'));
     }
 
     public function enviar(EnviarMensagemRequest $request, $id)

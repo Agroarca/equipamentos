@@ -129,8 +129,9 @@
 
         .opcoes {
             padding: 0 .4rem;
-            font-size: 24px;
+            font-size: 20px;
             color: $cinza-primary;
+            opacity: 75%;
         }
 
         &:hover .opcoes {
@@ -140,13 +141,16 @@
         .menu-container {
             position: absolute;
             z-index: 100;
-            top: 50%;
+            top: 30%;
+            left: 100%;
             right: 1rem;
             width: 200px;
         }
 
         &.autor .menu-container {
-            transform: translateX(-100%);
+            top: 30%;
+            left: unset;
+            right: 2rem;
         }
     }
 }

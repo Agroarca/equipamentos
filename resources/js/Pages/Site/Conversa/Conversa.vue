@@ -13,6 +13,7 @@ import Mensagem from './Partial/Mensagem.vue'
 const props = defineProps({
     conversa: Object,
     usuarioId: Number,
+    mensagensTempoExcluir: Number,
 })
 const scroll = debounce(onScroll, 100, { maxWait: 250 })
 const enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
@@ -198,7 +199,7 @@ function excluirMensagem(mensagem) {
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" @excluirMensagem="excluirMensagem" />
+                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" :mensagensTempoExcluir="mensagensTempoExcluir" @excluirMensagem="excluirMensagem" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">

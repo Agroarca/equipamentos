@@ -5,11 +5,11 @@ import Modal from '@/Components/Admin/Modal.vue'
 const props = defineProps({
     mensagem: Object,
     usuarioId: Number,
+    mensagensTempoExcluir: Number,
 })
 const modal = ref(null)
 const emit = defineEmits<{(e: 'excluirMensagem', value: Object): void}>()
 const menuAberto = ref(false)
-let timerTouth = null
 function mostrarMenu() {
     menuAberto.value = !menuAberto.value
     setTimeout(() => {
@@ -28,20 +28,6 @@ function excluirMensagem() {
 }
 function abrirModal() {
     modal.value.show()
-}
-
-function touchstart() {
-    timerTouth = setTimeout(() => {
-        timerTouth = null
-        mostrarMenu()
-    }, 2000)
-}
-
-function touchend() {
-    clearTimeout(timerTouth)
-}
-function touchmove() {
-    clearTimeout(timerTouth)
 }
 </script>
 
