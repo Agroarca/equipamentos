@@ -12,10 +12,10 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
 </script>
 
 <template>
-    <AdminLayout :titulo="titulo" :link="`/admin/categorias/criar/${categoria?.id}`" button-text="Nova Categoria">
-        <Link v-if="categoria" class="btn btn-primary mb-3" :href="`/admin/categorias/${categoria?.id}`">
+    <AdminLayout :titulo="titulo" link="/admin/categorias/criar/" button-text="Nova Categoria">
+        <Link v-if="categoria" class="btn btn-primary mb-3" :href="`/admin/categorias/${categoria?.categoria_mae_id ?? ''}`">
             <i class="fas fa-arrow-left me-1" />
-            {{ categoria.categoria_mae?.nome ?? "Categorias" }}
+            {{ categoria?.categoria_mae?.nome ?? "Categorias" }}
         </Link>
 
         <div class="card card-default">
@@ -28,7 +28,7 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
                     </thead>
                     <tbody>
                         <tr v-for="categ in categorias.data" :key="categ.id">
-                            <td>{{ categoria.nome }}</td>
+                            <td>{{ categ.nome }}</td>
                             <td>
                                 <span v-if="categ.categoria_mae">
                                     {{ categ.categoria_mae.nome }}

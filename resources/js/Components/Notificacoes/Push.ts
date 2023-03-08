@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getMessaging, getToken } from 'firebase/messaging'
 import axios from 'axios'
-import { addDays, isAfter, isDate } from 'date-fns'
+import { addDays, isAfter, isBefore, isDate } from 'date-fns'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE',
@@ -29,11 +29,11 @@ export class Push {
         this.analytics = getAnalytics(this.app)
     }
 
-    solicitarNotificacao(): void {
-        this.solicitarPermissao().then(this.criarToken)
+    solicitarPermissao(): Promise<void> {
+        return this.solicitarPermissaoNotificacoes().then(this.criarToken)
     }
 
-    solicitarPermissao(): Promise<void> {
+    solicitarPermissaoNotificacoes(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (Notification.permission === 'denied') {
                 reject()
@@ -45,6 +45,8 @@ export class Push {
                 return
             }
 
+            localStorage.dataSolicitouPermNotificacao = new Date()
+            console.log('salvar data')
             Notification.requestPermission().then((permission) => {
                 if (Notification.permission === 'granted') {
                     resolve()
@@ -88,6 +90,19 @@ export class Push {
         }
 
         return isAfter(new Date(), addDays(new Date(ultimaRenovacao), DIAS_PARA_RENOVAR_TOKEN))
+    }
+
+    temPermissao(): Boolean {
+        return Notification.permission === 'granted'
+    }
+
+    jaSolicitouPermissao(): Boolean {
+        let dataPerm = new Date(Date.parse(localStorage.dataSolicitouPermNotificacao))
+        if (isDate(dataPerm)) {
+            return isBefore(new Date(), addDays(new Date(dataPerm), DIAS_PARA_RENOVAR_TOKEN))
+        }
+
+        return false
     }
 }
 

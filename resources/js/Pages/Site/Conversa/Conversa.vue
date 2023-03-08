@@ -2,12 +2,13 @@
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vuejs-accessibility/form-control-has-label */
 /* eslint-disable no-restricted-globals */
-import { ref, onMounted, reactive, nextTick } from 'vue'
+import { ref, onMounted, reactive, nextTick, computed } from 'vue'
 import axios from 'axios'
 import { debounce, last } from 'lodash'
 import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
+import { getPush } from '@/Components/Notificacoes/Push'
 
 const props = defineProps({
     conversa: Object,
@@ -20,6 +21,7 @@ const scrollMargin: number = 25
 const maxlengthText: number = 2500
 let ultimaVisualizadaId: number = props.conversa.visualizacao.ultima_mensagem_id
 const elMensagens = ref(null)
+let temPermissao = ref(getPush().temPermissao())
 
 const chat = reactive({
     mensagens: props.conversa.mensagens,
@@ -42,6 +44,7 @@ function enviarMensagem() {
         mensagem: chat.mensagem,
     }).then(() => {
         chat.mensagem = ''
+        verificarSolicitarPermissao()
     }).catch((e) => {
         location.reload()
     })
@@ -180,12 +183,32 @@ function atualizarMensagensAnteriores() {
         })
 }
 
+function solicitarPermNotificacao() {
+    getPush().solicitarPermissao().then(() => { temPermissao.value = getPush().temPermissao() })
+}
+
+function verificarSolicitarPermissao() {
+    if (getPush().jaSolicitouPermissao()) {
+        return
+    }
+
+    if (getPush().temPermissao()) {
+        return
+    }
+
+    solicitarPermNotificacao()
+}
+
 </script>
 
 <template>
     <SiteLayout>
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
+            <div v-if="!temPermissao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">
+                Você não irá receber notificações de novas mensagens.<br>
+                Clique aqui para autorizar as Notificações
+            </div>
             <div class="conteudo">
                 <div class="container-mensagens">
                     <div ref="elMensagens" class="mensagens" @scroll="scroll">

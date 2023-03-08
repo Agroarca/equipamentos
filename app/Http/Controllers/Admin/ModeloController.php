@@ -56,7 +56,10 @@ class ModeloController extends Controller
 
     public function pesquisar(Request $request)
     {
-        $modelos = Modelo::select('id', 'nome as texto')->where('nome', 'like', '%' . $request->input('termo') . '%')->take(10)->get();
+        $modelos = Modelo::select('id', 'nome as texto')
+            ->where('nome', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
 
         return response()->json($modelos);
     }
