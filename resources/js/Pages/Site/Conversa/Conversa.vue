@@ -223,7 +223,11 @@ function verificarSolicitarPermissao() {
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" :mensagens-tempo-excluir="mensagensTempoExcluir" @excluirMensagem="excluirMensagem" />
+                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id"
+                                  :mensagem="mensagem"
+                                  :usuario-id="usuarioId"
+                                  :mensagens-tempo-excluir="mensagensTempoExcluir"
+                                  @excluirMensagem="excluirMensagem" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">
