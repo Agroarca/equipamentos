@@ -15,7 +15,7 @@ props.caracteristicas.forEach((caracteristica) => {
 const form = useForm(valores)
 
 function submit() {
-    form.post(route('admin.equipamentos.caracteristicas.salvar', props.equipamento.id))
+    form.post(`/admin/equipamentos/${props.equipamento.id}/caracteristicas/salvar`)
 }
 </script>
 

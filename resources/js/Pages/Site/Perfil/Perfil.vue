@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
-import Mask from '@/Components/InputMask'
+import Mask from '@/Components/Util/InputMask'
 import FormError from '@/Components/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 
@@ -32,7 +32,7 @@ function submit() {
         ...data,
         celular: data.celular.replaceAll(/\D/g, ''),
         cpf_cnpj: data.cpf_cnpj.replaceAll(/\D/g, ''),
-    })).post(route('site.perfil.atualizar'), {
+    })).post('/perfil/atualizar', {
         onFinish: () => form.reset('password', 'password_confirmation'),
     })
 }

@@ -15,32 +15,32 @@ class MenuService
                 [
                     'title' => 'Início',
                     'icon' => '',
-                    'route' => 'site.inicio',
+                    'url' => '/',
                 ],
                 [
                     'title' => 'Dashboard',
                     'icon' => '',
-                    'route' => 'admin.dashboard',
+                    'url' => '/admin/dashboard',
                 ],
                 [
                     'title' => 'Categorias',
                     'icon' => '',
-                    'route' => 'admin.categorias',
+                    'url' => '/admin/categorias/',
                 ],
                 [
                     'title' => 'Equipamentos',
                     'icon' => '',
-                    'route' => 'admin.equipamentos',
+                    'url' => '/admin/equipamentos',
                 ],
                 [
                     'title' => 'Marcas',
                     'icon' => '',
-                    'route' => 'admin.marcas',
+                    'url' => '/admin/marcas',
                 ],
                 [
                     'title' => 'Modelos',
                     'icon' => '',
-                    'route' => 'admin.modelos',
+                    'url' => '/admin/modelos',
                 ],
             ];
         }

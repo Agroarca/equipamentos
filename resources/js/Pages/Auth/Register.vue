@@ -4,7 +4,7 @@ import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
-import Mask from '@/Components/InputMask'
+import Mask from '@/Components/Util/InputMask'
 
 const form = useForm({
     nome: '',
@@ -24,7 +24,7 @@ onMounted(() => {
 })
 
 function submit() {
-    form.post(route('register'), {
+    form.post('/register', {
         onFinish: () => form.reset('password', 'password_confirmation'),
     })
 }
@@ -85,7 +85,7 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" :href="route('login')">
+                    <Link class="btn btn-link" href="/login">
                         Já possui conta?
                     </Link>
                 </div>

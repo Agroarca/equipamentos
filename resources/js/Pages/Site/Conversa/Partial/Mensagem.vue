@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { differenceInSeconds } from 'date-fns'
 import Modal from '@/Components/Admin/Modal.vue'
 
 const props = defineProps({
@@ -10,31 +11,42 @@ const props = defineProps({
 const modal = ref(null)
 const emit = defineEmits<{(e: 'excluirMensagem', value: Object): void}>()
 const menuAberto = ref(false)
+
+let podeExcluir = computed(() => (differenceInSeconds(new Date(), Date.parse(props.mensagem.created_at)) <= props.mensagensTempoExcluir)
+                              && (props.mensagem.usuario_id === props.usuarioId))
+
 function mostrarMenu() {
+    if (!podeExcluir.value) {
+        return
+    }
     menuAberto.value = !menuAberto.value
     setTimeout(() => {
         window.addEventListener('click', fecharMenu)
     }, 500)
 }
+
 function fecharMenu(e) {
     if (!document.querySelector('.mensagem .menu-container').contains(e.target)) {
         menuAberto.value = false
         window.removeEventListener('click', fecharMenu)
     }
 }
+
 function excluirMensagem() {
     modal.value.hide()
     emit('excluirMensagem', props.mensagem)
 }
+
 function abrirModal() {
     modal.value.show()
 }
+
 </script>
 
 <template>
     <span :id="'msg-' + mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuarioId }" @click="mostrarMenu">
         {{ mensagem.mensagem }}
-        <i class="fa-solid fa-caret-down opcoes" />
+        <i v-if="podeExcluir" class="fa-solid fa-caret-down opcoes" />
         <Transition name="fade-500" :duration="500">
             <div v-if="menuAberto" class="menu-container">
                 <div class="list-group">

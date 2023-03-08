@@ -19,7 +19,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.categorias.caracteristicas.salvar', props.categoria.id))
+    form.post(`/admin/categorias/${props.categoria.id}/caracteristicas/salvar`)
 }
 
 const tituloMinimo = computed(() => base.tituloTamanhoMinimo(form.tipo))

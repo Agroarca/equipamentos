@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Equipamentos\Categoria;
+use App\Models\Equipamentos\Marca;
 use App\Services\Site\ListaService;
 use Inertia\Inertia;
 
@@ -19,5 +20,12 @@ class ListaController extends Controller
         $categoria = Categoria::find($id);
         $equipamentos = $this->listaService->queryCategoria($id)->paginate(24);
         return Inertia::render('Site/Lista/Categoria', compact(['equipamentos', 'categoria']));
+    }
+
+    public function marca($id)
+    {
+        $marca = Marca::findOrFail($id);
+        $equipamentos = $this->listaService->queryMarca($id)->paginate(24);
+        return Inertia::render('Site/Lista/Marca', compact(['equipamentos', 'marca']));
     }
 }

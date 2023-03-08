@@ -5,8 +5,8 @@ import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     id: Number,
-    titulo: Number,
-    texto: Number,
+    titulo: String,
+    texto: String,
 })
 const toast = ref(null)
 let bsToast
@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 function onClick() {
-    router.visit(route('site.notificacao', [props.id]))
+    router.visit(`/notificacao/${props.id}`)
 }
 </script>
 

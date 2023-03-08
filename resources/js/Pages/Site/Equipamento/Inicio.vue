@@ -1,5 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
+import { Link } from '@inertiajs/vue3'
+import Formatacao from '@/Components/Util/Formatacao.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Imagens from './Imagens.vue'
 
@@ -18,8 +20,10 @@ const props = defineProps({
                     <h1 class="titulo">
                         {{ equipamento.titulo }}
                     </h1>
-                    <span class="valor">{{ equipamento.valor }}</span>
-                    <a :href="route('site.conversa.equipamento', equipamento.id)" class="botao btn btn-primary">Estou Interessado!</a>
+                    <Formatacao class="valor" tipo="preco" :valor="equipamento.valor" />
+                    <Link :href="`/conversa/equipamento/${equipamento.id}`" class="botao btn btn-primary">
+                        Estou Interessado!
+                    </Link>
                 </div>
             </div>
             <div class="descricao-header">

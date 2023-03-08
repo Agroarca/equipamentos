@@ -17,7 +17,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.equipamentos.salvar'))
+    form.post('/admin/equipamentos/salvar')
 }
 
 </script>

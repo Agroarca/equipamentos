@@ -67,12 +67,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 .
 
-.
-
-.
-
-.
-
 ## Qualidade do Código
 
 `vendor/bin/phpcs` para rodar o PHP Codesniffer

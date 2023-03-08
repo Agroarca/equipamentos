@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { getMessaging, getToken, onMessage } from 'firebase/messaging'
-import { onMounted } from 'vue'
+import { getMessaging, getToken } from 'firebase/messaging'
 import axios from 'axios'
+import { addDays, isAfter, isBefore, isDate } from 'date-fns'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE',
@@ -14,6 +14,7 @@ const firebaseConfig = {
 }
 
 const vapidKey = 'BPlE43kDpMP4nb3ltOOZZRDDxkJA-CKsdim6elA8c5amJmykNZl-_UmxsRGJGe1P3I0R50Qgwyf7Tlaf9ICUcqU'
+const DIAS_PARA_RENOVAR_TOKEN = 14
 
 let instance
 
@@ -29,6 +30,10 @@ export class Push {
     }
 
     solicitarPermissao(): Promise<void> {
+        return this.solicitarPermissaoNotificacoes().then(this.criarToken)
+    }
+
+    solicitarPermissaoNotificacoes(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (Notification.permission === 'denied') {
                 reject()
@@ -40,6 +45,8 @@ export class Push {
                 return
             }
 
+            localStorage.dataSolicitouPermNotificacao = new Date()
+            console.log('salvar data')
             Notification.requestPermission().then((permission) => {
                 if (Notification.permission === 'granted') {
                     resolve()
@@ -52,34 +59,50 @@ export class Push {
     }
 
     iniciarNotificacoes(): void {
-        onMounted(() => {
-            this.solicitarPermissao().then(this.registrarListeners)
-        })
+        if (Notification.permission === 'granted') {
+            if (this.precisaRenovarToken()) {
+                this.criarToken()
+            }
+        }
     }
 
-    registrarListeners(): void {
+    criarToken(): void {
         getToken(instance.messaging, { vapidKey }).then((token) => {
             if (token) {
                 instance.salvarToken(token)
             }
         })
-
-        onMessage(instance.messaging, instance.onMessage)
     }
 
     salvarToken(token): void {
-        axios.post(route('site.notificacao.salvarToken'), {
+        axios.post('/notificacao/token', {
             token,
+        }).then(() => {
+            localStorage.ultimaRenovacaoToken = new Date()
         })
     }
 
-    onMessage(payload): void {
-        this.notificar(` onMessage ${JSON.stringify(payload)}`)
+    precisaRenovarToken(): Boolean {
+        let ultimaRenovacao = Date.parse(localStorage.ultimaRenovacaoToken)
+
+        if (!isDate(ultimaRenovacao)) {
+            return false
+        }
+
+        return isAfter(new Date(), addDays(new Date(ultimaRenovacao), DIAS_PARA_RENOVAR_TOKEN))
     }
 
-    notificar(texto): void {
-        // eslint-disable-next-line no-new
-        new Notification(texto)
+    temPermissao(): Boolean {
+        return Notification.permission === 'granted'
+    }
+
+    jaSolicitouPermissao(): Boolean {
+        let dataPerm = new Date(Date.parse(localStorage.dataSolicitouPermNotificacao))
+        if (isDate(dataPerm)) {
+            return isBefore(new Date(), addDays(new Date(dataPerm), DIAS_PARA_RENOVAR_TOKEN))
+        }
+
+        return false
     }
 }
 

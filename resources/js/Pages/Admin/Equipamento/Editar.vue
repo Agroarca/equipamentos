@@ -21,7 +21,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('admin.equipamentos.atualizar', props.equipamento.id))
+    form.post(`/admin/equipamentos/${props.equipamento.id}/atualizar`)
 }
 </script>
 

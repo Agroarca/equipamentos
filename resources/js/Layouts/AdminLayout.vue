@@ -33,7 +33,7 @@ onUnmounted(() => {
         <BaseLayout>
             <Loader />
             <header class="main-header navbar sticky-top bg-light flex-md-nowrap p-0 shadow">
-                <Link class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" :href="route('admin.dashboard')">
+                <Link class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/admin/dashboard">
                     Equipamentos
                 </Link>
 
@@ -44,7 +44,7 @@ onUnmounted(() => {
 
                 <div class="navbar-nav">
                     <div class="nav-item text-nowrap">
-                        <Link class="nav-link px-3" :href="route('logout')">
+                        <Link class="nav-link px-3" href="/logout">
                             Sair
                         </Link>
                     </div>
@@ -61,7 +61,7 @@ onUnmounted(() => {
                     <div class="offcanvas-body">
                         <ul class="nav flex-column">
                             <li v-for="menu in menus" :key="menu.title" class="nav-item">
-                                <Link class="nav-link" :href="route(menu.route)">
+                                <Link class="nav-link" :href="menu.url">
                                     {{ menu.title }}
                                 </Link>
                             </li>

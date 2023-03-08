@@ -2,13 +2,14 @@
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vuejs-accessibility/form-control-has-label */
 /* eslint-disable no-restricted-globals */
-import { ref, onMounted, reactive, nextTick } from 'vue'
+import { ref, onMounted, reactive, nextTick, computed } from 'vue'
 import axios from 'axios'
 import { debounce, filter, last } from 'lodash'
 import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
 import Mensagem from './Partial/Mensagem.vue'
+import { getPush } from '@/Components/Notificacoes/Push'
 
 const props = defineProps({
     conversa: Object,
@@ -22,6 +23,7 @@ const scrollMargin: number = 25
 const maxlengthText: number = 2500
 let ultimaVisualizadaId: number = props.conversa.visualizacao.ultima_mensagem_id
 const elMensagens = ref(null)
+let temPermissao = ref(getPush().temPermissao())
 
 const chat = reactive({
     mensagens: props.conversa.mensagens,
@@ -40,10 +42,11 @@ onMounted(() => {
 })
 
 function enviarMensagem() {
-    return axios.post(route('site.conversa.enviar', props.conversa.id), {
+    return axios.post(`/conversa/${props.conversa.id}/enviar`, {
         mensagem: chat.mensagem,
     }).then(() => {
         chat.mensagem = ''
+        verificarSolicitarPermissao()
     }).catch((e) => {
         location.reload()
     })
@@ -128,12 +131,13 @@ function verificaMensagemVisualizada(id) {
 }
 
 function enviarUltimaVisualizacao() {
-    axios.post(route('site.conversa.mensagens.visualizacao', [props.conversa.id, ultimaVisualizadaId]))
+    axios.post(`/conversa/${props.conversa.id}/mensagens/visualizacao/${ultimaVisualizadaId}`)
 }
 
 function atualizarMensagens() {
     function requestAtualizarMensagens() {
-        return axios.get(route('site.conversa.mensagens', [props.conversa.id, (last(chat.mensagens)?.id ?? 0)]))
+        let mensagemId = last(chat.mensagens)?.id ?? 0
+        return axios.get(`/conversa/${props.conversa.id}/mensagens/posteriores/${mensagemId}`)
             .then((response) => {
                 if (response.data.mensagens.length > 0) {
                     chat.mensagens = chat.mensagens.concat(response.data.mensagens)
@@ -171,7 +175,7 @@ function atualizarMensagensAnteriores() {
     }
 
     const mensagemId = chat.mensagens[0].id
-    axios.get(route('site.conversa.mensagens.anteriores', [props.conversa.id, mensagemId]))
+    axios.get(`/conversa/${props.conversa.id}/mensagens/anteriores/${mensagemId}`)
         .then((response) => {
             chat.mensagens = response.data.mensagens.concat(chat.mensagens)
             chat.mensagensAnteriores = response.data.mais
@@ -187,19 +191,39 @@ function excluirMensagem(mensagem) {
     })
 }
 
+function solicitarPermNotificacao() {
+    getPush().solicitarPermissao().then(() => { temPermissao.value = getPush().temPermissao() })
+}
+
+function verificarSolicitarPermissao() {
+    if (getPush().jaSolicitouPermissao()) {
+        return
+    }
+
+    if (getPush().temPermissao()) {
+        return
+    }
+
+    solicitarPermNotificacao()
+}
+
 </script>
 
 <template>
     <SiteLayout>
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
+            <div v-if="!temPermissao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">
+                Você não irá receber notificações de novas mensagens.<br>
+                Clique aqui para autorizar as Notificações
+            </div>
             <div class="conteudo">
                 <div class="container-mensagens">
                     <div ref="elMensagens" class="mensagens" @scroll="scroll">
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" :mensagensTempoExcluir="mensagensTempoExcluir" @excluirMensagem="excluirMensagem" />
+                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id" :mensagem="mensagem" :usuario-id="usuarioId" :mensagens-tempo-excluir="mensagensTempoExcluir" @excluirMensagem="excluirMensagem" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">

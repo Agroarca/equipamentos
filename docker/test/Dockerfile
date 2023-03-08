@@ -1,4 +1,4 @@
-FROM php:8.1
+FROM php:8.2
 
 WORKDIR /var/www/html
 
@@ -9,13 +9,6 @@ RUN apt update && apt upgrade -y \
     && docker-php-ext-install bcmath gd pdo_mysql zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt install -y nodejs \
-    && apt clean
-
-RUN npm update -g npm
-
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
 EXPOSE 8000
-
