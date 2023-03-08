@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Listas;
+namespace App\Http\Controllers\Admin\Lista;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Lista\ListaRequest;
+use App\Http\Requests\Admin\Lista\ListaRequest;
+use App\Http\Requests\Admin\Lista\ProdutoListaRequest;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Lista\Lista;
 use App\Models\Lista\ProdutoLista;
@@ -57,12 +58,12 @@ class ListaController extends Controller
         return redirect()->route('admin.lista');
     }
 
-    public function adicionar($listaId)
+    public function adicionar(ProdutoListaRequest $request, $listaId)
     {
         $lista = Lista::findOrFail($listaId);
-        $equipamento = Equipamento::findOrFail(request()->input('equipamento_id'));
+        $equipamento = Equipamento::findOrFail($request->equipamento_id);
 
-        ProdutoLista::create([
+        ProdutoLista::firstOrCreate([
             'lista_id' => $lista->id,
             'equipamento_id' => $equipamento->id
         ]);
@@ -74,7 +75,21 @@ class ListaController extends Controller
     {
         $lista = Lista::findOrFail($id);
         $options = Equipamento::select('id', 'titulo as texto')->take(10)->get();
+        $produtos = $lista->produtoLista()->with([
+            'equipamento',
+            'equipamento.modelo',
+            'equipamento.categoria',
+            'equipamento.modelo.marca',
+        ])->paginate();
 
-        return Inertia::render('Admin/Lista/Produtos', compact('lista', 'options'));
+        return Inertia::render('Admin/Lista/Produtos', compact('lista', 'options', 'produtos'));
+    }
+
+    public function remover($listaId, $produtoId)
+    {
+        $produto = ProdutoLista::where('lista_id', $listaId)->findOrFail($produtoId);
+        $produto->delete();
+
+        return redirect()->route('admin.lista.produtos', $listaId);
     }
 }

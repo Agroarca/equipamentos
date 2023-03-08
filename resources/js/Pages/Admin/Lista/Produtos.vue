@@ -2,10 +2,13 @@
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import SelectAjax from '@/Components/Util/SelectAjax.vue'
+import ListaProdutos from './Componentes/ListaProdutos.vue'
+import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     lista: Object,
     options: Object,
+    produtos: Object,
 })
 
 const form = useForm({
@@ -19,20 +22,22 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout :titulo="lista.nome" link="/admin/lista/produtos/">
+    <AdminLayout :titulo="lista.nome">
         <form @submit.prevent="submit">
-            <div class="card card-default">
+            <div class="card card-default mb-4">
                 <div class="card-body">
-                    <div class="mb-3">
+                    <div>
                         <SelectAjax v-model="form.equipamento_id" href="/admin/equipamentos/pesquisar" :options="options" />
+                        <FormError :error="form.errors.equipamento_id" />
                     </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
-                        Criar
+                        Adicionar
                     </button>
                 </div>
             </div>
         </form>
+        <ListaProdutos :produtos="produtos" />
     </AdminLayout>
 </template>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Lista;
+namespace App\Http\Requests\Admin\Lista;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -24,7 +24,7 @@ class ListaRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:100',
-            'slug' => ['string', 'nullable', 'min:3', 'max:100', 'regex:/^[a-z0-9-]*$/'],
+            'slug' => ['string', 'nullable', 'min:3', 'max:100', 'unique:listas,slug', 'regex:/^[a-z]+[a-z0-9-]*$/'],
         ];
     }
 

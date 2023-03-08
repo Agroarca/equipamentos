@@ -17,7 +17,7 @@ class Lista extends Model
         'slug'
     ];
 
-    public function produto_lista()
+    public function produtoLista()
     {
         return $this->hasMany(ProdutoLista::class);
     }

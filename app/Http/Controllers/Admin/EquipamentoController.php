@@ -130,7 +130,7 @@ class EquipamentoController extends Controller
 
     public function pesquisar(Request $request)
     {
-        $equipamento = Equipamento::select('id', 'titulo as texto')->where('titulo', 'like', '%' . $request->input('termo') . '%')->take(10)->get();
+        $equipamento = Equipamento::select('id', 'titulo as')->where('titulo', 'like', '%' . $request->input('termo') . '%')->take(10)->get();
 
         return response()->json($equipamento);
     }

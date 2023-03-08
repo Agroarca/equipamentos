@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EquipamentoController;
 use App\Http\Controllers\Admin\MarcaController;
 use App\Http\Controllers\Admin\ModeloController;
-use App\Http\Controllers\Listas\ListaController;
+use App\Http\Controllers\Admin\Lista\ListaController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -74,6 +74,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/excluir', [ListaController::class, 'excluir'])->name('.excluir');
         Route::post('{id}/adicionar/', [ListaController::class, 'adicionar'])->name('.adicionar');
         Route::get('{lista_id}/produtos', [ListaController::class, 'produtos'])->name('.produtos');
+        Route::get('{lista_id}/produtos/{produto_id}/excluir', [ListaController::class, 'remover'])->name('.produtos.excluir');
     });
 
     Route::prefix('marcas')->name('.marcas')->group(function () {
