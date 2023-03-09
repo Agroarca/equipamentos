@@ -23,8 +23,8 @@ class EquipamentoFactory extends Factory
     {
         return [
             'titulo' => Str::random(25),
-            'valor' => fake()->randomFloat(2, 10000, 999999999),
-            'ano' => fake()->numberBetween(1990, Carbon::now()->year),
+            'valor' => 1000000,
+            'ano' => Carbon::now()->year,
             'descricao' => fake()->paragraph(3),
             'modelo_id' => Modelo::factory(),
             'categoria_id' => Categoria::factory(),

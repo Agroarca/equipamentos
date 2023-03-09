@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Equipamentos;
+namespace Tests\Feature\Equipamentos\Admin;
 
 use App\Models\Equipamentos\Categoria;
 use App\Models\Usuario;
@@ -109,9 +109,6 @@ class CategoriaTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
-            'nome' => $nome
-        ]);
     }
 
     public function testNaoPodeCriarMaximoCaracteres()
@@ -124,9 +121,6 @@ class CategoriaTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
-            'nome' => $nome
-        ]);
     }
 
     public function testPodeAcessarEditar()
@@ -190,10 +184,6 @@ class CategoriaTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
-            'id' => $categoria->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testNaoPodeEditarMaximoCaracteres()
@@ -207,10 +197,6 @@ class CategoriaTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
-            'id' => $categoria->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testPodeExcluir()

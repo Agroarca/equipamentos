@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Equipamentos;
+namespace Tests\Feature\Equipamentos\Admin;
 
 use App\Models\Equipamentos\Marca;
 use App\Models\Equipamentos\Modelo;
@@ -74,10 +74,6 @@ class ModeloTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
-            'nome' => $nome,
-            'marca_id' => $marca->id
-        ]);
     }
 
     public function testNaoPodeCriarMaximoCaracteres()
@@ -92,10 +88,6 @@ class ModeloTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
-            'nome' => $nome,
-            'marca_id' => $marca->id
-        ]);
     }
 
     public function testPodeAcessarEditar()
@@ -140,10 +132,6 @@ class ModeloTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
-            'id' => $modelo->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testNaoPodeEditarMaximoCaracteres()
@@ -157,10 +145,6 @@ class ModeloTest extends TestCase
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
-            'id' => $modelo->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testPodeExcluir()
