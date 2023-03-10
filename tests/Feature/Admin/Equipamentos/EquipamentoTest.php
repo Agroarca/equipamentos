@@ -117,7 +117,7 @@ class EquipamentoTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Equipamento/Editar'));
     }
 
-    public function _testPodeEditar()
+    public function testPodeEditar()
     {
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(50);
@@ -126,16 +126,38 @@ class EquipamentoTest extends TestCase
         $response = $this->actingAs($this->getAdminUser())
             ->post("/admin/equipamentos/$equipamento->id/atualizar", [
                 'titulo' => $novoTitulo,
+                'ano' => $novoAno,
+                'id' => $equipamento->id,
+                'valor' => $equipamento->valor,
+                'descricao' => $equipamento->descricao,
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos');
+        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
         $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id,
             'titulo' => $novoTitulo,
             'valor' => $equipamento->valor,
             'ano' => $novoAno,
             'descricao' => $equipamento->descricao,
+        ]);
+    }
+
+    public function testAtualizarDescricao()
+    {
+        $equipamento = Equipamento::factory()->create();
+        $novaDescricao = fake()->paragraph(3);
+
+        $response = $this->actingAs($this->getAdminUser())
+            ->post("/admin/equipamentos/$equipamento->id/atualizardescricao", [
+                'descricao' => $novaDescricao,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'descricao' => $novaDescricao,
         ]);
     }
 
