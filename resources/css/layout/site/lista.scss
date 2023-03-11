@@ -6,6 +6,10 @@
         grid-row-gap: 3rem;
         display: grid;
 
+        @mixin breakpoint-down xxl {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
         @mixin breakpoint-down xl {
             grid-template-columns: repeat(2, 1fr);
         }
