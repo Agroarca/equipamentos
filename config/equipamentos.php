@@ -4,7 +4,7 @@ return [
     'path_imagens' => 'public/equipamentos/',
     'public_path_imagens' => 'public/storage/equipamentos/',
     'mensagens_por_pagina' => 20,
-    'mensagens_tempo_excluir_secs' => 60,
+    'mensagens_tempo_excluir_secs' => 10,
 
     'notificacoes' => [
         'ws_canal_conversa' => 'notificacoes.',

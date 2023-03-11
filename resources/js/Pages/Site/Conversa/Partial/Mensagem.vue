@@ -11,9 +11,8 @@ const props = defineProps({
 const modal = ref(null)
 const emit = defineEmits<{(e: 'excluirMensagem', value: Object): void}>()
 const menuAberto = ref(false)
-
-let podeExcluir = computed(() => (differenceInSeconds(new Date(), Date.parse(props.mensagem.created_at)) <= props.mensagensTempoExcluir)
-                              && (props.mensagem.usuario_id === props.usuarioId))
+let podeExcluir = ref(getPodeExcluir())
+verificarpodeExcluir()
 
 function mostrarMenu() {
     if (!podeExcluir.value) {
@@ -39,6 +38,23 @@ function excluirMensagem() {
 
 function abrirModal() {
     modal.value.show()
+}
+
+function getPodeExcluir() {
+    if (props.mensagem.usuario_id !== props.usuarioId) {
+        return false
+    }
+    return differenceInSeconds(new Date(), Date.parse(props.mensagem.created_at)) <= props.mensagensTempoExcluir
+}
+
+function verificarpodeExcluir() {
+    console.log('verificarpodeExcluir')
+    podeExcluir.value = getPodeExcluir()
+    if (podeExcluir.value) {
+        setTimeout(() => {
+            verificarpodeExcluir()
+        }, 1000)
+    }
 }
 
 </script>
