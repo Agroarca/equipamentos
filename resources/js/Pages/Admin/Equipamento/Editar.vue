@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
+import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
 import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
 import Descricao from './Descricao/Descricao.vue'
+import Mask from '@/Components/Util/InputMask'
 
 const props = defineProps({
     equipamento: Object,
     caracteristicas: Object,
+})
+
+const elValor = ref(null)
+let valor
+onMounted(() => {
+    valor = Mask.preco(elValor.value)
 })
 
 const form = useForm({
@@ -21,6 +29,7 @@ const form = useForm({
 })
 
 function submit() {
+    form.valor = valor.unmaskedvalue()
     form.post(`/admin/equipamentos/${props.equipamento.id}/atualizar`)
 }
 </script>
@@ -38,7 +47,7 @@ function submit() {
                         </div>
                         <div class="mb-3">
                             <label for="valor">Valor</label>
-                            <input id="valor" v-model="form.valor" class="form-control" type="text" required>
+                            <input id="valor" ref="elValor" v-model="form.valor" class="form-control" type="text" required>
                             <FormError :error="form.errors.valor" />
                         </div>
                         <div class="mb-3">
