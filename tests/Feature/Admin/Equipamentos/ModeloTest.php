@@ -29,15 +29,34 @@ class ModeloTest extends TestCase
 
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Modelo/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Modelo/Inicio'));
+    }
+
+    public function testPodeAcessarComDados(): void
+    {
+        $modelos = Modelo::factory()->count(7)->create();
+        $response = $this->actingAs($this->usuario)
+            ->get('/admin/modelos');
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Modelo/Inicio')
+            ->has('modelos')
+            ->has('modelos.data', 7));
     }
 
     public function testPodeAcessarCriar()
     {
+        $marcas = Marca::factory()->count(5)->create();
         $response = $this->actingAs($this->usuario)
             ->get('/admin/modelos/criar');
+
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Modelo/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Modelo/Criar')
+            ->has('marcas', 5));
     }
 
     public function testPodeCriarNovo()
@@ -89,12 +108,20 @@ class ModeloTest extends TestCase
 
     public function testPodeAcessarEditar()
     {
-        $modelo = Modelo::factory()->create();
+        $marcas = Marca::factory()->count(3)->create();
+        $modelo = Modelo::factory()->create([
+            'marca_id' => $marcas->first()->id
+        ]);
 
         $response = $this->actingAs($this->usuario)
             ->get("/admin/modelos/$modelo->id/editar");
+
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Modelo/Editar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Modelo/Editar')
+            ->has('modelo')
+            ->where('modelo.id', $modelo->id)
+            ->has('marcas', 3));
     }
 
     public function testPodeEditar()

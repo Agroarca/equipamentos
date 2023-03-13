@@ -28,7 +28,8 @@ class CategoriaTest extends TestCase
 
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Inicio'));
     }
 
     public function testPodeAcessarFilha(): void
@@ -40,7 +41,29 @@ class CategoriaTest extends TestCase
 
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Inicio')
+            ->has('categoria')
+            ->where('categoria.id', $categoria->id));
+    }
+
+    public function testPodeAcessarComFilhas(): void
+    {
+        $categoria = Categoria::factory()->create();
+        $categorias = Categoria::factory()->count(3)->create([
+            'categoria_mae_id' => $categoria->id
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/categorias/$categoria->id");
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Inicio')
+            ->has('categoria')
+            ->where('categoria.id', $categoria->id)
+            ->has('categorias.data', count($categorias)));
     }
 
     public function testPodeAcessarCriar()
@@ -48,7 +71,8 @@ class CategoriaTest extends TestCase
         $response = $this->actingAs($this->usuario)
             ->get('/admin/categorias/criar');
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Criar'));
     }
 
     public function testPodeAcessarCriarFilha()
@@ -58,7 +82,10 @@ class CategoriaTest extends TestCase
         $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/criar/$categoriaMae->id");
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Criar')
+            ->has('categoriaMae')
+            ->where('categoriaMae.id', $categoriaMae->id));
     }
 
     public function testPodeCriarNova()
@@ -127,7 +154,10 @@ class CategoriaTest extends TestCase
         $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/$categoria->id/editar");
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Editar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Categoria/Editar')
+            ->has('categoria')
+            ->where('categoria.id', $categoria->id));
     }
 
     public function testPodeEditar()

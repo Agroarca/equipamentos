@@ -32,7 +32,11 @@ class CaracteristicasTest extends TestCase
             ->get("/admin/categorias/$categoria->id/caracteristicas");
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Caracteristicas/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Caracteristicas/Inicio')
+            ->has('categoria')
+            ->where('categoria.id', $categoria->id)
+            ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
     public function testPodeAcessarCriar(): void
@@ -43,7 +47,11 @@ class CaracteristicasTest extends TestCase
             ->get("/admin/categorias/$categoria->id/caracteristicas/criar");
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Caracteristicas/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Caracteristicas/Criar')
+            ->has('categoria')
+            ->where('categoria.id', $categoria->id)
+            ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
     public function testNaoPodeCriarNomeMinimo()
@@ -160,7 +168,11 @@ class CaracteristicasTest extends TestCase
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/visualizar");
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Caracteristicas/Visualizar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Caracteristicas/Visualizar')
+            ->has('caracteristica')
+            ->where('caracteristica.id', $caracteristica->id)
+            ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
     public function testPodeExcluir()

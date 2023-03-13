@@ -39,6 +39,22 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
             ->has('caracteristica.opcoes', 1));
     }
 
+    public function testPodeAcessarCriar()
+    {
+        $caracteristica = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::Selecao->value,
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/criar");
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Caracteristicas/Opcoes/Criar')
+            ->has('caracteristica')
+            ->where('caracteristica.id', $caracteristica->id));
+    }
+
     public function testPodeCriarOpcao()
     {
         $nome = Str::random(10);

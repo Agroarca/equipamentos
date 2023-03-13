@@ -28,7 +28,22 @@ class MarcaTest extends TestCase
 
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Inicio'));
+    }
+
+    public function testPodeAcessarComDados(): void
+    {
+        $marcas = Marca::factory()->count(8)->create();
+        $response = $this->actingAs($this->usuario)
+            ->get('/admin/marcas');
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Inicio')
+            ->has('marcas')
+            ->has('marcas.data', 8));
     }
 
     public function testPodeAcessarCriar()
@@ -36,7 +51,8 @@ class MarcaTest extends TestCase
         $response = $this->actingAs($this->usuario)
             ->get('/admin/marcas/criar');
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Criar'));
     }
 
     public function testPodeCriarNova()
@@ -85,8 +101,12 @@ class MarcaTest extends TestCase
 
         $response = $this->actingAs($this->usuario)
             ->get("/admin/marcas/$marca->id/editar");
+
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Editar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Editar')
+            ->has('marca')
+            ->where('marca.id', $marca->id));
     }
 
     public function testPodeEditar()
