@@ -16,18 +16,15 @@ class ModeloTest extends TestCase
 
     private $usuario;
 
-    private function getAdminUser()
+    public function setUp(): void
     {
-        if (is_null($this->usuario)) {
-            $this->usuario = Usuario::factory()->admin()->create();
-        }
-
-        return $this->usuario;
+        parent::setUp();
+        $this->usuario = $this->usuario = Usuario::factory()->admin()->create();
     }
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/modelos');
 
 
@@ -37,7 +34,7 @@ class ModeloTest extends TestCase
 
     public function testPodeAcessarCriar()
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/modelos/criar');
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Modelo/Criar'));
@@ -48,7 +45,7 @@ class ModeloTest extends TestCase
         $nome = Str::random(25);
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id
@@ -67,7 +64,7 @@ class ModeloTest extends TestCase
         $nome = 'aa';
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id
@@ -81,7 +78,7 @@ class ModeloTest extends TestCase
         $nome = Str::random(150);
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id
@@ -94,7 +91,7 @@ class ModeloTest extends TestCase
     {
         $modelo = Modelo::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/modelos/$modelo->id/editar");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Modelo/Editar'));
@@ -106,7 +103,7 @@ class ModeloTest extends TestCase
         $novoNome = Str::random(25);
         $novaMarca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome,
                 'marca_id' => $novaMarca->id
@@ -126,7 +123,7 @@ class ModeloTest extends TestCase
         $modelo = Modelo::factory()->create();
         $novoNome = 'aa';
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome
             ]);
@@ -139,7 +136,7 @@ class ModeloTest extends TestCase
         $modelo = Modelo::factory()->create();
         $novoNome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome
             ]);
@@ -151,7 +148,7 @@ class ModeloTest extends TestCase
     {
         $modelo = Modelo::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/modelos/$modelo->id/excluir");
 
         $response->assertRedirectToRoute('admin.modelos');

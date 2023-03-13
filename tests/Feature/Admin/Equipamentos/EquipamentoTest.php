@@ -16,18 +16,15 @@ class EquipamentoTest extends TestCase
 
     private $usuario;
 
-    private function getAdminUser()
+    public function setUp(): void
     {
-        if (is_null($this->usuario)) {
-            $this->usuario = Usuario::factory()->admin()->create();
-        }
-
-        return $this->usuario;
+        parent::setUp();
+        $this->usuario = $this->usuario = Usuario::factory()->admin()->create();
     }
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/equipamentos');
 
 
@@ -37,7 +34,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarCriar()
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/equipamentos/criar');
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Equipamento/Criar'));
@@ -47,7 +44,7 @@ class EquipamentoTest extends TestCase
     {
         $equipamento = Equipamento::factory()->make();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/equipamentos/salvar', [
                 'titulo' => $equipamento->titulo,
                 'valor' => $equipamento->valor,
@@ -75,7 +72,7 @@ class EquipamentoTest extends TestCase
         $equipamento->titulo = Str::random(9);
         $equipamento->ano = 1899;
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/equipamentos/salvar', [
                 'titulo' => $equipamento->titulo,
                 'valor' => $equipamento->valor,
@@ -94,7 +91,7 @@ class EquipamentoTest extends TestCase
         $equipamento->titulo = Str::random(150);
         $equipamento->ano = Carbon::now()->year + 2;
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/equipamentos/salvar', [
                 'titulo' => $equipamento->titulo,
                 'valor' => $equipamento->valor,
@@ -111,7 +108,7 @@ class EquipamentoTest extends TestCase
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/equipamentos/$equipamento->id/editar");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Equipamento/Editar'));
@@ -123,7 +120,7 @@ class EquipamentoTest extends TestCase
         $novoTitulo = Str::random(50);
         $novoAno = 2005;
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/equipamentos/$equipamento->id/atualizar", [
                 'titulo' => $novoTitulo,
                 'ano' => $novoAno,
@@ -148,7 +145,7 @@ class EquipamentoTest extends TestCase
         $equipamento = Equipamento::factory()->create();
         $novaDescricao = fake()->paragraph(3);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/equipamentos/$equipamento->id/atualizardescricao", [
                 'descricao' => $novaDescricao,
             ]);
@@ -167,7 +164,7 @@ class EquipamentoTest extends TestCase
         $novoTitulo = Str::random(5);
         $novoAno = 1899;
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/equipamentos/$equipamento->id/atualizar", [
                 'titulo' => $novoTitulo,
                 'ano' => $novoAno,
@@ -185,7 +182,7 @@ class EquipamentoTest extends TestCase
         $novoTitulo = Str::random(150);
         $novoAno = Carbon::now()->year + 2;
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/equipamentos/$equipamento->id/atualizar", [
                 'titulo' => $novoTitulo,
                 'ano' => $novoAno,
@@ -201,7 +198,7 @@ class EquipamentoTest extends TestCase
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/equipamentos/$equipamento->id/excluir");
 
         $response->assertRedirectToRoute('admin.equipamentos');

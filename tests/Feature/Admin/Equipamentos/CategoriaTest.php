@@ -15,18 +15,15 @@ class CategoriaTest extends TestCase
 
     private $usuario;
 
-    private function getAdminUser()
+    public function setUp(): void
     {
-        if (is_null($this->usuario)) {
-            $this->usuario = Usuario::factory()->admin()->create();
-        }
-
-        return $this->usuario;
+        parent::setUp();
+        $this->usuario = $this->usuario = Usuario::factory()->admin()->create();
     }
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/categorias');
 
 
@@ -38,7 +35,7 @@ class CategoriaTest extends TestCase
     {
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/$categoria->id");
 
 
@@ -48,7 +45,7 @@ class CategoriaTest extends TestCase
 
     public function testPodeAcessarCriar()
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/categorias/criar');
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Criar'));
@@ -58,7 +55,7 @@ class CategoriaTest extends TestCase
     {
         $categoriaMae = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/criar/$categoriaMae->id");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Criar'));
@@ -68,7 +65,7 @@ class CategoriaTest extends TestCase
     {
         $nome = Str::random(25);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/categorias/salvar', [
                 'nome' => $nome
             ]);
@@ -85,7 +82,7 @@ class CategoriaTest extends TestCase
         $nome = Str::random(25);
         $categoriaMae = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/categorias/salvar', [
                 'nome' => $nome,
                 'categoria_mae_id' => $categoriaMae->id
@@ -103,7 +100,7 @@ class CategoriaTest extends TestCase
     {
         $nome = 'aa';
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/categorias/salvar', [
                 'nome' => $nome
             ]);
@@ -115,7 +112,7 @@ class CategoriaTest extends TestCase
     {
         $nome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/categorias/salvar', [
                 'nome' => $nome
             ]);
@@ -127,7 +124,7 @@ class CategoriaTest extends TestCase
     {
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/$categoria->id/editar");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Categoria/Editar'));
@@ -139,7 +136,7 @@ class CategoriaTest extends TestCase
         $categoriaMae = Categoria::factory()->create();
         $novoNome = Str::random(25);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome,
             ]);
@@ -158,7 +155,7 @@ class CategoriaTest extends TestCase
         $categoriaMae = Categoria::factory()->create();
         $novoNome = Str::random(25);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome,
                 'categoria_mae_id' => $categoriaMae->id
@@ -178,7 +175,7 @@ class CategoriaTest extends TestCase
         $categoria = Categoria::factory()->create();
         $novoNome = 'aa';
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome
             ]);
@@ -191,7 +188,7 @@ class CategoriaTest extends TestCase
         $categoria = Categoria::factory()->create();
         $novoNome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome
             ]);
@@ -203,7 +200,7 @@ class CategoriaTest extends TestCase
     {
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/categorias/$categoria->id/excluir");
 
         $response->assertRedirectToRoute('admin.categorias');
