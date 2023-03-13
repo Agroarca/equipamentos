@@ -21,10 +21,8 @@ class CaracteristicaFactory extends Factory
     {
         return [
             'nome' => Str::random(30),
-            'tipo' => TipoCaracteristica::Inteiro->value,
-            'obrigatorio' => true,
-            'minimo' => 100,
-            'maximo' => 200,
+            'tipo' => TipoCaracteristica::Booleano->value,
+            'obrigatorio' => false,
             'categoria_id' => Categoria::factory(),
             'ordem' => 1,
         ];

@@ -19,7 +19,7 @@ class EquipamentoTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->usuario = $this->usuario = Usuario::factory()->admin()->create();
+        $this->usuario = Usuario::factory()->admin()->create();
     }
 
     public function testPodeAcessar(): void
