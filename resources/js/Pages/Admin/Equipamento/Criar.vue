@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
+import { onMounted, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '../../../Components/FormError.vue'
+import Mask from '@/Components/Util/InputMask'
 
 const props = defineProps({
     modelos: Object,
     categorias: Object,
+})
+
+const elValor = ref(null)
+let valor
+onMounted(() => {
+    valor = Mask.preco(elValor.value)
 })
 
 const form = useForm({
@@ -17,6 +25,7 @@ const form = useForm({
 })
 
 function submit() {
+    form.valor = valor.unmaskedvalue()
     form.post('/admin/equipamentos/salvar')
 }
 
@@ -34,7 +43,7 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="valor">Valor</label>
-                        <input id="valor" v-model="form.valor" class="form-control" type="text" required>
+                        <input id="valor" ref="elValor" v-model="form.valor" class="form-control" type="text" required>
                         <FormError :error="form.errors.valor" />
                     </div>
                     <div class="mb-3">
