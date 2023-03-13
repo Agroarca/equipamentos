@@ -127,4 +127,11 @@ class EquipamentoController extends Controller
 
         return redirect()->route('admin.equipamentos.editar', $equipamentoId);
     }
+
+    public function pesquisar(Request $request)
+    {
+        $equipamento = Equipamento::select('id', 'titulo as')->where('titulo', 'like', '%' . $request->input('termo') . '%')->take(10)->get();
+
+        return response()->json($equipamento);
+    }
 }

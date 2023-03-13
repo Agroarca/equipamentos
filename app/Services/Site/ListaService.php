@@ -37,11 +37,19 @@ class ListaService
 
     public function queryMarca($id)
     {
-
         return self::queryBase()->whereIn('modelo_id', function ($query) use ($id) {
             $query->select('id')
                 ->from('modelos')
                 ->where('marca_id', $id);
+        });
+    }
+
+    public function queryLista($id)
+    {
+        return self::queryBase()->whereIn('id', function ($query) use ($id) {
+            $query->select('equipamento_id')
+                ->from('lista_produtos')
+                ->where('lista_id', $id);
         });
     }
 }
