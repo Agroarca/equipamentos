@@ -12,7 +12,7 @@ const titulo = props.categoria?.nome ? `Categorias de ${props.categoria.nome}` :
 </script>
 
 <template>
-    <AdminLayout :titulo="titulo" link="/admin/categorias/criar/" button-text="Nova Categoria">
+    <AdminLayout :titulo="titulo" :link="`/admin/categorias/criar/` + categoria?.id ?? ''" button-text="Nova Categoria">
         <Link v-if="categoria" class="btn btn-primary mb-3" :href="`/admin/categorias/${categoria?.categoria_mae_id ?? ''}`">
             <i class="fas fa-arrow-left me-1" />
             {{ categoria?.categoria_mae?.nome ?? "Categorias" }}

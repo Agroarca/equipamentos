@@ -2,6 +2,7 @@
 
 namespace App\Models\Caracteristicas\Valor;
 
+use App\Models\Caracteristicas\Caracteristica;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

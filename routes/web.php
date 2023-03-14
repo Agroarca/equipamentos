@@ -28,8 +28,6 @@ Route::name('site')->group(function () {
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
-    Route::get('modelos/pesquisar', [ModeloController::class, 'pesquisar'])->name('.modelos.pesquisar');
-
     Route::middleware(['auth'])->group(function () {
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
         Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');

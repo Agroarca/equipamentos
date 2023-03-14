@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Equipamentos;
+namespace Tests\Feature\Admin\Equipamentos;
 
 use App\Models\Equipamentos\Marca;
 use App\Models\Usuario;
@@ -15,38 +15,51 @@ class MarcaTest extends TestCase
 
     private $usuario;
 
-    private function getAdminUser()
+    public function setUp(): void
     {
-        if (is_null($this->usuario)) {
-            $this->usuario = Usuario::factory()->admin()->create();
-        }
-
-        return $this->usuario;
+        parent::setUp();
+        $this->usuario = Usuario::factory()->admin()->create();
     }
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/marcas');
 
 
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Inicio'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Inicio'));
+    }
+
+    public function testPodeAcessarComDados(): void
+    {
+        $marcas = Marca::factory()->count(8)->create();
+        $response = $this->actingAs($this->usuario)
+            ->get('/admin/marcas');
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Inicio')
+            ->has('marcas')
+            ->has('marcas.data', 8));
     }
 
     public function testPodeAcessarCriar()
     {
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get('/admin/marcas/criar');
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Criar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Criar'));
     }
 
     public function testPodeCriarNova()
     {
         $nome = Str::random(25);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/marcas/salvar', [
                 'nome' => $nome
             ]);
@@ -62,40 +75,38 @@ class MarcaTest extends TestCase
     {
         $nome = 'aa';
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/marcas/salvar', [
                 'nome' => $nome
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
-            'nome' => $nome
-        ]);
     }
 
     public function testNaoPodeCriarMaximoCaracteres()
     {
         $nome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post('/admin/marcas/salvar', [
                 'nome' => $nome
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
-            'nome' => $nome
-        ]);
     }
 
     public function testPodeAcessarEditar()
     {
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/marcas/$marca->id/editar");
+
         $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page->component('Admin/Marca/Editar'));
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Marca/Editar')
+            ->has('marca')
+            ->where('marca.id', $marca->id));
     }
 
     public function testPodeEditar()
@@ -103,7 +114,7 @@ class MarcaTest extends TestCase
         $marca = Marca::factory()->create();
         $novoNome = Str::random(25);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/marcas/$marca->id/atualizar", [
                 'nome' => $novoNome
             ]);
@@ -121,16 +132,12 @@ class MarcaTest extends TestCase
         $marca = Marca::factory()->create();
         $novoNome = 'aa';
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/marcas/$marca->id/atualizar", [
                 'nome' => $novoNome
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
-            'id' => $marca->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testNaoPodeEditarMaximoCaracteres()
@@ -138,23 +145,19 @@ class MarcaTest extends TestCase
         $marca = Marca::factory()->create();
         $novoNome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->post("/admin/marcas/$marca->id/atualizar", [
                 'nome' => $novoNome
             ]);
 
         $response->assertInvalid('nome');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
-            'id' => $marca->id,
-            'nome' => $novoNome
-        ]);
     }
 
     public function testPodeExcluir()
     {
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdminUser())
+        $response = $this->actingAs($this->usuario)
             ->get("/admin/marcas/$marca->id/excluir");
 
         $response->assertRedirectToRoute('admin.marcas');

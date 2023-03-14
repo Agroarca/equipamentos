@@ -93,5 +93,6 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/editar', [ModeloController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
+        Route::get('pesquisar', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
     });
 });

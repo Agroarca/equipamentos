@@ -25,7 +25,7 @@ class EquipamentoImagemRequest extends FormRequest
     {
         return [
             'descricao' => 'string|required|min:10|max:255',
-            'imagem' => 'file|image|dimensions:min_width=800,ratio=4/3',
+            'imagem' => 'file|required|image|dimensions:min_width=800,ratio=4/3',
         ];
     }
 }
