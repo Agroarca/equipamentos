@@ -12,9 +12,13 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request)
     {
+
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => [
+                    'id' => $request->user()?->id,
+                    'name' => $request->user()?->name,
+                ],
             ],
             'admin' => [
                 'menus' => MenuService::getAuthMenus(),
