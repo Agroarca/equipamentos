@@ -57,7 +57,8 @@ class ModeloController extends Controller
     public function pesquisar(Request $request)
     {
         $modelos = Modelo::select('id', 'nome as texto')
-            ->where('nome', 'like', '%' . $request->input('termo') . '%')
+            ->whereFullText('nome', $request->input('termo'))
+            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
             ->take(10)
             ->get();
 
