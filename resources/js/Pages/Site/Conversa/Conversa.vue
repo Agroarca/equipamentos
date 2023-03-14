@@ -9,6 +9,7 @@ import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
 import { getPush } from '@/Components/Notificacoes/Push'
+import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     conversa: Object,
@@ -22,6 +23,7 @@ const maxlengthText: number = 2500
 let ultimaVisualizadaId: number = props.conversa.visualizacao.ultima_mensagem_id
 const elMensagens = ref(null)
 let temPermissao = ref(getPush().temPermissao())
+let erroMensagem = ref('')
 
 const chat = reactive({
     mensagens: props.conversa.mensagens,
@@ -44,9 +46,26 @@ function enviarMensagem() {
         mensagem: chat.mensagem,
     }).then(() => {
         chat.mensagem = ''
+        erroMensagem.value = ''
         verificarSolicitarPermissao()
     }).catch((e) => {
-        location.reload()
+        if (e?.response?.data?.errors?.mensagem) {
+            if (Array.isArray(e?.response?.data?.errors?.mensagem)) {
+                [erroMensagem.value] = e.response.data.errors.mensagem
+                return
+            }
+            erroMensagem.value = e.response.data.errors.mensagem
+            return
+        }
+        if (e?.response?.data?.message) {
+            erroMensagem.value = e.response.data.message
+            return
+        }
+        erroMensagem.value = 'Erro ao enviar mensagem'
+
+        setTimeout(() => {
+            location.reload()
+        }, 5000)
     })
 }
 
@@ -226,12 +245,19 @@ function verificarSolicitarPermissao() {
                     </Transition>
                 </div>
                 <form class="mensagens-footer" @submit.prevent="enviarMensagem">
-                    <textarea v-model="chat.mensagem" class="form-control" :maxlength="maxlengthText" rows="3" />
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            Enviar
-                        </button>
-                        <span class="textcount">{{ chat.mensagem.length + ' / ' + maxlengthText }}</span>
+                        <div class="row">
+                            <FormError :error="erroMensagem" />
+                        </div>
+                        <div class="d-flex flex-row">
+                            <textarea v-model="chat.mensagem" class="form-control" :maxlength="maxlengthText" rows="3" />
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">
+                                    Enviar
+                                </button>
+                                <span class="textcount">{{ chat.mensagem.length + ' / ' + maxlengthText }}</span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

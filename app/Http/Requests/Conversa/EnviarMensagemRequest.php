@@ -24,7 +24,7 @@ class EnviarMensagemRequest extends FormRequest
     public function rules()
     {
         return [
-            'mensagem' => 'string|min:3|max:2500',
+            'mensagem' => 'bail|string|min:3|max:2500',
         ];
     }
 }
