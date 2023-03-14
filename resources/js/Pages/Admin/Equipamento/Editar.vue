@@ -29,7 +29,6 @@ const form = useForm({
 })
 
 function submit() {
-    form.valor = valor.unmaskedvalue()
     form.post(`/admin/equipamentos/${props.equipamento.id}/atualizar`)
 }
 </script>
