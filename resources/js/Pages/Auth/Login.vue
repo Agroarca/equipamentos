@@ -38,7 +38,7 @@ function submit() {
                 </div>
 
                 <div class="form-check mb-3">
-                    <input id="remember" class="form-check-input" type="checkbox" :checked="form.remember">
+                    <input id="remember" v-model="form.remember" class="form-check-input" type="checkbox">
                     <label class="form-check-label" for="remember">Manter conectado?</label>
                 </div>
 
