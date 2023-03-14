@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout :titulo="title">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">

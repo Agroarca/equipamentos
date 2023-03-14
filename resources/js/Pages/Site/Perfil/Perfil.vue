@@ -39,7 +39,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout titulo="Perfil">
         <div class="container perfil">
             <form @submit.prevent="submit">
                 <div class="mb-3">

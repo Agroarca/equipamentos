@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Head, Link } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
 
@@ -13,9 +13,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
-        <Head title="Recuperar Senha" />
-
+    <SiteLayout titulo="Recuperar Senha">
         <div class="container-600 auth">
             <div class="alert alert-info">
                 Esqueceu sua senha?

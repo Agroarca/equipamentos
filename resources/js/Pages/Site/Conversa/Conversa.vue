@@ -202,7 +202,7 @@ function verificarSolicitarPermissao() {
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout :titulo="`Conversa ${conversa.equipamento.titulo}`">
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
             <div v-if="!temPermissao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">

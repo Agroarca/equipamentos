@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout :titulo="equipamento.titulo">
         <div class="container equipamento">
             <div class="d-flex flex-column flex-md-row align-items-md-start">
                 <Imagens :imagens="equipamento.imagens" class="col-md-8" />

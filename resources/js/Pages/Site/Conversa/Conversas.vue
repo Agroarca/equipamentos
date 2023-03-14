@@ -24,7 +24,7 @@ function getNomeNaoLidas(conversa) {
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout :titulo="`Conversas de ${equipamento.titulo }`">
         <div class="container conversas">
             <h2>Conversas de {{ equipamento.titulo }} </h2>
 

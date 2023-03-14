@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Head, Link } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
 
@@ -29,9 +29,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
-        <Head title="Atualizar Senha" />
-
+    <SiteLayout titulo="Atualizar Senha">
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="email">E-mail</label>

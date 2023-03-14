@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Head, Link } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
@@ -31,9 +31,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
-        <Head title="Register" />
-
+    <SiteLayout titulo="Register">
         <div class="container-600 auth">
             <form @submit.prevent="submit">
                 <div class="mb-3">

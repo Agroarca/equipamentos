@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Head, Link } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
 
@@ -17,9 +17,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
-        <Head title="Entrar" />
-
+    <SiteLayout titulo="Entrar">
         <div class="container-600 auth">
             <form @submit.prevent="submit">
                 <div class="mb-3">

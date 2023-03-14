@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Head } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '../../Components/FormError.vue'
 
@@ -15,9 +15,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout>
-        <Head title="Recuperar Senha" />
-
+    <SiteLayout titulo="Recuperar Senha">
         <div class="alert alert-warn">
             Essa é uma área restrita!
             Confirme sua senha antes de acessar
