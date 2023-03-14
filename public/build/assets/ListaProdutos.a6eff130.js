@@ -1,0 +1,1 @@
+import"./ListaProdutos.vue_vue_type_script_setup_true_lang.46dbc32d.js";import{_ as t}from"./ListaProdutos.vue_vue_type_script_setup_true_lang.46dbc32d.js";import"./app.4845ad9f.js";export{t as default};
