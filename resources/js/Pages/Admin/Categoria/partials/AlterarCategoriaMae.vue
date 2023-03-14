@@ -14,7 +14,8 @@ const state = reactive({
 })
 
 function atualizarCategorias(categoriaId) {
-    axios.get(`/admin/categorias/pesquisar/${categoriaId}`).then((response) => {
+    const url = categoriaId ? `/admin/categorias/pesquisar/${categoriaId}` : '/admin/categorias/pesquisar'
+    axios.get(url).then((response) => {
         state.categorias = response.data.categorias
         state.categoriaAtual = response.data.categoria
     })

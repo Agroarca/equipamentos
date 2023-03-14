@@ -83,6 +83,10 @@
         font-weight: bold;
         color: $conversa-textcount-color;
     }
+
+    p.erro {
+        margin: 0;
+    }
 }
 
 .container.conversas {
