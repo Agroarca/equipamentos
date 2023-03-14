@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 
 const elModal = ref(null)
 const props = defineProps({
-    id: Number,
+    id: String,
     title: String,
     modalSizeClass: String,
 })

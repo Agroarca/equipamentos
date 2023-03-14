@@ -27,7 +27,7 @@ const props = defineProps({
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
-                                <Link class="btn btn-danger" :href="`/admin/marcas/${modelo.id}/excluir`">
+                                <Link class="btn btn-danger" :href="`/admin/modelos/${modelo.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>
