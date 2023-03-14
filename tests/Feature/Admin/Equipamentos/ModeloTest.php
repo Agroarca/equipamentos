@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class ModeloTest extends TestCase
 {
@@ -182,5 +183,43 @@ class ModeloTest extends TestCase
         $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
             'id' => $modelo->id
         ]);
+    }
+
+
+    public function testPodePesquisar()
+    {
+        Modelo::factory()->count(5)->create();
+        Modelo::factory()->createMany([
+            ['nome' => 'Modelo 1'],
+            ['nome' => 'Modelo 2'],
+            ['nome' => 'Modelo 3'],
+            ['nome' => 'Modelo 4'],
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/modelos/pesquisar?termo=Modelo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(4));
+    }
+
+    public function testNaoPodePesquisar()
+    {
+        Modelo::factory()->count(5)->create();
+        Modelo::factory()->createMany([
+            ['nome' => 'Modelo 1'],
+            ['nome' => 'Modelo 2'],
+            ['nome' => 'Modelo 3'],
+            ['nome' => 'Modelo 4'],
+        ]);
+
+        $termo = Str::Random(250);
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/modelos/pesquisar?termo=$termo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 }

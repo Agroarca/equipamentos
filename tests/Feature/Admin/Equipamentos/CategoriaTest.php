@@ -7,6 +7,7 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class CategoriaTest extends TestCase
@@ -236,6 +237,111 @@ class CategoriaTest extends TestCase
         $response->assertRedirectToRoute('admin.categorias');
         $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
             'id' => $categoria->id
+        ]);
+    }
+
+    public function testPodePesquisar()
+    {
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/categorias/pesquisar/");
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('categorias', 1)
+            ->where('categorias.0.id', $categoria->id)
+            ->etc());
+    }
+
+    public function testPodePesquisarCategoria()
+    {
+        $categoria = Categoria::factory()->create();
+        $categoria2 = Categoria::factory()->create([
+            'categoria_mae_id' => $categoria->id
+        ]);
+        $categoria3 = Categoria::factory()->create([
+            'categoria_mae_id' => $categoria2->id
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->get("/admin/categorias/pesquisar/$categoria2->id");
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->where('categoria.id', $categoria2->id)
+            ->where('categoria.categoria_mae.id', $categoria->id)
+            ->has('categorias', 1)
+            ->where('categorias.0.id', $categoria3->id)
+            ->etc());
+    }
+
+    public function testValidacaoCategoriaMaeSelf()
+    {
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $categoria->nome,
+                'categoria_mae_id' => $categoria->id
+            ]);
+
+        $response->assertInvalid('categoria_mae_id');
+        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
+            'id' => $categoria->id,
+            'categoria_mae_id' => $categoria->id
+        ]);
+    }
+
+    public function testValidacaoCategoriaMaeCircular()
+    {
+        $categoriaMae = Categoria::factory()->create();
+        $categoria = Categoria::factory()->create([
+            'categoria_mae_id' => $categoriaMae->id
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/categorias/$categoriaMae->id/atualizar", [
+                'nome' => $categoriaMae->nome,
+                'categoria_mae_id' => $categoria->id
+            ]);
+
+        $response->assertInvalid('categoria_mae_id');
+        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
+            'id' => $categoriaMae->id,
+            'categoria_mae_id' => $categoria->id
+        ]);
+    }
+
+    public function testValidacaoCategoriaMaeCircularNull()
+    {
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $categoria->nome,
+                'categoria_mae_id' => null
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Categoria::class)->getTable(), [
+            'id' => $categoria->id,
+            'categoria_mae_id' => null
+        ]);
+    }
+
+    public function testValidacaoCategoriaMaeCircularInvalida()
+    {
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $categoria->nome,
+                'categoria_mae_id' => 0
+            ]);
+
+        $response->assertInvalid('categoria_mae_id');
+        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
+            'id' => $categoria->id,
+            'categoria_mae_id' => 0
         ]);
     }
 }

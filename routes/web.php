@@ -27,8 +27,6 @@ Route::name('site')->group(function () {
     Route::get('categoria/{id?}', [ListaController::class, 'categoria'])->name('.categoria');
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
 
-    Route::get('modelos/pesquisar', [ModeloController::class, 'pesquisar'])->name('.modelos.pesquisar');
-
     Route::middleware(['auth'])->group(function () {
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
         Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
