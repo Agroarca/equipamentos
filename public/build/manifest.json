@@ -690,6 +690,10 @@
       "__plugin-vue_export-helper.20dc55c8.js"
     ]
   },
+  "AdminLayout.css": {
+    "file": "assets/AdminLayout.d6b9b18f.css",
+    "src": "AdminLayout.css"
+  },
   "resources/js/Pages/Admin/Lista/Produtos.css": {
     "file": "assets/Produtos.8aff80f7.css",
     "src": "resources/js/Pages/Admin/Lista/Produtos.css"
@@ -697,10 +701,6 @@
   "SiteLayout.css": {
     "file": "assets/SiteLayout.523955a1.css",
     "src": "SiteLayout.css"
-  },
-  "AdminLayout.css": {
-    "file": "assets/AdminLayout.d6b9b18f.css",
-    "src": "AdminLayout.css"
   },
   "resources/js/app.css": {
     "file": "assets/app.20da6061.css",
