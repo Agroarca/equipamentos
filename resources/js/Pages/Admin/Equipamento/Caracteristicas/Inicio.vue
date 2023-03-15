@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import Valor from './Valor.vue'
-import FormError from '../../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     caracteristicas: Object,

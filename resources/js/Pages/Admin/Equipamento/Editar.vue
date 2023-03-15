@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import FormError from '../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
 import Descricao from './Descricao/Descricao.vue'

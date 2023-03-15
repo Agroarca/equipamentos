@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { computed } from '@vue/runtime-core'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import FormError from '../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 import * as base from './Base'
 
 const props = defineProps({
