@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { onMounted, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import FormError from '../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 import Mask from '@/Components/Util/InputMask'
 
 const props = defineProps({

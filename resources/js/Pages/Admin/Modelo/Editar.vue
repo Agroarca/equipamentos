@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import FormError from '../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     modelo: Object,

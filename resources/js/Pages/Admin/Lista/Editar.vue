@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import FormError from '../../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 import SelectAjax from '@/Components/Util/SelectAjax.vue'
 
 const props = defineProps({
