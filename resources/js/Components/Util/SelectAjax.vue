@@ -16,14 +16,13 @@ const props = defineProps([
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const options = ref([])
 
-// options.value = props.options
+options.value = props.options
 const search = debounce(onSearch, 500)
 
 const selectedOption = ref(getOpcaoSelecionada())
 
 function onSearch(inputEvent: InputEvent) {
-    console.log('onSearch')
-    let termo = (inputEvent.target! as HTMLInputElement).value
+    let termo = (inputEvent.target as HTMLInputElement).value
     axios.get(props.href, {
         params: {
             termo,
