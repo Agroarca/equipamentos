@@ -13,8 +13,8 @@ class CaracteristicaEquipamento extends Model
     protected $table = 'caracteristicas_equipamento';
 
     protected $fillable = [
-        'caracteristica_valor_id',
-        'caracteristica_valor_tipo',
+        'valor_id',
+        'valor_type',
         'caracteristica_id',
         'equipamento_id',
     ];

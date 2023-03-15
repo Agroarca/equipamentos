@@ -4,7 +4,7 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout titulo="Início">
         <p>Início</p>
     </SiteLayout>
 </template>

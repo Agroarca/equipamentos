@@ -14,7 +14,7 @@ class EsqueceuSenhaTest extends TestCase
 
     public function testEsqueceuSenha(): void
     {
-        $response = $this->get('/forgot-password');
+        $response = $this->get('/senha/recuperar');
         $response->assertStatus(200);
     }
 
@@ -23,7 +23,7 @@ class EsqueceuSenhaTest extends TestCase
         Notification::fake();
 
         $user = Usuario::factory()->create();
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/senha/recuperar', ['email' => $user->email]);
 
         Notification::assertSentTo($user, ResetPassword::class);
     }
@@ -33,10 +33,10 @@ class EsqueceuSenhaTest extends TestCase
         Notification::fake();
 
         $user = Usuario::factory()->create();
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/senha/recuperar', ['email' => $user->email]);
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-            $response = $this->get('/reset-password/' . $notification->token);
+            $response = $this->get('/senha/redefinir/' . $notification->token);
 
             $response->assertStatus(200);
 
@@ -50,10 +50,10 @@ class EsqueceuSenhaTest extends TestCase
 
         $user = Usuario::factory()->create();
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/senha/recuperar', ['email' => $user->email]);
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-            $response = $this->post('/reset-password', [
+            $response = $this->post('/senha/redefinir', [
                 'token' => $notification->token,
                 'email' => $user->email,
                 'password' => 'password',

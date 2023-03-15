@@ -124,6 +124,18 @@
         color: $conversa-textcount-color;
     }
 
+    p.erro {
+        margin: 0;
+    }
+}
+
+.container.conversas {
+    .lista {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
     .mensagem {
         position: relative;
 

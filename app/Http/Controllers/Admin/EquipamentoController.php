@@ -122,9 +122,20 @@ class EquipamentoController extends Controller
     public function deletarImagem($equipamentoId, $imagemId)
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
-        Storage::delete(config('equipamentos.path_imagens') . $imagem->nome_arquivo);
+        Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('admin.equipamentos.editar', $equipamentoId);
+    }
+
+    public function pesquisar(Request $request)
+    {
+        $equipamento = Equipamento::select('id', 'titulo as texto')
+            ->whereFullText('titulo', $request->input('termo'))
+            ->orWhere('titulo', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        return response()->json($equipamento);
     }
 }

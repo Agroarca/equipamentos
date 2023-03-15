@@ -29,9 +29,9 @@ class CaracteristicaRequest extends FormRequest
             'nome' => 'string|required|min:3|max:50',
             'tipo' => ['integer', 'required', Rule::in(TipoCaracteristica::values())],
             'obrigatorio' => 'boolean|required',
-            'minimo' => 'integer|nullable',
-            'maximo' => 'integer|nullable',
-            'quantidade' => 'integer|nullable',
+            'minimo' => ['integer', 'nullable', Rule::prohibitedIf(fn () => !$this->mostrarTamanhos(request()->tipo))],
+            'maximo' => ['integer', 'nullable', 'gt:minimo', Rule::prohibitedIf(fn () => !$this->mostrarTamanhos(request()->tipo))],
+            'quantidade' => ['integer', 'nullable', Rule::prohibitedIf(fn () => request()->tipo != TipoCaracteristica::Decimal->value)],
         ];
     }
 
@@ -45,5 +45,15 @@ class CaracteristicaRequest extends FormRequest
             'maximo' => 'Máximo',
             'quantidade' => 'Quantidade',
         ];
+    }
+
+    private function mostrarTamanhos($tipo): bool
+    {
+        return in_array($tipo, [
+            TipoCaracteristica::Inteiro->value,
+            TipoCaracteristica::Decimal->value,
+            TipoCaracteristica::TextoCurto->value,
+            TipoCaracteristica::TextoLongo->value
+        ]);
     }
 }

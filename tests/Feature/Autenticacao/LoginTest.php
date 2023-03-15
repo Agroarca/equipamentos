@@ -13,7 +13,7 @@ class LoginTest extends TestCase
 
     public function testPodeAcessar(): void
     {
-        $response = $this->get('/login');
+        $response = $this->get('/entrar');
         $response->assertStatus(200);
     }
 
@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     {
         $usuario = Usuario::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->post('/entrar', [
             'email' => $usuario->email,
             'password' => 'password',
         ]);
@@ -34,7 +34,7 @@ class LoginTest extends TestCase
     {
         $usuario = Usuario::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->post('/entrar', [
             'email' => $usuario->email,
             'password' => 'password-incorreto',
         ]);

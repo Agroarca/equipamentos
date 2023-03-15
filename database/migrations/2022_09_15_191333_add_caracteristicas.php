@@ -20,8 +20,8 @@ return new class extends Migration
             $table->smallInteger('tipo');
             $table->integer('ordem');
             $table->boolean('obrigatorio')->default(false);
-            $table->integer('minimo')->nullable();
-            $table->integer('maximo')->nullable();
+            $table->decimal('minimo', 30, 10)->nullable();
+            $table->decimal('maximo', 30, 10)->nullable();
             $table->smallInteger('quantidade')->nullable(); //Casas decimais, quantidade de opções
             $table->smallInteger('modelo')->nullable(); //se lista suspensa / checkbox
 

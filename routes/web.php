@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\ModeloController;
 use App\Http\Controllers\Site\ConversaController;
 use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
@@ -26,8 +25,7 @@ Route::name('site')->group(function () {
     Route::get('equipamento/{id}', [SiteController::class, 'equipamento'])->name('.equipamento');
     Route::get('categoria/{id?}', [ListaController::class, 'categoria'])->name('.categoria');
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
-
-    Route::get('modelos/pesquisar', [ModeloController::class, 'pesquisar'])->name('.modelos.pesquisar');
+    Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');

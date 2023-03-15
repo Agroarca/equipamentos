@@ -21,7 +21,7 @@ const props = defineProps({
                         <tr v-for="marca in marcas.data" :key="marca.id">
                             <td>{{ marca.nome }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/marcas/criar/${marca?.id}`">
+                                <Link class="btn btn-primary me-2" :href="`/admin/marcas/${marca.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
