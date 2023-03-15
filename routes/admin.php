@@ -51,7 +51,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
 
     Route::prefix('equipamentos')->name('.equipamentos')->group(function () {
         Route::get('', [EquipamentoController::class, 'inicio'])->name('');
-        Route::get('criar/{categoriaId?}', [EquipamentoController::class, 'criar'])->name('.criar');
+        Route::get('criar/', [EquipamentoController::class, 'criar'])->name('.criar');
         Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
@@ -65,7 +65,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
 
     Route::prefix('marcas')->name('.marcas')->group(function () {
         Route::get('', [MarcaController::class, 'inicio'])->name('');
-        Route::get('criar/{categoriaId?}', [MarcaController::class, 'criar'])->name('.criar');
+        Route::get('criar', [MarcaController::class, 'criar'])->name('.criar');
         Route::post('salvar', [MarcaController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [MarcaController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [MarcaController::class, 'atualizar'])->name('.atualizar');
@@ -74,7 +74,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
 
     Route::prefix('modelos')->name('.modelos')->group(function () {
         Route::get('', [ModeloController::class, 'inicio'])->name('');
-        Route::get('criar/{categoriaId?}', [ModeloController::class, 'criar'])->name('.criar');
+        Route::get('criar/', [ModeloController::class, 'criar'])->name('.criar');
         Route::post('salvar', [ModeloController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [ModeloController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
