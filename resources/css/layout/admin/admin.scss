@@ -1,6 +1,7 @@
 @import '../app/app.scss';
 @import "cores.scss";
 @import "equipamento.scss";
+@import "selectajax.scss";
 
 body:has(.admin-layout) {
     background-color: #f4f6f9;

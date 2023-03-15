@@ -1,5 +1,19 @@
 .site-layout {
-    .vs__dropdown-option--highlight {
-        background: $selectajax-option-background;
+    .vue-dropdown-item.highlighted {
+        background-color: $selectajax-option-background;
+        color: white;
+    }
+
+    .vue-dropdown-item.selected.highlighted {
+        background-color: $selectajax-option-background;
+        color: white;
+    }
+
+    .vue-input input {
+        font-size: 1rem;
+    }
+
+    .vue-dropdown-item {
+        font-size: 1rem;
     }
 }
