@@ -10,10 +10,10 @@ Route::name('auth')->group(function () {
     Route::post('entrar', [EntrarController::class, 'entrar'])->name('.autenticar');
     Route::get('registrar', [RegistroController::class, 'inicio'])->name('.registrar');
     Route::post('registrar', [RegistroController::class, 'registrar'])->name('.registro');
-    Route::get('senha/recuperar', [RecuperarSenhaController::class, 'inicio'])->name('recuperar-senha');
-    Route::post('senha/recuperar', [RecuperarSenhaController::class, 'recuperarSenha'])->name('recuperacao-senha');
-    Route::get('senha/redefinir/{token}', [RecuperarSenhaController::class, 'inicio'])->name('redefinir-senha');
-    Route::post('senha/redefinir', [RecuperarSenhaController::class, 'redefinirSenha'])->name('redefinicao-senha');
+    Route::get('senha/recuperar', [RecuperarSenhaController::class, 'inicio'])->name('.recuperar-senha');
+    Route::post('senha/recuperar', [RecuperarSenhaController::class, 'recuperarSenha'])->name('.recuperacao-senha');
+    Route::get('senha/redefinir/{token}', [RecuperarSenhaController::class, 'inicio'])->name('.redefinir-senha');
+    Route::post('senha/redefinir', [RecuperarSenhaController::class, 'redefinirSenha'])->name('.redefinicao-senha');
 
     Route::middleware('auth')->group(function () {
         Route::get('sair', [EntrarController::class, 'sair'])->name('.sair');

@@ -78,6 +78,10 @@ return [
                 'log',
             ],
         ],
+
+        'phpmailer' => [
+            'transport' => 'phpmailer',
+        ],
     ],
 
     /*

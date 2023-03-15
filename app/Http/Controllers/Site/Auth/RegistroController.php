@@ -15,7 +15,7 @@ class RegistroController extends Controller
 {
     public function inicio()
     {
-        return Inertia::render('Site/Auth/Register');
+        return Inertia::render('Site/Auth/Registrar');
     }
 
     public function registrar(RegistroRequest $request)
