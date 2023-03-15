@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 
 const form = useForm({
     email: '',
 })
 
 function submit() {
-    form.post('/forgot-password')
+    form.post('/senha/recuperar')
 }
 </script>
 
@@ -34,7 +34,7 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" href="/login">
+                    <Link class="btn btn-link" href="/entrar">
                         Entrar na Conta
                     </Link>
                 </div>

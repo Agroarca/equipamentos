@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\ModeloController;
 use App\Http\Controllers\Site\ConversaController;
 use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;

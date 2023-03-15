@@ -12,13 +12,13 @@ class RegistroTest extends TestCase
 
     public function testPodeAcessar()
     {
-        $response = $this->get('/register');
+        $response = $this->get('/registrar');
         $response->assertStatus(200);
     }
 
     public function testPodeRegistrarCpfFormatado()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test@example.com',
             'cpf_cnpj' => '243.287.440-46',
@@ -33,7 +33,7 @@ class RegistroTest extends TestCase
 
     public function testPodeRegistrarCpf()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test2@example.com',
             'cpf_cnpj' => '22018399055',
@@ -49,7 +49,7 @@ class RegistroTest extends TestCase
 
     public function testPodeRegistrarCnpjFormatado()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test3@example.com',
             'cpf_cnpj' => '52.385.899/0001-01',
@@ -64,7 +64,7 @@ class RegistroTest extends TestCase
 
     public function testPodeRegistrarCnpj()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test4@example.com',
             'cpf_cnpj' => '50134660000133',
@@ -79,7 +79,7 @@ class RegistroTest extends TestCase
 
     public function testnaoPodeRegistrarCpfInvalido()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test5@example.com',
             'cpf_cnpj' => '243.287.440-47',
@@ -93,7 +93,7 @@ class RegistroTest extends TestCase
 
     public function testnaoPodeRegistrarCnpjInvalido()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test6@example.com',
             'cpf_cnpj' => '52.386.899/0001-01',
@@ -107,7 +107,7 @@ class RegistroTest extends TestCase
 
     public function testnaoPodeRegistrarTamanhoInvalido()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test6@example.com',
             'cpf_cnpj' => '501346600001',
@@ -121,7 +121,7 @@ class RegistroTest extends TestCase
 
     public function testnaoPodeRegistrarTamanhoInvalido2()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test6@example.com',
             'cpf_cnpj' => '22018399055',
@@ -134,7 +134,7 @@ class RegistroTest extends TestCase
     }
     public function testnaoPodeRegistrarTamanhoInvalido3()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
             'email' => 'test6@example.com',
             'cpf_cnpj' => '22018399055',

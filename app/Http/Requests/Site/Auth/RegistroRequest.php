@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Site\Auth;
 
 use App\Enums\TipoPessoa;
 use App\Rules\CNPJ;
@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
-class RegisteredUserRequest extends FormRequest
+class RegistroRequest extends FormRequest
 {
     public function __construct(Factory $factory)
     {

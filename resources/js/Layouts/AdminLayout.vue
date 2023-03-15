@@ -44,7 +44,7 @@ onUnmounted(() => {
 
                 <div class="navbar-nav">
                     <div class="nav-item text-nowrap">
-                        <Link class="nav-link px-3" href="/logout">
+                        <Link class="nav-link px-3" href="/sair">
                             Sair
                         </Link>
                     </div>

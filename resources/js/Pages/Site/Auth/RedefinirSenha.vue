@@ -33,7 +33,7 @@ function submit() {
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input id="email" v-model="form.email" class="form-control" type="email" required autocomplete="email">
+                <input id="email" v-model="form.email" class="form-control" type="email" disabled autocomplete="email">
                 <FormError :error="form.errors.email" />
             </div>
 

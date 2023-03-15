@@ -3,7 +3,7 @@ import { useForm, Link } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 import Mask from '@/Components/Util/InputMask'
 
 const form = useForm({
@@ -24,7 +24,7 @@ onMounted(() => {
 })
 
 function submit() {
-    form.post('/register', {
+    form.post('/registrar', {
         onFinish: () => form.reset('password', 'password_confirmation'),
     })
 }
@@ -83,7 +83,7 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" href="/login">
+                    <Link class="btn btn-link" href="/entrar">
                         Já possui conta?
                     </Link>
                 </div>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '../../Components/FormError.vue'
+import FormError from '@/Components/FormError.vue'
 
 const form = useForm({
     email: '',
     password: '',
-    remember: false,
+    manter_conectado: false,
 })
 
 function submit() {
-    form.post('/login', {
+    form.post('/entrar', {
         onFinish: () => form.reset('password'),
     })
 }
@@ -38,8 +38,8 @@ function submit() {
                 </div>
 
                 <div class="form-check mb-3">
-                    <input id="remember" v-model="form.remember" class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="remember">Manter conectado?</label>
+                    <input id="manter_conectado" v-model="form.manter_conectado" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="manter_conectado">Manter conectado?</label>
                 </div>
 
                 <div class="mb-3 d-flex justify-content-between">
@@ -49,13 +49,13 @@ function submit() {
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" href="/forgot-password">
+                    <Link class="btn btn-link" href="/senha/recuperar">
                         Esqueceu sua Senha?
                     </Link>
                 </div>
 
                 <div class="mb-2">
-                    <Link class="btn btn-link" href="/register">
+                    <Link class="btn btn-link" href="/registrar">
                         Não possui conta?
                     </Link>
                 </div>
