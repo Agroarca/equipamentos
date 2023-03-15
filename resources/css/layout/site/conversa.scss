@@ -1,3 +1,43 @@
+.container.conversas {
+    .lista {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .conversa {
+        border: 1px solid $conversas-conversa-borda;
+        border-radius: 2rem;
+        padding: 1rem 2rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .infos,
+    .botao {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .nome {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .ultima_mensagem {
+        color: $conversas_ultima_mensagem_color;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    a {
+        padding: .5rem 1rem;
+    }
+}
+
 .container.conversa {
     font-family: "Lato", Arial, Helvetica, sans-serif;
     font-weight: normal;
@@ -96,35 +136,33 @@
         gap: 1rem;
     }
 
-    .conversa {
-        border: 1px solid $conversas-conversa-borda;
-        border-radius: 2rem;
-        padding: 1rem 2rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+    .mensagem {
+        position: relative;
 
-    .infos,
-    .botao {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+        .opcoes {
+            padding: 0 .4rem;
+            font-size: 20px;
+            color: $cinza-primary;
+            opacity: 75%;
+        }
 
-    .nome {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+        &:hover .opcoes {
+            opacity: 1;
+        }
 
-    .ultima_mensagem {
-        color: $conversas_ultima_mensagem_color;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
+        .menu-container {
+            position: absolute;
+            z-index: 100;
+            top: 30%;
+            left: 100%;
+            right: 1rem;
+            width: 200px;
+        }
 
-    a {
-        padding: .5rem 1rem;
+        &.autor .menu-container {
+            top: 30%;
+            left: unset;
+            right: 2rem;
+        }
     }
 }

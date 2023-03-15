@@ -4,16 +4,18 @@
 /* eslint-disable no-restricted-globals */
 import { ref, onMounted, reactive, nextTick, computed } from 'vue'
 import axios from 'axios'
-import { debounce, last } from 'lodash'
+import { debounce, filter, last } from 'lodash'
 import EventoConversa from '@/Components/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Listener from '@/Components/Eventos/Listener'
+import Mensagem from './Partial/Mensagem.vue'
 import { getPush } from '@/Components/Notificacoes/Push'
 import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     conversa: Object,
     usuarioId: Number,
+    mensagensTempoExcluir: Number,
 })
 const scroll = debounce(onScroll, 100, { maxWait: 250 })
 const enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
@@ -202,6 +204,12 @@ function atualizarMensagensAnteriores() {
         })
 }
 
+function excluirMensagem(mensagem) {
+    axios.get(`/conversa/${mensagem.equipamento_conversa_id}/mensagem/excluir/${mensagem.id}`).then(() => {
+        chat.mensagens = filter(chat.mensagens, (m) => mensagem.id !== m.id)
+    })
+}
+
 function solicitarPermNotificacao() {
     getPush().solicitarPermissao().then(() => { temPermissao.value = getPush().temPermissao() })
 }
@@ -234,9 +242,11 @@ function verificarSolicitarPermissao() {
                         <div v-if="chat.mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <span v-for="mensagem in chat.mensagens" :id="'msg-' + mensagem.id" :key="mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuarioId }">
-                            {{ mensagem.mensagem }}
-                        </span>
+                        <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id"
+                                  :mensagem="mensagem"
+                                  :usuario-id="usuarioId"
+                                  :mensagens-tempo-excluir="mensagensTempoExcluir"
+                                  @excluirMensagem="excluirMensagem" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">

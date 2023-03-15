@@ -39,6 +39,7 @@ Route::name('site')->group(function () {
             Route::get('{id_conversa}/mensagens/anteriores/{id}', [ConversaController::class, 'mensagensAnteriores'])->name('.mensagens.anteriores');
             Route::get('{id_conversa}/mensagens/posteriores/{id}', [ConversaController::class, 'mensagensPosteriores'])->name('.mensagens');
             Route::post('{id_conversa}/mensagens/visualizacao/{id}', [ConversaController::class, 'visualizacao'])->name('.mensagens.visualizacao');
+            Route::get('{id_conversa}/mensagem/excluir/{id}',[ConversaController::class, 'excluirMensagem'])->name('.mensagem.excluir');
         });
 
         Route::prefix('notificacao')->name('.notificacao')->group(function () {
