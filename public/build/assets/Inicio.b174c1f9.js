@@ -1,1 +1,0 @@
-import"./Inicio.vue_vue_type_script_setup_true_lang.5fc83afb.js";import{_ as i}from"./Inicio.vue_vue_type_script_setup_true_lang.5fc83afb.js";import"./app.209b19e6.js";import"./Modal.vue_vue_type_script_setup_true_lang.23f3604d.js";export{i as default};
