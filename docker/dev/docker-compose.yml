@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
     equipamentos:
+        image: equipamentos
         container_name: equipamentos
         build: .
         volumes:
@@ -21,6 +22,7 @@ services:
                 limits:
                     memory: 600M
     equipamentos_queue:
+        image: equipamentos
         container_name: equipamentos_queue
         build: .
         volumes:
