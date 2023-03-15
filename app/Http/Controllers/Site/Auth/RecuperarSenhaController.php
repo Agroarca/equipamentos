@@ -12,7 +12,8 @@ class RecuperarSenhaController extends Controller
 {
     public function inicio()
     {
-        return Inertia::render('Site/Auth/RecuperarSenha');
+        $status = session('status');
+        return Inertia::render('Site/Auth/RecuperarSenha', compact('status'));
     }
 
     public function recuperarSenha(RecuperarSenhaRequest $request)
@@ -22,7 +23,7 @@ class RecuperarSenhaController extends Controller
         );
 
         if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+            return redirect()->route('auth.recuperar-senha')->with('status', __($status));
         }
 
         throw ValidationValidationException::withMessages([
