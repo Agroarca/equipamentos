@@ -12,7 +12,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return $this->app['config']->get('app.url') . route('site.auth.redefinir-senha', [
+            return $this->app['config']->get('app.url') . route('auth.redefinir-senha', [
                 'token' => $token,
                 'email' => $user->getEmailForPasswordReset()
             ], false);
