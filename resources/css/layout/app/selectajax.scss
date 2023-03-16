@@ -13,5 +13,9 @@
 }
 
 .icon.arrow-downward {
-    border-width: 6px 6px 0;
+    border-width: 6px 6px 0 !important;
+}
+
+.icon.loading {
+    scale: 1.8;
 }
