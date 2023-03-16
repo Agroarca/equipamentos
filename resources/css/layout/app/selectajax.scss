@@ -1,0 +1,17 @@
+.vue-input input {
+    font-size: 1rem !important;
+    color: #212529;
+}
+
+.vue-input input::placeholder {
+    font-size: 1rem;
+    color: #212529;
+}
+
+.vue-dropdown-item {
+    font-size: 1rem;
+}
+
+.icon.arrow-downward {
+    border-width: 6px 6px 0;
+}

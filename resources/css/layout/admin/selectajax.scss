@@ -1,29 +1,11 @@
 .admin-layout {
     .vue-dropdown-item.highlighted {
-        background-color: rgb(30, 144, 255);
+        background-color: $selectajax-option-background;
         color: white;
     }
 
     .vue-dropdown-item.selected.highlighted {
-        background-color: rgb(30, 144, 255);
+        background-color: $selectajax-option-background;
         color: white;
     }
-
-    .vue-input input {
-        font-size: 1rem;
-        color: black;
-    }
-
-    .vue-input input::placeholder {
-        color: black;
-    }
-
-    .vue-dropdown-item {
-        font-size: 1rem;
-    }
-
-    .icon.arrow-downward {
-        border-width: 6px 6px 0;
-    }
-
 }

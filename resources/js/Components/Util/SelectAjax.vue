@@ -1,12 +1,12 @@
 <script  setup lang="ts">
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vue/require-prop-types  */
+import 'vue-next-select/dist/index.css'
 import { anyTypeAnnotation } from '@babel/types'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
 import VueNextSelect from 'vue-next-select'
-import 'vue-next-select/dist/index.css'
 
 const props = defineProps([
     'href',
