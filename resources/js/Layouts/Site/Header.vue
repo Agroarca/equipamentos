@@ -2,7 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3'
 import Menu from './Menu.vue'
 
-const isAdmin = usePage().props?.auth?.user?.tipo_usuario === 1
+const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === 1
 </script>
 
 <template>

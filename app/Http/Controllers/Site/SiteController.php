@@ -36,7 +36,7 @@ class SiteController extends Controller
 
     public function perfil()
     {
-        $user = Auth::user();
+        $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
 
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
@@ -45,7 +45,7 @@ class SiteController extends Controller
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
-        $attributes = Arr::where($request->all(), fn ($v, $k) => ! is_null($v));
+        $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
         $user->update($attributes);
 
         return Redirect::route('site.perfil');
