@@ -1,7 +1,8 @@
 name: 'PR Checklist'
 
 on:
-  pull_request
+  pull_request:
+    type: [opened]
 
 jobs:
   comment:
