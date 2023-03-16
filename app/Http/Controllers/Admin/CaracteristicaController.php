@@ -42,6 +42,7 @@ class CaracteristicaController extends Controller
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)
             ->with('opcoes')
             ->findOrFail($id);
+
         $tipos = TipoCaracteristica::toArray();
 
         return Inertia::render('Admin/Caracteristicas/Visualizar', compact('caracteristica', 'tipos'));
