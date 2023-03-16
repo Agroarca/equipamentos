@@ -13,22 +13,26 @@ const props = defineProps([
     'modelValue',
     'options',
 ])
+
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const options = ref([])
+const loading = ref(false)
+const search = debounce(onSearch, 300, { maxWait: 1000 })
+const selectedOption = ref(getOpcaoSelecionada())
 
 options.value = props.options
-const search = debounce(onSearch, 500)
-
-const selectedOption = ref(getOpcaoSelecionada())
 
 function onSearch(inputEvent: InputEvent) {
     let termo = (inputEvent.target as HTMLInputElement).value
+    loading.value = true
     axios.get(props.href, {
         params: {
             termo,
         },
     }).then((response) => {
         options.value = response.data
+    }).finally(() => {
+        loading.value = false
     })
 }
 
@@ -55,6 +59,7 @@ function getOpcaoSelecionada() {
         close-on-select
         searchable
         label-by="texto"
+        :loading="loading"
         @update:model-value="updateModelValue"
         @search:input="search" />
 </template>
