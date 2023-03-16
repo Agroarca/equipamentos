@@ -29,7 +29,6 @@ class Usuario extends Authenticatable
 
     protected $hidden = ['password', 'remember_token', 'cpf', 'cnpj', 'celular'];
 
-
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
