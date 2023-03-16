@@ -1,12 +1,12 @@
 <script  setup lang="ts">
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vue/require-prop-types  */
+import 'vue-next-select/dist/index.css'
 import { anyTypeAnnotation } from '@babel/types'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
-import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css'
+import VueNextSelect from 'vue-next-select'
 
 const props = defineProps([
     'href',
@@ -15,24 +15,25 @@ const props = defineProps([
 ])
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const options = ref([])
+
 options.value = props.options
 const search = debounce(onSearch, 500)
 
 const selectedOption = ref(getOpcaoSelecionada())
 
-function onSearch(termo, loading) {
+function onSearch(inputEvent: InputEvent) {
+    let termo = (inputEvent.target as HTMLInputElement).value
     axios.get(props.href, {
         params: {
             termo,
         },
     }).then((response) => {
-        loading(false)
         options.value = response.data
     })
 }
 
 function updateModelValue() {
-    emit('update:modelValue', selectedOption.value.id)
+    emit('update:modelValue', selectedOption.value?.id)
 }
 
 function getOpcaoSelecionada() {
@@ -45,12 +46,15 @@ function getOpcaoSelecionada() {
 </script>
 
 <template>
-    <v-select v-model="selectedOption" label="texto" :options="options" @search="search" @option:selected="updateModelValue">
-        <template #no-options="{ searching }">
-            <template v-if="searching">
-                Nenhum um resultado encontrado..
-            </template>
-            <em v-else>Digite Para Pesquisar</em>
-        </template>
-    </v-select>
+    <VueNextSelect
+        v-model="selectedOption"
+        search-placeholder="Selecione um Equipamento"
+        placeholder="Selecione um Equipamento"
+        class="form-control w-100"
+        :options="options"
+        close-on-select
+        searchable
+        label-by="texto"
+        @update:model-value="updateModelValue"
+        @search:input="search" />
 </template>
