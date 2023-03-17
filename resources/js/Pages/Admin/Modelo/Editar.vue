@@ -6,11 +6,13 @@ import FormError from '@/Components/FormError.vue'
 const props = defineProps({
     modelo: Object,
     marcas: Object,
+    statusCadastro: Array,
 })
 
 const form = useForm({
     nome: props.modelo.nome,
     marca_id: props.modelo.marca_id,
+    status: props.modelo.status,
 })
 
 function submit() {
@@ -36,6 +38,15 @@ function submit() {
                             </option>
                         </select>
                         <FormError :error="form.errors.marca_id" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="status">Status</label>
+                        <select id="status" v-model="form.status" class="form-select" required>
+                            <option v-for="(status, index) in statusCadastro" :key="index" :value="index">
+                                {{ status }}
+                            </option>
+                        </select>
+                        <FormError :error="form.errors.status" />
                     </div>
                 </div>
                 <div class="card-footer">
