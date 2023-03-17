@@ -33,7 +33,7 @@ class EquipamentoController extends Controller
 
     public function criar()
     {
-        $modelos = Modelo::all()->pluck('nome', 'id');
+        $modelos = Modelo::withoutGlobalScope('aprovado')->get()->pluck('nome', 'id');
         $categorias = Categoria::all()->pluck('nome', 'id');
 
         return Inertia::render('Admin/Equipamento/Criar', compact('modelos', 'categorias'));

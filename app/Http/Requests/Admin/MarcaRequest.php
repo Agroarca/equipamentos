@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\Cadastro\StatusCadastro;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MarcaRequest extends FormRequest
 {
@@ -25,6 +27,7 @@ class MarcaRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:50',
+            'status' => ['integer', 'required', Rule::in(StatusCadastro::values())]
         ];
     }
 
@@ -32,6 +35,7 @@ class MarcaRequest extends FormRequest
     {
         return [
             'nome' => 'Nome',
+            'status' => 'Status'
         ];
     }
 }

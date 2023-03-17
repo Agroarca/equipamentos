@@ -26,7 +26,7 @@ class ModeloController extends Controller
 
     public function criar()
     {
-        $marcas = Marca::all();
+        $marcas = Marca::withoutGlobalScope('aprovado')->get();
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Modelo/Criar', compact('marcas', 'statusCadastro'));
@@ -42,7 +42,7 @@ class ModeloController extends Controller
     public function editar($id)
     {
         $modelo = Modelo::withoutGlobalScope('aprovado')->findOrFail($id);
-        $marcas = Marca::all();
+        $marcas = Marca::withoutGlobalScope('aprovado')->get();
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
@@ -64,7 +64,8 @@ class ModeloController extends Controller
 
     public function pesquisar(Request $request)
     {
-        $modelos = Modelo::select('id', 'nome as texto')
+        $modelos = Modelo::withoutGlobalScope('aprovado')
+            ->select('id', 'nome as texto')
             ->whereFullText('nome', $request->input('termo'))
             ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
             ->take(10)
