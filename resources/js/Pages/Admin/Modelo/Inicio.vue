@@ -5,6 +5,7 @@ import Paginacao from '@/Components/Paginacao.vue'
 
 const props = defineProps({
     modelos: Object,
+    statusCadastro: Array,
 })
 </script>
 
@@ -16,12 +17,14 @@ const props = defineProps({
                     <thead>
                         <th>Nome</th>
                         <th>Marca</th>
+                        <th>Status</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr v-for="modelo in modelos.data" :key="modelo.id">
                             <td>{{ modelo.nome }}</td>
                             <td>{{ modelo.marca.nome }}</td>
+                            <td>{{ statusCadastro[modelo.status] }}</td>
                             <td>
                                 <Link class="btn btn-primary me-2" :href="`/admin/modelos/${modelo.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
