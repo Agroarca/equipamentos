@@ -84,6 +84,8 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/editar', [MarcaController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [MarcaController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [MarcaController::class, 'excluir'])->name('.excluir');
+
+        Route::get('pesquisar', [MarcaController::class, 'pesquisar'])->name('.pesquisar');
     });
 
     Route::prefix('modelos')->name('.modelos')->group(function () {
@@ -93,6 +95,6 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/editar', [ModeloController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
-        Route::get('pesquisar', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
+        Route::get('pesquisar/{marca_id}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
     });
 });

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
+use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Marca;
 use App\Models\Equipamentos\Modelo;
 use App\Models\Usuario;
@@ -188,35 +189,39 @@ class ModeloTest extends TestCase
 
     public function testPodePesquisar()
     {
+        $marca = Marca::factory()->create();
+
         Modelo::factory()->count(5)->create();
         Modelo::factory()->createMany([
-            ['nome' => 'Modelo 1'],
-            ['nome' => 'Modelo 2'],
-            ['nome' => 'Modelo 3'],
+            ['nome' => 'Modelo 1', 'marca_id' => $marca->id],
+            ['nome' => 'Modelo 2', 'marca_id' => $marca->id],
+            ['nome' => 'Modelo 3', 'marca_id' => $marca->id],
             ['nome' => 'Modelo 4'],
         ]);
 
         $response = $this->actingAs($this->usuario)
-            ->get("/admin/modelos/pesquisar?termo=Modelo");
+            ->get("/admin/modelos/pesquisar/$marca->id/?termo=Modelo");
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
-            ->has(4));
+            ->has(3));
     }
 
-    public function testNaoPodePesquisar()
+    public function testNaoPodePesquisarTermoInvalido()
     {
+        $marca = Marca::factory()->create();
+
         Modelo::factory()->count(5)->create();
         Modelo::factory()->createMany([
-            ['nome' => 'Modelo 1'],
-            ['nome' => 'Modelo 2'],
-            ['nome' => 'Modelo 3'],
+            ['nome' => 'Modelo 1', 'marca_id' => $marca->id],
+            ['nome' => 'Modelo 2', 'marca_id' => $marca->id],
+            ['nome' => 'Modelo 3', 'marca_id' => $marca->id],
             ['nome' => 'Modelo 4'],
         ]);
 
         $termo = Str::Random(250);
         $response = $this->actingAs($this->usuario)
-            ->get("/admin/modelos/pesquisar?termo=$termo");
+            ->get("/admin/modelos/pesquisar/$marca->id?termo=$termo");
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json

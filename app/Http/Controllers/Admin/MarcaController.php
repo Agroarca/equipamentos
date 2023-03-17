@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MarcaRequest;
 use App\Models\Equipamentos\Marca;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MarcaController extends Controller
@@ -47,5 +48,15 @@ class MarcaController extends Controller
         Marca::findOrFail($id)->delete();
 
         return redirect()->route('admin.marcas');
+    }
+    public function pesquisar(Request $request)
+    {
+        $marcas = Marca::select('id', 'nome as texto')
+            ->whereFullText('nome', $request->input('termo'))
+            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        return response()->json($marcas);
     }
 }
