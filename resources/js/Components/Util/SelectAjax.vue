@@ -2,7 +2,6 @@
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vue/require-prop-types  */
 import 'vue-next-select/dist/index.css'
-import { anyTypeAnnotation } from '@babel/types'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
@@ -12,6 +11,7 @@ const props = defineProps([
     'href',
     'modelValue',
     'options',
+    'placeholder',
 ])
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
@@ -20,7 +20,7 @@ const loading = ref(false)
 const search = debounce(onSearch, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
 
-options.value = props.options
+options.value = props.options ?? []
 
 function onSearch(inputEvent: InputEvent) {
     let termo = (inputEvent.target as HTMLInputElement).value
@@ -52,8 +52,8 @@ function getOpcaoSelecionada() {
 <template>
     <VueNextSelect
         v-model="selectedOption"
-        search-placeholder="Selecione um Equipamento"
-        placeholder="Selecione um Equipamento"
+        :search-placeholder="placeholder"
+        :placeholder="placeholder"
         class="form-control w-100"
         :options="options"
         close-on-select
