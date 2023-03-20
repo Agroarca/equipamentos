@@ -14,10 +14,12 @@ const state = reactive({
 })
 
 function atualizarCategorias(categoriaId) {
+    loader.show()
     const url = categoriaId ? `/admin/categorias/pesquisar/${categoriaId}` : '/admin/categorias/pesquisar'
     axios.get(url).then((response) => {
         state.categorias = response.data.categorias
         state.categoriaAtual = response.data.categoria
+        loader.hide()
     })
 }
 
