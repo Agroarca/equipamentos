@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Cadastro\StatusCadastro;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ModeloRequest;
 use App\Models\Equipamentos\Marca;
@@ -13,16 +14,22 @@ class ModeloController extends Controller
 {
     public function inicio()
     {
-        $modelos = Modelo::with('marca')->paginate(10);
+        $modelos = Modelo::withoutGlobalScope('aprovado')
+            ->with(['marca' => function ($query) {
+                $query->withoutGlobalScope('aprovado');
+            }])->paginate(10);
 
-        return Inertia::render('Admin/Modelo/Inicio', compact('modelos'));
+        $statusCadastro = StatusCadastro::toArray();
+
+        return Inertia::render('Admin/Modelo/Inicio', compact('modelos', 'statusCadastro'));
     }
 
     public function criar()
     {
-        $marcas = Marca::all();
+        $marcas = Marca::withoutGlobalScope('aprovado')->get();
+        $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Modelo/Criar', compact('marcas'));
+        return Inertia::render('Admin/Modelo/Criar', compact('marcas', 'statusCadastro'));
     }
 
     public function salvar(ModeloRequest $request)
@@ -34,33 +41,35 @@ class ModeloController extends Controller
 
     public function editar($id)
     {
-        $modelo = Modelo::findOrFail($id);
-        $marcas = Marca::all();
+        $modelo = Modelo::withoutGlobalScope('aprovado')->findOrFail($id);
+        $marcas = Marca::withoutGlobalScope('aprovado')->get();
+        $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas'));
+        return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
     }
 
     public function atualizar(ModeloRequest $request, $id)
     {
-        Modelo::findOrFail($id)->update($request->all());
+        Modelo::withoutGlobalScope('aprovado')->findOrFail($id)->update($request->all());
 
         return redirect()->route('admin.modelos');
     }
 
     public function excluir($id)
     {
-        Modelo::findOrFail($id)->delete();
+        Modelo::withoutGlobalScope('aprovado')->findOrFail($id)->delete();
 
         return redirect()->route('admin.modelos');
     }
 
     public function pesquisar(Request $request, $marcaId)
     {
-        $modelos = Modelo::select('id', 'nome as texto')
+        $modelos = Modelo::withoutGlobalScope('aprovado')
+            ->select('id', 'nome as texto')
             ->where(function ($query) use ($request) {
                 $query
-                ->whereFullText('nome', $request->input('termo'))
-                ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
+                    ->whereFullText('nome', $request->input('termo'))
+                    ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
             })
             ->where('marca_id', $marcaId)
             ->take(10)

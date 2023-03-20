@@ -5,6 +5,7 @@ import Paginacao from '@/Components/Paginacao.vue'
 
 const props = defineProps({
     marcas: Object,
+    statusCadastro: Array,
 })
 </script>
 
@@ -15,11 +16,13 @@ const props = defineProps({
                 <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
+                        <th>Status</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr v-for="marca in marcas.data" :key="marca.id">
                             <td>{{ marca.nome }}</td>
+                            <td>{{ statusCadastro[marca.status] }}</td>
                             <td>
                                 <Link class="btn btn-primary me-2" :href="`/admin/marcas/${marca.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />

@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Equipamentos;
 
+use App\Enums\Cadastro\StatusCadastro;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,15 @@ class MarcaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => Str::random(25)
+            'nome' => Str::random(25),
+            'status' => StatusCadastro::Criado->value
         ];
+    }
+
+    public function statusAprovado()
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => StatusCadastro::Aprovado->value,
+        ]);
     }
 }
