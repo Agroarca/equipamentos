@@ -150,6 +150,7 @@ class EquipamentoTest extends TestCase
             ->where('equipamento.id', $equipamento->id)
             ->has('equipamento.categoria')
             ->has('equipamento.modelo')
+            ->has('equipamento.modelo.marca')
             ->has('caracteristicas', count($caracteristicas)));
     }
 

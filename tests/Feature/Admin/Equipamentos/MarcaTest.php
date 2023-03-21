@@ -259,8 +259,8 @@ class MarcaTest extends TestCase
     }
     public function testPodePesquisar()
     {
-        Marca::factory()->count(5)->create();
-        Marca::factory()->createMany([
+        Marca::factory()->statusAprovado()->count(5)->create();
+        Marca::factory()->statusAprovado()->createMany([
             ['nome' => 'Marca 1'],
             ['nome' => 'Marca 2'],
             ['nome' => 'Marca 3'],
@@ -277,8 +277,8 @@ class MarcaTest extends TestCase
 
     public function testNaoPodePesquisar()
     {
-        Marca::factory()->count(5)->create();
-        Marca::factory()->createMany([
+        Marca::factory()->statusAprovado()->count(5)->create();
+        Marca::factory()->statusAprovado()->createMany([
             ['nome' => 'Marca 1'],
             ['nome' => 'Marca 2'],
             ['nome' => 'Marca 3'],
