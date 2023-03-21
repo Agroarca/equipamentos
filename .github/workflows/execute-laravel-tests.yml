@@ -1,0 +1,37 @@
+name: 'Laravel Test'
+
+on:
+  pull_request:
+    paths:
+      - 'app/**.php'
+      - 'tests/**.php'
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install composer dependencies
+      run: |
+        composer install --no-scripts
+
+    - name: Prepare Laravel Application
+      run: |
+        cp .env.ci .env; php artisan key:generate
+
+    - name: Run Testsuite
+      run: php artisan test
