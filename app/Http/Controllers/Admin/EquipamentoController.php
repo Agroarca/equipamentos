@@ -51,9 +51,13 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with([
             'categoria',
-            'modelo',
             'imagens',
-            'modelo.marca',
+            'modelo' => function ($query) {
+                $query->withoutGlobalScope('aprovado');
+            },
+            'modelo.marca' => function ($query) {
+                $query->withoutGlobalScope('aprovado');
+            }
         ])->findOrFail($id);
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
