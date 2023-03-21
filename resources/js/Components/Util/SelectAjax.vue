@@ -1,38 +1,36 @@
 <script  setup lang="ts">
 /* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vue/require-prop-types  */
-import 'vue-next-select/dist/index.css'
-import { anyTypeAnnotation } from '@babel/types'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
-import VueNextSelect from 'vue-next-select'
+import VueSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 const props = defineProps([
     'href',
     'modelValue',
     'options',
+    'placeholder',
 ])
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const options = ref([])
-const loading = ref(false)
-const search = debounce(onSearch, 300, { maxWait: 1000 })
+const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
 
-options.value = props.options
+options.value = props.options ?? []
 
-function onSearch(inputEvent: InputEvent) {
-    let termo = (inputEvent.target as HTMLInputElement).value
-    loading.value = true
+function onSearchDebounced(search, loading) {
+    loading(true)
     axios.get(props.href, {
         params: {
-            termo,
+            termo: search,
         },
     }).then((response) => {
         options.value = response.data
     }).finally(() => {
-        loading.value = false
+        loading(false)
     })
 }
 
@@ -46,20 +44,22 @@ function getOpcaoSelecionada() {
     }
     return null
 }
-
 </script>
 
 <template>
-    <VueNextSelect
+    <VueSelect
         v-model="selectedOption"
-        search-placeholder="Selecione um Equipamento"
-        placeholder="Selecione um Equipamento"
-        class="form-control w-100"
+        :placeholder="placeholder ?? 'Selecione uma Opção'"
         :options="options"
-        close-on-select
+        label="texto"
         searchable
-        label-by="texto"
-        :loading="loading"
         @update:model-value="updateModelValue"
-        @search:input="search" />
+        @search="onSearch">
+        <template #no-options="{ search, searching }">
+            <template v-if="searching">
+                Nenhuma Opção encontrada para <em>{{ search }}</em>.
+            </template>
+            <em v-else>Digite para pesquisar</em>
+        </template>
+    </VueSelect>
 </template>
