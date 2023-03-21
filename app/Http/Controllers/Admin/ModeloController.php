@@ -62,12 +62,16 @@ class ModeloController extends Controller
         return redirect()->route('admin.modelos');
     }
 
-    public function pesquisar(Request $request)
+    public function pesquisar(Request $request, $marcaId)
     {
         $modelos = Modelo::withoutGlobalScope('aprovado')
             ->select('id', 'nome as texto')
-            ->whereFullText('nome', $request->input('termo'))
-            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
+            ->where(function ($query) use ($request) {
+                $query
+                    ->whereFullText('nome', $request->input('termo'))
+                    ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
+            })
+            ->where('marca_id', $marcaId)
             ->take(10)
             ->get();
 

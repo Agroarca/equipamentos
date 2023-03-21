@@ -57,7 +57,6 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarCriar()
     {
-        $modelos = Modelo::factory()->count(2)->create();
         $categorias = Categoria::factory()->count(4)->create();
 
         $response = $this->actingAs($this->usuario)
@@ -66,7 +65,6 @@ class EquipamentoTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Admin/Equipamento/Criar')
-            ->has('modelos', count($modelos))
             ->has('categorias', count($categorias)));
     }
 

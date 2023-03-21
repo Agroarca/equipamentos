@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { onMounted, ref } from 'vue'
+import { watch, computed, onMounted, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Components/FormError.vue'
 import Mask from '@/Components/Util/InputMask'
+import SelectAjax from '@/Components/Util/SelectAjax.vue'
 
 const props = defineProps({
-    modelos: Object,
     categorias: Object,
 })
 
 const elValor = ref(null)
 let valor
+
+const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma marca'))
+
 onMounted(() => {
     valor = Mask.preco(elValor.value)
 })
@@ -20,8 +23,15 @@ const form = useForm({
     titulo: '',
     valor: '',
     ano: '',
+    marca_id: '',
     modelo_id: '',
     categoria_id: '',
+})
+
+watch(() => form.marca_id, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        form.modelo_id = ''
+    }
 })
 
 function submit() {
@@ -52,12 +62,13 @@ function submit() {
                         <FormError :error="form.errors.ano" />
                     </div>
                     <div class="mb-3">
-                        <label for="modelo_id">Modelo</label>
-                        <select id="modelo_id" v-model="form.modelo_id" class="form-select" required>
-                            <option v-for="(modelo, index) in modelos" :key="index" :value="index">
-                                {{ modelo }}
-                            </option>
-                        </select>
+                        <label for="marca_id">Marca</label>
+                        <SelectAjax v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                        <FormError :error="form.errors.modelo_id" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="marca_id">Modelo</label>
+                        <SelectAjax v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
                     <div class="mb-3">
