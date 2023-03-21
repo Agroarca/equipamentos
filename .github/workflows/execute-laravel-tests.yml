@@ -29,9 +29,13 @@ jobs:
       run: |
         composer install --no-scripts
 
-    - name: Prepare Laravel Application
+    - name: CP .env
       run: |
-        cp .env.ci .env; php artisan key:generate
+        cp .env.ci .env
+
+    - name: Generate Key
+      run: |
+         php artisan key:generate
 
     - name: Run Testsuite
       run: php artisan test
