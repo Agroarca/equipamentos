@@ -10,7 +10,6 @@ use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Equipamentos\EquipamentoImagem;
-use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;
@@ -34,10 +33,9 @@ class EquipamentoController extends Controller
 
     public function criar()
     {
-        $modelos = Modelo::all()->pluck('nome', 'id');
         $categorias = Categoria::all()->pluck('nome', 'id');
 
-        return Inertia::render('Admin/Equipamento/Criar', compact('modelos', 'categorias'));
+        return Inertia::render('Admin/Equipamento/Criar', compact('categorias'));
     }
 
     public function salvar(EquipamentoRequest $request)
@@ -54,8 +52,13 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::withoutGlobalScope('aprovado')->with([
             'categoria',
-            'modelo',
             'imagens',
+            'modelo' => function ($query) {
+                $query->withoutGlobalScope('aprovado');
+            },
+            'modelo.marca' => function ($query) {
+                $query->withoutGlobalScope('aprovado');
+            }
         ])->findOrFail($id);
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);

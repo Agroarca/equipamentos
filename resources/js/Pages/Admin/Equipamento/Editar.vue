@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Components/FormError.vue'
 import Caracteristicas from './Caracteristicas/Inicio.vue'
@@ -16,6 +16,7 @@ const props = defineProps({
 
 const elValor = ref(null)
 let valor
+
 onMounted(() => {
     valor = Mask.preco(elValor.value)
 })
@@ -25,6 +26,7 @@ const form = useForm({
     titulo: props.equipamento.titulo,
     valor: props.equipamento.valor,
     ano: props.equipamento.ano,
+    marca: props.equipamento.modelo.marca.nome,
     modelo: props.equipamento.modelo.nome,
     categoria: props.equipamento.categoria.nome,
     status: props.equipamento.status,
@@ -57,7 +59,12 @@ function submit() {
                             <FormError :error="form.errors.ano" />
                         </div>
                         <div class="mb-3">
-                            <label for="modelo">Modelo</label>
+                            <label for="marca_id">Marca</label>
+                            <input id="ano" v-model="form.marca" class="form-control" type="text" disabled>
+                            <FormError :error="form.errors.marca" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="marca_id">Modelo</label>
                             <input id="ano" v-model="form.modelo" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.modelo" />
                         </div>
