@@ -6,7 +6,7 @@ use App\Enums\Cadastro\StatusEquipamento;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Usuario;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
