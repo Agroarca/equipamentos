@@ -11,6 +11,7 @@ import Mask from '@/Components/Util/InputMask'
 const props = defineProps({
     equipamento: Object,
     caracteristicas: Object,
+    statusEquipamentos: Array,
 })
 
 const elValor = ref(null)
@@ -26,6 +27,7 @@ const form = useForm({
     ano: props.equipamento.ano,
     modelo: props.equipamento.modelo.nome,
     categoria: props.equipamento.categoria.nome,
+    status: props.equipamento.status,
 })
 
 function submit() {
@@ -62,6 +64,15 @@ function submit() {
                         <div class="mb-3">
                             <label for="categoria">Categoria</label>
                             <input id="ano" v-model="form.categoria" class="form-control" type="text" disabled>
+                            <FormError :error="form.errors.categoria" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria">Status</label>
+                            <select id="status" v-model="form.status" class="form-select" required>
+                                <option v-for="(status, index) in statusEquipamentos" :key="index" :value="index">
+                                    {{ status }}
+                                </option>
+                            </select>
                             <FormError :error="form.errors.categoria" />
                         </div>
                     </div>

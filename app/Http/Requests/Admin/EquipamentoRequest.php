@@ -33,6 +33,7 @@ class EquipamentoRequest extends FormRequest
             'ano' => ['integer', 'required', 'min:1900', "max:{$ano}"],
             'modelo_id' => 'integer|required_without:id|exists:modelos,id',
             'categoria_id' => 'integer|required_without:id|exists:categorias,id',
+            'status' => 'integer|required|in:0,1,2,3,4,5',
         ];
     }
 
@@ -44,6 +45,7 @@ class EquipamentoRequest extends FormRequest
             'ano' => 'Ano',
             'modelo_id' => 'Modelo',
             'categoria_id' => 'Categoria',
+            'status' => 'Status',
         ];
     }
 }
