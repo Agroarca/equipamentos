@@ -7,7 +7,7 @@ use App\Enums\EnumToArray;
 enum StatusEquipamento: int
 {
     use EnumToArray;
-    
+
     case Cadastrando = 0;
     case Criado = 1;
     case Aprovado = 2;

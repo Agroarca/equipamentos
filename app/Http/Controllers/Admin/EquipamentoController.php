@@ -72,7 +72,10 @@ class EquipamentoController extends Controller
             $caracteristicas[$key]->valor = $equipCarac->valor->valor;
         }
 
-        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento', 'caracteristicas', 'statusEquipamentos'));
+        return Inertia::render(
+            'Admin/Equipamento/Editar',
+            compact('equipamento', 'caracteristicas', 'statusEquipamentos')
+        );
     }
 
     public function atualizar(EquipamentoRequest $request, $id)
@@ -125,7 +128,10 @@ class EquipamentoController extends Controller
 
     public function deletarImagem($equipamentoId, $imagemId)
     {
-        $imagem = EquipamentoImagem::withoutGlobalScope('aprovado')->where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
+        $imagem = EquipamentoImagem::withoutGlobalScope('aprovado')
+            ->where('equipamento_id', $equipamentoId)
+            ->findOrFail($imagemId);
+
         Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 
