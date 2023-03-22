@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Equipamentos;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Modelo;
 use App\Models\Usuario;
@@ -29,6 +30,13 @@ class EquipamentoFactory extends Factory
             'modelo_id' => Modelo::factory(),
             'categoria_id' => Categoria::factory(),
             'usuario_id' => Usuario::factory(),
+            'status' => StatusEquipamento::Aprovado->value,
         ];
+    }
+    public function statusAprovado()
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => StatusEquipamento::Aprovado->value,
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CaracteristicasValorRequest;
 use App\Http\Requests\Admin\EquipamentoRequest;
@@ -25,9 +26,9 @@ class EquipamentoController extends Controller
 
     public function inicio()
     {
-        $equipamentos = Equipamento::with('categoria')->paginate(10);
-
-        return Inertia::render('Admin/Equipamento/Inicio', compact('equipamentos'));
+        $equipamentos = Equipamento::withoutGlobalScope('aprovado')->with('categoria')->paginate(10);
+        $statusEquipamentos = StatusEquipamento::toArray();
+        return Inertia::render('Admin/Equipamento/Inicio', compact('equipamentos', 'statusEquipamentos'));
     }
 
     public function criar()
@@ -49,7 +50,7 @@ class EquipamentoController extends Controller
 
     public function editar($id)
     {
-        $equipamento = Equipamento::with([
+        $equipamento = Equipamento::withoutGlobalScope('aprovado')->with([
             'categoria',
             'imagens',
             'modelo' => function ($query) {
@@ -61,7 +62,7 @@ class EquipamentoController extends Controller
         ])->findOrFail($id);
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
-
+        $statusEquipamentos = StatusEquipamento::toArray();
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
             if (is_null($equipCarac) || is_null($equipCarac->valor)) {
@@ -71,12 +72,15 @@ class EquipamentoController extends Controller
             $caracteristicas[$key]->valor = $equipCarac->valor->valor;
         }
 
-        return Inertia::render('Admin/Equipamento/Editar', compact('equipamento', 'caracteristicas'));
+        return Inertia::render(
+            'Admin/Equipamento/Editar',
+            compact('equipamento', 'caracteristicas', 'statusEquipamentos')
+        );
     }
 
     public function atualizar(EquipamentoRequest $request, $id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($id);
         $equipamento->update($request->all());
 
         return redirect()->route('admin.equipamentos.editar', $id);
@@ -84,7 +88,7 @@ class EquipamentoController extends Controller
 
     public function atualizarDescricao(Request $request, $id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
         $equipamento->save();
 
@@ -93,14 +97,14 @@ class EquipamentoController extends Controller
 
     public function excluir($id)
     {
-        Equipamento::findOrFail($id)->delete();
+        Equipamento::withoutGlobalScope('aprovado')->findOrFail($id)->delete();
 
         return redirect()->route('admin.equipamentos');
     }
 
     public function salvarCaracteristicas(CaracteristicasValorRequest $request, $id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
 
         return redirect()->route('admin.equipamentos.editar', $id);
@@ -108,7 +112,7 @@ class EquipamentoController extends Controller
 
     public function adicionarImagem(EquipamentoImagemRequest $request, $equipamentoId)
     {
-        $equipamento = Equipamento::findOrFail($equipamentoId);
+        $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
         $file->store(config('equipamentos.path_imagens'));
@@ -124,7 +128,10 @@ class EquipamentoController extends Controller
 
     public function deletarImagem($equipamentoId, $imagemId)
     {
-        $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
+        $imagem = EquipamentoImagem::withoutGlobalScope('aprovado')
+            ->where('equipamento_id', $equipamentoId)
+            ->findOrFail($imagemId);
+
         Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 

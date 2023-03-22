@@ -2,9 +2,11 @@
 
 namespace App\Models\Equipamentos;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Usuario;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +24,15 @@ class Equipamento extends Model
         'modelo_id',
         'categoria_id',
         'usuario_id',
+        'status',
     ];
+
+    public static function booted(): void
+    {
+        static::addGlobalScope('aprovado', function (Builder $builder) {
+            $builder->where('status', StatusEquipamento::Aprovado->value);
+        });
+    }
 
     public function modelo()
     {

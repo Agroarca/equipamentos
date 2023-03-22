@@ -5,6 +5,7 @@ import Paginacao from '@/Components/Paginacao.vue'
 
 const props = defineProps({
     equipamentos: Object,
+    statusEquipamentos: Array,
 })
 </script>
 
@@ -16,12 +17,14 @@ const props = defineProps({
                     <thead>
                         <th>Título</th>
                         <th>Categoria</th>
+                        <th>Status</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr v-for="equipamento in equipamentos.data" :key="equipamento.id">
                             <td>{{ equipamento.titulo }}</td>
                             <td>{{ equipamento.categoria.nome }}</td>
+                            <td>{{ statusEquipamentos[equipamento.status] }}</td>
                             <td>
                                 <Link class="btn btn-primary me-2" :href="`/admin/equipamentos/${equipamento.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
