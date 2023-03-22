@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EquipamentoRequest extends FormRequest
@@ -33,7 +35,7 @@ class EquipamentoRequest extends FormRequest
             'ano' => ['integer', 'required', 'min:1900', "max:{$ano}"],
             'modelo_id' => 'integer|required_without:id|exists:modelos,id',
             'categoria_id' => 'integer|required_without:id|exists:categorias,id',
-            'status' => 'integer|required|in:0,1,2,3,4,5',
+            'status' => ['integer', 'nullable', Rule::in(StatusEquipamento::values())],
         ];
     }
 
