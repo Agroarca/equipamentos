@@ -15,5 +15,6 @@ yarn-error.log
 /.vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+!.vscode/launch.json
 agroarca-equipamentos-credential.json
 .phpunit*
