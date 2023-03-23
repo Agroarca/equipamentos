@@ -20,4 +20,5 @@
     },
     "php.version": "8.2.0",
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
+    "githubIssues.issueBranchTitle": "i${issueNumber}",
 }
