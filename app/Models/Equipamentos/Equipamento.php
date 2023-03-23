@@ -25,6 +25,7 @@ class Equipamento extends Model
         'categoria_id',
         'usuario_id',
         'status',
+        'passo_cadastro'
     ];
 
     public static function booted(): void
