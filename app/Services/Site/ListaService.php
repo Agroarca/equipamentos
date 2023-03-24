@@ -8,7 +8,7 @@ class ListaService
 {
     private function queryBase()
     {
-        $query = Equipamento::select('equipamentos.*');
+        $query = Equipamento::aprovado()->select('equipamentos.*');
 
         $query->with([
             'imagens' => fn ($query) => $query->whereIn(
