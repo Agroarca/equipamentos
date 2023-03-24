@@ -30,6 +30,19 @@ function onSearchDebounced(search, loading) {
         },
     }).then((response) => {
         options.value = response.data
+
+        if (!props.criarDinamica) {
+            return
+        }
+
+        if (search.trim().length === 0) {
+            return
+        }
+
+        let opcoesEncontradas = options.value.filter((opcao) => opcao.texto.localeCompare(search)).length
+        if (opcoesEncontradas === 0) {
+            options.value.push({ id: null, texto: `Criar nova opção "${search}"` })
+        }
     }).finally(() => {
         loading(false)
     })
@@ -37,6 +50,17 @@ function onSearchDebounced(search, loading) {
 
 function updateModelValue() {
     emit('update:modelValue', selectedOption.value?.id)
+
+    if (selectedOption.value?.id === null && props.criarDinamica) {
+        let option = options.value.find((opcao) => opcao.id === null)
+
+        if (!option) {
+            return
+        }
+
+        option.texto = option.texto.replace('Criar nova opção "', '').replace('"', '')
+        emit('criarNovaOpcao', option.texto)
+    }
 }
 
 function getOpcaoSelecionada() {
@@ -46,10 +70,6 @@ function getOpcaoSelecionada() {
     return null
 }
 
-function criarOpcao(search) {
-    emit('update:modelValue', null)
-    emit('criarNovaOpcao', search)
-}
 </script>
 
 <template>
@@ -62,13 +82,8 @@ function criarOpcao(search) {
         @update:model-value="updateModelValue"
         @search="onSearch">
         <template #no-options="{ search, searching }">
-            <template v-if="searching && !criarDinamica">
+            <template v-if="searching">
                 Nenhuma Opção encontrada para <em>{{ search }}</em>.
-            </template>
-            <template v-if="searching && criarDinamica">
-                <ul class="NovaOpcao" @click="criarOpcao">
-                    Criar nova opção <em>{{ search }}</em>.
-                </ul>
             </template>
             <em v-else>Digite para pesquisar</em>
         </template>

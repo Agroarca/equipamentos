@@ -77,4 +77,11 @@ class ModeloController extends Controller
 
         return response()->json($modelos);
     }
+
+    public function salvarAjax(ModeloRequest $request)
+    {
+        $modelo = Modelo::create($request->all());
+
+        return response()->json($modelo);
+    }
 }
