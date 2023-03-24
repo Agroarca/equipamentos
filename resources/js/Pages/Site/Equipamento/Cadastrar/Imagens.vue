@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import Modal from '@/Components/Admin/Modal.vue'
 import FormError from '@/Components/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Navegacao from './Navegacao.vue'
 
 const modal = ref(null)
 const props = defineProps({
@@ -18,7 +19,7 @@ const form = useForm({
 function adicionar() {
     modal.value.show()
 }
-
+console.log(props.equipamento.passo_cadastro)
 function upload() {
     form.post(`/equipamento/${props.equipamento.id}/imagens/salvar`, {
         onSuccess: () => {
@@ -35,6 +36,7 @@ function upload() {
 <template>
     <SiteLayout titulo="Cadastrar Imagem">
         <div class="container-600">
+            <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" />
             <div class="row mb-3">
                 <button type="button" class="btn btn-primary" @click="adicionar()">
                     Adicionar Imagem

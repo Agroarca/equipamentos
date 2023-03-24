@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '@/Components/FormError.vue';
-import Valor from '@/Pages/Admin/Equipamento/Caracteristicas/Valor.vue';
+import FormError from '@/Components/FormError.vue'
+import Valor from '@/Pages/Admin/Equipamento/Caracteristicas/Valor.vue'
+import Navegacao from './Navegacao.vue'
 
 const props = defineProps({
     caracteristicas: Object,
@@ -25,32 +26,29 @@ function submit() {
 <template>
     <SiteLayout>
         <form @submit.prevent="submit">
-            <div class="container-600 card card-default">
-                <div class="card-header">
-                    <h5 class="card-title">
-                        Características
-                    </h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <td>Nome</td>
-                            <td>Valor</td>
-                        </thead>
-                        <tbody>
-                            <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
-                                <td>
-                                    {{ caracteristica.nome }}
-                                    <FormError :error="form.errors['carac-' + caracteristica.id]" />
-                                </td>
-                                <td>
-                                    <Valor v-model="form['carac-' + caracteristica.id]" :caracteristica="caracteristica" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
+            <div class="container-600">
+                <Navegacao class="mb-3" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" />
+                <h1>
+                    Características
+                </h1>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <td>Nome</td>
+                        <td>Valor</td>
+                    </thead>
+                    <tbody>
+                        <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
+                            <td>
+                                {{ caracteristica.nome }}
+                                <FormError :error="form.errors['carac-' + caracteristica.id]" />
+                            </td>
+                            <td>
+                                <Valor v-model="form['carac-' + caracteristica.id]" :caracteristica="caracteristica" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
                     <button type="submit" class="btn btn-primary">
                         Salvar
                     </button>

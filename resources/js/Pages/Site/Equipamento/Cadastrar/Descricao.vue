@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import Editor from '@/Components/Editor/Editor.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Navegacao from './Navegacao.vue';
 
 const props = defineProps({
     equipamento: Object,
@@ -17,16 +18,15 @@ function salvarDescricao() {
 
 <template>
     <SiteLayout titulo="Cadastrar Descrição">
-        <div class="container-600 card card-default">
-            <div class="card-header">
-                <h5 class="card-title">
-                    Descrição
-                </h5>
-            </div>
-            <div class="card-body p-0">
+        <div class="container-600">
+            <Navegacao class="mb-3" :passoAtual="3" :passoCadastro="equipamento.passo_cadastro" />
+            <h1>
+                Descrição
+            </h1>
+            <div>
                 <Editor v-model="form.descricao" class="descricao" />
             </div>
-            <div class="card-footer">
+            <div>
                 <button type="button" class="btn btn-primary" @click="salvarDescricao">
                     Atualizar Descrição
                 </button>

@@ -1,23 +1,34 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import FormError from '@/Components/FormError.vue'
 import SelectAjax from '@/Components/Util/SelectAjax.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Navegacao from './Navegacao.vue'
+import Mask from '@/Components/Util/InputMask'
 
 const props = defineProps({
     categorias: Object,
+    equipamento: Object,
 })
 
-const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma marca'))
+const placeholderModelo = computed(() => (form.marca ? 'Selecione um Modelo' : 'Selecione uma marca'))
 
 const form = useForm({
-    titulo: '',
-    valor: '',
-    ano: '',
-    marca_id: '',
-    modelo_id: '',
-    categoria_id: '',
+    id: props.equipamento?.id,
+    titulo: props.equipamento?.titulo,
+    valor: props.equipamento?.valor,
+    ano: props.equipamento?.ano,
+    modelo_id: props.equipamento?.modelo?.id,
+    marca_id: props.equipamento?.modelo?.marca?.id,
+    categoria_id: props.equipamento?.categoria_id,
+})
+
+const elValor = ref(null)
+let valor
+
+onMounted(() => {
+    valor = Mask.preco(elValor.value)
 })
 
 function submit() {
@@ -29,6 +40,7 @@ function submit() {
 <template>
     <SiteLayout titulo="Cadastrar Equipamento">
         <div class="container">
+            <Navegacao class="mb-3" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" />
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="titulo">Título</label>
@@ -37,7 +49,7 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="valor">Valor</label>
-                    <input id="valor" v-model="form.valor" class="form-control" type="text" required>
+                    <input id="valor" ref="elValor" v-model="form.valor" class="form-control" type="text" required>
                     <FormError :error="form.errors.valor" />
                 </div>
                 <div class="mb-3">
@@ -47,12 +59,14 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Marca</label>
-                    <SelectAjax v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                    <SelectAjax v-if="!equipamento?.modelo?.marca" v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                    <input v-else id="ano" :value="equipamento?.marca?.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Modelo</label>
-                    <SelectAjax v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                    <SelectAjax v-if="!equipamento?.modelo" v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                    <input v-else id="ano" :value="equipamento.marca.modelo.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
                 <div class="mb-3">
