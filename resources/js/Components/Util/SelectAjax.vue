@@ -12,9 +12,10 @@ const props = defineProps([
     'modelValue',
     'options',
     'placeholder',
+    'criarDinamica',
 ])
 
-const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
+const emit = defineEmits<{(e: 'update:modelValue', value: string): void, (e: 'criarNovaOpcao', value: string): void}>()
 const options = ref([])
 const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
@@ -44,6 +45,11 @@ function getOpcaoSelecionada() {
     }
     return null
 }
+
+function criarOpcao(search) {
+    emit('update:modelValue', null)
+    emit('criarNovaOpcao', search)
+}
 </script>
 
 <template>
@@ -56,8 +62,13 @@ function getOpcaoSelecionada() {
         @update:model-value="updateModelValue"
         @search="onSearch">
         <template #no-options="{ search, searching }">
-            <template v-if="searching">
+            <template v-if="searching && !criarDinamica">
                 Nenhuma Opção encontrada para <em>{{ search }}</em>.
+            </template>
+            <template v-if="searching && criarDinamica">
+                <ul class="NovaOpcao" @click="criarOpcao">
+                    Criar nova opção <em>{{ search }}</em>.
+                </ul>
             </template>
             <em v-else>Digite para pesquisar</em>
         </template>

@@ -10,6 +10,8 @@ use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Equipamentos\EquipamentoImagem;
+use App\Models\Equipamentos\Marca;
+use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;
@@ -40,8 +42,22 @@ class EquipamentoController extends Controller
 
     public function salvar(EquipamentoRequest $request)
     {
+        if (!$request->has('marca_id')) {
+            $marca = Marca::create([
+                'nome' => $request->input('marca_nome'),
+            ]);
+        }
+
+        if (!$request->has('modelo_id')) {
+            $modelo = Modelo::create([
+                'nome' => $request->input('modelo_nome'),
+                'marca_id' => $request->input('marca_id') ?? $marca->id,
+            ]);
+        }
+
         Equipamento::create([
             ...$request->all(),
+            'modelo_id' => $request->input('modelo_id') ?? $modelo->id,
             'usuario_id' => Auth::id(),
         ]);
 

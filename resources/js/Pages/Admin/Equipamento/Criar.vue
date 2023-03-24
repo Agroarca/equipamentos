@@ -24,7 +24,9 @@ const form = useForm({
     valor: '',
     ano: '',
     marca_id: '',
+    marca_nome: '',
     modelo_id: '',
+    modelo_nome: '',
     categoria_id: '',
 })
 
@@ -37,6 +39,14 @@ watch(() => form.marca_id, (newValue, oldValue) => {
 function submit() {
     form.valor = valor.unmaskedvalue()
     form.post('/admin/equipamentos/salvar')
+}
+
+function criarNovaMarca(value) {
+    form.marca_nome = value
+}
+
+function criarNovoModelo(value) {
+    form.modelo_nome = value
 }
 
 </script>
@@ -63,12 +73,12 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="marca_id">Marca</label>
-                        <SelectAjax v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                        <SelectAjax v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" :criar-dinamica="true" @criarNovaOpcao="criarNovaMarca" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
                     <div class="mb-3">
                         <label for="marca_id">Modelo</label>
-                        <SelectAjax v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                        <SelectAjax v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" :criar-dinamica="true" @criarNovaOpcao="criarNovoModelo" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
                     <div class="mb-3">
