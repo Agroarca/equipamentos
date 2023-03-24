@@ -100,6 +100,7 @@ module.exports = {
 
         'vue/require-default-prop': 'off',
         'prefer-const': 'off',
+        'vue/attribute-hyphenation': 'off',
 
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
