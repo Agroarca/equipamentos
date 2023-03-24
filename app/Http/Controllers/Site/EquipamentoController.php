@@ -144,6 +144,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
         $equipamento->passo_cadastro = 5;
+        $equipamento->status = StatusEquipamento::Criado->value;
         $equipamento->save();
 
         return redirect()->route('site.equipamento.finalizar', $equipamento->id);
