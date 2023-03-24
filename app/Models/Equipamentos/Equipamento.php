@@ -27,11 +27,9 @@ class Equipamento extends Model
         'status',
     ];
 
-    public static function booted(): void
+    public function scopeAprovado(Builder $query): Builder
     {
-        static::addGlobalScope('aprovado', function (Builder $builder) {
-            $builder->where('status', StatusEquipamento::Aprovado->value);
-        });
+        return $query->where('status', StatusEquipamento::Aprovado->value);
     }
 
     public function modelo()

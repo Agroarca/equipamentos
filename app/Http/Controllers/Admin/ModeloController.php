@@ -14,10 +14,7 @@ class ModeloController extends Controller
 {
     public function inicio()
     {
-        $modelos = Modelo::withoutGlobalScope('aprovado')
-            ->with(['marca' => function ($query) {
-                $query->withoutGlobalScope('aprovado');
-            }])->paginate(10);
+        $modelos = Modelo::with(['marca'])->paginate(10);
 
         $statusCadastro = StatusCadastro::toArray();
 
@@ -26,7 +23,7 @@ class ModeloController extends Controller
 
     public function criar()
     {
-        $marcas = Marca::withoutGlobalScope('aprovado')->get();
+        $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Modelo/Criar', compact('marcas', 'statusCadastro'));
@@ -41,8 +38,8 @@ class ModeloController extends Controller
 
     public function editar($id)
     {
-        $modelo = Modelo::withoutGlobalScope('aprovado')->findOrFail($id);
-        $marcas = Marca::withoutGlobalScope('aprovado')->get();
+        $modelo = Modelo::findOrFail($id);
+        $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
@@ -50,22 +47,21 @@ class ModeloController extends Controller
 
     public function atualizar(ModeloRequest $request, $id)
     {
-        Modelo::withoutGlobalScope('aprovado')->findOrFail($id)->update($request->all());
+        Modelo::findOrFail($id)->update($request->all());
 
         return redirect()->route('admin.modelos');
     }
 
     public function excluir($id)
     {
-        Modelo::withoutGlobalScope('aprovado')->findOrFail($id)->delete();
+        Modelo::findOrFail($id)->delete();
 
         return redirect()->route('admin.modelos');
     }
 
     public function pesquisar(Request $request, $marcaId)
     {
-        $modelos = Modelo::withoutGlobalScope('aprovado')
-            ->select('id', 'nome as texto')
+        $modelos = Modelo::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {
                 $query
                     ->whereFullText('nome', $request->input('termo'))
