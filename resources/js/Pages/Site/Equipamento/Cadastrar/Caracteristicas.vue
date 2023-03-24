@@ -25,7 +25,7 @@ function submit() {
 <template>
     <SiteLayout>
         <form @submit.prevent="submit">
-            <div class="card card-default">
+            <div class="container-600 card card-default">
                 <div class="card-header">
                     <h5 class="card-title">
                         Características
