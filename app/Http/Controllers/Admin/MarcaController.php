@@ -53,6 +53,7 @@ class MarcaController extends Controller
 
         return redirect()->route('admin.marcas');
     }
+
     public function pesquisar(Request $request)
     {
         $marcas = Marca::select('id', 'nome as texto')

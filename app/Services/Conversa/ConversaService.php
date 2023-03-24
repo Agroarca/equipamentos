@@ -12,9 +12,20 @@ use App\Notifications\MensagemWebsocket;
 use App\Notifications\Notificacao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
+/**
+ * Classe responsável por processar as mensagens e visualizações de conversas.
+ */
 class ConversaService
 {
+    /**
+     * Processa o envio de uma mensagem para o sistema.
+     *
+     * @param Mensagem $mensagem Mensagem enviada.
+     *
+     * @return void
+     */
     public function processarEnvioMensagem(Mensagem $mensagem)
     {
         DB::transaction(function () use ($mensagem) {
@@ -39,11 +50,25 @@ class ConversaService
         });
     }
 
+    /**
+     * Processa a visualização de uma conversa.
+     *
+     * @param EquipamentoConversa $conversa Conversa visualizada.
+     *
+     * @return void
+     */
     public function processarVisualizacao(EquipamentoConversa $conversa)
     {
         $this->contarMensagensNaoVisualizadas($conversa);
     }
 
+    /**
+     * Conta a quantidade de mensagens não visualizadas para cada usuario em uma conversa.
+     *
+     * @param EquipamentoConversa $conversa Conversa criada.
+     *
+     * @return void
+     */
     private function contarMensagensNaoVisualizadas(EquipamentoConversa $conversa)
     {
         DB::statement('update equipamento_conversa_visualizacao visualizacao
@@ -54,28 +79,44 @@ class ConversaService
                 where visualizacao.equipamento_conversa_id = ?', [$conversa->id, $conversa->id]);
     }
 
+    /**
+     * Cria as visualizações de uma conversa.
+     *
+     * @param EquipamentoConversa $conversa Conversa criada.
+     *
+     * @return void
+     */
     public function criarVisualizacoes(EquipamentoConversa $conversa)
     {
         $conversa->visualizacao()->create([
             'usuario_id' => $conversa->usuario_id,
-            'ultima_mensagem_id' => 0
+            'ultima_mensagem_id' => 0,
         ]);
 
         $conversa->visualizacao()->create([
             'usuario_id' => $conversa->equipamento->usuario_id,
-            'ultima_mensagem_id' => 0
+            'ultima_mensagem_id' => 0,
         ]);
     }
 
-    private function criarNotificacaoMensagem(Mensagem $mensagem, Usuario $usuario)
+    /**
+     * Cria e envia uma notificação de mensagem.
+     *
+     * @param Mensagem $mensagem Mensagem enviada.
+     * @param Usuario $usuario Usuário que receberá a notificação.
+     *
+     * @return void
+     */
+    private function criarNotificacaoMensagem(Mensagem $mensagem, Usuario $usuario): void
     {
         DB::transaction(function () use ($mensagem, $usuario) {
             $visualizacao = $mensagem->equipamentoConversa->visualizacao()->where('usuario_id', $usuario->id)->first();
             $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
 
-            $texto = "Você tem $naoVisualizadas " .
-                (($naoVisualizadas == 1) ? 'nova mensagem' : 'novas mensagens') .
-                " em {$mensagem->equipamentoConversa->equipamento->titulo}";
+            $nova = Str::of('nova')->plural($naoVisualizadas);
+            $mensagem = Str::of('mensagem')->plural($naoVisualizadas);
+            $titulo = $mensagem->equipamentoConversa->equipamento->titulo;
+            $texto = "Você tem $naoVisualizadas $nova $mensagem em $titulo";
 
             $conversa = NotificacaoConversa::create([
                 'conversa_id' => $mensagem->equipamento_conversa_id,

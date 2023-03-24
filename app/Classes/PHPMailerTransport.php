@@ -7,8 +7,18 @@ use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Classe para sobrescrever o envio de e-mail padrão do Laravel
+ */
 class PHPMailerTransport extends AbstractTransport
 {
+    /**
+     * Converte a mensagem e envia o e-mail usando o PHPMailer
+     *
+     * @param SentMessage $message SentMessage recebido do Laravel.
+     *
+     * @return void
+     */
     public function doSend(SentMessage $message): void
     {
         $mailer = $this->getClient();
@@ -31,11 +41,21 @@ class PHPMailerTransport extends AbstractTransport
         $mailer->send();
     }
 
+    /**
+     * Retorna o nome do transportador
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return 'phpmailer';
     }
 
+    /**
+     * Retorna o cliente PHPMailer Configurado
+     *
+     * @return PHPMailer
+     */
     private function getClient(): PHPMailer
     {
         $mailer = new PHPMailer();
@@ -46,7 +66,7 @@ class PHPMailerTransport extends AbstractTransport
         $mailer->Password = config('mail.mailers.smtp.password');
         $mailer->SMTPSecure  = config('mail.mailers.smtp.encryption');
         $mailer->SMTPAuth = true;
-        $mailer->CharSet = "UTF-8";
+        $mailer->CharSet = 'UTF-8';
         $mailer->isHTML(true);
 
         return $mailer;

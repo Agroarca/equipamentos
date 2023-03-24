@@ -9,8 +9,19 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Classe responsável por enviar notificações via Firebase Cloud Messaging.
+ */
 class FirebaseCloudMessaging
 {
+    /**
+     * Envia uma notificação para um usuário.
+     *
+     * @param Usuario $usuario Usuário.
+     * @param Notificacao $notificacao Notificação.
+     *
+     * @return void
+     */
     public function enviarNotificacao(Usuario $usuario, Notificacao $notificacao): void
     {
         $link = route('site.notificacao', [$notificacao->id]);
@@ -19,11 +30,16 @@ class FirebaseCloudMessaging
         }
     }
 
+    /**
+     * Monta o cliente HTTP com a autorização do google.
+     *
+     * @return Client
+     */
     public function montarCliente(): Client
     {
-        $middleware = ApplicationDefaultCredentials::getMiddleware([
-            'https://www.googleapis.com/auth/firebase.messaging'
-        ]);
+        $middleware = ApplicationDefaultCredentials::getMiddleware(
+            ['https://www.googleapis.com/auth/firebase.messaging']
+        );
         $stack = HandlerStack::create();
         $stack->push($middleware);
 
@@ -33,7 +49,18 @@ class FirebaseCloudMessaging
         ]);
     }
 
-    public function enviarMensagem($token, $titulo, $mensagem): void
+    /**
+     * Envia uma mensagem para um token.
+     *
+     * @param string $token Token do usuário.
+     * @param string $titulo Título da notificação.
+     * @param string $mensagem Mensagem da notificação.
+     *
+     * @throws \GuzzleHttp\Exception\RequestException Erro ao enviar a mensagem para o FCM.
+     *
+     * @return void
+     */
+    public function enviarMensagem(string $token, string $titulo, string $mensagem): void
     {
         $data = [
             'json' => [

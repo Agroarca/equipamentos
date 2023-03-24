@@ -17,7 +17,7 @@ class CaracteristicaSelecao extends CaracteristicaValor
 
     protected function setValorAttribute($v)
     {
-        return $this->caracteristicas_opcoes_id = $v;
+        $this->caracteristicas_opcoes_id = $v;
     }
 
     protected function caracteristicasOpcoes()

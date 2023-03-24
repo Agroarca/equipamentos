@@ -28,7 +28,7 @@ class ListaController extends Controller
     public function salvar(ListaRequest $request)
     {
         $lista = new Lista($request->all());
-        $lista->slug = $lista->slug ?? Str::kebab($lista->nome);
+        $lista->slug = ($lista->slug ?? Str::kebab($lista->nome));
         $lista->save();
 
         return redirect()->route('admin.lista');
@@ -65,7 +65,7 @@ class ListaController extends Controller
 
         ProdutoLista::firstOrCreate([
             'lista_id' => $lista->id,
-            'equipamento_id' => $equipamento->id
+            'equipamento_id' => $equipamento->id,
         ]);
 
         return redirect()->route('admin.lista.produtos', $lista->id);

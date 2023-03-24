@@ -54,14 +54,14 @@ class EquipamentoController extends Controller
             'categoria',
             'imagens',
             'modelo',
-            'modelo.marca'
+            'modelo.marca',
         ])->findOrFail($id);
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         $statusEquipamentos = StatusEquipamento::toArray();
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
-            if (is_null($equipCarac) || is_null($equipCarac->valor)) {
+            if ($equipCarac === null || $equipCarac->valor === null) {
                 continue;
             }
 

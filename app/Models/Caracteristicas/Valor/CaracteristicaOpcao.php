@@ -12,7 +12,10 @@ class CaracteristicaOpcao extends Model
 
     protected $table = 'caracteristicas_opcoes';
 
-    protected $fillable = ['nome', 'caracteristica_id'];
+    protected $fillable = [
+        'nome',
+        'caracteristica_id',
+    ];
 
     public function caracteristica()
     {

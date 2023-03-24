@@ -45,8 +45,7 @@ class SiteController extends Controller
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
-        $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
-        $user->update($attributes);
+        $user->update($request->all());
 
         return Redirect::route('site.perfil');
     }

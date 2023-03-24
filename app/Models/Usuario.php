@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Models\Notificacoes\UsuarioTokenFCM;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,11 +25,15 @@ class Usuario extends Authenticatable
         'tipo_usuario',
     ];
 
-    protected $hidden = ['password', 'remember_token', 'cpf', 'cnpj', 'celular'];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'cpf',
+        'cnpj',
+        'celular',
     ];
+
+    protected $casts = ['email_verified_at' => 'datetime'];
 
     public function tokens()
     {

@@ -13,7 +13,11 @@ class Modelo extends Model
 
     protected $table = 'modelos';
 
-    protected $fillable = ['nome', 'marca_id', 'status'];
+    protected $fillable = [
+        'nome',
+        'marca_id',
+        'status',
+    ];
 
     public function scopeAprovado(Builder $query): Builder
     {

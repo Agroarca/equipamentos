@@ -11,9 +11,7 @@ class NotificacaoConversa extends Model
 
     protected $table = 'notificacao_conversa';
 
-    protected $fillable = [
-        'conversa_id',
-    ];
+    protected $fillable = ['conversa_id'];
 
     public function notificacao()
     {

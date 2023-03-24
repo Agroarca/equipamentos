@@ -13,7 +13,10 @@ class Marca extends Model
 
     protected $table = 'marcas';
 
-    protected $fillable = ['nome', 'status'];
+    protected $fillable = [
+        'nome',
+        'status',
+    ];
 
     public function scopeAprovado(Builder $query): Builder
     {

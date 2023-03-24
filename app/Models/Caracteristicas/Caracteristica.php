@@ -15,12 +15,12 @@ class Caracteristica extends Model
 
     protected $fillable = [
         'nome',
-        'tipo', //Enum TipoCaracteristica
+        'tipo', // Enum TipoCaracteristica.
         'ordem',
         'obrigatorio',
         'minimo',
         'maximo',
-        'quantidade', //Casas decimais
+        'quantidade', // Casas decimais.
         'categoria_id',
     ];
 

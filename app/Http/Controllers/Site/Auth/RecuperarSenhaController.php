@@ -22,7 +22,7 @@ class RecuperarSenhaController extends Controller
             $request->only('email')
         );
 
-        if ($status == Password::RESET_LINK_SENT) {
+        if ($status === Password::RESET_LINK_SENT) {
             return redirect()->route('auth.recuperar-senha')->with('status', __($status));
         }
 

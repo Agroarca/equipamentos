@@ -14,7 +14,7 @@ class Lista extends Model
 
     protected $fillable = [
         'nome',
-        'slug'
+        'slug',
     ];
 
     public function produtoLista()

@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use App\Enums\Usuario\TipoUsuario;
 use Illuminate\Console\Command;
 
+/**
+ * Comando para atualizar o tipo de usuário para admin.
+ */
 class UsuarioAdmin extends Command
 {
     /**
@@ -12,17 +15,19 @@ class UsuarioAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'usuario:admin {--id=} {--cpf=} {--email=} ';
+    protected string $signature = 'usuario:admin {--id=} {--cpf=} {--email=} ';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected string $description = 'Command description';
 
     /**
      * Execute the console command.
+     *
+     * @return void
      */
     public function handle(): void
     {

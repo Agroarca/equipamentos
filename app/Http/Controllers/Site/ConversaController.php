@@ -15,6 +15,9 @@ use Inertia\Inertia;
 class ConversaController extends Controller
 {
     private $mensagensPorPagina;
+
+    private $mensagens_por_pagina;
+
     private $mensagensTempoExcluirSecs;
 
     public function __construct(
@@ -24,11 +27,11 @@ class ConversaController extends Controller
         $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
     }
 
-    public function conversaEquipamento($equipamento_id)
+    public function conversaEquipamento($equipamentoId)
     {
-        $equipamento = Equipamento::findOrFail($equipamento_id);
+        $equipamento = Equipamento::findOrFail($equipamentoId);
 
-        if ($equipamento->usuario_id == Auth::id()) {
+        if ($equipamento->usuario_id === Auth::id()) {
             $conversas = $equipamento->conversas()->with([
                 'usuario',
                 'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
@@ -128,6 +131,7 @@ class ConversaController extends Controller
             $this->conversaService->processarVisualizacao($conversa);
         }
     }
+
     public function excluirMensagem($idConversa, $id)
     {
         $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);

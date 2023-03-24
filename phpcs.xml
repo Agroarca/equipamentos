@@ -6,6 +6,28 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
         <exclude name="PSR12.Traits.UseDeclaration.MultipleImport" />
     </rule>
+    <rule ref="Squiz">
+        <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
+        <exclude name="Squiz.Files.FileExtension.ClassFound" />
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
+        <exclude name="Generic.Formatting.MultipleStatementAlignment" />
+        <exclude name="Squiz.WhiteSpace.FunctionClosingBraceSpace.SpacingBeforeClose" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned" />
+        <exclude name="Squiz.Objects.ObjectInstantiation.NotAssigned" />
+        <exclude name="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeySpecified" />
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue" />
+        <exclude name="Squiz.Formatting.OperatorBracket.MissingBrackets" />
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName" />
+        <!-- <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" /> -->
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments" />
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar" />
+        <exclude name="Squiz.Commenting.PostStatementComment.Found" />
+    </rule>
 
     <file>app</file>
     <file>tests</file>
@@ -27,4 +49,49 @@
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
 
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <exclude-pattern>app/Http/Controllers</exclude-pattern>
+        <exclude-pattern>app/Models</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <exclude-pattern>app/Http/Controllers</exclude-pattern>
+        <exclude-pattern>app/Models</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.VariableComment.Missing">
+        <exclude-pattern>app/Http/Controllers</exclude-pattern>
+        <exclude-pattern>app/Models</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+        <exclude-pattern>app/Http/Controllers</exclude-pattern>
+        <exclude-pattern>app/Models</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1" />
+        </properties>
+    </rule>
 </ruleset>

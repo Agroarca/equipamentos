@@ -10,7 +10,10 @@ abstract class CaracteristicaValor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['valor', 'caracteristica_equipamento_id'];
+    protected $fillable = [
+        'valor',
+        'caracteristica_equipamento_id',
+    ];
 
     public static $tipo = [
         CaracteristicaBooleano::class,

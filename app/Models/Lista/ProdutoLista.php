@@ -14,7 +14,7 @@ class ProdutoLista extends Model
 
     protected $fillable = [
         'equipamento_id',
-        'lista_id'
+        'lista_id',
     ];
 
     public function lista()

@@ -12,16 +12,19 @@ class Categoria extends Model
 
     protected $table = 'categorias';
 
-    protected $fillable = ['nome', 'categoria_mae_id'];
+    protected $fillable = [
+        'nome',
+        'categoria_mae_id',
+    ];
 
     public function categoriaMae()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(self::class);
     }
 
     public function categorias()
     {
-        return $this->hasMany(Categoria::class, 'categoria_mae_id');
+        return $this->hasMany(self::class, 'categoria_mae_id');
     }
 
     public function equipamentos()

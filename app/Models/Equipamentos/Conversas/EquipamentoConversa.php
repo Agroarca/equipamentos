@@ -13,7 +13,10 @@ class EquipamentoConversa extends Model
 
     protected $table = 'equipamento_conversas';
 
-    protected $fillable = ['equipamento_id', 'usuario_id'];
+    protected $fillable = [
+        'equipamento_id',
+        'usuario_id',
+    ];
 
     public function equipamento()
     {
