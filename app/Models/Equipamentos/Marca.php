@@ -15,11 +15,9 @@ class Marca extends Model
 
     protected $fillable = ['nome', 'status'];
 
-    public static function booted(): void
+    public function scopeAprovado(Builder $query): Builder
     {
-        static::addGlobalScope('aprovado', function (Builder $builder) {
-            $builder->where('status', StatusCadastro::Aprovado->value);
-        });
+        return $query->where('status', StatusCadastro::Aprovado->value);
     }
 
     public function modelos()

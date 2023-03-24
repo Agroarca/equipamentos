@@ -20,7 +20,7 @@ class SiteController extends Controller
 
     public function equipamento($id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::aprovado()->findOrFail($id);
 
         $equipamento->load([
             'caracteristicas',

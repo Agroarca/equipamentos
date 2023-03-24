@@ -13,7 +13,7 @@ class MarcaController extends Controller
 {
     public function inicio()
     {
-        $marcas = Marca::withoutGlobalScope('aprovado')->paginate(10);
+        $marcas = Marca::paginate(10);
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Marca/Inicio', compact('marcas', 'statusCadastro'));
@@ -34,7 +34,7 @@ class MarcaController extends Controller
 
     public function editar($id)
     {
-        $marca = Marca::withoutGlobalScope('aprovado')->findOrFail($id);
+        $marca = Marca::findOrFail($id);
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Marca/Editar', compact('marca', 'statusCadastro'));
@@ -42,14 +42,14 @@ class MarcaController extends Controller
 
     public function atualizar(MarcaRequest $request, $id)
     {
-        Marca::withoutGlobalScope('aprovado')->findOrFail($id)->update($request->all());
+        Marca::findOrFail($id)->update($request->all());
 
         return redirect()->route('admin.marcas');
     }
 
     public function excluir($id)
     {
-        Marca::withoutGlobalScope('aprovado')->findOrFail($id)->delete();
+        Marca::findOrFail($id)->delete();
 
         return redirect()->route('admin.marcas');
     }
