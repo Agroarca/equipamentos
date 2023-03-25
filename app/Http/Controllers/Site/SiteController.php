@@ -18,7 +18,7 @@ class SiteController extends Controller
         return Inertia::render('Inicio');
     }
 
-    public function equipamento($id)
+    public function equipamento(int $id)
     {
         $equipamento = Equipamento::aprovado()->findOrFail($id);
 

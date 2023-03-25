@@ -16,23 +16,17 @@ class NotificacaoEmailChannel implements ShouldBroadcast
     use Queueable;
 
     /**
-     * Id do usuário que receberá a notificação.
-     *
-     * @var integer
+     * Id do usuário que receberá a notificação
      */
     public int $usuarioId;
 
     /**
      * Notificação a ser enviada.
-     *
-     * @var Notification
      */
     public Notification $notification;
 
     /**
      * Canal que a notificação será enviada.
-     *
-     * @return PrivateChannel
      */
     public function broadcastOn(): PrivateChannel
     {
@@ -41,23 +35,16 @@ class NotificacaoEmailChannel implements ShouldBroadcast
 
     /**
      * Nome do Evento que será disparado.
-     *
-     * @return string
      */
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'NotificacaoEmail';
     }
 
     /**
      * Envia a notificação.
-     *
-     * @param Notifiable $notifiable Usuário que receberá a notificação.
-     * @param Notification $notification Notificação a ser enviada.
-     *
-     * @return void
      */
-    public function send(Notifiable $notifiable, Notification $notification)
+    public function send(Notifiable $notifiable, Notification $notification): void
     {
         $this->usuarioId = $notifiable->id;
         $this->notification = $notification;

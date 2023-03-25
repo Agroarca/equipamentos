@@ -1,5 +1,7 @@
 <?php
 
+//phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
 namespace App\Services\Admin;
 
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,7 @@ class MenuService
     /**
      * Retorna os menus do admin
      *
-     * @return array[array[string => string]]
+     * @return array<array<string, string>>
      */
     public static function getAuthMenus(): array
     {

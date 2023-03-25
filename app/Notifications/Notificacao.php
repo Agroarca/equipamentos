@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+
 namespace App\Notifications;
 
 use App\Models\Notificacoes\Notificacao as NotificacaoModel;
@@ -22,8 +24,6 @@ class Notificacao extends Notification implements ShouldQueue
 
     /**
      * Construtor da notificacao
-     *
-     * @param NotificacaoModel $notificacao Modelo da notificação a ser enviada.
      */
     public function __construct(
         public NotificacaoModel $notificacao
@@ -34,9 +34,7 @@ class Notificacao extends Notification implements ShouldQueue
     /**
      * Canais que a notificação será enviada.
      *
-     * @param Notifiable $notifiable Usuário que receberá a notificação.
-     *
-     * @return array[Channel]
+     * @return array<Channel>
      */
     public function via(Notifiable $notifiable): array
     {
@@ -50,9 +48,7 @@ class Notificacao extends Notification implements ShouldQueue
     /**
      * Retorna o conteúdo da notificação.
      *
-     * @param Notifiable $notifiable Usuário que receberá a notificação.
-     *
-     * @return array[Channel]
+     * @return array<Channel>
      */
     public function withDelay(Notifiable $notifiable): array
     {

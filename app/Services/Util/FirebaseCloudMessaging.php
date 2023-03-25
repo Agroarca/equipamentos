@@ -1,11 +1,14 @@
 <?php
 
+//phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
 namespace App\Services\Util;
 
 use App\Models\Notificacoes\Notificacao;
 use App\Models\Usuario;
 use Google\Auth\ApplicationDefaultCredentials;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Support\Facades\Log;
 
@@ -16,11 +19,6 @@ class FirebaseCloudMessaging
 {
     /**
      * Envia uma notificação para um usuário.
-     *
-     * @param Usuario $usuario Usuário.
-     * @param Notificacao $notificacao Notificação.
-     *
-     * @return void
      */
     public function enviarNotificacao(Usuario $usuario, Notificacao $notificacao): void
     {
@@ -32,8 +30,6 @@ class FirebaseCloudMessaging
 
     /**
      * Monta o cliente HTTP com a autorização do google.
-     *
-     * @return Client
      */
     public function montarCliente(): Client
     {
@@ -52,13 +48,7 @@ class FirebaseCloudMessaging
     /**
      * Envia uma mensagem para um token.
      *
-     * @param string $token Token do usuário.
-     * @param string $titulo Título da notificação.
-     * @param string $mensagem Mensagem da notificação.
-     *
-     * @throws \GuzzleHttp\Exception\RequestException Erro ao enviar a mensagem para o FCM.
-     *
-     * @return void
+     * @throws RequestException Erro ao enviar a mensagem para o FCM.
      */
     public function enviarMensagem(string $token, string $titulo, string $mensagem): void
     {
@@ -80,7 +70,7 @@ class FirebaseCloudMessaging
                 'https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send',
                 $data
             );
-        } catch (\GuzzleHttp\Exception\RequestException $ex) {
+        } catch (RequestException $ex) {
             Log::error('response:');
             Log::error($ex->getResponse()?->getBody()?->getContents());
             throw $ex;

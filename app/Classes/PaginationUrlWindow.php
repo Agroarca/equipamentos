@@ -11,15 +11,11 @@ class PaginationUrlWindow
 {
     /**
      * Paginator padrão do Laravel
-     *
-     * @var LengthAwarePaginator
      */
-    protected $paginator;
+    protected LengthAwarePaginator $paginator;
 
     /**
      * Construtor
-     *
-     * @param LengthAwarePaginator $paginator Paginator padrão do Laravel.
      */
     public function __construct(LengthAwarePaginator $paginator)
     {
@@ -29,9 +25,7 @@ class PaginationUrlWindow
     /**
      * Cria o array de paginação
      *
-     * @param LengthAwarePaginator $paginator Paginator padrão do Laravel.
-     *
-     * @return array['first', 'slider', 'last']
+     * @return array<string, array<int>>
      */
     public static function make(LengthAwarePaginator $paginator): array
     {
@@ -41,7 +35,7 @@ class PaginationUrlWindow
     /**
      * Retorna o array de paginação
      *
-     * @return array['first', 'slider', 'last']
+     * @return array<string, array<int>>
      */
     public function get(): array
     {
@@ -71,8 +65,6 @@ class PaginationUrlWindow
 
     /**
      * Verifica se há mais de uma página
-     *
-     * @return boolean
      */
     private function hasPages(): bool
     {

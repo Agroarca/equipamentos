@@ -6,6 +6,8 @@ use App\Models\Equipamentos\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EquipamentoConversa extends Model
 {
@@ -18,22 +20,22 @@ class EquipamentoConversa extends Model
         'usuario_id',
     ];
 
-    public function equipamento()
+    public function equipamento(): BelongsTo
     {
         return $this->belongsTo(Equipamento::class);
     }
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }
 
-    public function mensagens()
+    public function mensagens(): HasMany
     {
         return $this->hasMany(Mensagem::class);
     }
 
-    public function visualizacao()
+    public function visualizacao(): HasMany
     {
         return $this->hasMany(Visualizacao::class);
     }

@@ -3,6 +3,7 @@
 namespace App\Models\Caracteristicas\Valor;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CaracteristicaSelecao extends CaracteristicaValor
 {
@@ -10,17 +11,17 @@ class CaracteristicaSelecao extends CaracteristicaValor
 
     protected $table = 'caracteristicas_equipamento_selecao';
 
-    protected function getValorAttribute()
+    protected function getValorAttribute(): int
     {
         return $this->caracteristicas_opcoes_id;
     }
 
-    protected function setValorAttribute($v)
+    protected function setValorAttribute(int $v): void
     {
         $this->caracteristicas_opcoes_id = $v;
     }
 
-    protected function caracteristicasOpcoes()
+    protected function caracteristicasOpcoes(): HasOne
     {
         return $this->hasOne(CaracteristicaOpcao::class);
     }

@@ -11,10 +11,6 @@ class HTMLPurifier
 {
     /**
      * Remove tags e attributos indesejados do HTML.
-     *
-     * @param string $html HTML.
-     *
-     * @return string HTML limpo.
      */
     public static function purify(string $html): string
     {

@@ -7,7 +7,7 @@ trait EnumToArray
     /**
      * Retorna um array com os nomes das opções do enum
      *
-     * @return array[string]
+     * @return array<string>
      */
     public static function names(): array
     {
@@ -17,7 +17,7 @@ trait EnumToArray
     /**
      * Retorna um array com os valores das opções do enum
      *
-     * @return array[string]
+     * @return array<string>
      */
     public static function values(): array
     {
@@ -27,7 +27,7 @@ trait EnumToArray
     /**
      * Retorna um array com os nomes => valor das opções do enum
      *
-     * @return array[string => any]
+     * @return array<any, string>
      */
     public static function toArray(): array
     {

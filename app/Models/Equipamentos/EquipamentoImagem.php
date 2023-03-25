@@ -1,10 +1,13 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+
 namespace App\Models\Equipamentos;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EquipamentoImagem extends Model
 {
@@ -29,7 +32,7 @@ class EquipamentoImagem extends Model
         );
     }
 
-    public function equipamento()
+    public function equipamento(): BelongsTo
     {
         return $this->belongsTo(Equipamento::class);
     }

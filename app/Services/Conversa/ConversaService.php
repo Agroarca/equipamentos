@@ -21,14 +21,10 @@ class ConversaService
 {
     /**
      * Processa o envio de uma mensagem para o sistema.
-     *
-     * @param Mensagem $mensagem Mensagem enviada.
-     *
-     * @return void
      */
-    public function processarEnvioMensagem(Mensagem $mensagem)
+    public function processarEnvioMensagem(Mensagem $mensagem): void
     {
-        DB::transaction(function () use ($mensagem) {
+        DB::transaction(function () use ($mensagem): void {
             Visualizacao::where('equipamento_conversa_id', $mensagem->equipamento_conversa_id)
                 ->where('usuario_id', $mensagem->usuario_id)
                 ->update(['ultima_mensagem_id' => $mensagem->id]);
@@ -52,24 +48,16 @@ class ConversaService
 
     /**
      * Processa a visualização de uma conversa.
-     *
-     * @param EquipamentoConversa $conversa Conversa visualizada.
-     *
-     * @return void
      */
-    public function processarVisualizacao(EquipamentoConversa $conversa)
+    public function processarVisualizacao(EquipamentoConversa $conversa): void
     {
         $this->contarMensagensNaoVisualizadas($conversa);
     }
 
     /**
      * Conta a quantidade de mensagens não visualizadas para cada usuario em uma conversa.
-     *
-     * @param EquipamentoConversa $conversa Conversa criada.
-     *
-     * @return void
      */
-    private function contarMensagensNaoVisualizadas(EquipamentoConversa $conversa)
+    private function contarMensagensNaoVisualizadas(EquipamentoConversa $conversa): void
     {
         DB::statement('update equipamento_conversa_visualizacao visualizacao
                 set visualizacao.mensagens_nao_visualizadas = (
@@ -81,12 +69,8 @@ class ConversaService
 
     /**
      * Cria as visualizações de uma conversa.
-     *
-     * @param EquipamentoConversa $conversa Conversa criada.
-     *
-     * @return void
      */
-    public function criarVisualizacoes(EquipamentoConversa $conversa)
+    public function criarVisualizacoes(EquipamentoConversa $conversa): void
     {
         $conversa->visualizacao()->create([
             'usuario_id' => $conversa->usuario_id,
@@ -101,15 +85,10 @@ class ConversaService
 
     /**
      * Cria e envia uma notificação de mensagem.
-     *
-     * @param Mensagem $mensagem Mensagem enviada.
-     * @param Usuario $usuario Usuário que receberá a notificação.
-     *
-     * @return void
      */
     private function criarNotificacaoMensagem(Mensagem $mensagem, Usuario $usuario): void
     {
-        DB::transaction(function () use ($mensagem, $usuario) {
+        DB::transaction(function () use ($mensagem, $usuario): void {
             $visualizacao = $mensagem->equipamentoConversa->visualizacao()->where('usuario_id', $usuario->id)->first();
             $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
 

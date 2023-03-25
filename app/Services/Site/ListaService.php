@@ -13,8 +13,6 @@ class ListaService
 {
     /**
      * Retorna a query base para as listagens.
-     *
-     * @return Builder
      */
     private function queryBase(): Builder
     {
@@ -34,10 +32,6 @@ class ListaService
 
     /**
      * Retorna a query para a listagem de produtos de uma categoria.
-     *
-     * @param integer $id ID da categoria.
-     *
-     * @return Builder
      */
     public function queryCategoria(int $id): Builder
     {
@@ -54,14 +48,10 @@ class ListaService
 
     /**
      * Retorna a query para a listagem de produtos de uma marca.
-     *
-     * @param integer $id ID da marca.
-     *
-     * @return Builder
      */
     public function queryMarca(int $id): Builder
     {
-        return self::queryBase()->whereIn('modelo_id', function ($query) use ($id) {
+        return self::queryBase()->whereIn('modelo_id', function ($query) use ($id): void {
             $query->select('id')
                 ->from('modelos')
                 ->where('marca_id', $id);
@@ -70,14 +60,10 @@ class ListaService
 
     /**
      * Retorna a query para a listagem de produtos de uma lista de produtos.
-     *
-     * @param integer $id ID do modelo.
-     *
-     * @return Builder
      */
     public function queryLista(int $id): Builder
     {
-        return self::queryBase()->whereIn('id', function ($query) use ($id) {
+        return self::queryBase()->whereIn('id', function ($query) use ($id): void {
             $query->select('equipamento_id')
                 ->from('lista_produtos')
                 ->where('lista_id', $id);

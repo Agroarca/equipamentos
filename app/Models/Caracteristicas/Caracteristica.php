@@ -6,6 +6,8 @@ use App\Models\Caracteristicas\Valor\CaracteristicaOpcao;
 use App\Models\Equipamentos\Categoria;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Caracteristica extends Model
 {
@@ -24,12 +26,12 @@ class Caracteristica extends Model
         'categoria_id',
     ];
 
-    public function categoria()
+    public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class);
     }
 
-    public function opcoes()
+    public function opcoes(): HasMany
     {
         return $this->hasMany(CaracteristicaOpcao::class);
     }

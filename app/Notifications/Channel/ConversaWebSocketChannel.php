@@ -17,47 +17,34 @@ class ConversaWebSocketChannel implements ShouldBroadcast
 
     /**
      * Id do usuário que receberá a notificação.
-     *
-     * @var integer
      */
     public int $usuarioId;
 
     /**
      * Notificação a ser enviada.
-     *
-     * @var Notification
      */
     public Notification $notification;
 
     /**
      * Canal que a notificação será enviada.
-     *
-     * @return PrivateChannel
      */
-    public function broadcastOn()
+    public function broadcastOn(): PrivateChannel
     {
         return new PrivateChannel(config('equipamentos.notificacoes.ws_canal_conversa') . $this->usuarioId);
     }
 
     /**
      * Nome do Evento que será disparado.
-     *
-     * @return string
      */
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'ConversaWebSocket';
     }
 
     /**
      * Envia a notificação.
-     *
-     * @param Notifiable $notifiable Usuário que receberá a notificação.
-     * @param Notification $notification Notificação a ser enviada.
-     *
-     * @return void
      */
-    public function send(Notifiable $notifiable, Notification $notification)
+    public function send(Notifiable $notifiable, Notification $notification): void
     {
         $this->usuarioId = $notifiable->id;
         $this->notification = $notification;

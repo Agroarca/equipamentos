@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class CaracteristicaController extends Controller
 {
-    public function inicio($categoriaId)
+    public function inicio(int $categoriaId)
     {
         $categoria = Categoria::with(['caracteristicas'])->findOrFail($categoriaId);
         $tipos = TipoCaracteristica::toArray();
@@ -19,7 +19,7 @@ class CaracteristicaController extends Controller
         return Inertia::render('Admin/Caracteristicas/Inicio', compact('categoria', 'tipos'));
     }
 
-    public function criar($categoriaId)
+    public function criar(int $categoriaId)
     {
         $categoria = Categoria::findOrFail($categoriaId);
         $tipos = TipoCaracteristica::toArray();
@@ -27,7 +27,7 @@ class CaracteristicaController extends Controller
         return Inertia::render('Admin/Caracteristicas/Criar', compact('categoria', 'tipos'));
     }
 
-    public function salvar($categoriaId, CaracteristicaRequest $request)
+    public function salvar(CaracteristicaRequest $request, int $categoriaId)
     {
         $caracteristica = new Caracteristica($request->all());
         $caracteristica->categoria_id = $categoriaId;
@@ -37,7 +37,7 @@ class CaracteristicaController extends Controller
         return redirect()->route('admin.categorias.caracteristicas', $categoriaId);
     }
 
-    public function visualizar($categoriaId, $id)
+    public function visualizar(int $categoriaId, int $id)
     {
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)
             ->with('opcoes')
@@ -48,7 +48,7 @@ class CaracteristicaController extends Controller
         return Inertia::render('Admin/Caracteristicas/Visualizar', compact('caracteristica', 'tipos'));
     }
 
-    public function excluir($categoriaId, $id)
+    public function excluir(int $categoriaId, int $id)
     {
         Caracteristica::where('categoria_id', $categoriaId)->findOrFail($id)->delete();
 

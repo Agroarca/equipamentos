@@ -5,6 +5,7 @@ namespace App\Models\Notificacoes;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UsuarioTokenFCM extends Model
 {
@@ -17,7 +18,7 @@ class UsuarioTokenFCM extends Model
         'usuario_id',
     ];
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }

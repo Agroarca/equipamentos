@@ -36,7 +36,7 @@ class ModeloController extends Controller
         return redirect()->route('admin.modelos');
     }
 
-    public function editar($id)
+    public function editar(int $id)
     {
         $modelo = Modelo::findOrFail($id);
         $marcas = Marca::all();
@@ -45,21 +45,21 @@ class ModeloController extends Controller
         return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
     }
 
-    public function atualizar(ModeloRequest $request, $id)
+    public function atualizar(ModeloRequest $request, int $id)
     {
         Modelo::findOrFail($id)->update($request->all());
 
         return redirect()->route('admin.modelos');
     }
 
-    public function excluir($id)
+    public function excluir(int $id)
     {
         Modelo::findOrFail($id)->delete();
 
         return redirect()->route('admin.modelos');
     }
 
-    public function pesquisar(Request $request, $marcaId)
+    public function pesquisar(Request $request, int $marcaId)
     {
         $modelos = Modelo::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {

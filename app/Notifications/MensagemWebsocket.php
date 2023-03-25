@@ -13,8 +13,6 @@ class MensagemWebsocket extends Notification
 {
     /**
      * Construtor da notificacao
-     *
-     * @param Mensagem $mensagem Mensagem a ser enviada.
      */
     public function __construct(
         public Mensagem $mensagem
@@ -24,9 +22,9 @@ class MensagemWebsocket extends Notification
     /**
      * Canais que a notificação será enviada.
      *
-     * @return array[Channel]
+     * @return array<Channel>
      */
-    public function via()
+    public function via(): array
     {
         return [ConversaWebSocketChannel::class];
     }

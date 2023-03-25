@@ -4,6 +4,7 @@ namespace App\Models\Equipamentos\Conversas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Visualizacao extends Model
 {
@@ -18,12 +19,12 @@ class Visualizacao extends Model
         'mensagens_nao_visualizadas',
     ];
 
-    public function equipamentoConversa()
+    public function equipamentoConversa(): BelongsTo
     {
         return $this->belongsTo(EquipamentoConversa::class);
     }
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }

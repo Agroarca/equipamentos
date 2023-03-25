@@ -18,9 +18,6 @@ class RedefinirSenha extends Mailable
 {
     /**
      * Criar um novo e-mail de redefinição de senha.
-     *
-     * @param Usuario $usuario Usuário que solicitou o e-mail.
-     * @param string $token Token de redefinição de senha.
      */
     public function __construct(
         private Usuario $usuario,
@@ -30,8 +27,6 @@ class RedefinirSenha extends Mailable
 
     /**
      * Montar o envelope do e-mail.
-     *
-     * @return Envelope
      */
     public function envelope(): Envelope
     {
@@ -52,8 +47,6 @@ class RedefinirSenha extends Mailable
 
     /**
      * Montar o conteúdo do e-mail.
-     *
-     * @return Content
      */
     public function content(): Content
     {
@@ -70,7 +63,7 @@ class RedefinirSenha extends Mailable
     /**
      * Montar os anexos do e-mail.
      *
-     * @return array[Attachment]
+     * @return array<Attachment>
      */
     public function attachments(): array
     {
@@ -79,8 +72,6 @@ class RedefinirSenha extends Mailable
 
     /**
      * Montar a URL de redefinição de senha.
-     *
-     * @return string
      */
     private function getUrl(): string
     {
@@ -91,8 +82,6 @@ class RedefinirSenha extends Mailable
 
     /**
      * Retornar a quantidade de minutos de expiração do token.
-     *
-     * @return Number
      */
     private function getUrlMinutosExpiracao(): Number
     {

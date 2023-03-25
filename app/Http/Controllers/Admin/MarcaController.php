@@ -32,7 +32,7 @@ class MarcaController extends Controller
         return redirect()->route('admin.marcas');
     }
 
-    public function editar($id)
+    public function editar(int $id)
     {
         $marca = Marca::findOrFail($id);
         $statusCadastro = StatusCadastro::toArray();
@@ -40,14 +40,14 @@ class MarcaController extends Controller
         return Inertia::render('Admin/Marca/Editar', compact('marca', 'statusCadastro'));
     }
 
-    public function atualizar(MarcaRequest $request, $id)
+    public function atualizar(MarcaRequest $request, int $id)
     {
         Marca::findOrFail($id)->update($request->all());
 
         return redirect()->route('admin.marcas');
     }
 
-    public function excluir($id)
+    public function excluir(int $id)
     {
         Marca::findOrFail($id)->delete();
 

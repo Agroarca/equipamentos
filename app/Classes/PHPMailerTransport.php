@@ -14,10 +14,6 @@ class PHPMailerTransport extends AbstractTransport
 {
     /**
      * Converte a mensagem e envia o e-mail usando o PHPMailer
-     *
-     * @param SentMessage $message SentMessage recebido do Laravel.
-     *
-     * @return void
      */
     public function doSend(SentMessage $message): void
     {
@@ -43,8 +39,6 @@ class PHPMailerTransport extends AbstractTransport
 
     /**
      * Retorna o nome do transportador
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -53,8 +47,6 @@ class PHPMailerTransport extends AbstractTransport
 
     /**
      * Retorna o cliente PHPMailer Configurado
-     *
-     * @return PHPMailer
      */
     private function getClient(): PHPMailer
     {
@@ -64,7 +56,7 @@ class PHPMailerTransport extends AbstractTransport
         $mailer->Port = config('mail.mailers.smtp.port');
         $mailer->Username = config('mail.mailers.smtp.username');
         $mailer->Password = config('mail.mailers.smtp.password');
-        $mailer->SMTPSecure  = config('mail.mailers.smtp.encryption');
+        $mailer->SMTPSecure = config('mail.mailers.smtp.encryption');
         $mailer->SMTPAuth = true;
         $mailer->CharSet = 'UTF-8';
         $mailer->isHTML(true);

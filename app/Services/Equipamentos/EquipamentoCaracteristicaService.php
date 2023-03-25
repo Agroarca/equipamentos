@@ -6,6 +6,7 @@ use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Caracteristicas\Valor\CaracteristicaValor;
 use App\Models\Equipamentos\Equipamento;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -16,11 +17,9 @@ class EquipamentoCaracteristicaService
     /**
      * Retorna todas as caracteristicas ordenadas pela ordem
      *
-     * @param integer $categoriaId Id da categoria.
-     *
-     * @return array[Caracteristica]
+     * @return Collection<Caracteristica>
      */
-    public function getCaracteristicasCategoria(int $categoriaId): array
+    public function getCaracteristicasCategoria(int $categoriaId): Collection
     {
         return Caracteristica::whereRaw(
             'categoria_id in (
@@ -40,13 +39,11 @@ class EquipamentoCaracteristicaService
      * Salva as caracteristicas em um equipamento
      *
      * @param Equipamento $equipamento Equipamento.
-     * @param array       $caracteristicas Caracteristicas.
-     *
-     * @return void
+     * @param array<mixed> $caracteristicas
      */
     public function salvarCaracteristicas(Equipamento $equipamento, array $caracteristicas): void
     {
-        DB::transaction(function () use ($equipamento, $caracteristicas) {
+        DB::transaction(function () use ($equipamento, $caracteristicas): void {
             $caracCategoria = self::getCaracteristicasCategoria($equipamento->categoria_id);
             $equipamento->load(['caracteristicas']);
 
@@ -60,12 +57,6 @@ class EquipamentoCaracteristicaService
 
     /**
      * Salva uma caracteristica em um equipamento
-     *
-     * @param Equipamento $equipamento Equipamento.
-     * @param integer     $id Id da caracteristica.
-     * @param mixed       $valor Valor da caracteristica.
-     *
-     * @return void
      */
     public function salvarCaracteristica(Equipamento $equipamento, int $id, mixed $valor): void
     {

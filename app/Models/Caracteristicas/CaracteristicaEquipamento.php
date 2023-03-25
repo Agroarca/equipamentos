@@ -5,6 +5,8 @@ namespace App\Models\Caracteristicas;
 use App\Models\Equipamentos\Equipamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class CaracteristicaEquipamento extends Model
 {
@@ -19,17 +21,17 @@ class CaracteristicaEquipamento extends Model
         'equipamento_id',
     ];
 
-    public function caracteristica()
+    public function caracteristica(): BelongsTo
     {
         return $this->belongsTo(Caracteristica::class);
     }
 
-    public function equipamento()
+    public function equipamento(): BelongsTo
     {
         return $this->belongsTo(Equipamento::class);
     }
 
-    public function valor()
+    public function valor(): MorphTo
     {
         return $this->morphTo();
     }

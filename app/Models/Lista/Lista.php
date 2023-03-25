@@ -4,6 +4,7 @@ namespace App\Models\Lista;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lista extends Model
@@ -17,7 +18,7 @@ class Lista extends Model
         'slug',
     ];
 
-    public function produtoLista()
+    public function produtoLista(): HasMany
     {
         return $this->hasMany(ProdutoLista::class);
     }

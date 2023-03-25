@@ -16,8 +16,6 @@ class NotificacaoPushChannel
 
     /**
      * Construtor do canal.
-     *
-     * @param FirebaseCloudMessaging $messagingService Serviço de comunicação com o FCM.
      */
     public function __construct(
         private FirebaseCloudMessaging $messagingService
@@ -26,13 +24,8 @@ class NotificacaoPushChannel
 
     /**
      * Envia a notificação.
-     *
-     * @param Usuario $usuario Usuário que receberá a notificação.
-     * @param NotificationsNotificacao $notificacao Notificação a ser enviada.
-     *
-     * @return void
      */
-    public function send(Usuario $usuario, NotificationsNotificacao $notificacao)
+    public function send(Usuario $usuario, NotificationsNotificacao $notificacao): void
     {
         if ($notificacao->notificacao->visualizado) {
             return;

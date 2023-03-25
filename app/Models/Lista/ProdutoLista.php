@@ -5,6 +5,7 @@ namespace App\Models\Lista;
 use App\Models\Equipamentos\Equipamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProdutoLista extends Model
 {
@@ -17,12 +18,12 @@ class ProdutoLista extends Model
         'lista_id',
     ];
 
-    public function lista()
+    public function lista(): BelongsTo
     {
         return $this->belongsTo(Lista::class);
     }
 
-    public function equipamento()
+    public function equipamento(): BelongsTo
     {
         return $this->belongsTo(Equipamento::class);
     }

@@ -9,6 +9,8 @@ use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Equipamento extends Model
 {
@@ -32,32 +34,32 @@ class Equipamento extends Model
         return $query->where('status', StatusEquipamento::Aprovado->value);
     }
 
-    public function modelo()
+    public function modelo(): BelongsTo
     {
         return $this->belongsTo(Modelo::class);
     }
 
-    public function categoria()
+    public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class);
     }
 
-    public function caracteristicas()
+    public function caracteristicas(): HasMany
     {
         return $this->hasMany(CaracteristicaEquipamento::class);
     }
 
-    public function imagens()
+    public function imagens(): HasMany
     {
         return $this->hasMany(EquipamentoImagem::class);
     }
 
-    public function conversas()
+    public function conversas(): HasMany
     {
         return $this->hasMany(EquipamentoConversa::class);
     }
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }

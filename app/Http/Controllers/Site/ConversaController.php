@@ -8,17 +8,16 @@ use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Models\Equipamentos\Equipamento;
 use App\Services\Conversa\ConversaService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ConversaController extends Controller
 {
-    private $mensagensPorPagina;
+    private int $mensagensPorPagina;
 
-    private $mensagens_por_pagina;
-
-    private $mensagensTempoExcluirSecs;
+    private int $mensagensTempoExcluirSecs;
 
     public function __construct(
         public ConversaService $conversaService
@@ -27,7 +26,7 @@ class ConversaController extends Controller
         $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
     }
 
-    public function conversaEquipamento($equipamentoId)
+    public function conversaEquipamento(int $equipamentoId)
     {
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
@@ -52,7 +51,7 @@ class ConversaController extends Controller
         return redirect()->route('site.conversa', $conversa->id);
     }
 
-    public function conversa($conversaId)
+    public function conversa(int $conversaId)
     {
         $usuarioId = Auth::id();
         $conversa = EquipamentoConversa::findOrFail($conversaId);
@@ -76,7 +75,7 @@ class ConversaController extends Controller
         return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuarioId', 'mensagensTempoExcluir'));
     }
 
-    public function enviar(EnviarMensagemRequest $request, $id)
+    public function enviar(EnviarMensagemRequest $request, int $id)
     {
         DB::transaction(function () use ($request, $id) {
             $conversa = EquipamentoConversa::findOrFail($id);
@@ -94,7 +93,7 @@ class ConversaController extends Controller
         });
     }
 
-    public function mensagensAnteriores($idConversa, $id)
+    public function mensagensAnteriores(int $idConversa, int $id)
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $query = $conversa->mensagens()->where('id', '<', $id);
@@ -102,7 +101,7 @@ class ConversaController extends Controller
         return response()->json($this->retornarMensagens($query));
     }
 
-    public function mensagensPosteriores($idConversa, $id)
+    public function mensagensPosteriores(int $idConversa, int $id)
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $query = $conversa->mensagens()->where('id', '>', $id);
@@ -110,7 +109,7 @@ class ConversaController extends Controller
         return response()->json($this->retornarMensagens($query));
     }
 
-    public function retornarMensagens($query)
+    public function retornarMensagens(Builder $query): array
     {
         $retorno = [];
         $retorno['mais'] = $query->count() > 20;
@@ -119,7 +118,7 @@ class ConversaController extends Controller
         return $retorno;
     }
 
-    public function visualizacao($idConversa, $id)
+    public function visualizacao(int $idConversa, int $id)
     {
         $conversa = EquipamentoConversa::findOrFail($idConversa);
         $mensagem = $conversa->mensagens()->findOrFail($id);
@@ -132,7 +131,7 @@ class ConversaController extends Controller
         }
     }
 
-    public function excluirMensagem($idConversa, $id)
+    public function excluirMensagem(int $idConversa, int $id)
     {
         $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
         $mensagem->delete();

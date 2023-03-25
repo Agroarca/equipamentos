@@ -1,8 +1,11 @@
 <?php
 
+//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+
 namespace App\Console\Commands;
 
 use App\Enums\Usuario\TipoUsuario;
+use App\Models\Usuario;
 use Illuminate\Console\Command;
 
 /**
@@ -15,19 +18,17 @@ class UsuarioAdmin extends Command
      *
      * @var string
      */
-    protected string $signature = 'usuario:admin {--id=} {--cpf=} {--email=} ';
+    protected $signature = 'usuario:admin {--id=} {--cpf=} {--email=} ';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Command description';
+    protected $description = 'Command description';
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -40,7 +41,7 @@ class UsuarioAdmin extends Command
             return;
         }
 
-        $usuario = \App\Models\Usuario::query()
+        $usuario = Usuario::query()
             ->when($id, fn ($query) => $query->where('id', $id))
             ->when($cpf, fn ($query) => $query->where('cpf', $cpf))
             ->when($email, fn ($query) => $query->where('email', $email))
