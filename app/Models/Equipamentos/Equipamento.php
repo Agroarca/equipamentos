@@ -25,7 +25,8 @@ class Equipamento extends Model
         'categoria_id',
         'usuario_id',
         'status',
-        'passo_cadastro'
+        'passo_cadastro',
+        'motivo_reprovado'
     ];
 
     public function scopeAprovado(Builder $query): Builder

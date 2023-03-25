@@ -7,12 +7,15 @@ import Caracteristicas from './Caracteristicas/Inicio.vue'
 import Imagens from './Imagens/Inicio.vue'
 import Descricao from './Descricao/Descricao.vue'
 import Mask from '@/Components/Util/InputMask'
+import Aprovacao from './Aprovacao/Aprovacao.vue'
 
 const props = defineProps({
     equipamento: Object,
     caracteristicas: Object,
     statusEquipamentos: Array,
 })
+
+const STATUS_CRIADO = 1
 
 const elValor = ref(null)
 let valor
@@ -96,6 +99,8 @@ function submit() {
             <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5" />
 
             <Imagens :equipamento="equipamento" class="mt-5" />
+
+            <Aprovacao v-if="equipamento.status == STATUS_CRIADO" :statusEquipamento="statusEquipamentos" :equipamento="equipamento" class="my-5" />
         </div>
     </AdminLayout>
 </template>

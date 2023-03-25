@@ -59,7 +59,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('{id}/atualizardescricao', [EquipamentoController::class, 'atualizarDescricao'])->name('.atualizarDescricao');
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
         Route::get('pesquisar', [EquipamentoController::class, 'pesquisar'])->name('.pesquisar');
-
+        Route::post('{id}/status/atualizar', [EquipamentoController::class, 'atualizarStatus'])->name('.status.atualizar');
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
         Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
         Route::get('{id}/imagens/{imagemId}/deletar', [EquipamentoController::class, 'deletarImagem'])->name('.imagens.delete');
