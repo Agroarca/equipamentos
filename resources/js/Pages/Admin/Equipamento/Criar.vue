@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { watch, computed, onMounted, ref } from 'vue'
+import axios from 'axios'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Components/FormError.vue'
 import Mask from '@/Components/Util/InputMask'
@@ -12,6 +13,9 @@ const props = defineProps({
 
 const elValor = ref(null)
 let valor
+
+let marca
+let modelo
 
 const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma marca'))
 
@@ -35,8 +39,49 @@ watch(() => form.marca_id, (newValue, oldValue) => {
 })
 
 function submit() {
-    form.valor = valor.unmaskedvalue()
-    form.post('/admin/equipamentos/salvar')
+    loader.show()
+    if (!form.marca_id) {
+        salvarMarca().then(() => {
+            submit()
+        }).catch(() => {
+            loader.hide()
+        })
+        return
+    }
+    if (!form.modelo_id) {
+        salvarModelo().then(() => {
+            submit()
+        }).catch(() => {
+            loader.hide()
+        })
+        return
+    }
+    form.post('/admin/equipamentos/salvar', { onFinish: () => loader.hide() })
+}
+
+function criarNovaMarca(search) {
+    marca = search
+}
+
+function criarNovoModelo(search) {
+    modelo = search
+}
+
+function salvarMarca() {
+    return axios.post('/admin/marcas/salvar/ajax', {
+        nome: marca,
+    }).then((response) => {
+        form.marca_id = response.data.id
+    })
+}
+
+function salvarModelo() {
+    return axios.post('/admin/modelos/salvar/ajax', {
+        nome: modelo,
+        marca_id: form.marca_id,
+    }).then((response) => {
+        form.modelo_id = response.data.id
+    })
 }
 
 </script>
@@ -63,12 +108,23 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="marca_id">Marca</label>
-                        <SelectAjax v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                        <SelectAjax
+                            v-model="form.marca_id"
+                            placeholder="Selecione uma marca"
+                            href="/admin/marcas/pesquisar"
+                            :criar-dinamica="true"
+                            @criarNovaOpcao="criarNovaMarca" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
                     <div class="mb-3">
                         <label for="marca_id">Modelo</label>
-                        <SelectAjax v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                        <SelectAjax
+                            v-model="form.modelo_id"
+                            :disabled="!(form.marca_id || marca)"
+                            :placeholder="placeholderModelo"
+                            :href="`/admin/modelos/pesquisar/${form.marca_id}`"
+                            :criar-dinamica="true"
+                            @criarNovaOpcao="criarNovoModelo" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
                     <div class="mb-3">

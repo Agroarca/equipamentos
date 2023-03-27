@@ -27,7 +27,7 @@ class MarcaRequest extends FormRequest
     {
         return [
             'nome' => 'string|required|min:3|max:50',
-            'status' => ['integer', 'required', Rule::in(StatusCadastro::values())]
+            'status' => ['integer', 'nullable', Rule::in(StatusCadastro::values())]
         ];
     }
 

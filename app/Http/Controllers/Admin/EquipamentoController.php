@@ -11,6 +11,8 @@ use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Equipamentos\EquipamentoImagem;
+use App\Models\Equipamentos\Marca;
+use App\Models\Equipamentos\Modelo;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Util\HTMLPurifier;
 use Illuminate\Http\Request;

@@ -53,6 +53,7 @@ class MarcaController extends Controller
 
         return redirect()->route('admin.marcas');
     }
+
     public function pesquisar(Request $request)
     {
         $marcas = Marca::select('id', 'nome as texto')
@@ -62,5 +63,12 @@ class MarcaController extends Controller
             ->get();
 
         return response()->json($marcas);
+    }
+
+    public function salvarAjax(MarcaRequest $request)
+    {
+        $marca = Marca::create($request->all());
+
+        return response()->json($marca);
     }
 }
