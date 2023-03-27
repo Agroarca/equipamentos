@@ -18,5 +18,6 @@
         "neilbrayfield.php-docblocker",
         "onecentlin.laravel-blade",
         "ryannaddy.laravel-artisan",
+        "shevaua.phpcs"
     ]
 }

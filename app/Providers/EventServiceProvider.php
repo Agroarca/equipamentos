@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:ignoreFile
+
 namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;

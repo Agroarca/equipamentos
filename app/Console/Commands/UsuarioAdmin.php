@@ -1,10 +1,16 @@
 <?php
 
+//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+
 namespace App\Console\Commands;
 
 use App\Enums\Usuario\TipoUsuario;
+use App\Models\Usuario;
 use Illuminate\Console\Command;
 
+/**
+ * Comando para atualizar o tipo de usuário para admin.
+ */
 class UsuarioAdmin extends Command
 {
     /**
@@ -35,7 +41,7 @@ class UsuarioAdmin extends Command
             return;
         }
 
-        $usuario = \App\Models\Usuario::query()
+        $usuario = Usuario::query()
             ->when($id, fn ($query) => $query->where('id', $id))
             ->when($cpf, fn ($query) => $query->where('cpf', $cpf))
             ->when($email, fn ($query) => $query->where('email', $email))

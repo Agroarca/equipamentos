@@ -7,16 +7,25 @@ use App\Notifications\Notificacao as NotificationsNotificacao;
 use App\Services\Util\FirebaseCloudMessaging;
 use Illuminate\Bus\Queueable;
 
+/**
+ * Canal para envio de notificações por push.
+ */
 class NotificacaoPushChannel
 {
     use Queueable;
 
+    /**
+     * Construtor do canal.
+     */
     public function __construct(
         private FirebaseCloudMessaging $messagingService
     ) {
     }
 
-    public function send(Usuario $usuario, NotificationsNotificacao $notificacao)
+    /**
+     * Envia a notificação.
+     */
+    public function send(Usuario $usuario, NotificationsNotificacao $notificacao): void
     {
         if ($notificacao->notificacao->visualizado) {
             return;

@@ -16,10 +16,13 @@ class RedefinirSenhaController extends Controller
 {
     public function inicio(Request $request)
     {
-        return Inertia::render('Site/Auth/RedefinirSenha', [
-            'email' => $request->email,
-            'token' => $request->route('token'),
-        ]);
+        return Inertia::render(
+            'Site/Auth/RedefinirSenha',
+            [
+                'email' => $request->email,
+                'token' => $request->route('token'),
+            ]
+        );
     }
 
     public function redefinirSenha(RedefinirSenhaRequest $request)
@@ -36,7 +39,7 @@ class RedefinirSenhaController extends Controller
             }
         );
 
-        if ($status == Password::PASSWORD_RESET) {
+        if ($status === Password::PASSWORD_RESET) {
             return redirect()->route('login')->with('status', __($status));
         }
 

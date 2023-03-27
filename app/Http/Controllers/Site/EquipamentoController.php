@@ -30,12 +30,12 @@ class EquipamentoController extends Controller
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
         $equipamento = null;
-        if (!is_null($id)) {
+        if (!$id) {
             $equipamento = Equipamento::with([
                 'categoria',
                 'imagens',
                 'modelo',
-                'modelo.marca'
+                'modelo.marca',
             ])->findOrFail($id);
         }
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias', 'equipamento'));
@@ -81,9 +81,9 @@ class EquipamentoController extends Controller
         return redirect()->route('site.equipamento.imagens', $equipamento->id);
     }
 
-    public function excluirImagem($id, $imagem_id)
+    public function excluirImagem(int $id, int $imagemId)
     {
-        $imagem = EquipamentoImagem::where('equipamento_id', $id)->findOrFail($imagem_id);
+        $imagem = EquipamentoImagem::where('equipamento_id', $id)->findOrFail($imagemId);
 
         Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
@@ -131,7 +131,7 @@ class EquipamentoController extends Controller
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
-            if (is_null($equipCarac) || is_null($equipCarac->valor)) {
+            if ($equipCarac === null || $equipCarac->valor === null) {
                 continue;
             }
 
@@ -149,7 +149,6 @@ class EquipamentoController extends Controller
             $equipamento->passo_cadastro = 5;
         }
         if ($equipamento->status == StatusEquipamento::Cadastrando->value) {
-
             $equipamento->status = StatusEquipamento::Criado->value;
         }
         $equipamento->save();

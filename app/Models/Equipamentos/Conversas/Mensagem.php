@@ -5,6 +5,7 @@ namespace App\Models\Equipamentos\Conversas;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mensagem extends Model
@@ -21,12 +22,12 @@ class Mensagem extends Model
         'mensagem',
     ];
 
-    public function equipamentoConversa()
+    public function equipamentoConversa(): BelongsTo
     {
         return $this->belongsTo(EquipamentoConversa::class);
     }
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }

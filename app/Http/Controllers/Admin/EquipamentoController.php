@@ -51,20 +51,20 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos');
     }
 
-    public function editar($id)
+    public function editar(int $id)
     {
         $equipamento = Equipamento::with([
             'categoria',
             'imagens',
             'modelo',
-            'modelo.marca'
+            'modelo.marca',
         ])->findOrFail($id);
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         $statusEquipamentos = StatusEquipamento::toArray();
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
-            if (is_null($equipCarac) || is_null($equipCarac->valor)) {
+            if ($equipCarac === null || $equipCarac->valor === null) {
                 continue;
             }
 
@@ -77,7 +77,7 @@ class EquipamentoController extends Controller
         );
     }
 
-    public function atualizar(EquipamentoRequest $request, $id)
+    public function atualizar(EquipamentoRequest $request, int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->update($request->all());
@@ -85,7 +85,7 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 
-    public function atualizarDescricao(Request $request, $id)
+    public function atualizarDescricao(Request $request, int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
@@ -111,7 +111,7 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos');
     }
 
-    public function salvarCaracteristicas(CaracteristicasValorRequest $request, $id)
+    public function salvarCaracteristicas(CaracteristicasValorRequest $request, int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
@@ -119,7 +119,7 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos.editar', $id);
     }
 
-    public function adicionarImagem(EquipamentoImagemRequest $request, $equipamentoId)
+    public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
     {
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
@@ -135,7 +135,7 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos.editar', $equipamentoId);
     }
 
-    public function deletarImagem($equipamentoId, $imagemId)
+    public function deletarImagem(int $equipamentoId, int $imagemId)
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
 

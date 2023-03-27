@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 class CategoriaController extends Controller
 {
-    public function inicio($categoriaId = null)
+    public function inicio(?int $categoriaId = null)
     {
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
         $categorias = Categoria::where('categoria_mae_id', $categoriaId)
@@ -20,7 +20,7 @@ class CategoriaController extends Controller
         return Inertia::render('Admin/Categoria/Inicio', compact('categorias', 'categoria'));
     }
 
-    public function criar($categoriaId = null)
+    public function criar(?int $categoriaId = null)
     {
         $categoriaMae = Categoria::find($categoriaId);
 
@@ -34,7 +34,7 @@ class CategoriaController extends Controller
         return redirect()->route('admin.categorias', $categoria->categoria_mae_id);
     }
 
-    public function editar($id)
+    public function editar(int $id)
     {
         $categoria = Categoria::findOrFail($id);
         $categoria->load('categoriaMae');
@@ -42,7 +42,7 @@ class CategoriaController extends Controller
         return Inertia::render('Admin/Categoria/Editar', compact('categoria'));
     }
 
-    public function atualizar(CategoriaRequest $request, $id)
+    public function atualizar(CategoriaRequest $request, int $id)
     {
         $categoria = Categoria::findOrFail($id);
         $categoria->update($request->all());
@@ -50,7 +50,7 @@ class CategoriaController extends Controller
         return redirect()->route('admin.categorias', $categoria->categoria_mae_id);
     }
 
-    public function excluir($id)
+    public function excluir(int $id)
     {
         $categoria = Categoria::findOrFail($id);
         $categoriaMaeId = $categoria->categoria_mae_id;
@@ -59,7 +59,7 @@ class CategoriaController extends Controller
         return redirect()->route('admin.categorias', $categoriaMaeId);
     }
 
-    public function pesquisar($categoriaId = null)
+    public function pesquisar(?int $categoriaId = null)
     {
         $categoria = Categoria::find($categoriaId);
         $categorias = Categoria::where('categoria_mae_id', $categoriaId)->get();

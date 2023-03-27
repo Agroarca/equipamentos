@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:ignoreFile
+
 namespace App\Providers;
 
 use App\Classes\PaginationUrlWindow;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Pagination\UrlWindow;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Pluralizer;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -32,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Pluralizer::useLanguage('portuguese');
+
         if (Str::contains(Config::get('app.url'), 'https://')) {
             URL::forceScheme('https');
         }

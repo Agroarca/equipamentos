@@ -10,14 +10,14 @@ use Inertia\Inertia;
 
 class CaracteristicaOpcaoController extends Controller
 {
-    public function criar($categoriaId, $caracteristicaId)
+    public function criar(int $categoriaId, int $caracteristicaId)
     {
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)->findOrFail($caracteristicaId);
 
         return Inertia::render('Admin/Caracteristicas/Opcoes/Criar', compact('caracteristica'));
     }
 
-    public function salvar(CaracteristicaOpcaoRequest $request, $categoriaId, $caracteristicaId)
+    public function salvar(CaracteristicaOpcaoRequest $request, int $categoriaId, int $caracteristicaId)
     {
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)->findOrFail($caracteristicaId);
         $opcao = new CaracteristicaOpcao($request->all());
@@ -27,7 +27,7 @@ class CaracteristicaOpcaoController extends Controller
         return redirect()->route('admin.categorias.caracteristicas.visualizar', [$categoriaId, $caracteristicaId]);
     }
 
-    public function excluir($categoriaId, $caracteristicaId, $id)
+    public function excluir(int $categoriaId, int $caracteristicaId, int $id)
     {
         $caracteristica = Caracteristica::where('categoria_id', $categoriaId)->findOrFail($caracteristicaId);
         $caracteristica->opcoes()->findOrFail($id)->delete();

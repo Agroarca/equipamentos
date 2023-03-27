@@ -4,6 +4,7 @@ namespace App\Models\Notificacoes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class NotificacaoConversa extends Model
 {
@@ -11,11 +12,9 @@ class NotificacaoConversa extends Model
 
     protected $table = 'notificacao_conversa';
 
-    protected $fillable = [
-        'conversa_id',
-    ];
+    protected $fillable = ['conversa_id'];
 
-    public function notificacao()
+    public function notificacao(): MorphOne
     {
         return $this->morphOne(Notificacao::class, 'tipo');
     }

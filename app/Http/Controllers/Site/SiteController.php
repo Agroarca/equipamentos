@@ -25,7 +25,7 @@ class SiteController extends Controller
         return Inertia::render('Inicio');
     }
 
-    public function equipamento($id)
+    public function equipamento(int $id)
     {
         $equipamento = Equipamento::aprovado()->findOrFail($id);
 
@@ -40,6 +40,7 @@ class SiteController extends Controller
 
         return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
     }
+
     public function cadastrarEquipamento()
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
@@ -58,8 +59,7 @@ class SiteController extends Controller
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
-        $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
-        $user->update($attributes);
+        $user->update($request->all());
 
         return Redirect::route('site.perfil');
     }

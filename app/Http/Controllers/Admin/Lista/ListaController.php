@@ -28,20 +28,20 @@ class ListaController extends Controller
     public function salvar(ListaRequest $request)
     {
         $lista = new Lista($request->all());
-        $lista->slug = $lista->slug ?? Str::kebab($lista->nome);
+        $lista->slug = ($lista->slug ?? Str::kebab($lista->nome));
         $lista->save();
 
         return redirect()->route('admin.lista');
     }
 
-    public function editar($id)
+    public function editar(int $id)
     {
         $lista = Lista::findOrFail($id);
 
         return Inertia::render('Admin/Lista/Editar', compact('lista'));
     }
 
-    public function atualizar(ListaRequest $request, $id)
+    public function atualizar(ListaRequest $request, int $id)
     {
         $lista = Lista::findOrFail($id);
         $lista->nome = $request->nome;
@@ -51,27 +51,27 @@ class ListaController extends Controller
         return redirect()->route('admin.lista');
     }
 
-    public function excluir($id)
+    public function excluir(int $id)
     {
         Lista::findOrFail($id)->delete();
 
         return redirect()->route('admin.lista');
     }
 
-    public function adicionar(ProdutoListaRequest $request, $listaId)
+    public function adicionar(ProdutoListaRequest $request, int $listaId)
     {
         $lista = Lista::findOrFail($listaId);
         $equipamento = Equipamento::findOrFail($request->equipamento_id);
 
         ProdutoLista::firstOrCreate([
             'lista_id' => $lista->id,
-            'equipamento_id' => $equipamento->id
+            'equipamento_id' => $equipamento->id,
         ]);
 
         return redirect()->route('admin.lista.produtos', $lista->id);
     }
 
-    public function produtos($id)
+    public function produtos(int $id)
     {
         $lista = Lista::findOrFail($id);
         $options = Equipamento::select('id', 'titulo as texto')->take(10)->get();
@@ -85,7 +85,7 @@ class ListaController extends Controller
         return Inertia::render('Admin/Lista/Produtos', compact('lista', 'options', 'produtos'));
     }
 
-    public function remover($listaId, $produtoId)
+    public function remover(int $listaId, int $produtoId)
     {
         $produto = ProdutoLista::where('lista_id', $listaId)->findOrFail($produtoId);
         $produto->delete();

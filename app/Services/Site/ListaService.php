@@ -3,10 +3,18 @@
 namespace App\Services\Site;
 
 use App\Models\Equipamentos\Equipamento;
+use Illuminate\Database\Eloquent\Builder;
+use Ramsey\Uuid\Type\Integer;
 
+/**
+ * Classe responsável por processar as listagens de produtos.
+ */
 class ListaService
 {
-    private function queryBase()
+    /**
+     * Retorna a query base para as listagens.
+     */
+    private function queryBase(): Builder
     {
         $query = Equipamento::aprovado()->select('equipamentos.*');
 
@@ -22,7 +30,10 @@ class ListaService
         return $query;
     }
 
-    public function queryCategoria($id)
+    /**
+     * Retorna a query para a listagem de produtos de uma categoria.
+     */
+    public function queryCategoria(int $id): Builder
     {
         return self::queryBase()->whereRaw(
             'categoria_id in (
@@ -35,18 +46,24 @@ class ListaService
         );
     }
 
-    public function queryMarca($id)
+    /**
+     * Retorna a query para a listagem de produtos de uma marca.
+     */
+    public function queryMarca(int $id): Builder
     {
-        return self::queryBase()->whereIn('modelo_id', function ($query) use ($id) {
+        return self::queryBase()->whereIn('modelo_id', function ($query) use ($id): void {
             $query->select('id')
                 ->from('modelos')
                 ->where('marca_id', $id);
         });
     }
 
-    public function queryLista($id)
+    /**
+     * Retorna a query para a listagem de produtos de uma lista de produtos.
+     */
+    public function queryLista(int $id): Builder
     {
-        return self::queryBase()->whereIn('id', function ($query) use ($id) {
+        return self::queryBase()->whereIn('id', function ($query) use ($id): void {
             $query->select('equipamento_id')
                 ->from('lista_produtos')
                 ->where('lista_id', $id);

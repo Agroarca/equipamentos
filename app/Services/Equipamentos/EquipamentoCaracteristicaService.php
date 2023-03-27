@@ -6,12 +6,20 @@ use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Caracteristicas\Valor\CaracteristicaValor;
 use App\Models\Equipamentos\Equipamento;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Classe responsável por gerenciar as caracteristicas de um equipamento
+ */
 class EquipamentoCaracteristicaService
 {
-    /** Retorna todas as caracteristicas ordenadas pela ordem */
-    public function getCaracteristicasCategoria($categoriaId)
+    /**
+     * Retorna todas as caracteristicas ordenadas pela ordem
+     *
+     * @return Collection<Caracteristica>
+     */
+    public function getCaracteristicasCategoria(int $categoriaId): Collection
     {
         return Caracteristica::whereRaw(
             'categoria_id in (
@@ -27,9 +35,15 @@ class EquipamentoCaracteristicaService
             ->get();
     }
 
-    public function salvarCaracteristicas(Equipamento $equipamento, array $caracteristicas)
+    /**
+     * Salva as caracteristicas em um equipamento
+     *
+     * @param Equipamento $equipamento Equipamento.
+     * @param array<mixed> $caracteristicas
+     */
+    public function salvarCaracteristicas(Equipamento $equipamento, array $caracteristicas): void
     {
-        DB::transaction(function () use ($equipamento, $caracteristicas) {
+        DB::transaction(function () use ($equipamento, $caracteristicas): void {
             $caracCategoria = self::getCaracteristicasCategoria($equipamento->categoria_id);
             $equipamento->load(['caracteristicas']);
 
@@ -41,11 +55,14 @@ class EquipamentoCaracteristicaService
         });
     }
 
-    public function salvarCaracteristica(Equipamento $equipamento, $id, $valor)
+    /**
+     * Salva uma caracteristica em um equipamento
+     */
+    public function salvarCaracteristica(Equipamento $equipamento, int $id, mixed $valor): void
     {
         $caracEquip = $equipamento->caracteristicas()->firstWhere('caracteristica_id', $id);
 
-        if (is_null($caracEquip)) {
+        if ($caracEquip === null) {
             $caracEquip = new CaracteristicaEquipamento();
             $caracEquip->caracteristica_id = $id;
             $caracEquip->equipamento_id = $equipamento->id;
@@ -54,7 +71,7 @@ class EquipamentoCaracteristicaService
 
         $caracValor = $caracEquip->caracteristicaValor;
 
-        if (is_null($caracValor)) {
+        if ($caracValor === null) {
             $caracValor = new CaracteristicaValor::$tipo[$caracEquip->caracteristica->tipo]();
             $caracValor->valor = $valor;
             $caracValor->caracteristica_equipamento_id = $caracEquip->id;
