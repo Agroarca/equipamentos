@@ -96,6 +96,6 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
         Route::post('salvar/ajax', [ModeloController::class, 'salvarAjax'])->name('.salvar.ajax');
-        Route::get('pesquisar/{marca_id}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
+        Route::get('pesquisar/{marca_id?}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
     });
 });

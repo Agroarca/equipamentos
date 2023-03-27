@@ -59,7 +59,7 @@ class ModeloController extends Controller
         return redirect()->route('admin.modelos');
     }
 
-    public function pesquisar(Request $request, int $marcaId)
+    public function pesquisar(Request $request, int $marcaId = null)
     {
         $modelos = Modelo::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {
@@ -67,7 +67,9 @@ class ModeloController extends Controller
                     ->whereFullText('nome', $request->input('termo'))
                     ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
             })
-            ->where('marca_id', $marcaId)
+            ->when($marcaId, function ($query) use ($marcaId) {
+                $query->where('marca_id', $marcaId);
+            })
             ->take(10)
             ->get();
 
