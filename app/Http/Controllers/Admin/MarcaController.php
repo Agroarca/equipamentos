@@ -64,4 +64,11 @@ class MarcaController extends Controller
 
         return response()->json($marcas);
     }
+
+    public function salvarAjax(MarcaRequest $request)
+    {
+        $marca = Marca::create($request->all());
+
+        return response()->json($marca);
+    }
 }

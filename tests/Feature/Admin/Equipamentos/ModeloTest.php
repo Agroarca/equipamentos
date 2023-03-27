@@ -84,6 +84,24 @@ class ModeloTest extends TestCase
         ]);
     }
 
+    public function testPodeCriarSemStatus()
+    {
+        $nome = Str::random(25);
+        $marca = Marca::factory()->create();
+
+        $response = $this->actingAs($this->usuario)
+            ->post('/admin/modelos/salvar', [
+                'nome' => $nome,
+                'marca_id' => $marca->id
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
+            'nome' => $nome,
+            'marca_id' => $marca->id
+        ]);
+    }
+
     public function testNaoPodeCriarComMarcaNaoAprovada()
     {
         $nome = Str::random(25);
@@ -102,24 +120,6 @@ class ModeloTest extends TestCase
             'nome' => $nome,
             'marca_id' => $marca->id,
             'status' => $status
-        ]);
-    }
-
-    public function testNaoPodeCriarSemStatus()
-    {
-        $nome = Str::random(25);
-        $marca = Marca::factory()->create();
-
-        $response = $this->actingAs($this->usuario)
-            ->post('/admin/modelos/salvar', [
-                'nome' => $nome,
-                'marca_id' => $marca->id
-            ]);
-
-        $response->assertInvalid('status');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
-            'nome' => $nome,
-            'marca_id' => $marca->id
         ]);
     }
 
@@ -214,7 +214,7 @@ class ModeloTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeEditarSemStatus()
+    public function testPodeEditarSemStatus()
     {
         $modelo = Modelo::factory()->create();
         $novoNome = Str::random(25);
@@ -226,8 +226,8 @@ class ModeloTest extends TestCase
                 'marca_id' => $novaMarca->id
             ]);
 
-        $response->assertInvalid('status');
-        $this->assertDatabaseMissing(app(Modelo::class)->getTable(), [
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
             'id' => $modelo->id,
             'nome' => $novoNome,
             'marca_id' => $novaMarca->id

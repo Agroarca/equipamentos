@@ -35,7 +35,7 @@ class ModeloRequest extends FormRequest
         return [
             'nome' => 'string|required|min:3|max:50',
             'marca_id' => 'bail|nullable|integer|exists:marcas,id',
-            'status' => ['integer', 'required', Rule::in(StatusCadastro::values()), 'status_modelo_marca']
+            'status' => ['integer', 'nullable', Rule::in(StatusCadastro::values()), 'status_modelo_marca']
         ];
     }
 

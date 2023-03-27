@@ -12,9 +12,13 @@ const props = defineProps([
     'modelValue',
     'options',
     'placeholder',
+    'criarDinamica',
 ])
 
-const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
+const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
+    (e: 'criarNovaOpcao', value: string): void
+}>()
+
 const options = ref([])
 const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
@@ -29,6 +33,19 @@ function onSearchDebounced(search, loading) {
         },
     }).then((response) => {
         options.value = response.data
+
+        if (!props.criarDinamica) {
+            return
+        }
+
+        if (search.trim().length === 0) {
+            return
+        }
+
+        let opcoesEncontradas = options.value.filter((opcao) => opcao.texto.localeCompare(search)).length
+        if (opcoesEncontradas === 0) {
+            options.value.push({ id: null, texto: `Criar nova opção "${search}"` })
+        }
     }).finally(() => {
         loading(false)
     })
@@ -36,6 +53,17 @@ function onSearchDebounced(search, loading) {
 
 function updateModelValue() {
     emit('update:modelValue', selectedOption.value?.id)
+
+    if (selectedOption.value?.id === null && props.criarDinamica) {
+        let option = options.value.find((opcao) => opcao.id === null)
+
+        if (!option) {
+            return
+        }
+
+        option.texto = option.texto.replace('Criar nova opção "', '').replace('"', '')
+        emit('criarNovaOpcao', option.texto)
+    }
 }
 
 function getOpcaoSelecionada() {
@@ -44,6 +72,7 @@ function getOpcaoSelecionada() {
     }
     return null
 }
+
 </script>
 
 <template>
