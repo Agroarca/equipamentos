@@ -15,7 +15,10 @@ const props = defineProps([
     'criarDinamica',
 ])
 
-const emit = defineEmits<{(e: 'update:modelValue', value: string): void, (e: 'criarNovaOpcao', value: string): void}>()
+const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
+    (e: 'criarNovaOpcao', value: string): void
+}>()
+
 const options = ref([])
 const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())

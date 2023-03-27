@@ -42,22 +42,8 @@ class EquipamentoController extends Controller
 
     public function salvar(EquipamentoRequest $request)
     {
-        if (!$request->has('marca_id')) {
-            $marca = Marca::create([
-                'nome' => $request->input('marca_nome'),
-            ]);
-        }
-
-        if (!$request->has('modelo_id')) {
-            $modelo = Modelo::create([
-                'nome' => $request->input('modelo_nome'),
-                'marca_id' => $request->input('marca_id') ?? $marca->id,
-            ]);
-        }
-
         Equipamento::create([
             ...$request->all(),
-            'modelo_id' => $request->input('modelo_id') ?? $modelo->id,
             'usuario_id' => Auth::id(),
         ]);
 

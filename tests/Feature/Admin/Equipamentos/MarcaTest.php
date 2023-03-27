@@ -76,7 +76,7 @@ class MarcaTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarSemStatus()
+    public function testPodeCriarSemStatus()
     {
         $nome = Str::random(25);
 
@@ -85,8 +85,8 @@ class MarcaTest extends TestCase
                 'nome' => $nome
             ]);
 
-        $response->assertInvalid('status');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
             'nome' => $nome
         ]);
     }
@@ -174,7 +174,7 @@ class MarcaTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeEditarSemStatus()
+    public function testPodeEditarSemStatus()
     {
         $marca = Marca::factory()->create();
         $novoNome = Str::random(25);
@@ -184,8 +184,8 @@ class MarcaTest extends TestCase
                 'nome' => $novoNome
             ]);
 
-        $response->assertInvalid('status');
-        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
             'id' => $marca->id,
             'nome' => $novoNome
         ]);
