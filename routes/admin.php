@@ -56,11 +56,15 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{id}/editar/descricao', [EquipamentoController::class, 'editarDescricao'])->name('.editarDescricao');
         Route::post('{id}/atualizardescricao', [EquipamentoController::class, 'atualizarDescricao'])->name('.atualizarDescricao');
         Route::get('{id}/excluir', [EquipamentoController::class, 'excluir'])->name('.excluir');
         Route::get('pesquisar', [EquipamentoController::class, 'pesquisar'])->name('.pesquisar');
+        Route::get('{id}/editar/aprovacao', [EquipamentoController::class, 'editarAprovacao'])->name('.editarAprovacao');
         Route::post('{id}/status/atualizar', [EquipamentoController::class, 'atualizarStatus'])->name('.status.atualizar');
+        Route::get('{id}/editar/caracteristicas', [EquipamentoController::class, 'editarCaracteristicas'])->name('.editarCaracteristicas');
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
+        Route::get('{id}/editar/imagens', [EquipamentoController::class, 'editarImagens'])->name('.editarImagens');
         Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
         Route::get('{id}/imagens/{imagemId}/deletar', [EquipamentoController::class, 'deletarImagem'])->name('.imagens.delete');
     });

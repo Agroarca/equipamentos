@@ -20,7 +20,7 @@ const value = computed({
 <template>
     <div>
         <div v-if="caracteristica.tipo == 0" class="form-check form-switch">
-            <input :id="name" v-model="value" class="form-check-input" type="checkbox" :name="name">
+            <input :id="name" v-model="value" :checked="value" class="form-check-input" type="checkbox" :name="name">
         </div>
         <div v-if="caracteristica.tipo == 1">
             <input :id="name" v-model="value" class="form-control" type="number" :name="name">
