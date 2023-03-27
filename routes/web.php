@@ -39,7 +39,7 @@ Route::name('site')->group(function () {
             Route::get('{id}/imagens', [EquipamentoController::class, 'imagens'])->name('.imagens');
             Route::post('{id}/imagens/salvar', [EquipamentoController::class, 'salvarImagens'])->name('.salvarImagens');
             Route::get('{id}/imagens/{imagem_id}/excluir', [EquipamentoController::class, 'excluirImagem'])->name('.excluirImagem');
-            Route::get('{id}/imagens/continuar', [EquipamentoController::class, 'ImagensContinuar'])->name('.ImagensContinuar');
+            Route::get('{id}/imagens/continuar', [EquipamentoController::class, 'imagensContinuar'])->name('.imagensContinuar');
             Route::get('{id}/descricao', [EquipamentoController::class, 'descricao'])->name('.descricao');
             Route::post('{id}/descricao/salvar', [EquipamentoController::class, 'salvarDescricao'])->name('.salvarDescricao');
             Route::get('{id}/caracteristicas', [EquipamentoController::class, 'caracteristicas'])->name('.caracteristicas');

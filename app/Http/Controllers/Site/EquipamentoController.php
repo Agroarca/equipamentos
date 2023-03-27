@@ -91,7 +91,7 @@ class EquipamentoController extends Controller
         return redirect()->route('site.equipamento.imagens', $id);
     }
 
-    public function ImagensContinuar($id)
+    public function imagensContinuar($id)
     {
         $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
         if ($equipamento->imagens->count() == 0) {
