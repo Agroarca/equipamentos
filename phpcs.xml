@@ -176,6 +176,7 @@
 
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
         <exclude-pattern>app/Http/Controllers</exclude-pattern>
+        <exclude-pattern>routes</exclude-pattern>
     </rule>
 
     <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
