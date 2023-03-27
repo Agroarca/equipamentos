@@ -60,20 +60,11 @@ class EquipamentoController extends Controller
             'modelo.marca',
         ])->findOrFail($id);
 
-        $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         $statusEquipamentos = StatusEquipamento::toArray();
-        foreach ($caracteristicas as $key => $caracteristica) {
-            $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
-            if ($equipCarac === null || $equipCarac->valor === null) {
-                continue;
-            }
-
-            $caracteristicas[$key]->valor = $equipCarac->valor->valor;
-        }
 
         return Inertia::render(
             'Admin/Equipamento/Editar/Cadastro',
-            compact('equipamento', 'caracteristicas', 'statusEquipamentos')
+            compact('equipamento', 'statusEquipamentos')
         );
     }
 

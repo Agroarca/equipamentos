@@ -41,7 +41,7 @@ class CaracteristicaBoolTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristica->id,
             'equipamento_id' => $equipamento->id,
@@ -74,7 +74,7 @@ class CaracteristicaBoolTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristica->id,
             'equipamento_id' => $equipamento->id,

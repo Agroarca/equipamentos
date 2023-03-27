@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Components/FormError.vue'
-import Caracteristicas from './Caracteristicas.vue'
-import Imagens from './Imagens.vue'
-import Descricao from './Descricao.vue'
 import Mask from '@/Components/Util/InputMask'
-import Aprovacao from './Aprovacao.vue'
 import Navegacao from '../Componentes/Navegacao.vue'
 
 const props = defineProps({

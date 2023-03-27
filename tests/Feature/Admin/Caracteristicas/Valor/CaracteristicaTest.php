@@ -42,7 +42,7 @@ class CaracteristicaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamento/Editar/Cadastro')
             ->has('caracteristicas', 1, fn (AssertableInertia $page) => $page
                 ->where('id', $caracteristica->id)
                 ->etc()));
@@ -63,7 +63,7 @@ class CaracteristicaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamento/Editar/Cadastro')
             ->has('caracteristicas', 3));
     }
 
@@ -80,7 +80,7 @@ class CaracteristicaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
-                ->component('Admin/Equipamento/Editar')
+                ->component('Admin/Equipamento/Editar/Cadastro')
                 ->has('caracteristicas', 1)
                 ->where('caracteristicas.0.id', $caracteristicaOpcao->caracteristica_id)
                 ->has('caracteristicas.0.opcoes', 1)
@@ -116,7 +116,7 @@ class CaracteristicaTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristicaInteiro->id,
             'equipamento_id' => $equipamento->id,
@@ -156,7 +156,7 @@ class CaracteristicaTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristicaInteiro->id,
             'equipamento_id' => $equipamento->id,
@@ -217,7 +217,7 @@ class CaracteristicaTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristica->id,
             'equipamento_id' => $equipamento->id,
@@ -240,7 +240,7 @@ class CaracteristicaTest extends TestCase
             ]);
 
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristica->id,
             'equipamento_id' => $equipamento->id,
@@ -278,7 +278,7 @@ class CaracteristicaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamento/Editar/Cadastro')
             ->has('caracteristicas', 2));
     }
 }

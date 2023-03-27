@@ -3,8 +3,8 @@ import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Modal from '@/Components/Admin/Modal.vue'
 import FormError from '@/Components/FormError.vue'
-import AdminLayout from '@/Layouts/AdminLayout.vue';
-import Navegacao from '../Componentes/Navegacao.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue'
+import Navegacao from '../Componentes/Navegacao.vue'
 
 const modal = ref(null)
 const props = defineProps({
