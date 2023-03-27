@@ -25,8 +25,8 @@ module.exports = {
                 ignoreUrls: true,
             },
         ],
-        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-console': 'error',
+        'no-debugger': 'error',
         '@typescript-eslint/ban-ts-ignore': 0,
         'vue/multi-word-component-names': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
@@ -100,6 +100,7 @@ module.exports = {
 
         'vue/require-default-prop': 'off',
         'prefer-const': 'off',
+        'vue/attribute-hyphenation': 'off',
 
     },
     // These are added if you chose also to install Jest plugin for Vue CLI

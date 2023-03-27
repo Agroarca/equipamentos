@@ -21,4 +21,7 @@
     "php.version": "8.2.0",
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
     "githubIssues.issueBranchTitle": "i${issueNumber}",
+    "intelephense.format.braces": "psr12",
+    "intelephense.format.enable": true,
+    "intelephense.phpdoc.textFormat": "text",
 }
