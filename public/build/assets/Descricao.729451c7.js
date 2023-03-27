@@ -1,1 +1,0 @@
-import"./Descricao.vue_vue_type_script_setup_true_lang.eec8e852.js";import{_ as i}from"./Descricao.vue_vue_type_script_setup_true_lang.eec8e852.js";import"./app.008760ed.js";import"./Editor.vue_vue_type_script_setup_true_lang.4439fdd1.js";export{i as default};
