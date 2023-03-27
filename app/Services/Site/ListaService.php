@@ -33,7 +33,7 @@ class ListaService
     /**
      * Retorna a query para a listagem de produtos de uma categoria.
      */
-    public function queryCategoria(int $id): Builder
+    public function queryCategoria(?int $id): Builder
     {
         return self::queryBase()->whereRaw(
             'categoria_id in (
