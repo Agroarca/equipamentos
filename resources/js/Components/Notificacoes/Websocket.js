@@ -53,7 +53,6 @@ function iniciarPusher() {
     window.Echo.private(channel)
         .listen('.ConversaWebSocket', (e) => conversaWebSocket(e))
         .listen('.NotificacaoWebSocket', (e) => notificacaoWebSocket(e))
-        .listenToAll((e, d) => console.log([e, d]))
 
     window.Pusher = Pusher
 }

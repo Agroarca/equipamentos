@@ -12,7 +12,7 @@ module.exports = {
         ecmaVersion: 2020,
     },
     globals: {
-        route: 'readonly',
+        loader: 'readonly',
     },
     rules: {
         indent: ['error', 4],
@@ -79,11 +79,7 @@ module.exports = {
             allowBinding: false,
         }],
         'vue/no-undef-components': ['error'],
-        'vue/no-undef-properties': ['error', {
-            ignores: [
-                'route',
-            ],
-        }],
+        'vue/no-undef-properties': ['error'],
         'vue/no-unused-properties': ['error', {
             groups: ['props', 'data', 'computed', 'methods', 'setup'],
             deepData: true,
@@ -101,7 +97,6 @@ module.exports = {
         'vue/require-default-prop': 'off',
         'prefer-const': 'off',
         'vue/attribute-hyphenation': 'off',
-
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
     // With my own modifications here as an example

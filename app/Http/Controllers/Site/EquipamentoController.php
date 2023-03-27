@@ -26,11 +26,11 @@ class EquipamentoController extends Controller
     ) {
     }
 
-    public function cadastrar($id = null)
+    public function cadastrar(?int $id = null)
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
         $equipamento = null;
-        if (!$id) {
+        if ($id) {
             $equipamento = Equipamento::with([
                 'categoria',
                 'imagens',

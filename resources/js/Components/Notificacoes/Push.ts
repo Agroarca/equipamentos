@@ -46,7 +46,6 @@ export class Push {
             }
 
             localStorage.dataSolicitouPermNotificacao = new Date()
-            console.log('salvar data')
             Notification.requestPermission().then((permission) => {
                 if (Notification.permission === 'granted') {
                     resolve()
