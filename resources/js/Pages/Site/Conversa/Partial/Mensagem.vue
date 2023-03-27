@@ -48,7 +48,6 @@ function getPodeExcluir() {
 }
 
 function verificarpodeExcluir() {
-    console.log('verificarpodeExcluir')
     podeExcluir.value = getPodeExcluir()
     if (podeExcluir.value) {
         setTimeout(() => {
