@@ -32,7 +32,7 @@ class CaracteristicasValorRequest extends FormRequest
     public function getCaracteristicas()
     {
         if (is_null($this->caracteristicas)) {
-            $equipamento = Equipamento::findOrFail($this->route('id'));
+            $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($this->route('id'));
             $this->caracteristicas = $this->getEquipCaracService()
                 ->getCaracteristicasCategoria($equipamento->categoria_id);
         }

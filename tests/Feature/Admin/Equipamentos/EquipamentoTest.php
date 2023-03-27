@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use App\Enums\Caracteristicas\TipoCaracteristica;
 use App\Models\Caracteristicas\Caracteristica;
 use App\Models\Caracteristicas\CaracteristicaEquipamento;
@@ -280,6 +281,82 @@ class EquipamentoTest extends TestCase
         $response->assertRedirectToRoute('admin.equipamentos');
         $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id
+        ]);
+    }
+
+    public function testPodeAprovarEquipamento()
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Criado->value,
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/equipamentos/$equipamento->id/status/atualizar", [
+                'status' => StatusEquipamento::Aprovado->value,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'status' => StatusEquipamento::Aprovado->value,
+        ]);
+    }
+
+    public function testNaoPodeAprovarEquipamentoComMotivo()
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Criado->value,
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/equipamentos/$equipamento->id/status/atualizar", [
+                'status' => StatusEquipamento::Aprovado->value,
+                'motivo_reprovado' => 'Motivo de teste',
+            ]);
+
+        $response->assertInvalid('motivo_reprovado');
+        $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'status' => StatusEquipamento::Aprovado->value,
+        ]);
+    }
+
+    public function testPodeReprovarEquipamento()
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Criado->value,
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/equipamentos/$equipamento->id/status/atualizar", [
+                'status' => StatusEquipamento::Reprovado->value,
+                'motivo_reprovado' => 'Motivo de teste',
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'status' => StatusEquipamento::Reprovado->value,
+        ]);
+    }
+
+    public function testNaoPodeReprovarEquipamentoSemMotivo()
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Criado->value,
+        ]);
+
+        $response = $this->actingAs($this->usuario)
+            ->post("/admin/equipamentos/$equipamento->id/status/atualizar", [
+                'status' => StatusEquipamento::Reprovado->value,
+            ]);
+
+        $response->assertInvalid('motivo_reprovado');
+        $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'status' => StatusEquipamento::Reprovado->value,
         ]);
     }
 }
