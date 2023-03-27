@@ -91,15 +91,15 @@ class EquipamentoController extends Controller
         return redirect()->route('site.equipamento.imagens', $id);
     }
 
-    public function validarImagens($id)
+    public function ImagensContinuar($id)
     {
         $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
-
-
         if ($equipamento->imagens->count() == 0) {
             return redirect()->route('site.equipamento.imagens', $equipamento->id);
         }
-        $equipamento->passo_cadastro = 3;
+        if ($equipamento->passo_cadastro < 3) {
+            $equipamento->passo_cadastro = 3;
+        }
         $equipamento->save();
 
         return redirect()->route('site.equipamento.descricao', $equipamento->id);
@@ -116,7 +116,9 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
-        $equipamento->passo_cadastro = 4;
+        if ($equipamento->passo_cadastro < 4) {
+            $equipamento->passo_cadastro = 4;
+        }
         $equipamento->save();
 
         return redirect()->route('site.equipamento.caracteristicas', $equipamento->id);
@@ -143,8 +145,13 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
-        $equipamento->passo_cadastro = 5;
-        $equipamento->status = StatusEquipamento::Criado->value;
+        if ($equipamento->passo_cadastro < 5) {
+            $equipamento->passo_cadastro = 5;
+        }
+        if ($equipamento->status == StatusEquipamento::Cadastrando->value) {
+
+            $equipamento->status = StatusEquipamento::Criado->value;
+        }
         $equipamento->save();
 
         return redirect()->route('site.equipamento.finalizar', $equipamento->id);

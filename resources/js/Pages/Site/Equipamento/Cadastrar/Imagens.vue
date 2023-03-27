@@ -19,14 +19,10 @@ const form = useForm({
 function adicionar() {
     modal.value.show()
 }
-console.log(props.equipamento.passo_cadastro)
 function upload() {
     form.post(`/equipamento/${props.equipamento.id}/imagens/salvar`, {
         onSuccess: () => {
             modal.value.hide()
-        },
-        onError: () => {
-            console.log('erro')
         },
     })
 }
@@ -36,14 +32,14 @@ function upload() {
 <template>
     <SiteLayout titulo="Cadastrar Imagem">
         <div class="container-600">
-            <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" />
+            <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
             <div class="row mb-3">
                 <button type="button" class="btn btn-primary" @click="adicionar()">
                     Adicionar Imagem
                 </button>
             </div>
             <div class="row">
-                <div v-for="imagem in equipamento?.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
+                <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
                     <img class="card-img-top" :src="imagem.url" :alt="imagem.descricao">
                     <p>{{ imagem.descricao }}</p>
                     <Link :href="`/equipamento/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
@@ -55,7 +51,7 @@ function upload() {
                 </div>
             </div>
             <div>
-                <Link :href="`/equipamento/${equipamento.id}/imagens/validar`" class="btn btn-primary">
+                <Link :href="`/equipamento/${equipamento.id}/imagens/continuar`" class="btn btn-primary">
                     Continuar
                 </Link>
             </div>

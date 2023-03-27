@@ -12,7 +12,7 @@ const props = defineProps({
     equipamento: Object,
 })
 
-const placeholderModelo = computed(() => (form.marca ? 'Selecione um Modelo' : 'Selecione uma marca'))
+const placeholderModelo = computed(() => (form.marca ? 'Selecione um Modelo' : 'Selecione uma Marca'))
 
 const form = useForm({
     id: props.equipamento?.id,
@@ -25,10 +25,9 @@ const form = useForm({
 })
 
 const elValor = ref(null)
-let valor
 
 onMounted(() => {
-    valor = Mask.preco(elValor.value)
+    Mask.preco(elValor.value)
 })
 
 function submit() {
@@ -40,7 +39,7 @@ function submit() {
 <template>
     <SiteLayout titulo="Cadastrar Equipamento">
         <div class="container">
-            <Navegacao class="mb-3" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" />
+            <Navegacao class="mb-3" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" :equipamento="equipamento" />
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="titulo">Título</label>
@@ -60,17 +59,16 @@ function submit() {
                 <div class="mb-3">
                     <label for="marca_id">Marca</label>
                     <SelectAjax v-if="!equipamento?.modelo?.marca" v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
-                    <input v-else id="ano" :value="equipamento?.marca?.nome" class="form-control" type="text" disabled>
+                    <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Modelo</label>
                     <SelectAjax v-if="!equipamento?.modelo" v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
-                    <input v-else id="ano" :value="equipamento.marca.modelo.nome" class="form-control" type="text" disabled>
+                    <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
                 <div class="mb-3">
-                    <!-- Categoria... -->
                     <label for="categoria_id">Categoria</label>
                     <select id="categoria_id" v-model="form.categoria_id" class="form-select" required>
                         <option v-for="(categoria, index) in categorias" :key="index" :value="index">

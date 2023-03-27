@@ -27,7 +27,7 @@ function submit() {
     <SiteLayout>
         <form @submit.prevent="submit">
             <div class="container-600">
-                <Navegacao class="mb-3" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" />
+                <Navegacao class="mb-3" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
                 <h1>
                     Características
                 </h1>
@@ -39,7 +39,7 @@ function submit() {
                     <tbody>
                         <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
                             <td>
-                                {{ caracteristica.nome }}
+                                <label :for="`caracteristica-${caracteristica.id}`"> {{ caracteristica.nome }} </label>
                                 <FormError :error="form.errors['carac-' + caracteristica.id]" />
                             </td>
                             <td>
