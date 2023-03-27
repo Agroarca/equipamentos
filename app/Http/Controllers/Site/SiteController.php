@@ -40,6 +40,7 @@ class SiteController extends Controller
 
         return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
     }
+
     public function cadastrarEquipamento()
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
