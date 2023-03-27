@@ -42,7 +42,7 @@ function AtualizarStatus() {
                 </select>
                 <FormError :error="form.errors.status" />
             </div>
-            <div v-if="form.status == '5'">
+            <div v-if="form.status == STATUS_REPROVADO">
                 <h5 class="p-3">
                     Motivo da reprovação:
                 </h5>
@@ -55,7 +55,7 @@ function AtualizarStatus() {
         <div class="card-footer">
             <button type="button"
                     class="btn btn-secondary"
-                    :class="{ disabled: !form.status, 'btn-success': form.status == '2', 'btn-danger': form.status == '5' }"
+                    :class="{ disabled: !form.status, 'btn-success': form.status == STATUS_APROVADO, 'btn-danger': form.status == STATUS_REPROVADO }"
                     @click="AtualizarStatus">
                 {{ statusEquipamento[form.status] ?? 'Selecione uma ação' }}
             </button>
