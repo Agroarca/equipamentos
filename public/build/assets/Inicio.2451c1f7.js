@@ -1,0 +1,1 @@
+import{A as e}from"./AdminLayout.dd149369.js";import{d as o,a,w as n,o as r,b as t}from"./app.008760ed.js";import"./_plugin-vue_export-helper.3229772c.js";import"./index.c57ba517.js";const s=t("header",null,"Dashboard",-1),c=t("article",null,"content",-1),f=o({__name:"Inicio",setup(i){return(_,l)=>(r(),a(e,null,{default:n(()=>[s,c]),_:1}))}});export{f as default};
