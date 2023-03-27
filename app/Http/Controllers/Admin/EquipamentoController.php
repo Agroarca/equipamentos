@@ -6,6 +6,7 @@ use App\Enums\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CaracteristicasValorRequest;
 use App\Http\Requests\Admin\EquipamentoRequest;
+use App\Http\Requests\Admin\EquipamentoStatusRequest;
 use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Categoria;
 use App\Models\Equipamentos\Equipamento;
@@ -86,6 +87,16 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
+        $equipamento->save();
+
+        return redirect()->route('admin.equipamentos.editar', $id);
+    }
+
+    public function atualizarStatus(EquipamentoStatusRequest $request, $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        $equipamento->status = $request->input('status');
+        $equipamento->motivo_reprovado = HTMLPurifier::purify($request->input('motivo_reprovado'));
         $equipamento->save();
 
         return redirect()->route('admin.equipamentos.editar', $id);
