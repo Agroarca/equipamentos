@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/vue3'
 import Editor from '@/Components/Editor/Editor.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Navegacao from './Navegacao.vue'
+import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
     equipamento: Object,
@@ -25,6 +26,7 @@ function salvarDescricao() {
             </h1>
             <div>
                 <Editor v-model="form.descricao" class="descricao" />
+                <FormError :error="form.errors.descricao" />
             </div>
             <div>
                 <button type="button" class="btn btn-primary" @click="salvarDescricao">

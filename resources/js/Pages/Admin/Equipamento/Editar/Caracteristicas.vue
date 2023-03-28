@@ -40,7 +40,7 @@ function submit() {
                         <tbody>
                             <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
                                 <td>
-                                    {{ caracteristica.nome }}
+                                    <label :for="`caracteristica-${caracteristica.id}`"> {{ caracteristica.nome }}</label>
                                     <FormError :error="form.errors['carac-' + caracteristica.id]" />
                                 </td>
                                 <td>

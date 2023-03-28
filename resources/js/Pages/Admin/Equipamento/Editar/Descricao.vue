@@ -21,8 +21,8 @@ function atualizarDescricao() {
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="descricao" />
         <div class="card card-default">
             <div class="card-header">
-                <h5 class="card-title">
-                    <label for="descricao">Descrição</label>
+                <h5 for="descricao" class="card-title">
+                    Descrição
                 </h5>
             </div>
             <div class="card-body p-0">
