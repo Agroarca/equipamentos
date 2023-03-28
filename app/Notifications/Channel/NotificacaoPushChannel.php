@@ -4,7 +4,7 @@ namespace App\Notifications\Channel;
 
 use App\Models\Usuario;
 use App\Notifications\Notificacao as NotificationsNotificacao;
-use App\Services\Util\FirebaseCloudMessaging;
+use App\Services\Libs\FirebaseCloudMessaging;
 use Illuminate\Bus\Queueable;
 
 /**

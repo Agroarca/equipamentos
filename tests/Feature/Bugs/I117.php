@@ -3,7 +3,7 @@
 namespace Tests\Feature\Bugs;
 
 use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
-use App\Enums\Cadastro\StatusEquipamento;
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaInteiro;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Equipamentos\Modelo;
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaInteiro;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

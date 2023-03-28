@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
-use App\Models\Equipamentos\Categoria;
+use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;

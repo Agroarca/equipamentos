@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Conversa\EnviarMensagemRequest;
+use App\Http\Requests\Admin\Equipamentos\Conversa\EnviarMensagemRequest;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
-use App\Models\Equipamentos\Equipamento;
-use App\Services\Conversa\ConversaService;
+use App\Services\Equipamentos\Conversa\ConversaService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

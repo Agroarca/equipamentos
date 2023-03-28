@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Cadastro\StatusCadastro;
+use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

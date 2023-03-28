@@ -44,7 +44,7 @@ class NotificacaoEmailChannel implements ShouldBroadcast
     /**
      * Envia a notificação.
      */
-    public function send(Notifiable $notifiable, Notification $notification): void
+    public function send(mixed $notifiable, Notification $notification): void
     {
         $this->usuarioId = $notifiable->id;
         $this->notification = $notification;

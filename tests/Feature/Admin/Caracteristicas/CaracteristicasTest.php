@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Admin\Caracteristicas;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\Valor\CaracteristicaOpcao;
-use App\Models\Equipamentos\Categoria;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;

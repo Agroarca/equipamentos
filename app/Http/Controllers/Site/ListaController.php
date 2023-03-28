@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Equipamentos\Marca;
-use App\Models\Lista\Lista;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Lista\Lista;
 use App\Services\Site\ListaService;
 use Inertia\Inertia;
 

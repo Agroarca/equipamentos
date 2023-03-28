@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
-use App\Enums\Cadastro\StatusCadastro;
-use App\Models\Equipamentos\Marca;
-use App\Models\Equipamentos\Modelo;
+use App\Enums\Equipamentos\Cadastro\StatusCadastro;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;

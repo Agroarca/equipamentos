@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Site\Auth;
 
-use App\Enums\TipoPessoa;
+use App\Enums\Usuario\TipoPessoa;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
 use App\Rules\Telefone;

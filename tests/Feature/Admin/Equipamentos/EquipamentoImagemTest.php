@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Equipamentos\EquipamentoImagem;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;

@@ -36,7 +36,7 @@ class Notificacao extends Notification implements ShouldQueue
      *
      * @return array<Channel>
      */
-    public function via(Notifiable $notifiable): array
+    public function via(mixed $notifiable): array
     {
         return [
             NotificacaoWebSocketChannel::class,
@@ -50,7 +50,7 @@ class Notificacao extends Notification implements ShouldQueue
      *
      * @return array<Channel>
      */
-    public function withDelay(Notifiable $notifiable): array
+    public function withDelay(mixed $notifiable): array
     {
         return [
             NotificacaoWebSocketChannel::class => now()->addSeconds(
