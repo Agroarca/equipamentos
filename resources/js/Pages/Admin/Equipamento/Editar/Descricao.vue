@@ -21,12 +21,12 @@ function atualizarDescricao() {
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="descricao" />
         <div class="card card-default">
             <div class="card-header">
-                <h5 for="caracteristica" class="card-title">
+                <h5 for="descricao" class="card-title">
                     Descrição
                 </h5>
             </div>
             <div class="card-body p-0">
-                <Editor v-model="form.descricao" name="caracteristica" class="descricao" />
+                <Editor v-model="form.descricao" name="descricao" class="descricao" />
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-primary" @click="atualizarDescricao">

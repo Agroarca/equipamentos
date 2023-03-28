@@ -51,10 +51,10 @@ function AtualizarStatus() {
                         Motivo da reprovação:
                     </h5>
                     <div class="alert alert-warning mb-0">
-                        O motivo da reprovação será informado ao vendedor.
+                        <label for="motivo_reprovado">O motivo da reprovação será informado ao vendedor.</label>
                     </div>
                     <hr class="m-0">
-                    <Editor v-model="form.motivo_reprovado" class="aprovacao" />
+                    <Editor v-model="form.motivo_reprovado" name="motivo_reprovado" class="aprovacao" />
                     <FormError :error="form.errors.motivo_reprovado" />
                 </div>
             </div>
