@@ -72,7 +72,10 @@ class ConversaController extends Controller
 
         $conversa->mensagens = collect([$mensagensAnteriores, $mensagensProximas])->collapse()->sortBy('id')->values();
 
-        return Inertia::render('Site/Equipamento/Conversa/Conversa', compact('conversa', 'usuarioId', 'mensagensTempoExcluir'));
+        return Inertia::render(
+            'Site/Equipamento/Conversa/Conversa',
+            compact('conversa', 'usuarioId', 'mensagensTempoExcluir')
+        );
     }
 
     public function enviar(EnviarMensagemRequest $request, int $id)
@@ -113,7 +116,12 @@ class ConversaController extends Controller
     {
         $retorno = [];
         $retorno['mais'] = $query->count() > 20;
-        $retorno['mensagens'] = $query->latest('id')->take($this->mensagensPorPagina)->get()->sortBy('id')->values();
+        $retorno['mensagens'] = $query
+            ->latest('id')
+            ->take($this->mensagensPorPagina)
+            ->get()
+            ->sortBy('id')
+            ->values();
 
         return $retorno;
     }

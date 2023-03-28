@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin\Caracteristicas;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
-use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -14,20 +13,12 @@ class CaracteristicaInteiroTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeCriarInteiro()
+    public function testPodeCriarInteiro(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Inteiro->value,
@@ -43,12 +34,12 @@ class CaracteristicaInteiroTest extends TestCase
         ]);
     }
 
-    public function testPodeCriarInteiroTamanhos()
+    public function testPodeCriarInteiroTamanhos(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Inteiro->value,
@@ -68,12 +59,12 @@ class CaracteristicaInteiroTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarInteiroQuantidade()
+    public function testNaoPodeCriarInteiroQuantidade(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Inteiro->value,

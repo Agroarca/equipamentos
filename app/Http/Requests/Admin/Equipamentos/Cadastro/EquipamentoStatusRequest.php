@@ -8,28 +8,31 @@ use Illuminate\Validation\Rule;
 
 class EquipamentoStatusRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
     public function rules(): array
     {
         $statusReprovado = StatusEquipamento::Reprovado->value;
         return [
-            'status' => ['integer', 'required', Rule::in([StatusEquipamento::Aprovado->value, StatusEquipamento::Reprovado->value])],
-            'motivo_reprovado' => "nullable|required_if:status,$statusReprovado|prohibited_unless:status,$statusReprovado|string|min:10",
+            'status' => [
+                'integer',
+                'required',
+                Rule::in([StatusEquipamento::Aprovado->value, StatusEquipamento::Reprovado->value]),
+            ],
+            'motivo_reprovado' => [
+                "nullable',
+                'required_if:status,$statusReprovado',
+                 'prohibited_unless:status,$statusReprovado',
+                  'string',
+                   'min:10",
+            ],
         ];
     }
-    public function attributes()
+
+    public function attributes(): array
     {
         return [
             'status' => 'Status',
@@ -40,7 +43,9 @@ class EquipamentoStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
+            // phpcs:ignore Generic.Files.LineLength.MaxExceeded
             'motivo_reprovado.required_if' => 'O campo Motivo da reprovação deve ser um texto caso deseja reprovar um equipamento.',
+            // phpcs:ignore Generic.Files.LineLength.MaxExceeded
             'motivo_reprovado.prohibited_unless' => 'Apenas deve ser informado um motivo caso deseja reprovar um equipamento.',
         ];
     }

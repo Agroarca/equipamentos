@@ -29,7 +29,11 @@ class EquipamentoController extends Controller
     {
         $equipamentos = Equipamento::with('categoria')->paginate(10);
         $statusEquipamentos = StatusEquipamento::toArray();
-        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Inicio', compact('equipamentos', 'statusEquipamentos'));
+
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Equipamento/Inicio',
+            compact('equipamentos', 'statusEquipamentos')
+        );
     }
 
     public function criar()

@@ -8,14 +8,13 @@ use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    protected $rootView = 'app';
+    protected string $rootView = 'app';
 
-    public function share(Request $request)
+    public function share(Request $request): array
     {
-
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user()
+                'user' => $request->user(),
             ],
             'admin' => [
                 'menus' => MenuService::getAuthMenus(),

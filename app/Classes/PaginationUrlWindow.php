@@ -4,39 +4,21 @@ namespace App\Classes;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-/**
- * Classe para sobrescrever o array de paginação do Laravel
- */
 class PaginationUrlWindow
 {
-    /**
-     * Paginator padrão do Laravel
-     */
+    // phpcs:ignore SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
     protected LengthAwarePaginator $paginator;
 
-    /**
-     * Construtor
-     */
     public function __construct(LengthAwarePaginator $paginator)
     {
         $this->paginator = $paginator;
     }
 
-    /**
-     * Cria o array de paginação
-     *
-     * @return array<string, array<int>>
-     */
     public static function make(LengthAwarePaginator $paginator): array
     {
         return (new static($paginator))->get();
     }
 
-    /**
-     * Retorna o array de paginação
-     *
-     * @return array<string, array<int>>
-     */
     public function get(): array
     {
         if (!$this->hasPages()) {
@@ -63,9 +45,6 @@ class PaginationUrlWindow
         ];
     }
 
-    /**
-     * Verifica se há mais de uma página
-     */
     private function hasPages(): bool
     {
         return $this->paginator->lastPage() > 1;

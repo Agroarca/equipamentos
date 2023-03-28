@@ -2,75 +2,35 @@
 
 namespace App\Http\Requests\Admin\Equipamentos\Cadastro;
 
-use App\Models\Equipamentos\Cadastro\Categoria;
-use Illuminate\Contracts\Validation\Factory;
+use App\Rules\Equipamentos\Cadastro\CategoriaCircular;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoriaRequest extends FormRequest
 {
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint
     protected $stopOnFirstFailure = true;
 
-    public function __construct(Factory $factory)
-    {
-        $factory->extend(
-            'circular',
-            function ($attribute, $value, $parameters) {
-                /**
-                 * Por conta da posição da regra de validação nunca irá atingir 100% de cobertura
-                 * de Coverage, por isso os avisos de @codeCoverageIgnoreStart e @codeCoverageIgnoreEnd
-                 */
-
-                $id = $this->route('id');
-
-                if (!$value) {
-                    // @codeCoverageIgnoreStart
-                    return true;
-                    // @codeCoverageIgnoreEnd
-                }
-
-                $categoria = Categoria::find($value);
-
-                if (!$categoria) {
-                    // @codeCoverageIgnoreStart
-                    return true;
-                    // @codeCoverageIgnoreEnd
-                }
-
-                while ($categoria->categoria_mae_id) {
-                    $categoria = $categoria->categoriaMae;
-                    if ($categoria->id == $id) {
-                        return false;
-                    }
-                }
-
-                return true;
-            },
-            'O campo :attribute não pode ser uma categoria filha.'
-        );
-
-        $factory->extend(
-            'self',
-            function ($attribute, $value, $parameters) {
-                return $this->route('id') != $value;
-            },
-            'O campo :attribute não pode ser si mesma.'
-        );
-    }
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'nome' => 'string|required|min:3|max:100',
-            'categoria_mae_id' => 'bail|nullable|integer|exists:categorias,id|self|circular',
+            'categoria_mae_id' => [
+                'bail',
+                'nullable',
+                'integer',
+                'exists:categorias,id',
+                'self',
+                new CategoriaCircular(),
+            ],
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'nome' => 'Nome',
@@ -78,10 +38,10 @@ class CategoriaRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
-            'categoria_mae_id' => $this->input('categoria_mae_id') ?? null
+            'categoria_mae_id' => $this->input('categoria_mae_id') ?? null,
         ]);
     }
 }

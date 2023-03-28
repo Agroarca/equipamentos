@@ -6,22 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EquipamentoImagemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'descricao' => 'string|required|min:10|max:255',
@@ -31,8 +21,6 @@ class EquipamentoImagemRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-            'imagem.dimensions' => 'A imagem deve ter no mínimo 800px de largura e proporção 4:3',
-        ];
+        return ['imagem.dimensions' => 'A imagem deve ter no mínimo 800px de largura e proporção 4:3'];
     }
 }

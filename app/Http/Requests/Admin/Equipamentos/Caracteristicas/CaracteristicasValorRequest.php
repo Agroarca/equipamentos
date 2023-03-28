@@ -6,41 +6,45 @@ use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class CaracteristicasValorRequest extends FormRequest
 {
-    private $caracteristicas = null;
-    private $equipCaracService;
+    private ?Collection $caracteristicas = null;
 
-    public function authorize()
+    private EquipamentoCaracteristicaService $equipCaracService;
+
+    public function authorize(): bool
     {
         return true;
     }
 
-    private function getEquipCaracService()
+    private function getEquipCaracService(): EquipamentoCaracteristicaService
     {
-        if (is_null($this->equipCaracService)) {
+        if ($this->equipCaracService === null) {
             $this->equipCaracService = App::make(EquipamentoCaracteristicaService::class);
         }
 
         return $this->equipCaracService;
     }
 
-    public function getCaracteristicas()
+    public function getCaracteristicas(): Collection
     {
-        if (is_null($this->caracteristicas)) {
-            $equipamento = Equipamento::withoutGlobalScope('aprovado')->findOrFail($this->route('id'));
-            $this->caracteristicas = $this->getEquipCaracService()
+        if ($this->caracteristicas === null) {
+            $equipamento = Equipamento::findOrFail($this->route('id'));
+
+            $this->caracteristicas = $this
+                ->getEquipCaracService()
                 ->getCaracteristicasCategoria($equipamento->categoria_id);
         }
 
         return $this->caracteristicas;
     }
 
-    public function rules()
+    public function rules(): array
     {
         $rules = [];
 
@@ -51,7 +55,7 @@ class CaracteristicasValorRequest extends FormRequest
         return $rules;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         $attributes = [];
 
@@ -62,7 +66,7 @@ class CaracteristicasValorRequest extends FormRequest
         return $attributes;
     }
 
-    public function prepareForValidation()
+    public function prepareForValidation(): void
     {
         foreach ($this->getCaracteristicas() as $caracteristica) {
             if ($caracteristica->tipo == TipoCaracteristica::Booleano->value) {
@@ -71,7 +75,7 @@ class CaracteristicasValorRequest extends FormRequest
         }
     }
 
-    private function getRulesCaracteristica(Caracteristica $caracteristica)
+    private function getRulesCaracteristica(Caracteristica $caracteristica): array
     {
         $rules = [];
         $rules[] = match ($caracteristica->tipo) {
@@ -89,22 +93,23 @@ class CaracteristicasValorRequest extends FormRequest
             $rules[] = 'nullable';
         }
 
-        if (!is_null($caracteristica->minimo)) {
+        if ($caracteristica->minimo !== null) {
             $rules[] = "min:{$caracteristica->minimo}";
         }
 
-        if (!is_null($caracteristica->maximo)) {
+        if ($caracteristica->maximo !== null) {
             $rules[] = "max:{$caracteristica->maximo}";
         }
 
-        if (!is_null($caracteristica->quantidade)) {
+        if ($caracteristica->quantidade !== null) {
             $rules[] = "regex:/^\d*\.?\d{0,$caracteristica->quantidade}$/";
         }
 
         if ($caracteristica->tipo == TipoCaracteristica::Selecao->value) {
-            $rules[] = Rule::exists('caracteristicas_opcoes', 'id')->where(function ($query) use ($caracteristica) {
-                $query->where('caracteristica_id', $caracteristica->id);
-            });
+            $rules[] = Rule::exists('caracteristicas_opcoes', 'id')
+                ->where(function ($query) use ($caracteristica): void {
+                    $query->where('caracteristica_id', $caracteristica->id);
+                });
         }
 
         return $rules;

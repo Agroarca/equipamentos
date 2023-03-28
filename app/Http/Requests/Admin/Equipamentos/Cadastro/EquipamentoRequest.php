@@ -9,22 +9,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EquipamentoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
         $ano = Carbon::now()->year + 1;
 
@@ -32,15 +22,24 @@ class EquipamentoRequest extends FormRequest
             'id' => 'integer',
             'titulo' => 'string|required|min:10|max:100',
             'valor' => 'numeric|required',
-            'ano' => ['integer', 'required', 'min:1900', "max:{$ano}"],
+            'ano' => [
+                'integer',
+                'required',
+                'min:1900',
+                "max:{$ano}",
+            ],
             'modelo_id' => 'integer|required_without:id|exists:modelos,id',
             'marca_id' => 'integer|nullable|exists:marcas,id',
             'categoria_id' => 'integer|required_without:id|exists:categorias,id',
-            'status' => ['integer', 'nullable', Rule::in(StatusEquipamento::values())],
+            'status' => [
+                'integer',
+                'nullable',
+                Rule::in(StatusEquipamento::values()),
+            ],
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'titulo' => 'Título',

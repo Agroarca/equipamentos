@@ -8,7 +8,6 @@ use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaBooleano;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Str;
@@ -17,15 +16,7 @@ class CaracteristicaBoolTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeSalvarBoolTrue()
+    public function testPodeSalvarBoolTrue(): void
     {
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
@@ -35,10 +26,11 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
@@ -58,7 +50,7 @@ class CaracteristicaBoolTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarBoolFalse()
+    public function testPodeSalvarBoolFalse(): void
     {
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
@@ -68,10 +60,11 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
@@ -91,7 +84,7 @@ class CaracteristicaBoolTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarInt()
+    public function testNaoPodeSalvarInt(): void
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
@@ -101,10 +94,11 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
 
@@ -118,7 +112,7 @@ class CaracteristicaBoolTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarDecimal()
+    public function testNaoPodeSalvarDecimal(): void
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
@@ -128,10 +122,11 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
 
@@ -145,7 +140,7 @@ class CaracteristicaBoolTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarString()
+    public function testNaoPodeSalvarString(): void
     {
         $valor = Str::random(15);
         $caracteristica = Caracteristica::factory()->create([
@@ -155,10 +150,11 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
 

@@ -9,15 +9,10 @@ use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Classe responsável por gerenciar as caracteristicas de um equipamento
- */
 class EquipamentoCaracteristicaService
 {
     /**
      * Retorna todas as caracteristicas ordenadas pela ordem
-     *
-     * @return Collection<Caracteristica>
      */
     public function getCaracteristicasCategoria(int $categoriaId): Collection
     {

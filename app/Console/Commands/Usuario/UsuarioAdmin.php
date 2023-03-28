@@ -1,6 +1,6 @@
 <?php
 
-//phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
 
 namespace App\Console\Commands\Usuario;
 
@@ -8,28 +8,12 @@ use App\Enums\Usuario\TipoUsuario;
 use App\Models\Usuario;
 use Illuminate\Console\Command;
 
-/**
- * Comando para atualizar o tipo de usuário para admin.
- */
 class UsuarioAdmin extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'usuario:admin {--id=} {--cpf=} {--email=} ';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         $id = $this->option('id');

@@ -42,7 +42,10 @@ class ModeloController extends Controller
         $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Modelo/Editar',
+            compact('modelo', 'marcas', 'statusCadastro')
+        );
     }
 
     public function atualizar(ModeloRequest $request, int $id)

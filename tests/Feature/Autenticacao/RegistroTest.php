@@ -10,13 +10,13 @@ class RegistroTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testPodeAcessar()
+    public function testPodeAcessar(): void
     {
         $response = $this->get('/registrar');
         $response->assertStatus(200);
     }
 
-    public function testPodeRegistrarCpfFormatado()
+    public function testPodeRegistrarCpfFormatado(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -31,7 +31,7 @@ class RegistroTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-    public function testPodeRegistrarCpf()
+    public function testPodeRegistrarCpf(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -46,8 +46,7 @@ class RegistroTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-
-    public function testPodeRegistrarCnpjFormatado()
+    public function testPodeRegistrarCnpjFormatado(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -62,7 +61,7 @@ class RegistroTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-    public function testPodeRegistrarCnpj()
+    public function testPodeRegistrarCnpj(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -77,7 +76,7 @@ class RegistroTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-    public function testnaoPodeRegistrarCpfInvalido()
+    public function testnaoPodeRegistrarCpfInvalido(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -91,7 +90,7 @@ class RegistroTest extends TestCase
         $response->assertInvalid(['cpf']);
     }
 
-    public function testnaoPodeRegistrarCnpjInvalido()
+    public function testnaoPodeRegistrarCnpjInvalido(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -105,7 +104,7 @@ class RegistroTest extends TestCase
         $response->assertInvalid(['cnpj']);
     }
 
-    public function testnaoPodeRegistrarTamanhoInvalido()
+    public function testnaoPodeRegistrarTamanhoInvalido(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -119,7 +118,7 @@ class RegistroTest extends TestCase
         $response->assertInvalid(['cpf_cnpj', 'celular']);
     }
 
-    public function testnaoPodeRegistrarTamanhoInvalido2()
+    public function testnaoPodeRegistrarTamanhoInvalido2(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
@@ -132,7 +131,8 @@ class RegistroTest extends TestCase
 
         $response->assertInvalid(['celular']);
     }
-    public function testnaoPodeRegistrarTamanhoInvalido3()
+
+    public function testnaoPodeRegistrarTamanhoInvalido3(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',

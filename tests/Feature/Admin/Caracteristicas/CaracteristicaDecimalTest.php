@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin\Caracteristicas;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
-use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -14,20 +13,12 @@ class CaracteristicaDecimalTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeCriarDecimal()
+    public function testPodeCriarDecimal(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,
@@ -43,12 +34,12 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeCriarDecimalTamanhos()
+    public function testPodeCriarDecimalTamanhos(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,
@@ -68,12 +59,12 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeCriarDecimalQuantidade()
+    public function testPodeCriarDecimalQuantidade(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,
