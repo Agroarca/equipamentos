@@ -1,27 +1,22 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Components/FormError.vue'
-import Caracteristicas from './Caracteristicas/Inicio.vue'
-import Imagens from './Imagens/Inicio.vue'
-import Descricao from './Descricao/Descricao.vue'
 import Mask from '@/Components/Util/InputMask'
-import Aprovacao from './Aprovacao/Aprovacao.vue'
+import Navegacao from '../Componentes/Navegacao.vue'
 
 const props = defineProps({
     equipamento: Object,
-    caracteristicas: Object,
     statusEquipamentos: Array,
 })
 
 const STATUS_CRIADO = 1
 
 const elValor = ref(null)
-let valor
 
 onMounted(() => {
-    valor = Mask.preco(elValor.value)
+    Mask.preco(elValor.value)
 })
 
 const form = useForm({
@@ -43,6 +38,7 @@ function submit() {
 <template>
     <AdminLayout titulo="Editar Equipamento">
         <div class="equipamento">
+            <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="cadastro" />
             <form @submit.prevent="submit">
                 <div class="card card-default">
                     <div class="card-body">
@@ -93,14 +89,6 @@ function submit() {
                     </div>
                 </div>
             </form>
-
-            <Descricao :equipamento="equipamento" class="mt-5" />
-
-            <Caracteristicas :caracteristicas="caracteristicas" :equipamento="equipamento" class="mt-5" />
-
-            <Imagens :equipamento="equipamento" class="mt-5" />
-
-            <Aprovacao v-if="equipamento.status == STATUS_CRIADO" :statusEquipamento="statusEquipamentos" :equipamento="equipamento" class="my-5" />
         </div>
     </AdminLayout>
 </template>

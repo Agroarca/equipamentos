@@ -60,8 +60,26 @@ class EquipamentoController extends Controller
             'modelo.marca',
         ])->findOrFail($id);
 
-        $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         $statusEquipamentos = StatusEquipamento::toArray();
+
+        return Inertia::render(
+            'Admin/Equipamento/Editar/Cadastro',
+            compact('equipamento', 'statusEquipamentos')
+        );
+    }
+
+    public function editarDescricao(int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+
+        return Inertia::render('Admin/Equipamento/Editar/Descricao', compact('equipamento'));
+    }
+
+    public function editarCaracteristicas(int $id)
+    {
+        $equipamento = Equipamento::with('caracteristicas')->findOrFail($id);
+        $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
+
         foreach ($caracteristicas as $key => $caracteristica) {
             $equipCarac = $equipamento->caracteristicas()->firstwhere('caracteristica_id', $caracteristica->id);
             if ($equipCarac === null || $equipCarac->valor === null) {
@@ -71,10 +89,22 @@ class EquipamentoController extends Controller
             $caracteristicas[$key]->valor = $equipCarac->valor->valor;
         }
 
-        return Inertia::render(
-            'Admin/Equipamento/Editar',
-            compact('equipamento', 'caracteristicas', 'statusEquipamentos')
-        );
+        return Inertia::render('Admin/Equipamento/Editar/Caracteristicas', compact('equipamento', 'caracteristicas'));
+    }
+
+    public function editarImagens(int $id)
+    {
+        $equipamento = Equipamento::with('imagens')->findOrFail($id);
+
+        return Inertia::render('Admin/Equipamento/Editar/Imagens', compact('equipamento'));
+    }
+
+    public function editarAprovacao(int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        $statusEquipamento = StatusEquipamento::toArray();
+
+        return Inertia::render('Admin/Equipamento/Editar/Aprovacao', compact('equipamento', 'statusEquipamento'));
     }
 
     public function atualizar(EquipamentoRequest $request, int $id)
@@ -91,7 +121,7 @@ class EquipamentoController extends Controller
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
         $equipamento->save();
 
-        return redirect()->route('admin.equipamentos.editar', $id);
+        return redirect()->route('admin.equipamentos.editarDescricao', $id);
     }
 
     public function atualizarStatus(EquipamentoStatusRequest $request, $id)
@@ -116,7 +146,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
 
-        return redirect()->route('admin.equipamentos.editar', $id);
+        return redirect()->route('admin.equipamentos.editarCaracteristicas', $id);
     }
 
     public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
@@ -132,7 +162,7 @@ class EquipamentoController extends Controller
         $imagem->equipamento_id = $equipamento->id;
         $imagem->save();
 
-        return redirect()->route('admin.equipamentos.editar', $equipamentoId);
+        return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
@@ -142,7 +172,7 @@ class EquipamentoController extends Controller
         Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 
-        return redirect()->route('admin.equipamentos.editar', $equipamentoId);
+        return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }
 
     public function pesquisar(Request $request)

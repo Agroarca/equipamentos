@@ -38,7 +38,7 @@ class EquipamentoImagemTest extends TestCase
 
         Storage::assertExists(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
         $response->assertValid();
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarImagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
             'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
@@ -143,7 +143,7 @@ class EquipamentoImagemTest extends TestCase
             ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
 
         Storage::assertMissing(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
-        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamentoImagem->equipamento_id);
+        $response->assertRedirectToRoute('admin.equipamentos.editarImagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'id' => $equipamentoImagem->id
         ]);

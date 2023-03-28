@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Components/FormError.vue'
-import Valor from '@/Pages/Admin/Equipamento/Caracteristicas/Valor.vue'
+import Valor from '@/Pages/Admin/Equipamento/Componentes/ValorCaracteristicas.vue'
 import Navegacao from './Navegacao.vue'
 
 const props = defineProps({
