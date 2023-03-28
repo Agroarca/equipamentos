@@ -32,7 +32,7 @@ class CaracteristicasTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Inicio')
+            ->component('Admin/Equipamentos/Caracteristicas/Inicio')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
             ->has('tipos', count(TipoCaracteristica::toArray())));
@@ -47,7 +47,7 @@ class CaracteristicasTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Criar')
+            ->component('Admin/Equipamentos/Caracteristicas/Criar')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
             ->has('tipos', count(TipoCaracteristica::toArray())));
@@ -168,7 +168,7 @@ class CaracteristicasTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Visualizar')
+            ->component('Admin/Equipamentos/Caracteristicas/Visualizar')
             ->has('caracteristica')
             ->where('caracteristica.id', $caracteristica->id)
             ->has('tipos', count(TipoCaracteristica::toArray())));

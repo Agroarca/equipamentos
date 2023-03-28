@@ -16,7 +16,7 @@ class CaracteristicaController extends Controller
         $categoria = Categoria::with(['caracteristicas'])->findOrFail($categoriaId);
         $tipos = TipoCaracteristica::toArray();
 
-        return Inertia::render('Admin/Caracteristicas/Inicio', compact('categoria', 'tipos'));
+        return Inertia::render('Admin/Equipamentos/Caracteristicas/Inicio', compact('categoria', 'tipos'));
     }
 
     public function criar(int $categoriaId)
@@ -24,7 +24,7 @@ class CaracteristicaController extends Controller
         $categoria = Categoria::findOrFail($categoriaId);
         $tipos = TipoCaracteristica::toArray();
 
-        return Inertia::render('Admin/Caracteristicas/Criar', compact('categoria', 'tipos'));
+        return Inertia::render('Admin/Equipamentos/Caracteristicas/Criar', compact('categoria', 'tipos'));
     }
 
     public function salvar(CaracteristicaRequest $request, int $categoriaId)
@@ -45,7 +45,7 @@ class CaracteristicaController extends Controller
 
         $tipos = TipoCaracteristica::toArray();
 
-        return Inertia::render('Admin/Caracteristicas/Visualizar', compact('caracteristica', 'tipos'));
+        return Inertia::render('Admin/Equipamentos/Caracteristicas/Visualizar', compact('caracteristica', 'tipos'));
     }
 
     public function excluir(int $categoriaId, int $id)

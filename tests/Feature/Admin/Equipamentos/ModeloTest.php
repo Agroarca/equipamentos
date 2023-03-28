@@ -32,7 +32,7 @@ class ModeloTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Modelo/Inicio'));
+            ->component('Admin/Equipamentos/Cadastro/Modelo/Inicio'));
     }
 
     public function testPodeAcessarComDados(): void
@@ -45,7 +45,7 @@ class ModeloTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Modelo/Inicio')
+            ->component('Admin/Equipamentos/Cadastro/Modelo/Inicio')
             ->has('modelos')
             ->has('modelos.data', 7));
     }
@@ -58,7 +58,7 @@ class ModeloTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Modelo/Criar')
+            ->component('Admin/Equipamentos/Cadastro/Modelo/Criar')
             ->has('marcas', 5));
     }
 
@@ -184,7 +184,7 @@ class ModeloTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Modelo/Editar')
+            ->component('Admin/Equipamentos/Cadastro/Modelo/Editar')
             ->has('modelo')
             ->where('modelo.id', $modelo->id)
             ->has('marcas', 3));

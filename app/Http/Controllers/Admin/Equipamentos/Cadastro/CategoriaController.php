@@ -17,14 +17,14 @@ class CategoriaController extends Controller
             ->with(['categoriaMae'])
             ->paginate(15);
 
-        return Inertia::render('Admin/Categoria/Inicio', compact('categorias', 'categoria'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Categoria/Inicio', compact('categorias', 'categoria'));
     }
 
     public function criar(?int $categoriaId = null)
     {
         $categoriaMae = Categoria::find($categoriaId);
 
-        return Inertia::render('Admin/Categoria/Criar', compact('categoriaMae'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Categoria/Criar', compact('categoriaMae'));
     }
 
     public function salvar(CategoriaRequest $request)
@@ -39,7 +39,7 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($id);
         $categoria->load('categoriaMae');
 
-        return Inertia::render('Admin/Categoria/Editar', compact('categoria'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Categoria/Editar', compact('categoria'));
     }
 
     public function atualizar(CategoriaRequest $request, int $id)

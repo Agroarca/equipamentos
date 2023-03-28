@@ -18,7 +18,7 @@ class ModeloController extends Controller
 
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Modelo/Inicio', compact('modelos', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Inicio', compact('modelos', 'statusCadastro'));
     }
 
     public function criar()
@@ -26,7 +26,7 @@ class ModeloController extends Controller
         $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Modelo/Criar', compact('marcas', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Criar', compact('marcas', 'statusCadastro'));
     }
 
     public function salvar(ModeloRequest $request)
@@ -42,7 +42,7 @@ class ModeloController extends Controller
         $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Editar', compact('modelo', 'marcas', 'statusCadastro'));
     }
 
     public function atualizar(ModeloRequest $request, int $id)

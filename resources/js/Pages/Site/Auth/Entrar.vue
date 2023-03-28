@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '@/Components/FormError.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const form = useForm({
     email: '',

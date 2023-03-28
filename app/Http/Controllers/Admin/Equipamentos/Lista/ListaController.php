@@ -17,12 +17,12 @@ class ListaController extends Controller
     {
         $listas = Lista::paginate();
 
-        return Inertia::render('Admin/Lista/Inicio', compact('listas'));
+        return Inertia::render('Admin/Equipamentos/Lista/Inicio', compact('listas'));
     }
 
     public function criar()
     {
-        return Inertia::render('Admin/Lista/Criar');
+        return Inertia::render('Admin/Equipamentos/Lista/Criar');
     }
 
     public function salvar(ListaRequest $request)
@@ -38,7 +38,7 @@ class ListaController extends Controller
     {
         $lista = Lista::findOrFail($id);
 
-        return Inertia::render('Admin/Lista/Editar', compact('lista'));
+        return Inertia::render('Admin/Equipamentos/Lista/Editar', compact('lista'));
     }
 
     public function atualizar(ListaRequest $request, int $id)
@@ -82,7 +82,7 @@ class ListaController extends Controller
             'equipamento.modelo.marca',
         ])->paginate();
 
-        return Inertia::render('Admin/Lista/Produtos', compact('lista', 'options', 'produtos'));
+        return Inertia::render('Admin/Equipamentos/Lista/Produtos', compact('lista', 'options', 'produtos'));
     }
 
     public function remover(int $listaId, int $produtoId)

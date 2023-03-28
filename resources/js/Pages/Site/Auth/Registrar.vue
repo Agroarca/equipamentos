@@ -3,8 +3,8 @@ import { useForm, Link } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import FormError from '@/Components/FormError.vue'
-import Mask from '@/Components/Util/InputMask'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import Mask from '@/Componentes/Helper/InputMask'
 
 const form = useForm({
     nome: '',

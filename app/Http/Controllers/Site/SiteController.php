@@ -20,7 +20,7 @@ class SiteController extends Controller
 
     public function inicio()
     {
-        return Inertia::render('Inicio');
+        return Inertia::render('Site/Inicio');
     }
 
     public function equipamento(int $id)
@@ -43,7 +43,7 @@ class SiteController extends Controller
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
 
-        return Inertia::render('Site/Equipamento/Cadastrar', compact('categorias'));
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias'));
     }
 
     // public function perfil()

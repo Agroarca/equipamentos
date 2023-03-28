@@ -34,7 +34,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Visualizar')
+            ->component('Admin/Equipamentos/Caracteristicas/Visualizar')
             ->has('caracteristica')
             ->where('caracteristica.id', $caracteristica->id)
             ->has('caracteristica.opcoes', 1));
@@ -51,7 +51,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Opcoes/Criar')
+            ->component('Admin/Equipamentos/Caracteristicas/Opcoes/Criar')
             ->has('caracteristica')
             ->where('caracteristica.id', $caracteristica->id));
     }

@@ -29,14 +29,14 @@ class EquipamentoController extends Controller
     {
         $equipamentos = Equipamento::with('categoria')->paginate(10);
         $statusEquipamentos = StatusEquipamento::toArray();
-        return Inertia::render('Admin/Equipamento/Inicio', compact('equipamentos', 'statusEquipamentos'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Inicio', compact('equipamentos', 'statusEquipamentos'));
     }
 
     public function criar()
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
 
-        return Inertia::render('Admin/Equipamento/Criar', compact('categorias'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Criar', compact('categorias'));
     }
 
     public function salvar(EquipamentoRequest $request)
@@ -70,7 +70,7 @@ class EquipamentoController extends Controller
         }
 
         return Inertia::render(
-            'Admin/Equipamento/Editar',
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar',
             compact('equipamento', 'caracteristicas', 'statusEquipamentos')
         );
     }

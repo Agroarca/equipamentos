@@ -23,7 +23,7 @@ use Inertia\Inertia;
 
 Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Inicio');
+        return Inertia::render('Admin/Dashboard');
     })->name('.dashboard');
 
     Route::prefix('categorias')->name('.categorias')->group(function () {

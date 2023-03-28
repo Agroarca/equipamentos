@@ -8,6 +8,7 @@ module.exports = {
         '@vue/airbnb',
         '@vue/typescript/recommended',
     ],
+    plugins: ['unused-imports'],
     parserOptions: {
         ecmaVersion: 2020,
     },
@@ -97,6 +98,10 @@ module.exports = {
         'vue/require-default-prop': 'off',
         'prefer-const': 'off',
         'vue/attribute-hyphenation': 'off',
+        'unused-imports/no-unused-imports': 'warn',
+        'unused-imports/no-unused-vars': ['warn', {
+            varsIgnorePattern: '^props$',
+        }],
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
     // With my own modifications here as an example

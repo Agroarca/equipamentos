@@ -16,13 +16,13 @@ class MarcaController extends Controller
         $marcas = Marca::paginate(10);
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Marca/Inicio', compact('marcas', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Marca/Inicio', compact('marcas', 'statusCadastro'));
     }
 
     public function criar()
     {
         $statusCadastro = StatusCadastro::toArray();
-        return Inertia::render('Admin/Marca/Criar', compact('statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Marca/Criar', compact('statusCadastro'));
     }
 
     public function salvar(MarcaRequest $request)
@@ -37,7 +37,7 @@ class MarcaController extends Controller
         $marca = Marca::findOrFail($id);
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Marca/Editar', compact('marca', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Marca/Editar', compact('marca', 'statusCadastro'));
     }
 
     public function atualizar(MarcaRequest $request, int $id)

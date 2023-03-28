@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\Bugs;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
-use App\Models\Equipamentos\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -36,7 +35,7 @@ class I117 extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('equipamento.categoria')

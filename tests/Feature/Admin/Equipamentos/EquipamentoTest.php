@@ -36,7 +36,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Inicio')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Inicio')
             ->has('equipamentos')
             ->has('equipamentos.data', 0));
     }
@@ -50,7 +50,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Inicio')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Inicio')
             ->has('equipamentos')
             ->has('equipamentos.data', count($equipamentos)));
     }
@@ -64,7 +64,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Criar')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Criar')
             ->has('categorias', count($categorias)));
     }
 
@@ -145,7 +145,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('equipamento.categoria')
@@ -180,7 +180,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('equipamento.categoria')
