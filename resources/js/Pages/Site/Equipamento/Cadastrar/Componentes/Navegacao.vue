@@ -20,7 +20,7 @@ const props = defineProps({
             <a class="nav-link" :class="{ active: passoAtual == 3, disabled: passoCadastro < 3 }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">Descrição</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 4 }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">Caracteristicas</a>
+            <a class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 4 }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">Caracteristicas</a>
         </li>
     </ul>
 </template>

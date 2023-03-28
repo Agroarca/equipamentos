@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Site;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoImagemRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
+use App\Http\Requests\Equipamento\EquipamentoDescricaoRequest;
+use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class EquipamentoController extends Controller
@@ -93,7 +94,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
         if ($equipamento->imagens->count() == 0) {
-            return redirect()->route('site.equipamento.imagens', $equipamento->id);
+            throw ValidationException::withMessages(['imagem' => 'É necessário cadastrar pelo menos uma imagem.']);
         }
         if ($equipamento->passo_cadastro < 3) {
             $equipamento->passo_cadastro = 3;
@@ -110,7 +111,7 @@ class EquipamentoController extends Controller
         return Inertia::render('Site/Equipamento/Cadastrar/Descricao', compact('equipamento'));
     }
 
-    public function salvarDescricao(Request $request, $id)
+    public function salvarDescricao(EquipamentoDescricaoRequest $request, $id)
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
