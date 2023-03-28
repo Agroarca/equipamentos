@@ -9,6 +9,7 @@ import Navegacao from './Navegacao.vue'
 const modal = ref(null)
 const props = defineProps({
     equipamento: Object,
+    errors: Object,
 })
 
 const form = useForm({
@@ -34,6 +35,9 @@ function upload() {
         <div class="container-600">
             <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
             <div class="row mb-3">
+                <div v-if="props.errors.imagem" class="alert alert-warning">
+                    <label for="erro" class="imagem">{{ props.errors.imagem }}</label>
+                </div>
                 <button type="button" class="btn btn-primary" @click="adicionar()">
                     Adicionar Imagem
                 </button>
@@ -46,6 +50,7 @@ function upload() {
                         Excluir
                     </Link>
                 </div>
+
                 <div v-if="equipamento.imagens.length == 0">
                     <p>Nenhuma imagem adicionada</p>
                 </div>

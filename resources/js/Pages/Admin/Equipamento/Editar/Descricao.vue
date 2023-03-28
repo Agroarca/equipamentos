@@ -22,7 +22,7 @@ function atualizarDescricao() {
         <div class="card card-default">
             <div class="card-header">
                 <h5 class="card-title">
-                    <label for="descricao">Descrição</label>
+                    Descrição
                 </h5>
             </div>
             <div class="card-body p-0">
