@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Equipamentos\Cadastro;
 
 use App\Rules\Equipamentos\Cadastro\CategoriaCircular;
+use App\Rules\Equipamentos\Cadastro\CategoriaPropria;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoriaRequest extends FormRequest
@@ -24,8 +25,8 @@ class CategoriaRequest extends FormRequest
                 'nullable',
                 'integer',
                 'exists:categorias,id',
-                'self',
                 new CategoriaCircular(),
+                new CategoriaPropria(),
             ],
         ];
     }

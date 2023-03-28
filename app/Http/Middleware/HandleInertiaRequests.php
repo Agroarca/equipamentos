@@ -8,7 +8,8 @@ use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    protected string $rootView = 'app';
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+    protected $rootView = 'app';
 
     public function share(Request $request): array
     {

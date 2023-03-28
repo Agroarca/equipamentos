@@ -15,7 +15,7 @@ class CaracteristicasValorRequest extends FormRequest
 {
     private ?Collection $caracteristicas = null;
 
-    private EquipamentoCaracteristicaService $equipCaracService;
+    private ?EquipamentoCaracteristicaService $equipCaracService = null;
 
     public function authorize(): bool
     {
@@ -24,7 +24,7 @@ class CaracteristicasValorRequest extends FormRequest
 
     private function getEquipCaracService(): EquipamentoCaracteristicaService
     {
-        if ($this->equipCaracService === null) {
+        if (!$this->equipCaracService) {
             $this->equipCaracService = App::make(EquipamentoCaracteristicaService::class);
         }
 
@@ -33,7 +33,7 @@ class CaracteristicasValorRequest extends FormRequest
 
     public function getCaracteristicas(): Collection
     {
-        if ($this->caracteristicas === null) {
+        if (!$this->caracteristicas) {
             $equipamento = Equipamento::findOrFail($this->route('id'));
 
             $this->caracteristicas = $this

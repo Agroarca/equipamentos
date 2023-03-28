@@ -12,7 +12,9 @@ class CpfOuCnpj implements ValidationRule
         $len = strlen(preg_replace('/\D/', '', (string) $value));
 
         if ($len == 11 || $len == 14) {
-            $fail("O campo $attribute não é um CPF ou CNPJ válido.");
+            return;
         }
+
+        $fail("O campo $attribute não é um CPF ou CNPJ válido.");
     }
 }

@@ -23,11 +23,11 @@ class EquipamentoStatusRequest extends FormRequest
                 Rule::in([StatusEquipamento::Aprovado->value, StatusEquipamento::Reprovado->value]),
             ],
             'motivo_reprovado' => [
-                "nullable',
-                'required_if:status,$statusReprovado',
-                 'prohibited_unless:status,$statusReprovado',
-                  'string',
-                   'min:10",
+                'nullable',
+                "required_if:status,$statusReprovado",
+                "prohibited_unless:status,$statusReprovado",
+                'string',
+                'min:10',
             ],
         ];
     }
