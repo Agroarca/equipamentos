@@ -3,8 +3,7 @@ name: 'Laravel Test'
 on:
   pull_request:
     paths:
-      - 'app/**.php'
-      - 'tests/**.php'
+      - '**.php'
 
 jobs:
   comment:
