@@ -6,14 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('caracteristicas', function (Blueprint $table) {
+        Schema::create('caracteristicas', function (Blueprint $table): void {
             $table->id();
 
             $table->string('nome', 50);
@@ -22,8 +17,8 @@ return new class extends Migration
             $table->boolean('obrigatorio')->default(false);
             $table->decimal('minimo', 30, 10)->nullable();
             $table->decimal('maximo', 30, 10)->nullable();
-            $table->smallInteger('quantidade')->nullable(); //Casas decimais, quantidade de opções
-            $table->smallInteger('modelo')->nullable(); //se lista suspensa / checkbox
+            $table->smallInteger('quantidade')->nullable(); // Casas decimais, quantidade de opções
+            $table->smallInteger('modelo')->nullable();
 
             $table->foreignId('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categorias');
@@ -32,12 +27,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('caracteristicas');
     }

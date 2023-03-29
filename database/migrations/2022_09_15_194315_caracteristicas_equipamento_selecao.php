@@ -6,14 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('caracteristicas_equipamento_selecao', function (Blueprint $table) {
+        Schema::create('caracteristicas_equipamento_selecao', function (Blueprint $table): void {
             $table->id();
 
             $table->foreignId('caracteristicas_opcoes_id');
@@ -26,12 +21,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('caracteristicas_equipamento_selecao');
     }

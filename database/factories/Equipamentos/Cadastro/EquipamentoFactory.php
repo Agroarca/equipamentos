@@ -10,16 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Equipamentos\Equipamento>
- */
 class EquipamentoFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
@@ -33,7 +25,8 @@ class EquipamentoFactory extends Factory
             'status' => StatusEquipamento::Aprovado->value,
         ];
     }
-    public function statusAprovado()
+
+    public function statusAprovado(): mixed
     {
         return $this->state(fn (array $attributes) => [
             'status' => StatusEquipamento::Aprovado->value,
