@@ -37,24 +37,16 @@ watch(() => form.marca_id, (newValue, oldValue) => {
     }
 })
 
-function submit() {
+async function submit() {
     loader.show()
     if (!form.marca_id) {
-        salvarMarca().then(() => {
-            submit()
-        }).catch(() => {
-            loader.hide()
-        })
-        return
+        await salvarMarca()
     }
+
     if (!form.modelo_id) {
-        salvarModelo().then(() => {
-            submit()
-        }).catch(() => {
-            loader.hide()
-        })
-        return
+        await salvarModelo()
     }
+
     form.post('/admin/equipamentos/salvar', { onFinish: () => loader.hide() })
 }
 
@@ -66,21 +58,21 @@ function criarNovoModelo(search) {
     modelo = search
 }
 
-function salvarMarca() {
-    return axios.post('/admin/marcas/salvar/ajax', {
+async function salvarMarca() {
+    let response = await axios.post('/admin/marcas/salvar/ajax', {
         nome: marca,
-    }).then((response) => {
-        form.marca_id = response.data.id
     })
+
+    form.marca_id = response.data.id
 }
 
-function salvarModelo() {
-    return axios.post('/admin/modelos/salvar/ajax', {
+async function salvarModelo() {
+    let response = await axios.post('/admin/modelos/salvar/ajax', {
         nome: modelo,
         marca_id: form.marca_id,
-    }).then((response) => {
-        form.modelo_id = response.data.id
     })
+
+    form.modelo_id = response.data.id
 }
 
 </script>
@@ -121,7 +113,7 @@ function salvarModelo() {
                             v-model="form.modelo_id"
                             :disabled="!(form.marca_id || marca)"
                             :placeholder="placeholderModelo"
-                            :href="`/admin/modelos/pesquisar/${form.marca_id}`"
+                            :href="form.marca_id ? `/admin/modelos/pesquisar/${form.marca_id}` : null"
                             :criar-dinamica="true"
                             @criarNovaOpcao="criarNovoModelo" />
                         <FormError :error="form.errors.modelo_id" />

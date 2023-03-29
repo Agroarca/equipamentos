@@ -25,30 +25,40 @@ const selectedOption = ref(getOpcaoSelecionada())
 
 options.value = props.options ?? []
 
-function onSearchDebounced(search, loading) {
+async function onSearchDebounced(search, loading) {
+    let termo = search.trim()
+    await atualizarOpcoes(termo, loading)
+
+    if (!props.criarDinamica) {
+        return
+    }
+
+    if (termo.length === 0) {
+        return
+    }
+
+    let opcoesEncontradas = options.value.filter((opcao) => opcao.texto.localeCompare(search) === 0).length
+    if (opcoesEncontradas === 0) {
+        options.value.push({ id: null, texto: `Criar nova opção "${search}"` })
+    }
+}
+
+async function atualizarOpcoes(search, loading) {
+    if (!props.href) {
+        options.value = []
+        return
+    }
+
     loading(true)
-    axios.get(props.href, {
+
+    let response = await axios.get(props.href, {
         params: {
             termo: search,
         },
-    }).then((response) => {
-        options.value = response.data
-
-        if (!props.criarDinamica) {
-            return
-        }
-
-        if (search.trim().length === 0) {
-            return
-        }
-
-        let opcoesEncontradas = options.value.filter((opcao) => opcao.texto.localeCompare(search)).length
-        if (opcoesEncontradas === 0) {
-            options.value.push({ id: null, texto: `Criar nova opção "${search}"` })
-        }
-    }).finally(() => {
-        loading(false)
     })
+    options.value = response.data
+
+    loading(false)
 }
 
 function updateModelValue() {
@@ -82,6 +92,7 @@ function getOpcaoSelecionada() {
         :options="options"
         label="texto"
         searchable
+        :filterable="false"
         @update:model-value="updateModelValue"
         @search="onSearch">
         <template #no-options="{ search, searching }">
