@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import FormError from '@/Components/FormError.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import Navegacao from '../Componentes/Navegacao.vue'
-import ValorCaracteristicas from '../Componentes/ValorCaracteristicas.vue'
+import Navegacao from './Componentes/Navegacao.vue'
+import ValorCaracteristicas from './Componentes/ValorCaracteristicas.vue'
 
 const props = defineProps({
     caracteristicas: Object,

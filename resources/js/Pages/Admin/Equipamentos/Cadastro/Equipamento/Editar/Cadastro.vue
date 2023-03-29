@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import Navegacao from '../Componentes/Navegacao.vue'
+import Navegacao from './Componentes/Navegacao.vue'
 import Mask from '@/Componentes/Helper/InputMask'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
