@@ -123,10 +123,10 @@ class EquipamentoTest extends TestCase
         $response->assertInvalid(['titulo', 'ano']);
     }
 
-    public function testPodeAcessarEditarCadastro()
+    public function testPodeAcessarEditarCadastro(): void
     {
         $equipamento = Equipamento::factory()->create();
-        $caracteristicas = Caracteristica::factory()->count(6)->create([
+        Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
             'tipo' => TipoCaracteristica::Inteiro->value,
         ]);
@@ -136,7 +136,7 @@ class EquipamentoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Cadastro')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Cadastro')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('equipamento.categoria')
@@ -144,21 +144,21 @@ class EquipamentoTest extends TestCase
             ->has('equipamento.modelo.marca'));
     }
 
-    public function testPodeAcessarEditarDescricao()
+    public function testPodeAcessarEditarDescricao(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamento->id/editar/descricao");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Descricao')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Descricao')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id));
     }
 
-    public function testPodeAcessarEditarCaracteristicas()
+    public function testPodeAcessarEditarCaracteristicas(): void
     {
         $equipamento = Equipamento::factory()->create();
         $caracteristicas = Caracteristica::factory()->count(6)->create([
@@ -166,46 +166,46 @@ class EquipamentoTest extends TestCase
             'tipo' => TipoCaracteristica::Inteiro->value,
         ]);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Caracteristicas')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Caracteristicas')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('caracteristicas', count($caracteristicas)));
     }
 
-    public function testPodeAcessarEditarImagens()
+    public function testPodeAcessarEditarImagens(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamento->id/editar/imagens");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Imagens')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Imagens')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id));
     }
 
-    public function testPodeAcessarEditarAprovacao()
+    public function testPodeAcessarEditarAprovacao(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamento->id/editar/aprovacao");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Aprovacao')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Aprovacao')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id));
     }
 
-    public function testPodeAcessarEditarCaracteristicaValor()
+    public function testPodeAcessarEditarCaracteristicaValor(): void
     {
         $equipamento = Equipamento::factory()->create();
         $caracteristica = Caracteristica::factory()->create([
@@ -226,12 +226,12 @@ class EquipamentoTest extends TestCase
         $caracEquip->valor()->associate($caracInt);
         $caracEquip->save();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamento/Editar/Caracteristicas')
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Caracteristicas')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id)
             ->has('caracteristicas', 1)

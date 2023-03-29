@@ -186,4 +186,8 @@
         <include-pattern>app/Services</include-pattern>
     </rule>
 
+    <rule ref="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed">
+        <exclude-pattern>app/Http/Request</exclude-pattern>
+    </rule>
+
 </ruleset>

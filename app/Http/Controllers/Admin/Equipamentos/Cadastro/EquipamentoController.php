@@ -65,7 +65,7 @@ class EquipamentoController extends Controller
         $statusEquipamentos = StatusEquipamento::toArray();
 
         return Inertia::render(
-            'Admin/Equipamento/Editar/Cadastro',
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/Cadastro',
             compact('equipamento', 'statusEquipamentos')
         );
     }
@@ -74,7 +74,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
 
-        return Inertia::render('Admin/Equipamento/Editar/Descricao', compact('equipamento'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Descricao', compact('equipamento'));
     }
 
     public function editarCaracteristicas(int $id)
@@ -92,8 +92,8 @@ class EquipamentoController extends Controller
         }
 
         return Inertia::render(
-            'Admin/Equipamentos/Cadastro/Equipamento/Editar',
-            compact('equipamento', 'caracteristicas', 'statusEquipamentos')
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/Caracteristicas',
+            compact('equipamento', 'caracteristicas')
         );
     }
 
@@ -101,7 +101,10 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        return Inertia::render('Admin/Equipamento/Editar/Imagens', compact('equipamento'));
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/Imagens',
+            compact('equipamento')
+        );
     }
 
     public function editarAprovacao(int $id)
@@ -109,7 +112,10 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
         $statusEquipamento = StatusEquipamento::toArray();
 
-        return Inertia::render('Admin/Equipamento/Editar/Aprovacao', compact('equipamento', 'statusEquipamento'));
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/Aprovacao',
+            compact('equipamento', 'statusEquipamento')
+        );
     }
 
     public function atualizar(EquipamentoRequest $request, int $id)

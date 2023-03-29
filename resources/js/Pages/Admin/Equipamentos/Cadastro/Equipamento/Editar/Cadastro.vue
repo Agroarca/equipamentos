@@ -2,18 +2,9 @@
 import { useForm } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-<<<<<<<< HEAD:resources/js/Pages/Admin/Equipamentos/Cadastro/Equipamento/Editar.vue
-import Caracteristicas from './Caracteristicas/Inicio.vue'
-import Imagens from './Imagens/Inicio.vue'
-import Descricao from './Descricao/Descricao.vue'
-import Aprovacao from './Aprovacao/Aprovacao.vue'
+import Navegacao from '../Componentes/Navegacao.vue'
 import Mask from '@/Componentes/Helper/InputMask'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
-========
-import FormError from '@/Components/FormError.vue'
-import Mask from '@/Components/Util/InputMask'
-import Navegacao from '../Componentes/Navegacao.vue'
->>>>>>>> origin/main:resources/js/Pages/Admin/Equipamento/Editar/Cadastro.vue
 
 const props = defineProps({
     equipamento: Object,
