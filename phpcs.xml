@@ -9,6 +9,7 @@
         <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
     </rule>
     <rule ref="Squiz">
+        <exclude name="Generic.Commenting.DocComment" />
         <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
         <exclude name="Squiz.Files.FileExtension.ClassFound" />
         <exclude name="Squiz.Commenting.FileComment.Missing" />
@@ -37,9 +38,13 @@
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
         <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification" />
         <exclude name="SlevomatCodingStandard.Functions.StrictCall" />
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed" />
     </rule>
 
     <file>app</file>
+    <file>database</file>
+    <file>routes</file>
     <file>tests</file>
 
     <arg value= "p"/>
@@ -131,6 +136,7 @@
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure" />
 
     <rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
+        <exclude-pattern>database/factories</exclude-pattern>
         <type>warning</type>
     </rule>
 
@@ -186,8 +192,7 @@
         <include-pattern>app/Services</include-pattern>
     </rule>
 
-    <rule ref="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed">
-        <exclude-pattern>app/Http/Request</exclude-pattern>
+    <rule ref="Generic.Files.LineLength.MaxExceeded">
+        <exclude-pattern>database/migrations</exclude-pattern>
     </rule>
-
 </ruleset>

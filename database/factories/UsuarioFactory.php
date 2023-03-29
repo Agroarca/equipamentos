@@ -7,9 +7,6 @@ use App\Enums\Usuario\TipoUsuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Usuario>
- */
 class UsuarioFactory extends Factory
 {
     public function definition(): array
@@ -20,20 +17,18 @@ class UsuarioFactory extends Factory
             'cpf' => '22018399055',
             'celular' => '5491111112',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // Password
             'remember_token' => Str::random(10),
             'tipo_pessoa' => TipoPessoa::Fisica->value,
         ];
     }
 
-    public function naoVerificado()
+    public function naoVerificado(): mixed
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(fn (array $attributes) => ['email_verified_at' => null]);
     }
 
-    public function admin()
+    public function admin(): mixed
     {
         return $this->state(fn (array $attributes) => [
             'tipo_usuario' => TipoUsuario::Admin->value,

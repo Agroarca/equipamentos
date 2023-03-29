@@ -7,22 +7,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('usuarios', function (Blueprint $table) {
+        Schema::table('usuarios', function (Blueprint $table): void {
             $table->smallInteger('tipo_usuario')->default(TipoUsuario::Normal->value);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('usuarios', function (Blueprint $table) {
+        Schema::table('usuarios', function (Blueprint $table): void {
             $table->dropColumn('tipo_usuario');
         });
     }
