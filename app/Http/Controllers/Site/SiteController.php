@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Enums\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SiteController extends Controller
@@ -41,5 +43,34 @@ class SiteController extends Controller
         $categorias = Categoria::all()->pluck('nome', 'id');
 
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias'));
+    }
+
+    public function equipamentosPerfil()
+    {
+        $equipamentos = Equipamento::with('modelo', 'modelo.marca', 'imagens')
+            ->where('usuario_id', Auth::user()->id)
+            ->paginate(10);
+
+        $conversasEquipamentos = Equipamento::whereIn('id', $equipamentos->pluck('id'))
+            ->with([
+                'conversas' => function ($query) {
+                    $query->where('usuario_id', Auth::user()->id);
+                },
+            ])
+            ->get()
+            ->pluck('conversas', 'id');
+
+        $status = StatusEquipamento::toArray();
+
+        return Inertia::render('Site/Perfil/Equipamentos', compact('equipamentos', 'status', 'conversasEquipamentos'));
+    }
+
+    public function equipamentoReprovado(int $id)
+    {
+        $equipamento = Equipamento::where('usuario_id', Auth::user()->id)
+            ->where('status', StatusEquipamento::Reprovado)
+            ->findOrFail($id);
+
+        return Inertia::render('Site/Equipamento/Reprovado', compact('equipamento'));
     }
 }

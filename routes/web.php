@@ -49,6 +49,9 @@ Route::name('site')->group(function () {
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
         Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
 
+        Route::get('perfil/equipamentos', [SiteController::class, 'equipamentosPerfil'])->name('.perfil.equipamentos');
+        Route::get('equipamento/reprovado/{id}', [SiteController::class, 'equipamentoReprovado'])->name('.equipamento.reprovado');
+
         Route::prefix('conversa')->name('.conversa')->group(function () {
             Route::get('{id}', [ConversaController::class, 'conversa'])->name('');
             Route::get('equipamento/{id}', [ConversaController::class, 'conversaEquipamento'])->name('.equipamento');
