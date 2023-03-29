@@ -34,7 +34,6 @@ class EquipamentoRequest extends FormRequest
             'valor' => 'numeric|required',
             'ano' => ['integer', 'required', 'min:1900', "max:{$ano}"],
             'modelo_id' => 'integer|required_without:id|exists:modelos,id',
-            'marca_id' => 'integer|nullable|exists:marcas,id',
             'categoria_id' => 'integer|required_without:id|exists:categorias,id',
             'status' => ['integer', 'nullable', Rule::in(StatusEquipamento::values())],
         ];
