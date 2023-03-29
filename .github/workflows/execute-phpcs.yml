@@ -6,7 +6,7 @@ on:
       - '**.php'
 
 jobs:
-  comment:
+  phpcs:
     runs-on: ubuntu-latest
 
     steps:

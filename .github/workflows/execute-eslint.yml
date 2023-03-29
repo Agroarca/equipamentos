@@ -6,7 +6,7 @@ on:
       - 'resources/**'
 
 jobs:
-  build:
+  eslint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,5 +23,5 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
-      - name: Compile assets for production
+      - name: Run Eslint
         run: npm run eslint
