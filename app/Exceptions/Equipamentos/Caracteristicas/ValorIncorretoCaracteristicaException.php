@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Caracteristicas;
+namespace App\Exceptions\Equipamentos\Caracteristicas;
 
 use Exception;
 
