@@ -6,15 +6,10 @@ namespace App\Services\Admin;
 
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Classe responsável por gerenciar os menus do admin
- */
 class MenuService
 {
     /**
      * Retorna os menus do admin
-     *
-     * @return array<array<string, string>>
      */
     public static function getAuthMenus(): array
     {

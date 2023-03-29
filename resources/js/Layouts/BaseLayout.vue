@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import Notificacoes from '@/Components/Notificacoes/Notificacoes.vue'
+import Notificacoes from '@/Componentes/Notificacao/Notificacoes.vue'
 </script>
 
 <template>

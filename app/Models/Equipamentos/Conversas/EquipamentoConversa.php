@@ -2,7 +2,7 @@
 
 namespace App\Models\Equipamentos\Conversas;
 
-use App\Models\Equipamentos\Equipamento;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

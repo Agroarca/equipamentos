@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Admin\Equipamentos;
 
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Equipamentos\EquipamentoImagem;
-use App\Models\Usuario;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -15,14 +14,6 @@ class EquipamentoImagemTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
     public function testPodeEnviarImagem(): void
     {
         Storage::fake();
@@ -30,7 +21,7 @@ class EquipamentoImagemTest extends TestCase
         $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -52,7 +43,7 @@ class EquipamentoImagemTest extends TestCase
         $descricao = Str::random(5);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -73,7 +64,7 @@ class EquipamentoImagemTest extends TestCase
         $descricao = Str::random(500);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -94,7 +85,7 @@ class EquipamentoImagemTest extends TestCase
         $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -115,7 +106,7 @@ class EquipamentoImagemTest extends TestCase
         $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -139,13 +130,13 @@ class EquipamentoImagemTest extends TestCase
 
         $imagem->storeAs(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
 
         Storage::assertMissing(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
         $response->assertRedirectToRoute('admin.equipamentos.editarImagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'id' => $equipamentoImagem->id
+            'id' => $equipamentoImagem->id,
         ]);
     }
 }

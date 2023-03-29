@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import Editor from '@/Components/Editor/Editor.vue'
+import Editor from '@/Componentes/Layout/Editor/Editor.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Navegacao from './Navegacao.vue'
-import FormError from '@/Components/FormError.vue'
+import Navegacao from './Componentes/Navegacao.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const props = defineProps({
     equipamento: Object,

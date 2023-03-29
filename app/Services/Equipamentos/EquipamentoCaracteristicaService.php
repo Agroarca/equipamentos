@@ -2,22 +2,17 @@
 
 namespace App\Services\Equipamentos;
 
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Equipamentos\Equipamento;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Classe responsável por gerenciar as caracteristicas de um equipamento
- */
 class EquipamentoCaracteristicaService
 {
     /**
      * Retorna todas as caracteristicas ordenadas pela ordem
-     *
-     * @return Collection<Caracteristica>
      */
     public function getCaracteristicasCategoria(int $categoriaId): Collection
     {

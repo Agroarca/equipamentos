@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import Modal from '@/Components/Admin/Modal.vue'
-import FormError from '@/Components/FormError.vue'
+import Modal from '@/Componentes/Layout/Modal.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Navegacao from './Navegacao.vue'
+import Navegacao from './Componentes/Navegacao.vue'
 
 const modal = ref(null)
 const props = defineProps({

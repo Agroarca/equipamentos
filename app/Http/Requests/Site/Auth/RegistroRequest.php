@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Site\Auth;
 
-use App\Enums\TipoPessoa;
-use App\Rules\CNPJ;
-use App\Rules\CPF;
-use App\Rules\Telefone;
-use Illuminate\Contracts\Validation\Factory;
+use App\Enums\Usuario\TipoPessoa;
+use App\Rules\Usuario\CNPJ;
+use App\Rules\Usuario\CPF;
+use App\Rules\Usuario\CpfOuCnpj;
+use App\Rules\Usuario\Telefone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -15,49 +15,69 @@ use Illuminate\Validation\ValidationException;
 
 class RegistroRequest extends FormRequest
 {
-    public function __construct(Factory $factory)
-    {
-        $factory->extend(
-            'cpf_cnpj',
-            function ($attribute, $value, $parameters) {
-                $len = strlen(preg_replace('/\D/', '', (string) $value));
-                if ($len == 11 || $len == 14) {
-                    return true;
-                }
-
-                return false;
-            },
-            'O campo :attribute não é um CPF ou CNPJ válido.'
-        );
-    }
-
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'nome' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('usuarios')->ignore(Auth::id())],
-            'password' => ['nullable', 'confirmed', Password::defaults()],
-            'cpf_cnpj' => 'bail|required|cpf_cnpj',
-            'celular' => ['bail', 'required', new Telefone()],
-            'cpf' => ['bail', 'nullable', new CPF(), Rule::unique('usuarios')->ignore(Auth::id())],
-            'cnpj' => ['bail', 'nullable', new CNPJ(), Rule::unique('usuarios')->ignore(Auth::id())],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('usuarios')->ignore(Auth::id()),
+            ],
+            'password' => [
+                'nullable',
+                'confirmed',
+                Password::defaults(),
+            ],
+            'cpf_cnpj' => [
+                'bail',
+                'required',
+                new CpfOuCnpj(),
+            ],
+            'celular' => [
+                'bail',
+                'required',
+                new Telefone(),
+            ],
+            'cpf' => [
+                'bail',
+                'nullable',
+                new CPF(),
+                Rule::unique('usuarios')->ignore(Auth::id()),
+            ],
+            'cnpj' => [
+                'bail',
+                'nullable',
+                new CNPJ(),
+                Rule::unique('usuarios')->ignore(Auth::id()),
+            ],
         ];
 
         if (Auth::check()) {
-            $rules['password'] = ['nullable', 'confirmed', Password::defaults()];
+            $rules['password'] = [
+                'nullable',
+                'confirmed',
+                Password::defaults(),
+            ];
         } else {
-            $rules['password'] = ['required', 'confirmed', Password::defaults()];
+            $rules['password'] = [
+                'required',
+                'confirmed',
+                Password::defaults(),
+            ];
         }
 
         return $rules;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'nome' => 'Nome',
@@ -70,24 +90,24 @@ class RegistroRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation($validator)
+    protected function failedValidation($validator): void
     {
         session()->put('authType', 'register');
         throw new ValidationException($validator);
     }
 
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $attributes = [];
         if ($this->has('cpf_cnpj')) {
-            $cpf_cnpj = preg_replace('/\D/', '', (string) $this->input('cpf_cnpj'));
-            $len = strlen($cpf_cnpj);
+            $cpfOucnpj = preg_replace('/\D/', '', (string) $this->input('cpf_cnpj'));
+            $len = strlen($cpfOucnpj);
 
             if ($len == 11) {
-                $attributes['cpf'] = $cpf_cnpj;
+                $attributes['cpf'] = $cpfOucnpj;
                 $attributes['tipo_pessoa'] = TipoPessoa::Fisica->value;
-            } elseif ($len == 14) {
-                $attributes['cnpj'] = $cpf_cnpj;
+            } else if ($len == 14) {
+                $attributes['cnpj'] = $cpfOucnpj;
                 $attributes['tipo_pessoa'] = TipoPessoa::Juridica->value;
             }
         }

@@ -11,29 +11,21 @@ use Illuminate\Support\Str;
 
 class EntrarRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
     public function rules(): array
     {
         return [
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'manter_conectado' => 'nullable|boolean'
+            'manter_conectado' => 'nullable|boolean',
         ];
     }
 
-    public function autenticar()
+    public function autenticar(): void
     {
         $this->verificarRateLimit();
 
@@ -48,7 +40,7 @@ class EntrarRequest extends FormRequest
         $this->limparRateLimit();
     }
 
-    public function verificarRateLimit()
+    public function verificarRateLimit(): void
     {
         if (!RateLimiter::tooManyAttempts($this->chaveRateLimit(), 5)) {
             return;
@@ -57,7 +49,7 @@ class EntrarRequest extends FormRequest
         $this->excedeuTentativas();
     }
 
-    public function excedeuTentativas()
+    public function excedeuTentativas(): void
     {
         event(new Lockout($this));
 
@@ -71,12 +63,12 @@ class EntrarRequest extends FormRequest
         ]);
     }
 
-    public function chaveRateLimit()
+    public function chaveRateLimit(): string
     {
         return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 
-    public function limparRateLimit()
+    public function limparRateLimit(): void
     {
         RateLimiter::clear($this->chaveRateLimit());
     }

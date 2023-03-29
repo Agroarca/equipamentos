@@ -2,11 +2,9 @@
 
 namespace Tests\Feature\Admin\Caracteristicas;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\Valor\CaracteristicaOpcao;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia;
@@ -16,54 +14,46 @@ class CaracteristicasTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
     public function testPodeAcessar(): void
     {
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/categorias/$categoria->id/caracteristicas");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Inicio')
+            ->component('Admin/Equipamentos/Caracteristicas/Inicio')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
-            ->has('tipos', count(TipoCaracteristica::toArray())));
+        ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
     public function testPodeAcessarCriar(): void
     {
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/categorias/$categoria->id/caracteristicas/criar");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Criar')
+            ->component('Admin/Equipamentos/Caracteristicas/Criar')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
-            ->has('tipos', count(TipoCaracteristica::toArray())));
+        ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
-    public function testNaoPodeCriarNomeMinimo()
+    public function testNaoPodeCriarNomeMinimo(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(2);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
-                'obrigatorio' => false
+                'obrigatorio' => false,
             ]);
 
         $response->assertInvalid(['nome']);
@@ -75,16 +65,16 @@ class CaracteristicasTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarNomeMaximo()
+    public function testNaoPodeCriarNomeMaximo(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(100);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
-                'obrigatorio' => false
+                'obrigatorio' => false,
             ]);
 
         $response->assertInvalid(['nome']);
@@ -96,16 +86,16 @@ class CaracteristicasTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarTipoInvalido()
+    public function testNaoPodeCriarTipoInvalido(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => 150,
-                'obrigatorio' => false
+                'obrigatorio' => false,
             ]);
 
         $response->assertInvalid(['tipo']);
@@ -117,12 +107,12 @@ class CaracteristicasTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarSemObrigatorio()
+    public function testNaoPodeCriarSemObrigatorio(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
@@ -136,12 +126,12 @@ class CaracteristicasTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarMaximoMenorMinimo()
+    public function testNaoPodeCriarMaximoMenorMinimo(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Inteiro->value,
@@ -160,31 +150,31 @@ class CaracteristicasTest extends TestCase
         ]);
     }
 
-    public function testPodeVisualizar()
+    public function testPodeVisualizar(): void
     {
         $caracteristica = Caracteristica::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/visualizar");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Caracteristicas/Visualizar')
+            ->component('Admin/Equipamentos/Caracteristicas/Visualizar')
             ->has('caracteristica')
             ->where('caracteristica.id', $caracteristica->id)
-            ->has('tipos', count(TipoCaracteristica::toArray())));
+        ->has('tipos', count(TipoCaracteristica::toArray())));
     }
 
-    public function testPodeExcluir()
+    public function testPodeExcluir(): void
     {
         $caracteristica = Caracteristica::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/excluir");
 
         $response->assertRedirectToRoute('admin.categorias.caracteristicas', $caracteristica->categoria_id);
         $this->assertDatabaseMissing(app(Caracteristica::class)->getTable(), [
-            'id' => $caracteristica->id
+            'id' => $caracteristica->id,
         ]);
     }
 }

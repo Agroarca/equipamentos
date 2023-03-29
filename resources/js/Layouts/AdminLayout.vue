@@ -4,7 +4,7 @@ import '../../css/admin.css'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Offcanvas } from 'bootstrap'
-import Loader from '@/Components/Loader.vue'
+import Loader from '@/Componentes/Layout/Loader.vue'
 import BaseLayout from './BaseLayout.vue'
 
 const menus = computed(() => usePage().props.admin.menus)

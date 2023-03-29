@@ -2,9 +2,8 @@
 
 namespace App\Services\Site;
 
-use App\Models\Equipamentos\Equipamento;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Database\Eloquent\Builder;
-use Ramsey\Uuid\Type\Integer;
 
 /**
  * Classe responsável por processar as listagens de produtos.

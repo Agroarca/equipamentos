@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Admin\Caracteristicas;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -14,20 +13,12 @@ class CaracteristicaTextoLongoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeCriarTextoLongo()
+    public function testPodeCriarTextoLongo(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoLongo->value,
@@ -43,12 +34,12 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testPodeCriarTextoLongoTamanhos()
+    public function testPodeCriarTextoLongoTamanhos(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoLongo->value,
@@ -68,12 +59,12 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarTextoLongoQuantidade()
+    public function testNaoPodeCriarTextoLongoQuantidade(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoLongo->value,

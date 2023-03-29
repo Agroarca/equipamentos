@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\Admin\Caracteristicas\Valor;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaOpcao;
-use App\Models\Caracteristicas\Valor\CaracteristicaSelecao;
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Usuario;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaOpcao;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaSelecao;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,15 +14,7 @@ class CaracteristicaSelecaoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeSalvarOpcao()
+    public function testPodeSalvarOpcao(): void
     {
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
@@ -32,7 +22,7 @@ class CaracteristicaSelecaoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
                 "carac-$caracteristica->id" => $caracteristicaOpcao->id,
             ]);
@@ -56,7 +46,7 @@ class CaracteristicaSelecaoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarOpcaoInvalida()
+    public function testNaoPodeSalvarOpcaoInvalida(): void
     {
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
@@ -64,7 +54,7 @@ class CaracteristicaSelecaoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
                 "carac-$caracteristica->id" => ($caracteristicaOpcao->id + 1),
             ]);

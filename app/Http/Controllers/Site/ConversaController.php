@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Conversa\EnviarMensagemRequest;
+use App\Http\Requests\Admin\Equipamentos\Conversa\EnviarMensagemRequest;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
-use App\Models\Equipamentos\Equipamento;
-use App\Services\Conversa\ConversaService;
+use App\Services\Equipamentos\Conversa\ConversaService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +36,7 @@ class ConversaController extends Controller
                 'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
             ])->orderBy('updated_at', 'desc')->paginate();
 
-            return Inertia::render('Site/Conversa/Conversas', compact(['equipamento', 'conversas']));
+            return Inertia::render('Site/Equipamento/Conversa/Conversas', compact(['equipamento', 'conversas']));
         }
 
         $conversa = EquipamentoConversa::firstOrCreate([
@@ -72,7 +72,10 @@ class ConversaController extends Controller
 
         $conversa->mensagens = collect([$mensagensAnteriores, $mensagensProximas])->collapse()->sortBy('id')->values();
 
-        return Inertia::render('Site/Conversa/Conversa', compact('conversa', 'usuarioId', 'mensagensTempoExcluir'));
+        return Inertia::render(
+            'Site/Equipamento/Conversa/Conversa',
+            compact('conversa', 'usuarioId', 'mensagensTempoExcluir')
+        );
     }
 
     public function enviar(EnviarMensagemRequest $request, int $id)
@@ -113,7 +116,12 @@ class ConversaController extends Controller
     {
         $retorno = [];
         $retorno['mais'] = $query->count() > 20;
-        $retorno['mensagens'] = $query->latest('id')->take($this->mensagensPorPagina)->get()->sortBy('id')->values();
+        $retorno['mensagens'] = $query
+            ->latest('id')
+            ->take($this->mensagensPorPagina)
+            ->get()
+            ->sortBy('id')
+            ->values();
 
         return $retorno;
     }

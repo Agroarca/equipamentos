@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Admin\Caracteristicas\Valor;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaTextoCurto;
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaTextoCurto;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Str;
@@ -17,15 +16,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeSalvarString()
+    public function testPodeSalvarString(): void
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
@@ -35,10 +26,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -58,7 +50,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoCurtoMinMax()
+    public function testPodeSalvarTextoCurtoMinMax(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
@@ -70,10 +62,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -93,7 +86,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoCurtoMin()
+    public function testPodeSalvarTextoCurtoMin(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
@@ -104,10 +97,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -127,7 +121,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoCurtoMax()
+    public function testPodeSalvarTextoCurtoMax(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
@@ -138,10 +132,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -161,7 +156,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarTextoCurtoMenorMin()
+    public function testNaoPodeSalvarTextoCurtoMenorMin(): void
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
@@ -173,10 +168,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -189,7 +185,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoCurtoMenorMinSemMax()
+    public function testNaoPodeSalvarTextoCurtoMenorMinSemMax(): void
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
@@ -200,10 +196,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -216,7 +213,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoCurtoMaiorMax()
+    public function testNaoPodeSalvarTextoCurtoMaiorMax(): void
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
@@ -228,10 +225,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -244,7 +242,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoCurtoMaiorMaxSemMin()
+    public function testNaoPodeSalvarTextoCurtoMaiorMaxSemMin(): void
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
@@ -255,10 +253,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [

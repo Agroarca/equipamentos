@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegisteredUserRequest;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Usuario;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class SiteController extends Controller
@@ -22,7 +17,7 @@ class SiteController extends Controller
 
     public function inicio()
     {
-        return Inertia::render('Inicio');
+        return Inertia::render('Site/Inicio');
     }
 
     public function equipamento(int $id)
@@ -45,22 +40,6 @@ class SiteController extends Controller
     {
         $categorias = Categoria::all()->pluck('nome', 'id');
 
-        return Inertia::render('Site/Equipamento/Cadastrar', compact('categorias'));
-    }
-
-    public function perfil()
-    {
-        $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
-
-        return Inertia::render('Site/Perfil/Perfil', compact('user'));
-    }
-
-    public function atualizarPerfil(RegisteredUserRequest $request)
-    {
-        $user = Usuario::findOrFail(Auth::user()->id);
-
-        $user->update($request->all());
-
-        return Redirect::route('site.perfil');
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias'));
     }
 }

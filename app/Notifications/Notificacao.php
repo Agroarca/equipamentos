@@ -11,32 +11,18 @@ use App\Notifications\Channel\NotificacaoWebSocketChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Notifiable;
 
-/**
- * Notificação padrão para envio de notificações.
- *
- * As notificações são enviadas para os canais WebSocket, Push e Email.
- */
 class Notificacao extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Construtor da notificacao
-     */
     public function __construct(
         public NotificacaoModel $notificacao
     ) {
         $this->afterCommit();
     }
 
-    /**
-     * Canais que a notificação será enviada.
-     *
-     * @return array<Channel>
-     */
-    public function via(Notifiable $notifiable): array
+    public function via(mixed $notifiable): array
     {
         return [
             NotificacaoWebSocketChannel::class,
@@ -45,12 +31,7 @@ class Notificacao extends Notification implements ShouldQueue
         ];
     }
 
-    /**
-     * Retorna o conteúdo da notificação.
-     *
-     * @return array<Channel>
-     */
-    public function withDelay(Notifiable $notifiable): array
+    public function withDelay(mixed $notifiable): array
     {
         return [
             NotificacaoWebSocketChannel::class => now()->addSeconds(

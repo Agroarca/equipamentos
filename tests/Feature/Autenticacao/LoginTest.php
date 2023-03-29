@@ -34,7 +34,7 @@ class LoginTest extends TestCase
     {
         $usuario = Usuario::factory()->create();
 
-        $response = $this->post('/entrar', [
+        $this->post('/entrar', [
             'email' => $usuario->email,
             'password' => 'password-incorreto',
         ]);
