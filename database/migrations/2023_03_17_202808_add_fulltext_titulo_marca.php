@@ -6,22 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('marcas', function (Blueprint $table) {
+        Schema::table('marcas', function (Blueprint $table): void {
             $table->fullText('nome', 'marcas_nome_fulltext');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('marcas', function (Blueprint $table) {
+        Schema::table('marcas', function (Blueprint $table): void {
             $table->dropFullText('marcas_nome_fulltext');
         });
     }

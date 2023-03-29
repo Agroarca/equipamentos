@@ -1,1 +1,0 @@
-import"./ValorCaracteristicas.vue_vue_type_script_setup_true_lang.87bdda1f.js";import{_ as t}from"./ValorCaracteristicas.vue_vue_type_script_setup_true_lang.87bdda1f.js";import"./app.8ded473b.js";export{t as default};

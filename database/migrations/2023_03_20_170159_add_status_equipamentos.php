@@ -7,22 +7,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('equipamentos', function (Blueprint $table) {
+        Schema::table('equipamentos', function (Blueprint $table): void {
             $table->smallInteger('status')->default(StatusEquipamento::Cadastrando->value);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('equipamentos', function (Blueprint $table) {
+        Schema::table('equipamentos', function (Blueprint $table): void {
             $table->dropColumn('status');
         });
     }

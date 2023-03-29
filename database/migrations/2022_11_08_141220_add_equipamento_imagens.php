@@ -6,14 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('equipamento_imagens', function (Blueprint $table) {
+        Schema::create('equipamento_imagens', function (Blueprint $table): void {
             $table->id();
             $table->string('descricao', 200);
             $table->string('nome_arquivo');
@@ -25,12 +20,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('equipamento_imagens');
     }
