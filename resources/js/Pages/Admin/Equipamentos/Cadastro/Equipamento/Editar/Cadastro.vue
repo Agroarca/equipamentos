@@ -11,8 +11,6 @@ const props = defineProps({
     statusEquipamentos: Array,
 })
 
-const STATUS_CRIADO = 1
-
 const elValor = ref(null)
 
 onMounted(() => {
