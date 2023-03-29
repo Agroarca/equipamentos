@@ -1,0 +1,34 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    public function inicio()
+    {
+        //
+    }
+
+    public function salvar(Request $request)
+    {
+        //
+    }
+
+    public function visualizar(int $id)
+    {
+        //
+    }
+
+    public function atualizar(Request $request, int $id)
+    {
+        //
+    }
+
+    public function excluir(int $id)
+    {
+        //
+    }
+}

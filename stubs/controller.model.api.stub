@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+
+class {{ class }} extends Controller
+{
+    public function inicio()
+    {
+        //
+    }
+
+    public function salvar({{ storeRequest }} $request)
+    {
+        //
+    }
+
+    public function visualizar({{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    public function atualizar({{ updateRequest }} $request, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    public function excluir({{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+}

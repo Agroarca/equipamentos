@@ -1,0 +1,41 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use {{ namespacedParentModel }};
+
+class {{ class }} extends Controller
+{
+    public function criar({{ parentModel }} ${{ parentModelVariable }}): never
+    {
+        abort(404);
+    }
+
+    public function salvar(Request $request, {{ parentModel }} ${{ parentModelVariable }}): never
+    {
+        abort(404);
+    }
+
+    public function visualizar({{ parentModel }} ${{ parentModelVariable }})
+    {
+        // visualizar
+    }
+
+    public function editar({{ parentModel }} ${{ parentModelVariable }})
+    {
+        // editar
+    }
+
+    public function atualizar(Request $request, {{ parentModel }} ${{ parentModelVariable }})
+    {
+        // atualizar
+    }
+
+    public function excluir({{ parentModel }} ${{ parentModelVariable }}): never
+    {
+        abort(404);
+    }
+}

@@ -1,0 +1,29 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    public function criar(Request $request): never
+    {
+        abort(404);
+    }
+
+    public function visualizar()
+    {
+        // visualizar
+    }
+
+    public function atualizar(Request $request)
+    {
+        // atualizar
+    }
+
+    public function excluir(): never
+    {
+        abort(404);
+    }
+}

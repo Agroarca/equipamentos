@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+    use HasFactory;
+
+    protected $table = 'nome_da_tabela';
+
+    protected $fillable = [
+        // colunas
+    ];
+}
