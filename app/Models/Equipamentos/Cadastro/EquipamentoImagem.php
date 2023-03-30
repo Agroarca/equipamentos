@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+
 namespace App\Models\Equipamentos\Cadastro;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
