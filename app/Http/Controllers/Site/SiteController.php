@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Enums\Cadastro\StatusEquipamento;
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -47,22 +48,20 @@ class SiteController extends Controller
 
     public function equipamentosPerfil()
     {
-        $equipamentos = Equipamento::with('modelo', 'modelo.marca', 'imagens')
+        $equipamentos = Equipamento::addSelect([
+            'mensagens_nao_visualizadas' => Visualizacao::selectRaw('sum(mensagens_nao_visualizadas)')
+                ->join('equipamento_conversas', 'equipamento_conversa_id', '=', 'equipamento_conversas.id')
+                ->whereColumn('equipamento_conversa_visualizacao.usuario_id', 'equipamentos.usuario_id')
+                ->whereColumn('equipamento_id', 'equipamentos.id'),
+        ])
+            ->with('modelo', 'modelo.marca', 'imagens')
             ->where('usuario_id', Auth::user()->id)
             ->paginate(10);
 
-        $conversasEquipamentos = Equipamento::whereIn('id', $equipamentos->pluck('id'))
-            ->with([
-                'conversas' => function ($query) {
-                    $query->where('usuario_id', Auth::user()->id);
-                },
-            ])
-            ->get()
-            ->pluck('conversas', 'id');
 
         $status = StatusEquipamento::toArray();
 
-        return Inertia::render('Site/Perfil/Equipamentos', compact('equipamentos', 'status', 'conversasEquipamentos'));
+        return Inertia::render('Site/Perfil/Equipamentos', compact('equipamentos', 'status'));
     }
 
     public function equipamentoReprovado(int $id)

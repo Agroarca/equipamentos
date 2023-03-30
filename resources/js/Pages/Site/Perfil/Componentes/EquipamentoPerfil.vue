@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue';
 import { Link } from '@inertiajs/vue3'
-import Formatacao from '../Util/Formatacao.vue'
 
 const props = defineProps({
     equipamento: Object,
@@ -15,9 +15,6 @@ const imagem = {
     descricao: props.equipamento.imagens[0]?.descricao ?? 'Imagem do produto',
 }
 
-function getQuantidadeNaoLidas(conversa) {
-    return conversa.visualizacao[0]?.mensagens_nao_visualizadas ?? 0
-}
 
 </script>
 
@@ -31,7 +28,7 @@ function getQuantidadeNaoLidas(conversa) {
             <span class="nome">{{ equipamento.titulo }}</span>
             <span class="informacoes">Modelo: {{ equipamento.modelo.marca.nome }} / {{ equipamento.modelo.nome }}</span>
             <span class="informacoes">
-                Preço: R$ <Formatacao :valor="equipamento.valor" />
+                Preço: <Formatacao tipo="preco" :valor="equipamento.valor" />
             </span>
             <span class="informacoes">Status: {{ status[equipamento.status] }}</span>
         </div>
@@ -42,14 +39,13 @@ function getQuantidadeNaoLidas(conversa) {
             </Link>
         </div>
 
-        <div v-else-if="equipamento.status == STATUS_APROVADO" class="infos">
-            <span class="informacoes">Mensagens não lidas {{ }}</span>
-        </div>
-
-        <div v-else-if="equipamento.status == STATUS_APROVADO" class="botao">
+        <div v-else="equipamento.status == STATUS_APROVADO" class="botao">
             <Link :href="`/conversa/equipamento/${equipamento.id}`" class="btn btn-primary">
-                <span>Conversas</span>
+                Conversas <span class="badge mensagens" v-if="equipamento.mensagens_nao_visualizadas > 0" >
+                    {{ (equipamento.mensagens_nao_visualizadas) }}
+                </span>
             </Link>
         </div>
+
     </div>
 </template>
