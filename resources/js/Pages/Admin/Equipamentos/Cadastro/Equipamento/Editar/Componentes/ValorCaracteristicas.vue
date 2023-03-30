@@ -1,9 +1,12 @@
 <script setup lang="ts">
-/* eslint-disable vue/require-prop-types */
 /* eslint-disable vuejs-accessibility/form-control-has-label */
 import { computed } from 'vue'
 
-const props = defineProps(['modelValue', 'caracteristica'])
+const props = defineProps({
+    modelValue: null,
+    caracteristica: Object,
+})
+
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const name = `caracteristica-${props.caracteristica.id}`
 
