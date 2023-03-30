@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Equipamentos\Cadastro;
 
+use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
