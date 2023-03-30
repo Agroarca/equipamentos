@@ -1,1 +1,0 @@
-import{_ as o}from"./SiteLayout.vue_vue_type_script_setup_true_lang.b699f0c1.js";import{d as t,c as e,w as a,o as c,a as n}from"./app.6cfc98da.js";import"./_plugin-vue_export-helper.fcfd03a8.js";import"./index.c57ba517.js";const s=n("p",null,"In\xEDcio",-1),u=t({__name:"Inicio",setup(i){return(r,_)=>(c(),e(o,{titulo:"In\xEDcio"},{default:a(()=>[s]),_:1}))}});export{u as default};

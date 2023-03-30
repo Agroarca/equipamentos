@@ -1,0 +1,1 @@
+function n(a){switch(a){case 1:case 2:return"Número Mínimo";case 3:case 4:return"Tamanho Mínimo";default:return""}}function r(a){switch(a){case 1:case 2:return"Número Máximo";case 3:case 4:return"Tamanho Máximo";default:return""}}function t(a){return[1,2,3,4].includes(a)}function e(a){return a===2}function o(a){return a===5}export{r as a,e as b,o as c,t as m,n as t};
