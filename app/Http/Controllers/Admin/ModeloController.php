@@ -59,7 +59,7 @@ class ModeloController extends Controller
         return redirect()->route('admin.modelos');
     }
 
-    public function pesquisar(Request $request, int $marcaId = null)
+    public function pesquisar(Request $request, ?int $marcaId = null)
     {
         $modelos = Modelo::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {
