@@ -33,7 +33,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
     public function testPodeAcessarCriar(): void
     {
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Selecao->value,
+            'tipo' => TipoCaracteristica::Selecao,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -50,7 +50,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
     {
         $nome = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Selecao->value,
+            'tipo' => TipoCaracteristica::Selecao,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -77,7 +77,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
     {
         $nome = Str::random(256);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Selecao->value,
+            'tipo' => TipoCaracteristica::Selecao,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -97,7 +97,7 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
     {
         $nome = Str::random(2);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Selecao->value,
+            'tipo' => TipoCaracteristica::Selecao,
         ]);
 
         $response = $this->actingAs($this->getAdmin())

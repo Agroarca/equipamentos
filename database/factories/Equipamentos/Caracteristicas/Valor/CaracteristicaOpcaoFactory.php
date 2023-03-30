@@ -14,7 +14,7 @@ class CaracteristicaOpcaoFactory extends Factory
         return [
             'nome' => Str::random(20),
             'caracteristica_id' => Caracteristica::factory([
-                'tipo' => TipoCaracteristica::Selecao->value,
+                'tipo' => TipoCaracteristica::Selecao,
             ]),
         ];
     }

@@ -11,7 +11,7 @@ class StatusMarcaModelo implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($value != StatusCadastro::Aprovado->value) {
+        if ($value === StatusCadastro::Aprovado) {
             return;
         }
 
@@ -21,7 +21,7 @@ class StatusMarcaModelo implements ValidationRule
             $fail("O campo $attribute não pode ser aprovado se a marca não estiver aprovada.");
         }
 
-        if ($marca->status !== StatusCadastro::Aprovado->value) {
+        if ($marca->status !== StatusCadastro::Aprovado) {
             $fail("O campo $attribute não pode ser aprovado se a marca não estiver aprovada.");
         }
     }

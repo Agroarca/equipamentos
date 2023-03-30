@@ -12,14 +12,14 @@ class MarcaFactory extends Factory
     {
         return [
             'nome' => Str::random(25),
-            'status' => StatusCadastro::Criado->value,
+            'status' => StatusCadastro::Criado,
         ];
     }
 
     public function statusAprovado(): mixed
     {
         return $this->state(fn (array $attributes) => [
-            'status' => StatusCadastro::Aprovado->value,
+            'status' => StatusCadastro::Aprovado,
         ]);
     }
 }

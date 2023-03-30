@@ -31,9 +31,13 @@ class Equipamento extends Model
         'motivo_reprovado',
     ];
 
+    protected $casts = [
+        'status' => StatusEquipamento::class,
+    ];
+
     public function scopeAprovado(Builder $query): Builder
     {
-        return $query->where('status', StatusEquipamento::Aprovado->value);
+        return $query->where('status', StatusEquipamento::Aprovado);
     }
 
     public function modelo(): BelongsTo

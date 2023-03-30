@@ -69,7 +69,7 @@ class CaracteristicasValorRequest extends FormRequest
     public function prepareForValidation(): void
     {
         foreach ($this->getCaracteristicas() as $caracteristica) {
-            if ($caracteristica->tipo == TipoCaracteristica::Booleano->value) {
+            if ($caracteristica->tipo == TipoCaracteristica::Booleano) {
                 $this->mergeIfMissing(["carac-$caracteristica->id" => false]);
             }
         }
@@ -79,12 +79,12 @@ class CaracteristicasValorRequest extends FormRequest
     {
         $rules = [];
         $rules[] = match ($caracteristica->tipo) {
-            TipoCaracteristica::Booleano->value => 'boolean',
-            TipoCaracteristica::Inteiro->value => 'integer',
-            TipoCaracteristica::Decimal->value => 'numeric',
-            TipoCaracteristica::TextoCurto->value => 'string',
-            TipoCaracteristica::TextoLongo->value => 'string',
-            TipoCaracteristica::Selecao->value => 'integer'
+            TipoCaracteristica::Booleano => 'boolean',
+            TipoCaracteristica::Inteiro => 'integer',
+            TipoCaracteristica::Decimal => 'numeric',
+            TipoCaracteristica::TextoCurto => 'string',
+            TipoCaracteristica::TextoLongo => 'string',
+            TipoCaracteristica::Selecao => 'integer'
         };
 
         if ($caracteristica->obrigatorio) {
@@ -105,7 +105,7 @@ class CaracteristicasValorRequest extends FormRequest
             $rules[] = "regex:/^\d*\.?\d{0,$caracteristica->quantidade}$/";
         }
 
-        if ($caracteristica->tipo == TipoCaracteristica::Selecao->value) {
+        if ($caracteristica->tipo == TipoCaracteristica::Selecao) {
             $rules[] = Rule::exists('caracteristicas_opcoes', 'id')
                 ->where(function ($query) use ($caracteristica): void {
                     $query->where('caracteristica_id', $caracteristica->id);

@@ -19,7 +19,7 @@ class UsuarioFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // Password
             'remember_token' => Str::random(10),
-            'tipo_pessoa' => TipoPessoa::Fisica->value,
+            'tipo_pessoa' => TipoPessoa::Fisica,
         ];
     }
 
@@ -31,7 +31,7 @@ class UsuarioFactory extends Factory
     public function admin(): mixed
     {
         return $this->state(fn (array $attributes) => [
-            'tipo_usuario' => TipoUsuario::Admin->value,
+            'tipo_usuario' => TipoUsuario::Admin,
         ]);
     }
 }
