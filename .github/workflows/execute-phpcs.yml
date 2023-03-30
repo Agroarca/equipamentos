@@ -21,10 +21,9 @@ jobs:
       run: |
         composer install --no-scripts
 
-    - uses: thenabeel/action-phpcs@v8
-      with:
-        phpcs_path: vendor/bin/phpcs
-        standard: phpcs.xml
+    - name: Run PHP Code Sniffer
+      run: |
+        ./vendor/bin/phpcs
 
   laravel-test:
     needs: phpcs
