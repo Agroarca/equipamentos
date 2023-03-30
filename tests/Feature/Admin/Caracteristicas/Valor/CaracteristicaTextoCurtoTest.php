@@ -20,7 +20,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -54,7 +54,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -90,7 +90,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -125,7 +125,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -160,7 +160,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -189,7 +189,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -217,7 +217,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -246,7 +246,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([

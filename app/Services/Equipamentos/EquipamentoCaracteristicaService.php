@@ -67,7 +67,7 @@ class EquipamentoCaracteristicaService
         $caracValor = $caracEquip->caracteristicaValor;
 
         if ($caracValor === null) {
-            $caracValor = new CaracteristicaValor::$tipo[$caracEquip->caracteristica->tipo]();
+            $caracValor = new CaracteristicaValor::$tipo[$caracEquip->caracteristica->tipo->value]();
             $caracValor->valor = $valor;
             $caracValor->caracteristica_equipamento_id = $caracEquip->id;
             $caracValor->save();

@@ -13,7 +13,7 @@ class CaracteristicaFactory extends Factory
     {
         return [
             'nome' => Str::random(30),
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
             'obrigatorio' => false,
             'categoria_id' => Categoria::factory(),
             'ordem' => 1,

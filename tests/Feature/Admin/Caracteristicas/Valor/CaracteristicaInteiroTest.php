@@ -20,7 +20,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -54,7 +54,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -81,7 +81,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -108,7 +108,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -144,7 +144,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -179,7 +179,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -214,7 +214,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -243,7 +243,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -271,7 +271,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -300,7 +300,7 @@ class CaracteristicaInteiroTest extends TestCase
     {
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([

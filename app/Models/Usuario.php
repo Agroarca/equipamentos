@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Usuario\TipoPessoa;
+use App\Enums\Usuario\TipoUsuario;
 use App\Models\Notificacoes\UsuarioTokenFCM;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,7 +36,11 @@ class Usuario extends Authenticatable
         'celular',
     ];
 
-    protected $casts = ['email_verified_at' => 'datetime'];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'tipo_pessoa' => TipoPessoa::class,
+        'tipo_usuario' => TipoUsuario::class
+    ];
 
     public function tokens(): HasMany
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models\Equipamentos\Caracteristicas;
 
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaOpcao;
 use App\Models\Equipamentos\Categoria;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,13 +18,17 @@ class Caracteristica extends Model
 
     protected $fillable = [
         'nome',
-        'tipo', // Enum TipoCaracteristica.
+        'tipo',
         'ordem',
         'obrigatorio',
         'minimo',
         'maximo',
-        'quantidade', // Casas decimais.
+        'quantidade',
         'categoria_id',
+    ];
+
+    protected $casts = [
+        'tipo' => TipoCaracteristica::class,
     ];
 
     public function categoria(): BelongsTo

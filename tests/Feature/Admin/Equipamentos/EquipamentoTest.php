@@ -128,7 +128,7 @@ class EquipamentoTest extends TestCase
         $equipamento = Equipamento::factory()->create();
         Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -163,7 +163,7 @@ class EquipamentoTest extends TestCase
         $equipamento = Equipamento::factory()->create();
         $caracteristicas = Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -210,7 +210,7 @@ class EquipamentoTest extends TestCase
         $equipamento = Equipamento::factory()->create();
         $caracteristica = Caracteristica::factory()->create([
             'categoria_id' => $equipamento->categoria_id,
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
 
         $caracEquip = CaracteristicaEquipamento::create([
@@ -333,7 +333,7 @@ class EquipamentoTest extends TestCase
     public function testPodeAprovarEquipamento(): void
     {
         $equipamento = Equipamento::factory()->create([
-            'status' => StatusEquipamento::Criado->value,
+            'status' => StatusEquipamento::Criado,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -352,7 +352,7 @@ class EquipamentoTest extends TestCase
     public function testNaoPodeAprovarEquipamentoComMotivo(): void
     {
         $equipamento = Equipamento::factory()->create([
-            'status' => StatusEquipamento::Criado->value,
+            'status' => StatusEquipamento::Criado,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -371,7 +371,7 @@ class EquipamentoTest extends TestCase
     public function testPodeReprovarEquipamento(): void
     {
         $equipamento = Equipamento::factory()->create([
-            'status' => StatusEquipamento::Criado->value,
+            'status' => StatusEquipamento::Criado,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -391,7 +391,7 @@ class EquipamentoTest extends TestCase
     public function testNaoPodeReprovarEquipamentoSemMotivo(): void
     {
         $equipamento = Equipamento::factory()->create([
-            'status' => StatusEquipamento::Criado->value,
+            'status' => StatusEquipamento::Criado,
         ]);
 
         $response = $this->actingAs($this->getAdmin())

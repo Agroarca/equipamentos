@@ -20,7 +20,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -54,7 +54,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -88,7 +88,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -115,7 +115,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.5,
             'maximo' => 1000.8,
         ]);
@@ -151,7 +151,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.5,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -186,7 +186,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'maximo' => 1000.2,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -221,7 +221,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.3,
             'maximo' => 1000,
         ]);
@@ -250,7 +250,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 5.5;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.8,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -278,7 +278,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 1000.4;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.2,
             'maximo' => 1000.3,
         ]);
@@ -307,7 +307,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -335,7 +335,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10.22;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -370,7 +370,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -405,7 +405,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
@@ -440,7 +440,7 @@ class CaracteristicaDecimalTest extends TestCase
     {
         $valor = 500.999;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([

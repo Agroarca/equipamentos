@@ -36,7 +36,7 @@ class UsuarioAdmin extends Command
             return;
         }
 
-        $usuario->tipo_usuario = TipoUsuario::Admin->value;
+        $usuario->tipo_usuario = TipoUsuario::Admin;
         $usuario->save();
 
         $this->info('Usuário atualizado com sucesso');

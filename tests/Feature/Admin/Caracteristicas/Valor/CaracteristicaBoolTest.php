@@ -20,7 +20,7 @@ class CaracteristicaBoolTest extends TestCase
     {
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -54,7 +54,7 @@ class CaracteristicaBoolTest extends TestCase
     {
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -88,7 +88,7 @@ class CaracteristicaBoolTest extends TestCase
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -116,7 +116,7 @@ class CaracteristicaBoolTest extends TestCase
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
@@ -144,7 +144,7 @@ class CaracteristicaBoolTest extends TestCase
     {
         $valor = Str::random(15);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Booleano->value,
+            'tipo' => TipoCaracteristica::Booleano,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,

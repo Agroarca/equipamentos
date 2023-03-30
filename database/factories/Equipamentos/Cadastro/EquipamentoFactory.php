@@ -22,14 +22,14 @@ class EquipamentoFactory extends Factory
             'modelo_id' => Modelo::factory(),
             'categoria_id' => Categoria::factory(),
             'usuario_id' => Usuario::factory(),
-            'status' => StatusEquipamento::Aprovado->value,
+            'status' => StatusEquipamento::Aprovado,
         ];
     }
 
     public function statusAprovado(): mixed
     {
         return $this->state(fn (array $attributes) => [
-            'status' => StatusEquipamento::Aprovado->value,
+            'status' => StatusEquipamento::Aprovado,
         ]);
     }
 }

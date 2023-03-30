@@ -14,14 +14,14 @@ class ModeloFactory extends Factory
         return [
             'nome' => Str::random(25),
             'marca_id' => Marca::factory(),
-            'status' => StatusCadastro::Criado->value,
+            'status' => StatusCadastro::Criado,
         ];
     }
 
     public function statusAprovado(): mixed
     {
         return $this->state(fn (array $attributes) => [
-            'status' => StatusCadastro::Aprovado->value,
+            'status' => StatusCadastro::Aprovado,
         ]);
     }
 }

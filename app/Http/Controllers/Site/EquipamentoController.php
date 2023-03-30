@@ -50,7 +50,7 @@ class EquipamentoController extends Controller
                 ...$request->all(),
                 'usuario_id' => Auth::id(),
                 'passo_cadastro' => 2,
-                'status' => StatusEquipamento::Cadastrando->value,
+                'status' => StatusEquipamento::Cadastrando,
             ]);
         }
 
@@ -147,8 +147,8 @@ class EquipamentoController extends Controller
         if ($equipamento->passo_cadastro < 5) {
             $equipamento->passo_cadastro = 5;
         }
-        if ($equipamento->status == StatusEquipamento::Cadastrando->value) {
-            $equipamento->status = StatusEquipamento::Criado->value;
+        if ($equipamento->status == StatusEquipamento::Cadastrando) {
+            $equipamento->status = StatusEquipamento::Criado;
         }
         $equipamento->save();
 

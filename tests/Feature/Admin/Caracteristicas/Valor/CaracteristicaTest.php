@@ -83,15 +83,15 @@ class CaracteristicaTest extends TestCase
     {
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'categoria_id' => $categoria->id,
         ]);
         $caracteristicaDecimal = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'categoria_id' => $categoria->id,
         ]);
         $caracteristicaTextoCurto = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoCurto->value,
+            'tipo' => TipoCaracteristica::TextoCurto,
             'categoria_id' => $categoria->id,
         ]);
 
@@ -127,12 +127,12 @@ class CaracteristicaTest extends TestCase
         $valor = 10;
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'categoria_id' => $categoria->id,
             'obrigatorio' => true,
         ]);
         $caracteristicaDecimal = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'categoria_id' => $categoria->id,
             'obrigatorio' => false,
         ]);
@@ -163,12 +163,12 @@ class CaracteristicaTest extends TestCase
     {
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
             'categoria_id' => $categoria->id,
             'obrigatorio' => true,
         ]);
         $caracteristicaDecimal = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'categoria_id' => $categoria->id,
             'obrigatorio' => true,
         ]);
@@ -198,7 +198,7 @@ class CaracteristicaTest extends TestCase
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,

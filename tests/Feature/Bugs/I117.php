@@ -21,7 +21,7 @@ class I117 extends TestCase
         $equipamento = Equipamento::factory()->create();
         $caracteristicas = Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
-            'tipo' => TipoCaracteristica::Inteiro->value,
+            'tipo' => TipoCaracteristica::Inteiro,
         ]);
 
         $response = $this->actingAs($this->getAdmin())
@@ -35,6 +35,6 @@ class I117 extends TestCase
             ->has('equipamento.categoria')
             ->has('equipamento.modelo')
             ->has('equipamento.modelo.marca')
-        ->has('caracteristicas', count($caracteristicas)));
+            ->has('caracteristicas', count($caracteristicas)));
     }
 }
