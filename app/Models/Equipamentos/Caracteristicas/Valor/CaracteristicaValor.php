@@ -2,7 +2,6 @@
 
 namespace App\Models\Equipamentos\Caracteristicas\Valor;
 
-use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
