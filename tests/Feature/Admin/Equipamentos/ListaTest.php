@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin\Equipamentos;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Lista\Lista;
 use App\Models\Equipamentos\Lista\ProdutoLista;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
@@ -138,8 +137,6 @@ class ListaTest extends TestCase
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.lista');
-        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
-            'id' => $lista->id,
-        ]);
+        $this->assertSoftDeleted($lista);
     }
 }
