@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue';
+import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import EquipamentoPerfil from '@/Pages/Site/Perfil/Componentes/EquipamentoPerfil.vue'
 

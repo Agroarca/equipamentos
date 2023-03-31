@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-v-html */
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 
 const props = defineProps({

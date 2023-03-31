@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue';
 import { Link } from '@inertiajs/vue3'
+import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 
 const props = defineProps({
     equipamento: Object,
@@ -14,7 +14,6 @@ const imagem = {
     url: props.equipamento.imagens[0]?.url ?? '/img/Placeholder.png',
     descricao: props.equipamento.imagens[0]?.descricao ?? 'Imagem do produto',
 }
-
 
 </script>
 
@@ -39,13 +38,12 @@ const imagem = {
             </Link>
         </div>
 
-        <div v-else="equipamento.status == STATUS_APROVADO" class="botao">
+        <div v-if="equipamento.status == STATUS_APROVADO" class="botao">
             <Link :href="`/conversa/equipamento/${equipamento.id}`" class="btn btn-primary">
-                Conversas <span class="badge mensagens" v-if="equipamento.mensagens_nao_visualizadas > 0" >
+                Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">
                     {{ (equipamento.mensagens_nao_visualizadas) }}
                 </span>
             </Link>
         </div>
-
     </div>
 </template>
