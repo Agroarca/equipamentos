@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class EquipamentoTest extends TestCase
 {
@@ -404,5 +405,30 @@ class EquipamentoTest extends TestCase
             'id' => $equipamento->id,
             'status' => StatusEquipamento::Reprovado->value,
         ]);
+    }
+
+    public function testPodePesquisar(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(1));
+    }
+
+    public function testNaoPodePesquisarInexistente(): void
+    {
+        Equipamento::factory()->create();
+        $termo = Str::random(20);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$termo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 }
