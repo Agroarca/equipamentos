@@ -71,11 +71,20 @@ class EquipamentoTest extends TestCase
         $marcaResponse->assertValid();
         $marcaResponse->assertJsonStructure(['id', 'nome']);
 
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marcaResponse->json('nome'),
+        ]);
+
         $modeloResponse = $this->actingAs($this->getAdmin())
             ->post('/admin/modelos/salvar/ajax', [
                 'nome' => Str::random(25),
                 'marca_id' => $marcaResponse->json('id'),
             ]);
+
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
+            'nome' => $modeloResponse->json('nome'),
+            'marca_id' => $marcaResponse->json('id'),
+        ]);
 
         $modeloResponse->assertValid();
         $modeloResponse->assertJsonStructure(['id', 'nome', 'marca_id']);
