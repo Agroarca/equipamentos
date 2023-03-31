@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Admin\Caracteristicas;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -14,24 +13,16 @@ class CaracteristicaBoolTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeCriarBool()
+    public function testPodeCriarBool(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(25);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
-                'obrigatorio' => false
+                'obrigatorio' => false,
             ]);
 
         $response->assertValid();
@@ -44,16 +35,16 @@ class CaracteristicaBoolTest extends TestCase
         ]);
     }
 
-    public function testPodeCriarBoolObrig()
+    public function testPodeCriarBoolObrig(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(25);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
-                'obrigatorio' => true
+                'obrigatorio' => true,
             ]);
 
         $response->assertValid();
@@ -66,12 +57,12 @@ class CaracteristicaBoolTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarBoolTamanhosQuantidade()
+    public function testNaoPodeCriarBoolTamanhosQuantidade(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,

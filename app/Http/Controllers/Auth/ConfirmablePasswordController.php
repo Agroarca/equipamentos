@@ -12,21 +12,11 @@ use Inertia\Inertia;
 
 class ConfirmablePasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     *
-     * @return \Inertia\Response
-     */
     public function show()
     {
         return Inertia::render('Auth/ConfirmPassword');
     }
 
-    /**
-     * Confirm the user's password.
-     *
-     * @return mixed
-     */
     public function store(Request $request)
     {
         $validate = Auth::guard('web')->validate([

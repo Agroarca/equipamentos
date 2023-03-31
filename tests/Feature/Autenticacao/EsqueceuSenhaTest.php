@@ -18,7 +18,7 @@ class EsqueceuSenhaTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testPodeReceberLinkReset()
+    public function testPodeReceberLinkReset(): void
     {
         Notification::fake();
 
@@ -28,7 +28,7 @@ class EsqueceuSenhaTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
-    public function testPodeAcessarPaginaReset()
+    public function testPodeAcessarPaginaReset(): void
     {
         Notification::fake();
 
@@ -44,7 +44,7 @@ class EsqueceuSenhaTest extends TestCase
         });
     }
 
-    public function testPodeResetarTokenValido()
+    public function testPodeResetarTokenValido(): void
     {
         Notification::fake();
 

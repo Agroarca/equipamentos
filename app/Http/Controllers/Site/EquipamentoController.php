@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Enums\Cadastro\StatusEquipamento;
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CaracteristicasValorRequest;
-use App\Http\Requests\Admin\EquipamentoRequest;
-use App\Http\Requests\Equipamento\EquipamentoDescricaoRequest;
-use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Equipamentos\EquipamentoImagem;
-use App\Models\Equipamentos\Marca;
-use App\Models\Equipamentos\Modelo;
+use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
+use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
+use App\Http\Requests\Equipamento\Cadastro\EquipamentoDescricaoRequest;
+use App\Http\Requests\Equipamento\Cadastro\EquipamentoImagemRequest;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
-use App\Services\Util\HTMLPurifier;
-use Illuminate\Http\Request;
+use App\Services\Libs\HTMLPurifier;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -53,7 +50,7 @@ class EquipamentoController extends Controller
                 ...$request->all(),
                 'usuario_id' => Auth::id(),
                 'passo_cadastro' => 2,
-                'status' => StatusEquipamento::Cadastrando->value,
+                'status' => StatusEquipamento::Cadastrando,
             ]);
         }
 
@@ -150,8 +147,8 @@ class EquipamentoController extends Controller
         if ($equipamento->passo_cadastro < 5) {
             $equipamento->passo_cadastro = 5;
         }
-        if ($equipamento->status == StatusEquipamento::Cadastrando->value) {
-            $equipamento->status = StatusEquipamento::Criado->value;
+        if ($equipamento->status == StatusEquipamento::Cadastrando) {
+            $equipamento->status = StatusEquipamento::Criado;
         }
         $equipamento->save();
 

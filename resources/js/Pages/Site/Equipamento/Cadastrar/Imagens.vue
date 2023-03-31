@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import Modal from '@/Components/Admin/Modal.vue'
-import FormError from '@/Components/FormError.vue'
+import Modal from '@/Componentes/Layout/Modal.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Navegacao from './Navegacao.vue'
+import Navegacao from './Componentes/Navegacao.vue'
 
 const modal = ref(null)
 const props = defineProps({
@@ -35,8 +35,8 @@ function upload() {
         <div class="container-600">
             <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
             <div class="row mb-3">
-                <div v-if="props.errors.imagem" class="alert alert-warning">
-                    <label for="erro" class="imagem">{{ props.errors.imagem }}</label>
+                <div v-if="errors.imagem" class="alert alert-warning">
+                    <label for="erro" class="imagem">{{ errors.imagem }}</label>
                 </div>
                 <button type="button" class="btn btn-primary" @click="adicionar()">
                     Adicionar Imagem

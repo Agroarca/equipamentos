@@ -7,14 +7,8 @@ use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;
 use PHPMailer\PHPMailer\PHPMailer;
 
-/**
- * Classe para sobrescrever o envio de e-mail padrão do Laravel
- */
 class PHPMailerTransport extends AbstractTransport
 {
-    /**
-     * Converte a mensagem e envia o e-mail usando o PHPMailer
-     */
     public function doSend(SentMessage $message): void
     {
         $mailer = $this->getClient();
@@ -37,17 +31,11 @@ class PHPMailerTransport extends AbstractTransport
         $mailer->send();
     }
 
-    /**
-     * Retorna o nome do transportador
-     */
     public function __toString(): string
     {
         return 'phpmailer';
     }
 
-    /**
-     * Retorna o cliente PHPMailer Configurado
-     */
     private function getClient(): PHPMailer
     {
         $mailer = new PHPMailer();

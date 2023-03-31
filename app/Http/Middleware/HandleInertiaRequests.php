@@ -8,14 +8,14 @@ use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     protected $rootView = 'app';
 
-    public function share(Request $request)
+    public function share(Request $request): array
     {
-
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user()
+                'user' => $request->user(),
             ],
             'admin' => [
                 'menus' => MenuService::getAuthMenus(),

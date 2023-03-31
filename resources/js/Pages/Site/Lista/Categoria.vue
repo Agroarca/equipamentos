@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Lista from '@/Components/Lista/Lista.vue'
+import Lista from '@/Pages/Site/Lista/Componentes/Lista.vue'
 
 const props = defineProps({
     equipamentos: Object,

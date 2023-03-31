@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Admin\Caracteristicas\Valor;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaDecimal;
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaDecimal;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Str;
@@ -17,28 +16,21 @@ class CaracteristicaDecimalTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeSalvarDecimal()
+    public function testPodeSalvarDecimal(): void
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -58,20 +50,21 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarInteiro()
+    public function testPodeSalvarInteiro(): void
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -91,20 +84,21 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarString()
+    public function testNaoPodeSalvarString(): void
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -117,11 +111,11 @@ class CaracteristicaDecimalTest extends TestCase
         }
     }
 
-    public function testPodeSalvarDecimalMinMax()
+    public function testPodeSalvarDecimalMinMax(): void
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.5,
             'maximo' => 1000.8,
         ]);
@@ -129,10 +123,11 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -152,21 +147,22 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarDecimalMin()
+    public function testPodeSalvarDecimalMin(): void
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.5,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -186,21 +182,22 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarDecimalMax()
+    public function testPodeSalvarDecimalMax(): void
     {
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'maximo' => 1000.2,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -220,11 +217,11 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarDecimalMenorMin()
+    public function testNaoPodeSalvarDecimalMenorMin(): void
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.3,
             'maximo' => 1000,
         ]);
@@ -232,10 +229,11 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -248,21 +246,22 @@ class CaracteristicaDecimalTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarDecimalMenorMinSemMax()
+    public function testNaoPodeSalvarDecimalMenorMinSemMax(): void
     {
         $valor = 5.5;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.8,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -275,11 +274,11 @@ class CaracteristicaDecimalTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarDecimalMaiorMax()
+    public function testNaoPodeSalvarDecimalMaiorMax(): void
     {
         $valor = 1000.4;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'minimo' => 10.2,
             'maximo' => 1000.3,
         ]);
@@ -287,10 +286,11 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -303,21 +303,22 @@ class CaracteristicaDecimalTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarDecimalMaiorMaxSemMin()
+    public function testNaoPodeSalvarDecimalMaiorMaxSemMin(): void
     {
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -330,21 +331,22 @@ class CaracteristicaDecimalTest extends TestCase
         }
     }
 
-    public function testPodeSalvarDecimalQuantidade()
+    public function testPodeSalvarDecimalQuantidade(): void
     {
         $valor = 10.22;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -364,21 +366,22 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarDecimalMenorQuantidade()
+    public function testPodeSalvarDecimalMenorQuantidade(): void
     {
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -398,21 +401,22 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarInteiroQuantidade()
+    public function testPodeSalvarInteiroQuantidade(): void
     {
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -432,21 +436,22 @@ class CaracteristicaDecimalTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarDecimalMaiorQuantidade()
+    public function testNaoPodeSalvarDecimalMaiorQuantidade(): void
     {
         $valor = 500.999;
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::Decimal->value,
+            'tipo' => TipoCaracteristica::Decimal,
             'quantidade' => 2,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [

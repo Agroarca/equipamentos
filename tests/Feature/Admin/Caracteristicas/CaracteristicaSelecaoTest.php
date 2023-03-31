@@ -2,34 +2,23 @@
 
 namespace Tests\Feature\Admin\Caracteristicas;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\Valor\CaracteristicaOpcao;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class CaracteristicaSelecaoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeCriarSelecao()
+    public function testPodeCriarSelecao(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,
@@ -45,12 +34,12 @@ class CaracteristicaSelecaoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarSelecaoTamanhos()
+    public function testNaoPodeCriarSelecaoTamanhos(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,
@@ -69,12 +58,12 @@ class CaracteristicaSelecaoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeCriarSelecaoQuantidade()
+    public function testNaoPodeCriarSelecaoQuantidade(): void
     {
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getAdmin())
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,

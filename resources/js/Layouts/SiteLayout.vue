@@ -2,7 +2,7 @@
 import '../../css/site.css'
 import { Head } from '@inertiajs/vue3'
 import BaseLayout from './BaseLayout.vue'
-import Loader from '@/Components/Loader.vue'
+import Loader from '@/Componentes/Layout/Loader.vue'
 import Header from './Site/Header.vue'
 import Footer from './Site/Footer.vue'
 

@@ -24,6 +24,11 @@ import { Link } from '@inertiajs/vue3'
                             Cadastrar Produto
                         </Link>
                     </li>
+                    <li class="nav-item">
+                        <Link class="menu-item" href="/perfil/equipamentos">
+                            Meus Equipamentos
+                        </Link>
+                    </li>
                     <li class="nav-item" />
                 </ul>
             </div>

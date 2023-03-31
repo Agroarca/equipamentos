@@ -1,29 +1,29 @@
 <?php
 
-use App\Http\Controllers\Admin\CaracteristicaController;
-use App\Http\Controllers\Admin\CaracteristicaOpcaoController;
-use App\Http\Controllers\Admin\CategoriaController;
-use App\Http\Controllers\Admin\EquipamentoController;
-use App\Http\Controllers\Admin\MarcaController;
-use App\Http\Controllers\Admin\ModeloController;
-use App\Http\Controllers\Admin\Lista\ListaController;
+use App\Http\Controllers\Admin\Equipamentos\Cadastro\CategoriaController;
+use App\Http\Controllers\Admin\Equipamentos\Cadastro\EquipamentoController;
+use App\Http\Controllers\Admin\Equipamentos\Cadastro\MarcaController;
+use App\Http\Controllers\Admin\Equipamentos\Cadastro\ModeloController;
+use App\Http\Controllers\Admin\Equipamentos\Caracteristicas\CaracteristicaController;
+use App\Http\Controllers\Admin\Equipamentos\Caracteristicas\CaracteristicaOpcaoController;
+use App\Http\Controllers\Admin\Equipamentos\Lista\ListaController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 /*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-|
-| Aqui devem ser registradas as rotas para o painel administrativo da
-| Aplicação.
-|
+    |--------------------------------------------------------------------------
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    |
+    | Aqui devem ser registradas as rotas para o painel administrativo da
+    | Aplicação.
+    |
 */
 
 Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Inicio');
+        return Inertia::render('Admin/Dashboard');
     })->name('.dashboard');
 
     Route::prefix('categorias')->name('.categorias')->group(function () {
@@ -100,6 +100,6 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('{id}/atualizar', [ModeloController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
         Route::post('salvar/ajax', [ModeloController::class, 'salvarAjax'])->name('.salvar.ajax');
-        Route::get('pesquisar/{marca_id}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
+        Route::get('pesquisar/{marca_id?}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
     });
 });

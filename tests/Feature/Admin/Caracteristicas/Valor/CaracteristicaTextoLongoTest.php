@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Admin\Caracteristicas\Valor;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
-use App\Models\Caracteristicas\Valor\CaracteristicaTextoLongo;
-use App\Models\Caracteristicas\Valor\CaracteristicaValor;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaTextoLongo;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Str;
@@ -17,28 +16,21 @@ class CaracteristicaTextoLongoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->admin()->create();
-    }
-
-    public function testPodeSalvarString()
+    public function testPodeSalvarString(): void
     {
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -58,11 +50,11 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoLongoMinMax()
+    public function testPodeSalvarTextoLongoMinMax(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -70,10 +62,11 @@ class CaracteristicaTextoLongoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -93,21 +86,22 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoLongoMin()
+    public function testPodeSalvarTextoLongoMin(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -127,21 +121,22 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarTextoLongoMax()
+    public function testPodeSalvarTextoLongoMax(): void
     {
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);
@@ -161,11 +156,11 @@ class CaracteristicaTextoLongoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarTextoLongoMenorMin()
+    public function testNaoPodeSalvarTextoLongoMenorMin(): void
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -173,10 +168,11 @@ class CaracteristicaTextoLongoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -189,21 +185,22 @@ class CaracteristicaTextoLongoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoLongoMenorMinSemMax()
+    public function testNaoPodeSalvarTextoLongoMenorMinSemMax(): void
     {
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'minimo' => 10,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -216,11 +213,11 @@ class CaracteristicaTextoLongoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoLongoMaiorMax()
+    public function testNaoPodeSalvarTextoLongoMaiorMax(): void
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'minimo' => 10,
             'maximo' => 1000,
         ]);
@@ -228,10 +225,11 @@ class CaracteristicaTextoLongoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -244,21 +242,22 @@ class CaracteristicaTextoLongoTest extends TestCase
         }
     }
 
-    public function testNaoPodeSalvarTextoLongoMaiorMaxSemMin()
+    public function testNaoPodeSalvarTextoLongoMaiorMaxSemMin(): void
     {
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
             'maximo' => 1000,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertInvalid(["carac-$caracteristica->id"]);
         $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
@@ -271,20 +270,21 @@ class CaracteristicaTextoLongoTest extends TestCase
         }
     }
 
-    public function testPodeSalvarTextoMuitoLongo()
+    public function testPodeSalvarTextoMuitoLongo(): void
     {
         $valor = fake()->paragraph(100);
         $caracteristica = Caracteristica::factory()->create([
-            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'tipo' => TipoCaracteristica::TextoLongo,
         ]);
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
-                "carac-$caracteristica->id" => $valor,
-            ]);
+        $response = $this->actingAs($this->getAdmin())
+            ->post(
+                "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
+                ["carac-$caracteristica->id" => $valor]
+            );
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarCaracteristicas', $equipamento->id);

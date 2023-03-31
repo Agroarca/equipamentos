@@ -32,11 +32,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::pattern('caracteristicaId', '\d+');
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {

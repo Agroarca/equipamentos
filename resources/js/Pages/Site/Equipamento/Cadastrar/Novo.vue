@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { computed, ref, onMounted } from 'vue'
-import FormError from '@/Components/FormError.vue'
-import SelectAjax from '@/Components/Util/SelectAjax.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Navegacao from './Navegacao.vue'
-import Mask from '@/Components/Util/InputMask'
+import Navegacao from './Componentes/Navegacao.vue'
+import Mask from '@/Componentes/Helper/InputMask'
 
 const props = defineProps({
     categorias: Object,

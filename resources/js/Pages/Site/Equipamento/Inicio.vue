@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
 import { Link } from '@inertiajs/vue3'
-import Formatacao from '@/Components/Util/Formatacao.vue'
+import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Imagens from './Imagens.vue'
+import Imagens from './Componentes/Imagens.vue'
 
 const props = defineProps({
     equipamento: Object,

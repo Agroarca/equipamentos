@@ -1,0 +1,50 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class {{ class }} extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public function __construct(
+        private Usuario $usuario
+    ) {
+    }
+
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: new Address(
+                address: config('mail.from.address'),
+                name: config('mail.from.name')
+            ),
+            to: [
+                new Address(
+                    address: $this->usuario->email,
+                    name: $this->usuario->nome
+                )
+            ],
+            subject: 'Assunto'
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'view.name',
+            text: 'view.name-text',
+        );
+    }
+
+    public function attachments(): array
+    {
+        return [];
+    }
+}
