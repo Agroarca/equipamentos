@@ -29,7 +29,6 @@ class EquipamentoRequest extends FormRequest
                 "max:{$ano}",
             ],
             'modelo_id' => 'integer|required_without:id|exists:modelos,id',
-            'marca_id' => 'integer|nullable|exists:marcas,id',
             'categoria_id' => 'integer|required_without:id|exists:categorias,id',
             'status' => [
                 'integer',
