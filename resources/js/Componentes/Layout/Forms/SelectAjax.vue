@@ -1,21 +1,19 @@
 <script  setup lang="ts">
-/* eslint-disable vue/no-setup-props-destructure */
-/* eslint-disable vue/require-prop-types  */
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { onMounted, ref, watch } from 'vue'
 import VueSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 
-const props = defineProps([
-    'href',
-    'modelValue',
-    'options',
-    'placeholder',
-    'criarDinamica',
-    'preBusca',
-    'disabled'
-])
+const props = defineProps({
+    href: String,
+    modelValue: null,
+    options: Array,
+    placeholder: String,
+    criarDinamica: Boolean,
+    preBusca: Boolean,
+    disabled: Boolean,
+})
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
     (e: 'criarNovaOpcao', value: string): void
