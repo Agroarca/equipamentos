@@ -58,9 +58,9 @@ class ListaController extends Controller
         return redirect()->route('admin.lista');
     }
 
-    public function adicionar(ProdutoListaRequest $request, int $listaId)
+    public function adicionar(ProdutoListaRequest $request, int $id)
     {
-        $lista = Lista::findOrFail($listaId);
+        $lista = Lista::findOrFail($id);
         $equipamento = Equipamento::findOrFail($request->equipamento_id);
 
         ProdutoLista::firstOrCreate([
