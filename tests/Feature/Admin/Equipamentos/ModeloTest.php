@@ -320,6 +320,24 @@ class ModeloTest extends TestCase
             ->has(3));
     }
 
+    public function testPodePesquisarSemMarcarId(): void
+    {
+        Modelo::factory()->count(5)->create();
+        Modelo::factory()->createMany([
+            ['nome' => 'Modelo 1'],
+            ['nome' => 'Modelo 2'],
+            ['nome' => 'Modelo 3'],
+            ['nome' => 'Modelo 4'],
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/modelos/pesquisar/?termo=Modelo');
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(4));
+    }
+
     public function testNaoPodePesquisarTermoInvalido(): void
     {
         $marca = Marca::factory()->create();
