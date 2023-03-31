@@ -2,36 +2,25 @@
 
 namespace Tests\Feature\Site\Equipamento;
 
-use App\Enums\Caracteristicas\TipoCaracteristica;
-use App\Models\Caracteristicas\Caracteristica;
-use App\Models\Equipamentos\Categoria;
-use App\Models\Equipamentos\Equipamento;
-use App\Models\Equipamentos\EquipamentoImagem;
-use App\Models\Usuario;
+use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use Illuminate\Support\Str;
+use App\Models\Equipamentos\Cadastro\Categoria;
+use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
-use Illuminate\Support\Str;
-use App\Models\Caracteristicas\CaracteristicaEquipamento;
 
 class CadastrarEquipamentoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $usuario;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->usuario = Usuario::factory()->create();
-    }
-
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get('/equipamento/cadastrar');
 
         $response->assertStatus(200);
@@ -39,11 +28,11 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Novo'));
     }
 
-    public function testPodeSalvarCadastro()
+    public function testPodeSalvarCadastro(): void
     {
         $equipamento = Equipamento::factory()->make();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post('/equipamento/salvar', [
                 'titulo' => $equipamento->titulo,
                 'valor' => $equipamento->valor,
@@ -63,11 +52,11 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeSalvarCadastroComCampoInvalido()
+    public function testNaoPodeSalvarCadastroComCampoInvalido(): void
     {
         $equipamento = Equipamento::factory()->make();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post('/equipamento/salvar', [
                 'titulo' => '',
                 'valor' => $equipamento->valor,
@@ -85,11 +74,11 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeAcessarImagens()
+    public function testPodeAcessarImagens(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/imagens");
 
         $response->assertStatus(200);
@@ -97,23 +86,23 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Imagens'));
     }
 
-    public function testNaoPodeAcessarImagensSemCadastrar()
+    public function testNaoPodeAcessarImagensSemCadastrar(): void
     {
-        $response = $this->actingAs($this->usuario)
-            ->get("/equipamento/1/imagens");
+        $response = $this->actingAs($this->getUsuario())
+            ->get('/equipamento/1/imagens');
 
         $response->assertStatus(404);
     }
 
-    public function testPodeAdicionarImagem()
+    public function testPodeAdicionarImagem(): void
     {
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
-            ->post("/equipamento/{$equipamento->id}/imagens/salvar", [
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/$equipamento->id/imagens/salvar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
             ]);
@@ -127,7 +116,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeExcluirImagem()
+    public function testPodeExcluirImagem(): void
     {
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
@@ -137,17 +126,17 @@ class CadastrarEquipamentoTest extends TestCase
 
         $imagem->storeAs(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/excluir");
 
         Storage::assertMissing(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'id' => $equipamentoImagem->id
+            'id' => $equipamentoImagem->id,
         ]);
     }
 
-    public function testPodeContinuarComImagemCadastrada()
+    public function testPodeContinuarComImagemCadastrada(): void
     {
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
@@ -156,27 +145,27 @@ class CadastrarEquipamentoTest extends TestCase
         $equipamentoImagem->save();
 
         $imagem->storeAs(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/continuar");
 
         $response->assertRedirectToRoute('site.equipamento.descricao', $equipamentoImagem->equipamento_id);
     }
 
-    public function testNaoPodeContinuarSemImagemCadastrada()
+    public function testNaoPodeContinuarSemImagemCadastrada(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/imagens/continuar");
 
         $response->assertInvalid(['imagem']);
     }
 
-    public function testPodeAcessarDescricao()
+    public function testPodeAcessarDescricao(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/descricao");
 
         $response->assertStatus(200);
@@ -184,44 +173,44 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Descricao'));
     }
 
-    public function testPodeSalvarDescricao()
+    public function testPodeSalvarDescricao(): void
     {
         $equipamento = Equipamento::factory()->create();
         $descricao = Str::random(25);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/{$equipamento->id}/descricao/salvar", [
-                'descricao' => $descricao
+                'descricao' => $descricao,
             ]);
 
         $response->assertRedirectToRoute('site.equipamento.caracteristicas', $equipamento->id);
         $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id,
-            'descricao' => $descricao
+            'descricao' => $descricao,
         ]);
     }
 
-    public function testNaoPodeSalvarDescicaoInvalida()
+    public function testNaoPodeSalvarDescicaoInvalida(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/{$equipamento->id}/descricao/salvar", [
-                'descricao' => ''
+                'descricao' => '',
             ]);
 
         $response->assertInvalid(['descricao']);
         $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id,
-            'descricao' => ''
+            'descricao' => '',
         ]);
     }
 
-    public function testPodeAcessarCaracteristica()
+    public function testPodeAcessarCaracteristica(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/caracteristicas");
 
         $response->assertStatus(200);
@@ -229,7 +218,7 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Caracteristicas'));
     }
 
-    public function testPodeSalvarCaracteristicaTipoInt()
+    public function testPodeSalvarCaracteristicaTipoInt(): void
     {
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
@@ -241,7 +230,7 @@ class CadastrarEquipamentoTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
                 "carac-$caracteristicaInteiro->id" => 10,
             ]);
@@ -254,7 +243,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarCaracteristicaTipoTextoLongo()
+    public function testPodeSalvarCaracteristicaTipoTextoLongo(): void
     {
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
@@ -266,7 +255,7 @@ class CadastrarEquipamentoTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
                 "carac-$caracteristicaInteiro->id" => Str::random(200),
             ]);
@@ -279,11 +268,11 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeFinalizar()
+    public function testPodeFinalizar(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/finalizar");
 
         $response->assertStatus(200);
@@ -291,11 +280,11 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Finalizar'));
     }
 
-    public function testPodeAcessarFinalizacao()
+    public function testPodeAcessarFinalizacao(): void
     {
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->usuario)
+        $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/finalizar");
 
         $response->assertStatus(200);
