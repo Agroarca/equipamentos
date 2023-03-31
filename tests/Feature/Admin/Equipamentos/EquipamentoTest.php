@@ -59,6 +59,50 @@ class EquipamentoTest extends TestCase
             ->has('categorias', count($categorias)));
     }
 
+    public function testPodeCriarComMarcaModeloDinamico(): void
+    {
+        $equipamento = Equipamento::factory()->make();
+
+        $marcaResponse = $this->actingAs($this->getAdmin())
+            ->post('/admin/marcas/salvar/ajax', [
+                'nome' => Str::random(25),
+            ]);
+
+        $marcaResponse->assertValid();
+        $marcaResponse->assertJsonStructure(['id', 'nome']);
+
+        $modeloResponse = $this->actingAs($this->getAdmin())
+            ->post('/admin/modelos/salvar/ajax', [
+                'nome' => Str::random(25),
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $modeloResponse->assertValid();
+        $modeloResponse->assertJsonStructure(['id', 'nome', 'marca_id']);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post('/admin/equipamentos/salvar', [
+                'titulo' => $equipamento->titulo,
+                'valor' => $equipamento->valor,
+                'ano' => $equipamento->ano,
+                'descricao' => $equipamento->descricao,
+                'modelo_id' => $modeloResponse->json('id'),
+                'categoria_id' => $equipamento->categoria_id,
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos');
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'titulo' => $equipamento->titulo,
+            'valor' => $equipamento->valor,
+            'ano' => $equipamento->ano,
+            'descricao' => $equipamento->descricao,
+            'modelo_id' => $modeloResponse->json('id'),
+            'categoria_id' => $equipamento->categoria_id,
+        ]);
+    }
+
     public function testPodeCriarNovo(): void
     {
         $equipamento = Equipamento::factory()->make();
