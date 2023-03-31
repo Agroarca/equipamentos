@@ -8,7 +8,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class EsqueceuSenhaTest extends TestCase
+class RecuperarSenhaTest extends TestCase
 {
     use RefreshDatabase;
 
