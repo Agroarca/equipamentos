@@ -103,7 +103,7 @@ async function salvarModelo() {
                             v-model="form.marca_id"
                             placeholder="Selecione uma marca"
                             href="/admin/marcas/pesquisar"
-                            :criar-dinamica="true"
+                            :criarDinamica="true"
                             @criarNovaOpcao="criarNovaMarca" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
@@ -114,7 +114,7 @@ async function salvarModelo() {
                             :disabled="!(form.marca_id || marca)"
                             :placeholder="placeholderModelo"
                             :href="form.marca_id ? `/admin/modelos/pesquisar/${form.marca_id}` : null"
-                            :criar-dinamica="true"
+                            :criarDinamica="true"
                             @criarNovaOpcao="criarNovoModelo" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>

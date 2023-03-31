@@ -32,7 +32,10 @@ function upload() {
 
 <template>
     <SiteLayout titulo="Cadastrar Imagem">
-        <div class="container-600">
+        <div class="container-600 cadastrar-equipamento">
+            <h2 class="titulo text-center mb-3">
+                Imagens do Equipamento
+            </h2>
             <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
             <div class="row mb-3">
                 <div v-if="errors.imagem" class="alert alert-warning">

@@ -6,8 +6,8 @@ use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
-use App\Http\Requests\Equipamento\EquipamentoDescricaoRequest;
-use App\Http\Requests\Equipamento\EquipamentoImagemRequest;
+use App\Http\Requests\Site\Equipamento\Cadastro\EquipamentoDescricaoRequest;
+use App\Http\Requests\Site\Equipamento\Cadastro\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
@@ -49,7 +49,7 @@ class EquipamentoController extends Controller
             $equipamento = Equipamento::create([
                 ...$request->all(),
                 'usuario_id' => Auth::id(),
-                'passo_cadastro' => 2,
+                'passo_cadastro' => 1,
                 'status' => StatusEquipamento::Cadastrando,
             ]);
         }
@@ -96,8 +96,8 @@ class EquipamentoController extends Controller
         if ($equipamento->imagens->count() == 0) {
             throw ValidationException::withMessages(['imagem' => 'É necessário cadastrar pelo menos uma imagem.']);
         }
-        if ($equipamento->passo_cadastro < 3) {
-            $equipamento->passo_cadastro = 3;
+        if ($equipamento->passo_cadastro < 2) {
+            $equipamento->passo_cadastro = 2;
         }
         $equipamento->save();
 
@@ -115,8 +115,8 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
-        if ($equipamento->passo_cadastro < 4) {
-            $equipamento->passo_cadastro = 4;
+        if ($equipamento->passo_cadastro < 3) {
+            $equipamento->passo_cadastro = 3;
         }
         $equipamento->save();
 
@@ -144,8 +144,8 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
-        if ($equipamento->passo_cadastro < 5) {
-            $equipamento->passo_cadastro = 5;
+        if ($equipamento->passo_cadastro < 4) {
+            $equipamento->passo_cadastro = 4;
         }
         if ($equipamento->status == StatusEquipamento::Cadastrando) {
             $equipamento->status = StatusEquipamento::Criado;

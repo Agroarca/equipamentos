@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -9,18 +10,26 @@ const props = defineProps({
 </script>
 
 <template>
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills justify-content-center">
         <li class="nav-item">
-            <a class="nav-link" :class="{ active: passoAtual == 1 }" :href="`/equipamento/cadastrar/${equipamento?.id ?? ''}`">Cadastrar</a>
+            <Link class="nav-link" :class="{ active: passoAtual == 1 }" :href="`/equipamento/cadastrar/${equipamento?.id ?? ''}`">
+                Cadastrar
+            </Link>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{ active: passoAtual == 2, disabled: passoCadastro < 2 }" :href="`/equipamento/${equipamento?.id ?? ''}/imagens`">Imagens</a>
+            <Link class="nav-link" :class="{ active: passoAtual == 2, disabled: passoCadastro < 1 }" :href="`/equipamento/${equipamento?.id ?? ''}/imagens`">
+                Imagens
+            </Link>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{ active: passoAtual == 3, disabled: passoCadastro < 3 }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">Descrição</a>
+            <Link class="nav-link" :class="{ active: passoAtual == 3, disabled: passoCadastro < 2 }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">
+                Descrição
+            </Link>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 4 }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">Caracteristicas</a>
+            <Link class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 3 }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">
+                Caracteristicas
+            </Link>
         </li>
     </ul>
 </template>
