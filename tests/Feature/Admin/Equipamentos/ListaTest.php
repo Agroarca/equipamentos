@@ -118,7 +118,7 @@ class ListaTest extends TestCase
 
         $response = $this->actingAs($this->getAdmin())
             ->post("/admin/lista/$lista->id/adicionar", [
-                'equipamento_id' => [$equipamento->id],
+                'equipamento_id' => $equipamento->id,
             ]);
 
         $response->assertValid();
@@ -126,6 +126,20 @@ class ListaTest extends TestCase
         $this->assertDatabaseHas(app(ProdutoLista::class)->getTable(), [
             'lista_id' => $lista->id,
             'equipamento_id' => $equipamento->id,
+        ]);
+    }
+
+    public function testPodeExcluir(): void
+    {
+        $lista = Lista::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/lista/$lista->id/excluir");
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.lista');
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'id' => $lista->id,
         ]);
     }
 }
