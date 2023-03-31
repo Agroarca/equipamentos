@@ -8,6 +8,7 @@ use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -196,7 +197,7 @@ class CadastrarEquipamentoTest extends TestCase
 
         $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/{$equipamento->id}/descricao/salvar", [
-                'descricao' => '',
+                'descricao' => Str::random(5),
             ]);
 
         $response->assertInvalid(['descricao']);
