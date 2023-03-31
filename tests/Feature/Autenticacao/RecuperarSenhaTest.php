@@ -8,7 +8,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class EsqueceuSenhaTest extends TestCase
+class RecuperarSenhaTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -28,6 +28,15 @@ class EsqueceuSenhaTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
+    public function testNaoPodeReceberLinkComEmailInvalido(): void
+    {
+        Notification::fake();
+
+        $response = $this->post('/senha/recuperar', ['email' => 'teste@exemplo.com']);
+        $response->assertInvalid(['email']);
+        Notification::assertNothingSent();
+    }
+
     public function testPodeAcessarPaginaReset(): void
     {
         Notification::fake();
@@ -42,6 +51,17 @@ class EsqueceuSenhaTest extends TestCase
 
             return true;
         });
+    }
+
+    public function testNaoPodeAcessarPaginaResetComEmailInvalido(): void
+    {
+        Notification::fake();
+
+
+        $response = $this->post('/senha/recuperar', ['email' => 'teste@exemplo.com']);
+
+        $response->assertInvalid(['email']);
+        Notification::assertNothingSent();
     }
 
     public function testPodeResetarTokenValido(): void
