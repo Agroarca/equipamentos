@@ -3,7 +3,7 @@
 /* eslint-disable vue/require-prop-types  */
 import axios from 'axios'
 import { debounce } from 'lodash'
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import VueSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 
@@ -13,6 +13,8 @@ const props = defineProps([
     'options',
     'placeholder',
     'criarDinamica',
+    'preBusca',
+    'disabled'
 ])
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
@@ -24,6 +26,18 @@ const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
 
 options.value = props.options ?? []
+
+onMounted(() => {
+    if (props.preBusca && options.value.length === 0) {
+        atualizarOpcoes('', () => {})
+    }
+})
+
+watch(() => props.disabled, (newValue) => {
+    if (!newValue) {
+        atualizarOpcoes('', () => {})
+    }
+})
 
 async function onSearchDebounced(search, loading) {
     let termo = search.trim()
@@ -88,6 +102,7 @@ function getOpcaoSelecionada() {
 <template>
     <VueSelect
         v-model="selectedOption"
+        :disabled="disabled"
         :placeholder="placeholder ?? 'Selecione uma Opção'"
         :options="options"
         label="texto"
