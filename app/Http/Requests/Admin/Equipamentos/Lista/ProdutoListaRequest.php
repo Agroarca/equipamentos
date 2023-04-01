@@ -17,6 +17,7 @@ class ProdutoListaRequest extends FormRequest
         return [
             'equipamento_id' => [
                 'required',
+                'integer',
                 'exists:equipamentos,id',
                 Rule::unique('lista_produtos')->where(function ($query) {
                     return $query->where('lista_id', request()->route('id'));
