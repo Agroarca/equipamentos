@@ -6,6 +6,8 @@ use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaInteiro;
