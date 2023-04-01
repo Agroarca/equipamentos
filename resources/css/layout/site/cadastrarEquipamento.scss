@@ -1,5 +1,5 @@
 .site-layout .cadastrar-equipamento {
-    .nav-link {
+    .nav-link:not(.disabled) {
         font-weight: 600;
         color: $form-btn;
 

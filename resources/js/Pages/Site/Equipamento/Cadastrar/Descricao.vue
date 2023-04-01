@@ -24,7 +24,8 @@ function salvarDescricao() {
                 Descrição do Equipamento
             </h2>
             <Navegacao class="mb-3" :passoAtual="3" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
-            <div>
+            <div class="my-4">
+                <hr class="m-0" />
                 <Editor v-model="form.descricao" class="descricao" />
                 <FormError :error="form.errors.descricao" />
             </div>

@@ -25,6 +25,11 @@ const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 const editor = useEditor({
     content: props.modelValue,
     editable: true,
+    editorProps: {
+        attributes: {
+            class: 'editor',
+        },
+    },
     extensions: [
         Document,
         Paragraph,
