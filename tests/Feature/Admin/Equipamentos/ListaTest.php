@@ -128,6 +128,27 @@ class ListaTest extends TestCase
         ]);
     }
 
+    public function testPodeRemoverProduto(): void
+    {
+        $lista = Lista::factory()->create();
+
+        $equipamento = Equipamento::factory()->create();
+
+        $produto = ProdutoLista::factory()->create([
+            'lista_id' => $lista->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/lista/$lista->id/produtos/$produto->id/excluir");
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.lista.produtos', [$lista->id]);
+        $this->assertDatabaseMissing(app(ProdutoLista::class)->getTable(), [
+            'id' => $produto->id,
+        ]);
+    }
+
     public function testPodeExcluir(): void
     {
         $lista = Lista::factory()->create();
@@ -138,5 +159,100 @@ class ListaTest extends TestCase
         $response->assertValid();
         $response->assertRedirectToRoute('admin.lista');
         $this->assertSoftDeleted($lista);
+    }
+
+    public function testPodeAcessarProdutosSemProdutos(): void
+    {
+        $lista = Lista::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/lista/$lista->id/produtos");
+
+        $response->assertValid();
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Equipamentos/Lista/Produtos')
+                ->has('lista')
+                ->where('lista.id', $lista->id)
+                ->has('produtos.data', 0)
+        );
+    }
+
+    public function testPodeAcessarProdutos(): void
+    {
+        $lista = Lista::factory()->create();
+
+        $equipamento = Equipamento::factory()->create();
+
+        ProdutoLista::factory()->create([
+            'lista_id' => $lista->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/lista/$lista->id/produtos");
+
+        $response->assertValid();
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Equipamentos/Lista/Produtos')
+                ->has('lista')
+                ->where('lista.id', $lista->id)
+                ->has('produtos.data', 1)
+        );
+    }
+
+    public function testNaoPodeCriarListaComSlugInvalido(): void
+    {
+        $lista = Lista::factory()->make();
+        $slugInvalido = '1' . Str::random(25);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post('/admin/lista/salvar', [
+                'nome' => $lista->nome,
+                'slug' => $slugInvalido,
+            ]);
+
+        $response->assertInvalid();
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'nome' => $lista->nome,
+            'slug' => $slugInvalido,
+        ]);
+    }
+
+    public function testNaoPodeEditarListaComSlugInvalido(): void
+    {
+        $lista = Lista::factory()->create();
+        $novoNome = Str::random(25);
+        $slugInvalido = '1' . Str::random(25);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/lista/$lista->id/atualizar", [
+                'nome' => $novoNome,
+                'slug' => $slugInvalido,
+            ]);
+
+        $response->assertInvalid();
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'id' => $lista->id,
+            'nome' => $novoNome,
+            'slug' => $slugInvalido,
+        ]);
+    }
+
+    public function testNaoPodeAdicionarProdutoInvalido(): void
+    {
+        $lista = Lista::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/lista/$lista->id/adicionar", [
+                'equipamento_id' => 999,
+            ]);
+
+        $response->assertInvalid();
+        $this->assertDatabaseMissing(app(ProdutoLista::class)->getTable(), [
+            'lista_id' => $lista->id,
+            'equipamento_id' => 999,
+        ]);
     }
 }
