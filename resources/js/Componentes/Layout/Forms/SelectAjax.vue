@@ -14,7 +14,7 @@ const props = defineProps([
     'placeholder',
     'criarDinamica',
     'preBusca',
-    'disabled'
+    'disabled',
 ])
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
@@ -29,13 +29,17 @@ options.value = props.options ?? []
 
 onMounted(() => {
     if (props.preBusca && options.value.length === 0) {
-        atualizarOpcoes('', () => {})
+        atualizarOpcoes('', () => {
+            // não tem loading em pré busca
+        })
     }
 })
 
 watch(() => props.disabled, (newValue) => {
     if (!newValue) {
-        atualizarOpcoes('', () => {})
+        atualizarOpcoes('', () => {
+            // não tem loading em pré busca
+        })
     }
 })
 
