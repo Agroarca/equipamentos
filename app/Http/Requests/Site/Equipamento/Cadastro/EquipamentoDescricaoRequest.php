@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Equipamento;
+namespace App\Http\Requests\Site\Equipamento\Cadastro;
 
 use Illuminate\Foundation\Http\FormRequest;
 
