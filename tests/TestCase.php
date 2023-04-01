@@ -19,4 +19,12 @@ abstract class TestCase extends BaseTestCase
     {
         return Usuario::factory()->admin()->create();
     }
+
+    /**
+     * Retorna um usuário comum.
+     */
+    protected function getUsuario(): Usuario
+    {
+        return Usuario::factory()->create();
+    }
 }

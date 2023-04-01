@@ -6,6 +6,8 @@ use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaInteiro;
@@ -14,6 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class EquipamentoTest extends TestCase
 {
@@ -57,6 +60,59 @@ class EquipamentoTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Admin/Equipamentos/Cadastro/Equipamento/Criar')
             ->has('categorias', count($categorias)));
+    }
+
+    public function testPodeCriarComMarcaModeloDinamico(): void
+    {
+        $equipamento = Equipamento::factory()->make();
+
+        $marcaResponse = $this->actingAs($this->getAdmin())
+            ->post('/admin/marcas/salvar/ajax', [
+                'nome' => Str::random(25),
+            ]);
+
+        $marcaResponse->assertValid();
+        $marcaResponse->assertJsonStructure(['id', 'nome']);
+
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marcaResponse->json('nome'),
+        ]);
+
+        $modeloResponse = $this->actingAs($this->getAdmin())
+            ->post('/admin/modelos/salvar/ajax', [
+                'nome' => Str::random(25),
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
+            'nome' => $modeloResponse->json('nome'),
+            'marca_id' => $marcaResponse->json('id'),
+        ]);
+
+        $modeloResponse->assertValid();
+        $modeloResponse->assertJsonStructure(['id', 'nome', 'marca_id']);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post('/admin/equipamentos/salvar', [
+                'titulo' => $equipamento->titulo,
+                'valor' => $equipamento->valor,
+                'ano' => $equipamento->ano,
+                'descricao' => $equipamento->descricao,
+                'modelo_id' => $modeloResponse->json('id'),
+                'categoria_id' => $equipamento->categoria_id,
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos');
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'titulo' => $equipamento->titulo,
+            'valor' => $equipamento->valor,
+            'ano' => $equipamento->ano,
+            'descricao' => $equipamento->descricao,
+            'modelo_id' => $modeloResponse->json('id'),
+            'categoria_id' => $equipamento->categoria_id,
+        ]);
     }
 
     public function testPodeCriarNovo(): void
@@ -404,5 +460,30 @@ class EquipamentoTest extends TestCase
             'id' => $equipamento->id,
             'status' => StatusEquipamento::Reprovado->value,
         ]);
+    }
+
+    public function testPodePesquisar(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(1));
+    }
+
+    public function testNaoPodePesquisarInexistente(): void
+    {
+        Equipamento::factory()->create();
+        $termo = Str::random(20);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$termo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 }
