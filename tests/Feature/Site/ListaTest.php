@@ -58,7 +58,7 @@ class ListaTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /*
+
     public function testPodeAcessarListaComId(): void
     {
         $lista = Lista::factory()->create();
@@ -79,5 +79,5 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Lista'));
-    }*/
+    }
 }
