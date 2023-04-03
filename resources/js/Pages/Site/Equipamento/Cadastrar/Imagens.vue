@@ -32,15 +32,15 @@ function upload() {
 
 <template>
     <SiteLayout titulo="Cadastrar Imagem">
-        <div class="container-600">
+        <div class="container-600 cadastrar-equipamento">
+            <h2 class="titulo text-center mb-3">
+                Imagens do Equipamento
+            </h2>
             <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
             <div class="row mb-3">
                 <div v-if="errors.imagem" class="alert alert-warning">
                     <label for="erro" class="imagem">{{ errors.imagem }}</label>
                 </div>
-                <button type="button" class="btn btn-primary" @click="adicionar()">
-                    Adicionar Imagem
-                </button>
             </div>
             <div class="row">
                 <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
@@ -51,12 +51,15 @@ function upload() {
                     </Link>
                 </div>
 
-                <div v-if="equipamento.imagens.length == 0">
-                    <p>Nenhuma imagem adicionada</p>
+                <div v-if="equipamento.imagens.length == 0" class="alert alert-warning">
+                    <span>Nenhuma imagem adicionada</span>
                 </div>
             </div>
             <div>
-                <Link :href="`/equipamento/${equipamento.id}/imagens/continuar`" class="btn btn-primary">
+                <button type="button" class="btn btn-primary me-3" @click="adicionar()">
+                    Adicionar Imagem
+                </button>
+                <Link :href="`/equipamento/${equipamento.id}/imagens/continuar`" class="btn btn-primary" :class="{ disabled: equipamento.imagens.length == 0 }">
                     Continuar
                 </Link>
             </div>

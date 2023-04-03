@@ -26,15 +26,15 @@ function submit() {
 <template>
     <SiteLayout>
         <form @submit.prevent="submit">
-            <div class="container-600">
+            <div class="container-600 cadastrar-equipamento">
+                <h2 class="titulo text-center mb-3">
+                    Caracteristicas do Equipamento
+                </h2>
                 <Navegacao class="mb-3" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
-                <h1>
-                    Características
-                </h1>
-                <table class="table table-striped table-hover">
+                <table class="table table-hover">
                     <thead>
-                        <td>Nome</td>
-                        <td>Valor</td>
+                        <th>Nome</th>
+                        <th>Valor</th>
                     </thead>
                     <tbody>
                         <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">

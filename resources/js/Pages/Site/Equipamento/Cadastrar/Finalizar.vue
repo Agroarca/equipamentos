@@ -5,7 +5,7 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 
 <template>
     <SiteLayout titulo="Cadastro Finalizado">
-        <div class="container-600">
+        <div class="container-600 cadastrar-equipamento">
             <div class="row">
                 <div class="col-12">
                     <h1>Cadastro Finalizado</h1>

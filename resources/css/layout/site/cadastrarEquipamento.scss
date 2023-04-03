@@ -1,0 +1,19 @@
+.site-layout .cadastrar-equipamento {
+    .nav-link:not(.disabled) {
+        font-weight: 600;
+        color: $form-btn;
+
+        &:hover {
+            color: $form-btn-hover;
+        }
+
+        &.active {
+            color: white;
+            background-color: $form-btn;
+
+            &:hover {
+                color: $form-btn-hover;
+            }
+        }
+    }
+}
