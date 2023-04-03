@@ -16,11 +16,11 @@
         padding: 1rem;
 
         .ano {
-            font-size: 18px;
+            font-size: 1.125rem;
         }
 
         .titulo {
-            font-size: 26px;
+            font-size: 1.625rem;
             font-weight: 600;
             margin: 1rem 0;
         }
@@ -29,7 +29,7 @@
             display: block;
             margin-top: 1rem;
             color: $equip-valor;
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
@@ -41,7 +41,7 @@
     .descricao-header {
         background-color: $equip-descricao-header-bg;
         margin: 2rem 0;
-        font-size: 22px;
+        font-size: 1.375rem;
         color: $equip-descricao-header;
         padding: 1.2rem;
         border-radius: $border-radius;
@@ -84,18 +84,18 @@
     }
 
     .descricao {
-        font-size: 16px;
+        font-size: 1rem;
 
         h1 {
-            font-size: 28px;
+            font-size: 1.75rem;
         }
 
         h2 {
-            font-size: 24px;
+            font-size: 1.5rem;
         }
 
         h3 {
-            font-size: 20px;
+            font-size: 1.25rem;
         }
     }
 }

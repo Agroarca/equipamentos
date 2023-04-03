@@ -1,12 +1,12 @@
 .site-layout {
     .header-contact {
         background-color: $header-contact-background;
-        font-size: 18px;
+        font-size: 1.125rem;
         color: $header-contact-text;
         font-family: Roboto, sans-serif;
 
         @mixin breakpoint-down md {
-            font-size: 12px;
+            font-size: 1.125rem;
         }
 
         i {
@@ -65,7 +65,7 @@
 
         .search-container {
             min-width: 20rem;
-            font-size: 20px;
+            font-size: 1.125rem;
 
             button {
                 width: 64px;
@@ -90,24 +90,24 @@
                 border: none;
                 outline: none;
                 height: 4rem;
-                font-size: 24px;
+                font-size: 1.5rem;
                 padding: 0 1.5rem;
                 border-radius: 1rem;
                 border-top-right-radius: unset;
                 border-bottom-right-radius: unset;
 
                 @mixin breakpoint-down xl {
-                    font-size: 18px;
+                    font-size: 1.125rem;
                     height: 3rem;
                 }
 
                 &::placeholder {
-                    font-size: 24px;
+                    font-size: 1.5rem;
                     padding-bottom: 2rem;
                     color: $search-input-color;
 
                     @mixin breakpoint-down xl {
-                        font-size: 18px;
+                        font-size: 1.125rem;
                     }
                 }
             }
@@ -115,7 +115,7 @@
 
         .profile-container {
             background-color: $profile-button-background;
-            font-size: 18px;
+            font-size: 1.125rem;
             padding: 1.3rem 2.8rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
@@ -133,7 +133,7 @@
             }
 
             i {
-                font-size: 24px;
+                font-size: 1.5rem;
             }
 
             span {
@@ -154,7 +154,7 @@
 
             .menu-item {
                 padding: 0 .5rem;
-                font-size: 18px;
+                font-size: 1.125rem;
                 color: $menu-item-color;
                 text-decoration: none;
 
@@ -166,7 +166,7 @@
 
         .menu-button {
             background-color: $profile-button-background;
-            font-size: 18px;
+            font-size: 1.125rem;
             padding: 1.3rem 2.8rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
@@ -180,7 +180,7 @@
             }
 
             i {
-                font-size: 24px;
+                font-size: 1.5rem;
             }
         }
     }
