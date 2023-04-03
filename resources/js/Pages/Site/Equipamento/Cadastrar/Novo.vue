@@ -38,8 +38,11 @@ function submit() {
 
 <template>
     <SiteLayout titulo="Cadastrar Equipamento">
-        <div class="container">
-            <Navegacao class="mb-3" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" :equipamento="equipamento" />
+        <div class="container-600 cadastrar-equipamento">
+            <h2 class="titulo text-center mb-3">
+                Cadastrar Novo Equipamento
+            </h2>
+            <Navegacao class="mb-3 d-flex justify-content-center" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 0" :equipamento="equipamento" />
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="titulo">Título</label>

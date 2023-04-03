@@ -104,7 +104,7 @@ async function salvarModelo() {
                             placeholder="Selecione uma marca"
                             href="/admin/marcas/pesquisar"
                             :preBusca="true"
-                            :criar-dinamica="true"
+                            :criarDinamica="true"
                             @criarNovaOpcao="criarNovaMarca" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>
@@ -116,7 +116,7 @@ async function salvarModelo() {
                             :placeholder="placeholderModelo"
                             :href="form.marca_id ? `/admin/modelos/pesquisar/${form.marca_id}` : null"
                             :preBusca="true"
-                            :criar-dinamica="true"
+                            :criarDinamica="true"
                             @criarNovaOpcao="criarNovoModelo" />
                         <FormError :error="form.errors.modelo_id" />
                     </div>

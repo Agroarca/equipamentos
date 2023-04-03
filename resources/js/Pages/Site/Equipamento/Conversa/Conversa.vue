@@ -244,8 +244,8 @@ function verificarSolicitarPermissao() {
                         </div>
                         <Mensagem v-for="mensagem in chat.mensagens" :key="mensagem.id"
                                   :mensagem="mensagem"
-                                  :usuario-id="usuarioId"
-                                  :mensagens-tempo-excluir="mensagensTempoExcluir"
+                                  :usuarioId="usuarioId"
+                                  :mensagensTempoExcluir="mensagensTempoExcluir"
                                   @excluirMensagem="excluirMensagem" />
                     </div>
                     <Transition name="fade-transition" :duration="100">

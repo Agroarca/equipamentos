@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout :titulo="'Características de ' + categoria.nome" :link="`/admin/categorias/${categoria.id}/caracteristicas/criar`" button-text="Nova Característica">
+    <AdminLayout :titulo="'Características de ' + categoria.nome" :link="`/admin/categorias/${categoria.id}/caracteristicas/criar`" buttonText="Nova Característica">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
