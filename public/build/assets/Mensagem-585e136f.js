@@ -1,1 +1,0 @@
-import{_ as o}from"./Mensagem.vue_vue_type_script_setup_true_lang-0714dc66.js";import"./app-f300bd32.js";import"./Modal.vue_vue_type_script_setup_true_lang-013fa222.js";import"./index-ac617c56.js";export{o as default};
