@@ -26,20 +26,19 @@ function submit() {
 <template>
     <SiteLayout>
         <form @submit.prevent="submit">
-            <div class="container-600 cadastrar-equipamento">
+            <div class="container-600 cadastrar-equipamento caracteristicas">
                 <h2 class="titulo text-center mb-3">
                     Caracteristicas do Equipamento
                 </h2>
-                <Navegacao class="mb-3" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
-                <table class="table table-hover">
-                    <thead>
-                        <th>Nome</th>
-                        <th>Valor</th>
-                    </thead>
+                <Navegacao class="mb-3 display-block" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
+                <table class="table table-hover mt-3 display-block">
                     <tbody>
                         <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
                             <td>
-                                <label :for="`caracteristica-${caracteristica.id}`"> {{ caracteristica.nome }} </label>
+                                <label :for="`caracteristica-${caracteristica.id}`">
+                                    {{ caracteristica.nome }}
+                                    <span v-if="caracteristica.obrigatorio" class="opcional">* Obrigatório</span>
+                                </label>
                                 <FormError :error="form.errors['carac-' + caracteristica.id]" />
                             </td>
                             <td>

@@ -16,4 +16,55 @@
             }
         }
     }
+
+    &.caracteristicas {
+        tr:last-of-type td {
+            border: none;
+        }
+
+        label {
+            display: flex;
+        }
+
+        .opcional {
+            margin-left: .3rem;
+            font-size: .7rem;
+            font-weight: 600;
+            color: $texto-cinza;
+        }
+    }
+
+    &.imagens {
+
+        .imagem {
+            display: flex;
+            padding: 1rem 0;
+            gap: .8rem;
+            align-items: flex-start;
+            border-bottom: 1px solid $cor-linhas;
+
+            &:first-of-type {
+                padding-top: 0;
+            }
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+
+            img {
+                width: 30%;
+            }
+
+            p {
+                flex-grow: 1;
+                word-wrap: break-word;
+                overflow: auto;
+                margin: 0;
+            }
+
+            .btn {
+                display: block;
+            }
+        }
+    }
 }
