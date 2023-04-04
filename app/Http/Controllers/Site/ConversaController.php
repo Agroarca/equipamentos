@@ -80,9 +80,9 @@ class ConversaController extends Controller
 
     public function enviar(EnviarMensagemRequest $request, int $id)
     {
-        DB::transaction(function () use ($request, $id) {
+        $mensagem = new Mensagem();
+        DB::transaction(function () use ($request, $id, $mensagem) {
             $conversa = EquipamentoConversa::findOrFail($id);
-            $mensagem = new Mensagem();
             $mensagem->equipamento_conversa_id = $conversa->id;
             $mensagem->usuario_id = Auth::id();
             $mensagem->mensagem = $request->input('mensagem');
@@ -94,6 +94,7 @@ class ConversaController extends Controller
 
             $this->conversaService->processarEnvioMensagem($mensagem);
         });
+        return response()->json($mensagem);
     }
 
     public function mensagensAnteriores(int $idConversa, int $id)
@@ -112,7 +113,7 @@ class ConversaController extends Controller
         return response()->json($this->retornarMensagens($query));
     }
 
-    public function retornarMensagens(Builder $query): array
+    public function retornarMensagens($query): array
     {
         $retorno = [];
         $retorno['mais'] = $query->count() > 20;

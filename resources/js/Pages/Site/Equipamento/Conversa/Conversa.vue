@@ -44,11 +44,21 @@ onMounted(() => {
 })
 
 function enviarMensagem() {
-    return axios.post(`/conversa/${props.conversa.id}/enviar`, {
+    let mensagem = {
         mensagem: chat.mensagem,
-    }).then(() => {
-        chat.mensagem = ''
-        erroMensagem.value = ''
+        usuario_id: props.usuarioId,
+        created_at: new Date(),
+        loading: true,
+    }
+    chat.mensagens.push(mensagem)
+    chat.mensagem = ''
+    erroMensagem.value = ''
+    return axios.post(`/conversa/${props.conversa.id}/enviar`, {
+        mensagem: mensagem.mensagem,
+    }).then((response) => {
+        chat.mensagens = filter(chat.mensagens, (m) => !(m.mensagem === mensagem.mensagem && m.created_at === mensagem.created_at))
+        chat.mensagens.push(response.data)
+
         verificarSolicitarPermissao()
     }).catch((e) => {
         if (e?.response?.data?.errors?.mensagem) {

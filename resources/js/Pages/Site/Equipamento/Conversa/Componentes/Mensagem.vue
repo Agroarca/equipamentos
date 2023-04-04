@@ -44,6 +44,11 @@ function getPodeExcluir() {
     if (props.mensagem.usuario_id !== props.usuarioId) {
         return false
     }
+
+    if (props.mensagem.loading) {
+        return false
+    }
+
     return differenceInSeconds(new Date(), Date.parse(props.mensagem.created_at)) <= props.mensagensTempoExcluir
 }
 
@@ -61,6 +66,7 @@ function verificarpodeExcluir() {
 <template>
     <span :id="'msg-' + mensagem.id" class="mensagem" :class="{ autor: mensagem.usuario_id == usuarioId }" @click="mostrarMenu">
         {{ mensagem.mensagem }}
+        <div v-if="mensagem.loading" class="spinner-border spinner-border-sm text-secondary" role="status" />
         <i v-if="podeExcluir" class="fa-solid fa-caret-down opcoes" />
         <Transition name="fade-500" :duration="500">
             <div v-if="menuAberto" class="menu-container">
