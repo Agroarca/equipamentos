@@ -58,7 +58,6 @@ class ListaTest extends TestCase
         $response->assertStatus(404);
     }
 
-
     public function testPodeAcessarListaComId(): void
     {
         $lista = Lista::factory()->create();
