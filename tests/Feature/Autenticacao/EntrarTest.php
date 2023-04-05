@@ -41,4 +41,25 @@ class EntrarTest extends TestCase
 
         $this->assertGuest();
     }
+
+    public function testNaoPodeAcessarApos5Tentativas(): void
+    {
+        $usuario = Usuario::factory()->create();
+
+        for ($i = 0; $i < 5; $i++) {
+            $response = $this->post('/entrar', [
+                'email' => $usuario->email,
+                'password' => 'password-incorreto',
+            ]);
+            $response->assertInvalid(['email' => 'Essas credenciais não foram encontradas em nossos registros.']);
+        }
+
+        $response = $this->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => 'password-incorreto',
+        ]);
+
+        $response->assertInvalid(['email' => 'Muitas tentativas de login.']);
+        $response->assertSessionHas('errors');
+    }
 }
