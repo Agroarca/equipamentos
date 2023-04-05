@@ -14,14 +14,13 @@ const menuAberto = ref(false)
 let podeExcluir = ref(getPodeExcluir())
 verificarpodeExcluir()
 
-function mostrarMenu() {
+function mostrarMenu(e) {
     if (!podeExcluir.value) {
         return
     }
     menuAberto.value = !menuAberto.value
-    setTimeout(() => {
-        window.addEventListener('click', fecharMenu)
-    }, 500)
+    e.stopPropagation()
+    window.addEventListener('click', fecharMenu)
 }
 
 function fecharMenu(e) {
