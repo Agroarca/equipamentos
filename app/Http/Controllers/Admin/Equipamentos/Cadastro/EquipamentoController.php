@@ -110,6 +110,12 @@ class EquipamentoController extends Controller
     public function editarAprovacao(int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
+
+        if ($equipamento->status === StatusEquipamento::Aprovado
+            || $equipamento->status === StatusEquipamento::Reprovado) {
+            return abort(403, 'Ação não permitida');
+        }
+
         $statusEquipamento = StatusEquipamento::toArray();
 
         return Inertia::render(

@@ -7,6 +7,8 @@
         <exclude name="PSR12.Traits.UseDeclaration.MultipleImport" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
         <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
+        <exclude name="PEAR.ControlStructures.MultiLineCondition.CloseBracketNewLine" />
     </rule>
     <rule ref="Squiz">
         <exclude name="Generic.Commenting.DocComment" />
