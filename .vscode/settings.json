@@ -18,6 +18,9 @@
     "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
+    "[php]": {
+        "editor.defaultFormatter": "shevaua.phpcs"
+    },
     "php.version": "8.2.0",
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
     "githubIssues.issueBranchTitle": "i${issueNumber}",
