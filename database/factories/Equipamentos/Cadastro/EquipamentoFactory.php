@@ -22,7 +22,7 @@ class EquipamentoFactory extends Factory
             'modelo_id' => Modelo::factory(),
             'categoria_id' => Categoria::factory(),
             'usuario_id' => Usuario::factory(),
-            'status' => StatusEquipamento::Aprovado,
+            'status' => StatusEquipamento::Criado,
         ];
     }
 
