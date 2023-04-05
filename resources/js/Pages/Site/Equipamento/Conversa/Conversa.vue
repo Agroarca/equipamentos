@@ -1,66 +1,72 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-setup-props-destructure */
 /* eslint-disable vuejs-accessibility/form-control-has-label */
-/* eslint-disable no-restricted-globals */
-import { ref, onMounted, reactive, nextTick } from 'vue'
+import { ref, onMounted, nextTick, reactive } from 'vue'
+import { debounce, first, filter, last } from 'lodash'
 import axios from 'axios'
-import { debounce, filter, last } from 'lodash'
-import EventoConversa from '@/Componentes/Eventos/EventoConversa'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Listener from '@/Componentes/Eventos/Listener'
 import Mensagem from './Componentes/Mensagem.vue'
 import { getPush } from '@/Componentes/Notificacao/Push'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import EventoConversa from '@/Componentes/Eventos/EventoConversa'
+import Listener from '@/Componentes/Eventos/Listener'
 
 const props = defineProps({
     conversa: Object,
     usuarioId: Number,
     mensagensTempoExcluir: Number,
 })
-const scroll = debounce(onScroll, 100, { maxWait: 250 })
-const enviarVisualizacao = debounce(enviarUltimaVisualizacao, 500, { maxWait: 10000 })
 
+const scroll = debounce(onScroll, 100, { maxWait: 250 })
 const scrollMargin: number = 25
 const maxlengthText: number = 2500
-let ultimaVisualizadaId: number = props.conversa.visualizacao.ultima_mensagem_id
 const elMensagens = ref(null)
-let temPermissao = ref(getPush().temPermissao())
 let erroMensagem = ref('')
+
+let tempId: number = -1
+let controleAtualizar = {
+    bloquearAtualizar: false,
+    atualizar: false,
+    bloquearAtualizarAnteriores: false,
+}
 
 const chat = reactive({
     mensagens: props.conversa.mensagens,
-    mensagem: '',
-    mensagensAnteriores: false,
-    novasMensagens: false,
+    mensagensAnteriores: ref(false),
+    novasMensagens: ref(false),
+    temPermNotificacao: ref(getPush().temPermissao()),
+    conversaId: props.conversa.id,
+    ultimaMsgVisualizadaId: props.conversa.visualizacao.ultima_mensagem_id,
+    usuarioId: props.usuarioId,
+    textoMsg: '',
 })
 
-EventoConversa.addListener(new Listener(eventoConversa, 1))
 onMounted(() => {
     if (elMensagens.value.scrollHeight > (elMensagens.value.clientHeight + scrollMargin)) {
         chat.mensagensAnteriores = true
     }
 
     nextTick(setScrollPagina)
+    eventoConversaListener()
 })
 
-function enviarMensagem() {
-    let mensagem = {
-        mensagem: chat.mensagem,
-        usuario_id: props.usuarioId,
-        created_at: new Date(),
-        loading: true,
-    }
-    chat.mensagens.push(mensagem)
-    chat.mensagem = ''
-    erroMensagem.value = ''
-    return axios.post(`/conversa/${props.conversa.id}/enviar`, {
-        mensagem: mensagem.mensagem,
-    }).then((response) => {
-        chat.mensagens = filter(chat.mensagens, (m) => !(m.mensagem === mensagem.mensagem && m.created_at === mensagem.created_at))
-        chat.mensagens.push(response.data)
+async function enviarMensagem() {
+    try {
+        let mensagem = {
+            id: tempId,
+            mensagem: chat.textoMsg,
+            usuario_id: chat.usuarioId,
+            created_at: new Date(),
+            loading: true,
+        }
 
-        verificarSolicitarPermissao()
-    }).catch((e) => {
+        tempId -= 1
+        chat.textoMsg = ''
+
+        chat.mensagens.push(mensagem)
+        await ajaxEnviarMensagem(mensagem.mensagem)
+        chat.mensagens = filter(chat.mensagens, (m) => m.id !== mensagem.id)
+        deveSolicitarPermissao()
+    } catch (e) {
         if (e?.response?.data?.errors?.mensagem) {
             if (Array.isArray(e?.response?.data?.errors?.mensagem)) {
                 [erroMensagem.value] = e.response.data.errors.mensagem
@@ -78,15 +84,11 @@ function enviarMensagem() {
         setTimeout(() => {
             location.reload()
         }, 5000)
-    })
-}
-
-function getUltimaVisualizada() {
-    return chat.mensagens.findLast((m) => m.id <= ultimaVisualizadaId)
+    }
 }
 
 function setScrollPagina() {
-    const ultimaVisualizada = getUltimaVisualizada()
+    const ultimaVisualizada = getUltimaMensagemVisualizada()
 
     if (ultimaVisualizada) {
         setMensagensScrolltop(getOffsetMensagem(ultimaVisualizada.id) - (elMensagens.value.clientHeight / 2))
@@ -101,18 +103,13 @@ function setScrollPagina() {
 
 function novasMensagens() {
     chat.novasMensagens = false
-    const proximaMensagem = getProximaMensagem()
+    const proximaMensagem = getProximaMensagem(chat.ultimaMsgVisualizadaId)
     if (proximaMensagem) {
         setMensagensScrolltop(getOffsetMensagem(proximaMensagem.id) - (elMensagens.value.clientHeight / 2))
-        ultimaVisualizadaId = proximaMensagem.id
-        enviarVisualizacao()
+        visualizarMensagem(proximaMensagem.id)
     } else {
         setScrollPagina()
     }
-}
-
-function getProximaMensagem() {
-    return chat.mensagens.find((m) => m.id > ultimaVisualizadaId)
 }
 
 function setMensagensScrolltop(px) {
@@ -141,14 +138,14 @@ function onScroll() {
 
 function verificaUltimaVisualizada() {
     const ultimaVisualizada = procuraUltimaMensagemVisualizada()
-    if (ultimaVisualizada && ultimaVisualizada.id > ultimaVisualizadaId) {
-        ultimaVisualizadaId = ultimaVisualizada.id
-        enviarVisualizacao()
+    if (ultimaVisualizada && ultimaVisualizada.id > chat.ultimaMsgVisualizadaId) {
+        chat.ultimaMsgVisualizadaId = ultimaVisualizada.id
+        visualizarMensagem(chat.ultimaMsgVisualizadaId)
     }
 }
 
 function procuraUltimaMensagemVisualizada() {
-    const idxUltima = chat.mensagens.findIndex((m) => m.id > ultimaVisualizadaId)
+    const idxUltima = chat.mensagens.findIndex((m) => m.id > chat.ultimaMsgVisualizadaId)
     return chat.mensagens.slice(idxUltima).findLast((m) => verificaMensagemVisualizada(m.id))
 }
 
@@ -159,72 +156,66 @@ function verificaMensagemVisualizada(id) {
     return elOffset > el.parentElement.scrollTop && elOffset < el.parentElement.scrollTop + el.parentElement.clientHeight
 }
 
-function enviarUltimaVisualizacao() {
-    axios.post(`/conversa/${props.conversa.id}/mensagens/visualizacao/${ultimaVisualizadaId}`)
+function excluirMensagemListener(mensagem) {
+    ajaxExcluirMensagem(mensagem.id)
 }
 
-function atualizarMensagens() {
-    function requestAtualizarMensagens() {
-        let mensagemId = last(chat.mensagens)?.id ?? 0
-        return axios.get(`/conversa/${props.conversa.id}/mensagens/posteriores/${mensagemId}`)
-            .then((response) => {
-                if (response.data.mensagens.length > 0) {
-                    chat.mensagens = chat.mensagens.concat(response.data.mensagens)
-                    chat.novasMensagens = true
-                }
-            })
-    }
+function getUltimaMensagemVisualizada() {
+    return chat.mensagens.findLast((m) => m.id <= chat.ultimaMsgVisualizadaId)
+}
 
-    if (atualizarMensagens.bloquear) {
-        atualizarMensagens.atualizar = true
+function getProximaMensagem(id) {
+    return chat.mensagens.find((m) => m.id > id)
+}
+
+function visualizarMensagem(id: number) {
+    if (id < chat.ultimaMsgVisualizadaId) {
         return
     }
 
-    atualizarMensagens.bloquear = true
-    atualizarMensagens.atualizar = false
-
-    requestAtualizarMensagens().finally(() => {
-        atualizarMensagens.bloquear = false
-
-        if (atualizarMensagens.atualizar) {
-            atualizarMensagens()
-        }
-    })
+    chat.ultimaMsgVisualizadaId = id
+    ajaxEnviarUltimaVisualizacao(id)
 }
 
-function eventoConversa(e:EventoConversa) {
-    if (e.mensagem_id > (last(chat.mensagens)?.id ?? 0)) {
+async function atualizarMensagens() {
+    if (controleAtualizar.bloquearAtualizar) {
+        controleAtualizar.atualizar = true
+    }
+
+    controleAtualizar.bloquearAtualizar = true
+    controleAtualizar.atualizar = false
+
+    await ajaxNovasMensagens(last(chat.mensagens)?.id ?? 0)
+
+    controleAtualizar.bloquearAtualizar = false
+    if (controleAtualizar.atualizar) {
         atualizarMensagens()
     }
 }
 
-function atualizarMensagensAnteriores() {
-    if (!chat.mensagensAnteriores || chat.mensagens > 0) {
+async function atualizarMensagensAnteriores() {
+    if (!chat.mensagensAnteriores.value || chat.mensagens.length === 0) {
         return
     }
 
-    const mensagemId = chat.mensagens[0].id
-    axios.get(`/conversa/${props.conversa.id}/mensagens/anteriores/${mensagemId}`)
-        .then((response) => {
-            chat.mensagens = response.data.mensagens.concat(chat.mensagens)
-            chat.mensagensAnteriores = response.data.mais
-            nextTick(() => {
-                setMensagensScrolltop(getOffsetMensagem(mensagemId))
-            })
-        })
-}
+    if (controleAtualizar.bloquearAtualizarAnteriores) {
+        return
+    }
 
-function excluirMensagem(mensagem) {
-    axios.get(`/conversa/${mensagem.equipamento_conversa_id}/mensagem/excluir/${mensagem.id}`).then(() => {
-        chat.mensagens = filter(chat.mensagens, (m) => mensagem.id !== m.id)
+    controleAtualizar.bloquearAtualizarAnteriores = true
+    const mensagemId = first(chat.mensagens).id
+    await ajaxMensagensAnteriores(mensagemId)
+    nextTick(() => {
+        setMensagensScrolltop(getOffsetMensagem(mensagemId))
     })
+    controleAtualizar.bloquearAtualizarAnteriores = false
 }
 
 function solicitarPermNotificacao() {
-    getPush().solicitarPermissao().then(() => { temPermissao.value = getPush().temPermissao() })
+    getPush().solicitarPermissao().then(() => { chat.temPermNotificacao.value = getPush().temPermissao() })
 }
 
-function verificarSolicitarPermissao() {
+function deveSolicitarPermissao() {
     if (getPush().jaSolicitouPermissao()) {
         return
     }
@@ -236,13 +227,55 @@ function verificarSolicitarPermissao() {
     solicitarPermNotificacao()
 }
 
+async function ajaxMensagensAnteriores(mensagemId: number) {
+    let response = await axios.get(`/conversa/${chat.conversaId}/mensagens/anteriores/${mensagemId}`)
+
+    chat.mensagens = response.data.mensagens.concat(chat.mensagens)
+    chat.mensagensAnteriores.value = response.data.mais
+}
+
+async function ajaxNovasMensagens(mensagemId: number) {
+    let response = await axios.get(`/conversa/${chat.conversaId}/mensagens/posteriores/${mensagemId}`)
+
+    if (response.data.mensagens.length > 0) {
+        chat.mensagens = chat.mensagens.concat(response.data.mensagens)
+        chat.novasMensagens.value = true
+    }
+}
+
+async function ajaxEnviarMensagem(texto: string) {
+    let response = await axios.post(`/conversa/${chat.conversaId}/enviar`, {
+        mensagem: texto,
+    })
+
+    chat.mensagens.push(response.data)
+}
+
+function ajaxEnviarUltimaVisualizacao(id:number) {
+    axios.post(`/conversa/${chat.conversaId}/mensagens/visualizacao/${id}`)
+}
+
+function ajaxExcluirMensagem(id: number) {
+    axios.get(`/conversa/${chat.conversaId}/mensagem/excluir/${id}`).then(() => {
+        chat.mensagens = filter(chat.mensagens, (m) => id !== m.id)
+    })
+}
+
+function eventoConversaListener() {
+    EventoConversa.addListener(new Listener((e) => {
+        if (e.mensagem_id > (last(chat.mensagens)?.id ?? 0)) {
+            atualizarMensagens()
+        }
+    }, 1))
+}
+
 </script>
 
 <template>
     <SiteLayout :titulo="`Conversa ${conversa.equipamento.titulo}`">
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
-            <div v-if="!temPermissao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">
+            <div v-if="!chat.temPermNotificacao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">
                 Você não irá receber notificações de novas mensagens.<br>
                 Clique aqui para autorizar as Notificações
             </div>
@@ -256,7 +289,7 @@ function verificarSolicitarPermissao() {
                                   :mensagem="mensagem"
                                   :usuarioId="usuarioId"
                                   :mensagensTempoExcluir="mensagensTempoExcluir"
-                                  @excluirMensagem="excluirMensagem" />
+                                  @excluirMensagem="excluirMensagemListener" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="chat.novasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">
@@ -270,12 +303,12 @@ function verificarSolicitarPermissao() {
                             <FormError :error="erroMensagem" />
                         </div>
                         <div class="d-flex flex-row">
-                            <textarea v-model="chat.mensagem" class="form-control" :maxlength="maxlengthText" rows="3" />
+                            <textarea v-model="chat.textoMsg" class="form-control" :maxlength="maxlengthText" rows="3" />
                             <div class="col">
                                 <button type="submit" class="btn btn-primary">
                                     Enviar
                                 </button>
-                                <span class="textcount">{{ chat.mensagem.length + ' / ' + maxlengthText }}</span>
+                                <span class="textcount">{{ chat.textoMsg.length + ' / ' + maxlengthText }}</span>
                             </div>
                         </div>
                     </div>

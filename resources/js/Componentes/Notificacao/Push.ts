@@ -91,11 +91,11 @@ export class Push {
         return isAfter(new Date(), addDays(new Date(ultimaRenovacao), DIAS_PARA_RENOVAR_TOKEN))
     }
 
-    temPermissao(): Boolean {
+    temPermissao(): boolean {
         return Notification.permission === 'granted'
     }
 
-    jaSolicitouPermissao(): Boolean {
+    jaSolicitouPermissao(): boolean {
         let dataPerm = new Date(Date.parse(localStorage.dataSolicitouPermNotificacao))
         if (isDate(dataPerm)) {
             return isBefore(new Date(), addDays(new Date(dataPerm), DIAS_PARA_RENOVAR_TOKEN))
