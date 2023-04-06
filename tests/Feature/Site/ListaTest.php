@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
-use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Lista\Lista;
 use App\Models\Equipamentos\Lista\ProdutoLista;
@@ -74,7 +73,6 @@ class ListaTest extends TestCase
 
     public function testPodeAcessarMarca(): void
     {
-
         $modelo1 = Modelo::factory()->create();
         $modelo2 = Modelo::factory()->create();
 
