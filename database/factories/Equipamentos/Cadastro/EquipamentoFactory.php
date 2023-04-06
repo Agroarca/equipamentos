@@ -30,6 +30,7 @@ class EquipamentoFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => StatusEquipamento::Aprovado,
+            'modelo_id' => Modelo::factory()->statusAprovado(),
         ]);
     }
 }

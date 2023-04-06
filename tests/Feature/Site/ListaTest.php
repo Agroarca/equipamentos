@@ -17,7 +17,7 @@ class ListaTest extends TestCase
 
     public function testPodeAcessarCategorias(): void
     {
-        Equipamento::factory()->count(4)->create();
+        Equipamento::factory()->statusAprovado()->count(4)->create();
 
         $response = $this->actingAs($this->getAdmin())
             ->get('/categoria');
@@ -31,7 +31,7 @@ class ListaTest extends TestCase
     public function testPodeAcessarCategoria(): void
     {
         $categoria = Categoria::factory()->create();
-        Equipamento::factory()->count(4)->create([
+        Equipamento::factory()->statusAprovado()->count(4)->create([
             'categoria_id' => $categoria->id,
         ]);
 
@@ -51,15 +51,15 @@ class ListaTest extends TestCase
         $categoriaFilha = Categoria::factory()->create([
             'categoria_mae_id' => $categoria->id,
         ]);
-        Equipamento::factory()->count(3)->create([
+        Equipamento::factory()->statusAprovado()->count(3)->create([
             'categoria_id' => $categoriaFilha->id,
         ]);
 
-        Equipamento::factory()->count(3)->create([
+        Equipamento::factory()->statusAprovado()->count(3)->create([
             'categoria_id' => $categoria->id,
         ]);
 
-        Equipamento::factory()->count(4)->create();
+        Equipamento::factory()->statusAprovado()->count(4)->create();
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/categoria/{$categoria->id}");
@@ -76,11 +76,11 @@ class ListaTest extends TestCase
         $modelo1 = Modelo::factory()->create();
         $modelo2 = Modelo::factory()->create();
 
-        Equipamento::factory()->count(4)->create([
+        Equipamento::factory()->statusAprovado()->count(4)->create([
             'modelo_id' => $modelo1->id,
         ]);
 
-        Equipamento::factory()->count(4)->create([
+        Equipamento::factory()->statusAprovado()->count(4)->create([
             'modelo_id' => $modelo2->id,
         ]);
 
