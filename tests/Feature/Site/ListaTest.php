@@ -45,7 +45,7 @@ class ListaTest extends TestCase
             ->where('categoria.id', $categoria->id));
     }
 
-    public function testPodeAcessarCetegoriaRetornaApenasCategoriasFilhasDela(): void
+    public function testPodeAcessarCategoriaRetornaApenasCategoriasFilhasDela(): void
     {
         $categoria = Categoria::factory()->create();
         $categoriaFilha = Categoria::factory()->create([
