@@ -9,6 +9,7 @@ use App\Models\Notificacoes\Notificacao as NotificacoesModel;
 use App\Models\Notificacoes\NotificacaoConversa;
 use App\Models\Usuario;
 use App\Notifications\Equipamentos\Conversas\NovaMensagemNotification;
+use App\Notifications\Equipamentos\Conversas\MensagemExcluidaNotification;
 use App\Notifications\Notificacao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -31,10 +32,7 @@ class ConversaService
 
             $this->contarMensagensNaoVisualizadas($mensagem->equipamentoConversa);
 
-            $usuarios = [
-                $mensagem->equipamentoConversa->usuario,
-                $mensagem->equipamentoConversa->equipamento->usuario,
-            ];
+            $usuarios = $this->getUsuariosConversa($mensagem->equipamentoConversa);
 
             foreach ($usuarios as $usuario) {
                 Notification::send($usuario, new NovaMensagemNotification($mensagem));
@@ -121,5 +119,22 @@ class ConversaService
         $conversa = $mensagem->equipamentoConversa;
 
         $this->contarMensagensNaoVisualizadas($conversa);
+
+        $usuarios = $this->getUsuariosConversa($conversa);
+
+        foreach ($usuarios as $usuario) {
+            Notification::send($usuario, new MensagemExcluidaNotification($mensagem));
+        }
+    }
+
+    /**
+     * Pega os usuários da conversa.
+     */
+    public function getUsuariosConversa(EquipamentoConversa $conversa): array
+    {
+        return [
+            $conversa->usuario,
+            $conversa->equipamento->usuario,
+        ];
     }
 }

@@ -6,8 +6,10 @@ use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Notifications\Channel\ConversaWebSocketChannel;
 use Illuminate\Notifications\Notification;
 
-class MensagemWebsocket extends Notification
+class NovaMensagemNotification extends Notification
 {
+    public string $tipo = 'nova-mensagem';
+
     public function __construct(
         public Mensagem $mensagem
     ) {

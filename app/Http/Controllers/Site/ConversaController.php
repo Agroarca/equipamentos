@@ -8,7 +8,6 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Services\Equipamentos\Conversa\ConversaService;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -144,6 +143,8 @@ class ConversaController extends Controller
     {
         $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
         $mensagem->delete();
+        $this->conversaService->processarExclusaoMensagem($mensagem);
+
         return response()->json('ok');
     }
 }
