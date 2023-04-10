@@ -107,7 +107,8 @@ class NotificacaoConversaService
     /**
      * Retorna a mensagem de notificação.
      */
-    private function getMensagemNotificacao(Equipamento $equipamento, Usuario $usuario): string {
+    private function getMensagemNotificacao(Equipamento $equipamento, Usuario $usuario): string
+    {
         $query = $this->queryVisualizacao($equipamento, $usuario);
         $tituloEquipamento = $equipamento->titulo;
 
