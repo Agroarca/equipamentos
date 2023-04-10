@@ -1,7 +1,7 @@
 import Evento from './Evento'
 import Listener from './Listener'
 
-export default class EventoConversa implements Evento {
+export default class NovaMensagem implements Evento {
     cancelled = false
     equipamento_conversa_id: number
     usuario_id: number
@@ -11,12 +11,12 @@ export default class EventoConversa implements Evento {
     static listeners: Array<Listener> = []
 
     static addListener = function addListener(listener: Listener): void {
-        EventoConversa.listeners.push(listener)
-        EventoConversa.listeners.sort((a: Listener, b: Listener) => a.priority - b.priority)
+        NovaMensagem.listeners.push(listener)
+        NovaMensagem.listeners.sort((a: Listener, b: Listener) => a.priority - b.priority)
     }
 
     notify = () => {
-        EventoConversa.listeners.forEach((listener) => {
+        NovaMensagem.listeners.forEach((listener) => {
             if (!this.cancelled) {
                 listener.callback(this)
             }
