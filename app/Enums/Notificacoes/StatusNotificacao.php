@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Equipamentos\Cadastro;
+namespace App\Enums\Notificacoes;
 
 use App\Enums\EnumToArray;
 

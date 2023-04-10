@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Equipamentos\Cadastro\StatusNotificacao;
+use App\Enums\Notificacoes\StatusNotificacao;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::table('notificacoes', function (Blueprint $table): void {
             $table->dropColumn('visualizado');
-            $table->smallInteger('status')->default(StatusNotificacao::Criado);
+            $table->smallInteger('status')->default(StatusNotificacao::Criado->value);
         });
     }
 
