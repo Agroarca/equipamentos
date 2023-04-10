@@ -59,19 +59,16 @@ function iniciarPusher() {
 }
 
 function conversaWebSocket(e) {
-    if (e.notification.tipo === 'mensagem-excluida') {
-        const evento = new MensagemExcluida()
-        evento.mensagem_id = e.notification.mensagem.id
-        evento.equipamento_conversa_id = e.notification.mensagem.equipamento_conversa_id
-        evento.notify()
-        return
+    switch (e.notification.tipo) {
+    case 'nova-mensagem':
+        novaMensagemEvento(e)
+        break
+    case 'mensagem-excluida':
+        mensagemExcuidaEvento(e)
+        break
+    default:
+        break
     }
-    const evento = new NovaMensagem()
-    evento.mensagem_id = e.notification.mensagem.id
-    evento.mensagem = e.notification.mensagem.mensagem
-    evento.usuario_id = e.notification.mensagem.usuario_id
-    evento.equipamento_conversa_id = e.notification.mensagem.equipamento_conversa_id
-    evento.notify()
 }
 
 function notificacaoWebSocket(e) {
@@ -82,5 +79,21 @@ function notificacaoWebSocket(e) {
     evento.notificacao.usuario_id = e.notification.notificacao.usuario_id
     evento.notificacao.titulo = e.notification.notificacao.titulo
     evento.notificacao.texto = e.notification.notificacao.texto
+    evento.notify()
+}
+
+function mensagemExcuidaEvento(e) {
+    const evento = new MensagemExcluida()
+    evento.mensagem_id = e.notification.mensagem.id
+    evento.equipamento_conversa_id = e.notification.mensagem.equipamento_conversa_id
+    evento.notify()
+}
+
+function novaMensagemEvento(e) {
+    const evento = new NovaMensagem()
+    evento.mensagem_id = e.notification.mensagem.id
+    evento.mensagem = e.notification.mensagem.mensagem
+    evento.usuario_id = e.notification.mensagem.usuario_id
+    evento.equipamento_conversa_id = e.notification.mensagem.equipamento_conversa_id
     evento.notify()
 }
