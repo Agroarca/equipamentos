@@ -75,7 +75,7 @@ function notificacaoWebSocket(e) {
     const evento = new EventoNotificacaoWS()
     evento.notificacao = new Notificacao()
     evento.notificacao.id = e.notification.notificacao.id
-    evento.notificacao.visualizado = e.notification.notificacao.visualizado
+    evento.notificacao.status = e.notification.notificacao.status
     evento.notificacao.usuario_id = e.notification.notificacao.usuario_id
     evento.notificacao.titulo = e.notification.notificacao.titulo
     evento.notificacao.texto = e.notification.notificacao.texto

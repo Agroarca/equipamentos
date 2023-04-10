@@ -8,10 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('{{ table }}', function (Blueprint $table): void {
+        Schema::create('notificacao_conversa_equipamentos', function (Blueprint $table): void {
             $table->id();
 
-            // colunas
+            $table->foreignId('equipamento_id');
+            $table->foreign('equipamento_id')->references('id')->on('equipamentos');
 
             $table->timestamps();
         });
@@ -19,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::dropIfExists('notificacao_conversa_equipamentos');
     }
 };

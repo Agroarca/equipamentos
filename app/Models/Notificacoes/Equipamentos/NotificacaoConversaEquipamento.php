@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Models\Notificacoes;
+namespace App\Models\Notificacoes\Equipamentos;
 
+use App\Models\Notificacoes\Notificacao;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class NotificacaoConversa extends Model
+class NotificacaoConversaEquipamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'notificacao_conversa';
+    protected $table = 'notificacao_conversa_equipamento';
 
-    protected $fillable = ['conversa_id'];
+    protected $fillable = [
+        'equipamento_id',
+    ];
 
     public function notificacao(): MorphOne
     {

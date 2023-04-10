@@ -1,6 +1,6 @@
 export default class Notificacao {
     id
-    visualizado
+    status
     usuario_id
     titulo
     texto

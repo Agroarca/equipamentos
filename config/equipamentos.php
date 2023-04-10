@@ -11,6 +11,5 @@ return [
         'ws_canal_notificacao' => 'notificacoes.',
         'notificacao_websocket_delay_secs' => 0,
         'notificacao_push_delay_secs' => 60,
-        'notificacao_email_delay_secs' => 7200,
     ],
 ];

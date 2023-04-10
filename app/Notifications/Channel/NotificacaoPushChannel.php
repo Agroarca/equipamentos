@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Channel;
 
+use App\Enums\Equipamentos\Cadastro\StatusNotificacao;
 use App\Models\Usuario;
 use App\Notifications\Notificacao as NotificationsNotificacao;
 use App\Services\Libs\FirebaseCloudMessaging;
@@ -18,7 +19,7 @@ class NotificacaoPushChannel
 
     public function send(Usuario $usuario, NotificationsNotificacao $notificacao): void
     {
-        if ($notificacao->notificacao->visualizado) {
+        if ($notificacao->notificacao->status === StatusNotificacao::Visualizado) {
             return;
         }
 
