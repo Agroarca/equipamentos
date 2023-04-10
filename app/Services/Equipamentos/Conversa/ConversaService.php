@@ -8,7 +8,8 @@ use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Notificacoes\Notificacao as NotificacoesModel;
 use App\Models\Notificacoes\NotificacaoConversa;
 use App\Models\Usuario;
-use App\Notifications\Equipamentos\Conversas\MensagemWebsocket;
+use App\Notifications\Equipamentos\Conversas\NovaMensagemNotification;
+use App\Notifications\Equipamentos\Conversas\MensagemExcluidaNotification;
 use App\Notifications\Notificacao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -31,13 +32,10 @@ class ConversaService
 
             $this->contarMensagensNaoVisualizadas($mensagem->equipamentoConversa);
 
-            $usuarios = [
-                $mensagem->equipamentoConversa->usuario,
-                $mensagem->equipamentoConversa->equipamento->usuario,
-            ];
+            $usuarios = $this->getUsuariosConversa($mensagem->equipamentoConversa);
 
             foreach ($usuarios as $usuario) {
-                Notification::send($usuario, new MensagemWebsocket($mensagem));
+                Notification::send($usuario, new NovaMensagemNotification($mensagem));
 
                 if ($usuario->id != $mensagem->usuario_id) {
                     $this->criarNotificacaoMensagem($mensagem, $usuario);
@@ -63,7 +61,7 @@ class ConversaService
                 set visualizacao.mensagens_nao_visualizadas = (
                     select count(*) from equipamento_conversa_mensagens mensagens
                     where mensagens.id > visualizacao.ultima_mensagem_id
-                    and mensagens.equipamento_conversa_id = ?)
+                    and mensagens.equipamento_conversa_id = ? and deleted_at is null)
                 where visualizacao.equipamento_conversa_id = ?', [$conversa->id, $conversa->id]);
     }
 
@@ -111,5 +109,32 @@ class ConversaService
 
             Notification::send($usuario, new Notificacao($notificacao));
         });
+    }
+
+    /**
+     * Processa a exclução de uma mensagem.
+     */
+    public function processarExclusaoMensagem(Mensagem $mensagem): void
+    {
+        $conversa = $mensagem->equipamentoConversa;
+
+        $this->contarMensagensNaoVisualizadas($conversa);
+
+        $usuarios = $this->getUsuariosConversa($conversa);
+
+        foreach ($usuarios as $usuario) {
+            Notification::send($usuario, new MensagemExcluidaNotification($mensagem));
+        }
+    }
+
+    /**
+     * Pega os usuários da conversa.
+     */
+    public function getUsuariosConversa(EquipamentoConversa $conversa): array
+    {
+        return [
+            $conversa->usuario,
+            $conversa->equipamento->usuario,
+        ];
     }
 }
