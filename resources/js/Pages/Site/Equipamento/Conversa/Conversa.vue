@@ -55,7 +55,7 @@ async function enviarMensagemEvent() {
         erroMensagem.value = getMensagemErroEnviarMensagem(e)
 
         setTimeout(() => {
-            location.reload()
+            window.location.reload()
         }, 5000)
     }
 }
