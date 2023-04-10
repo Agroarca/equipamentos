@@ -165,6 +165,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarDescricao(): void
     {
         $equipamento = Equipamento::factory()->create();
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/descricao");
@@ -210,6 +211,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarCaracteristica(): void
     {
         $equipamento = Equipamento::factory()->create();
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/caracteristicas");
@@ -272,6 +274,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeFinalizar(): void
     {
         $equipamento = Equipamento::factory()->create();
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/finalizar");
@@ -284,6 +287,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarFinalizacao(): void
     {
         $equipamento = Equipamento::factory()->create();
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/finalizar");

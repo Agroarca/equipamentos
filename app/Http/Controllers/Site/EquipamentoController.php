@@ -106,7 +106,11 @@ class EquipamentoController extends Controller
 
     public function descricao($id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::with('imagens')->findOrFail($id);
+
+        if ($equipamento->imagens->count() == 0) {
+            return abort(403, 'Imagens não cadastradas');
+        }
 
         return Inertia::render('Site/Equipamento/Cadastrar/Descricao', compact('equipamento'));
     }
@@ -125,7 +129,15 @@ class EquipamentoController extends Controller
 
     public function caracteristicas($id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::with('imagens')->findOrFail($id);
+
+        if ($equipamento->imagens->count() == 0) {
+            return abort(403, 'Imagens não cadastradas');
+        }
+
+        if ($equipamento->descricao === null) {
+            return abort(403, 'Descrição não cadastrada');
+        }
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
         foreach ($caracteristicas as $key => $caracteristica) {
@@ -157,7 +169,15 @@ class EquipamentoController extends Controller
 
     public function finalizar($id)
     {
-        $equipamento = Equipamento::findOrFail($id);
+        $equipamento = Equipamento::with('imagens')->findOrFail($id);
+
+        if ($equipamento->imagens->count() == 0) {
+            return abort(403, 'Imagens não cadastradas');
+        }
+
+        if ($equipamento->descricao === null) {
+            return abort(403, 'Descrição não cadastrada');
+        }
 
         return Inertia::render('Site/Equipamento/Cadastrar/Finalizar', compact('equipamento'));
     }

@@ -33,4 +33,11 @@ class EquipamentoFactory extends Factory
             'modelo_id' => Modelo::factory()->statusAprovado(),
         ]);
     }
+
+    public function equipamentComImagens(): mixed
+    {
+        return $this->state(fn (array $attributes) => [
+            'imagens' => EquipamentoImagemFactory::new()->count(3)->make(),
+        ]);
+    }
 }
