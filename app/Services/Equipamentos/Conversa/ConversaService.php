@@ -5,21 +5,25 @@ namespace App\Services\Equipamentos\Conversa;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Models\Equipamentos\Conversas\Visualizacao;
-use App\Models\Notificacoes\Notificacao as NotificacoesModel;
-use App\Models\Notificacoes\NotificacaoConversa;
-use App\Models\Usuario;
 use App\Notifications\Equipamentos\Conversas\NovaMensagemNotification;
 use App\Notifications\Equipamentos\Conversas\MensagemExcluidaNotification;
-use App\Notifications\Notificacao;
+use App\Services\Notificacoes\NotificacaoConversaService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
 
 /**
  * Classe responsável por processar as mensagens e visualizações de conversas.
  */
 class ConversaService
 {
+    /**
+     * Construtor do Service.
+     */
+    public function __construct(
+        private NotificacaoConversaService $notificacaoConversaService
+    ) {
+    }
+
     /**
      * Processa o envio de uma mensagem para o sistema.
      */
@@ -38,7 +42,10 @@ class ConversaService
                 Notification::send($usuario, new NovaMensagemNotification($mensagem));
 
                 if ($usuario->id != $mensagem->usuario_id) {
-                    $this->criarNotificacaoMensagem($mensagem, $usuario);
+                    $this->notificacaoConversaService->enviarNotificacaoMensagem(
+                        $mensagem->equipamentoConversa->equipamento,
+                        $usuario
+                    );
                 }
             }
         });
@@ -79,36 +86,6 @@ class ConversaService
             'usuario_id' => $conversa->equipamento->usuario_id,
             'ultima_mensagem_id' => 0,
         ]);
-    }
-
-    /**
-     * Cria e envia uma notificação de mensagem.
-     */
-    private function criarNotificacaoMensagem(Mensagem $mensagem, Usuario $usuario): void
-    {
-        DB::transaction(function () use ($mensagem, $usuario): void {
-            $visualizacao = $mensagem->equipamentoConversa->visualizacao()->where('usuario_id', $usuario->id)->first();
-            $naoVisualizadas = $visualizacao->mensagens_nao_visualizadas;
-
-            $nova = Str::of('nova')->plural($naoVisualizadas);
-            $txtMensagem = Str::of('mensagem')->plural($naoVisualizadas);
-            $titulo = $mensagem->equipamentoConversa->equipamento->titulo;
-            $texto = "Você tem $naoVisualizadas $nova $txtMensagem em $titulo";
-
-            $conversa = NotificacaoConversa::create([
-                'conversa_id' => $mensagem->equipamento_conversa_id,
-            ]);
-
-            $notificacao = new NotificacoesModel([
-                'usuario_id' => $usuario->id,
-                'texto' => $texto,
-                'titulo' => 'Nova Mensagem!',
-            ]);
-
-            $conversa->notificacao()->save($notificacao);
-
-            Notification::send($usuario, new Notificacao($notificacao));
-        });
     }
 
     /**

@@ -4,8 +4,8 @@
 
 namespace App\Notifications;
 
+use App\Enums\Equipamentos\Cadastro\StatusNotificacao;
 use App\Models\Notificacoes\Notificacao as NotificacaoModel;
-use App\Notifications\Channel\NotificacaoEmailChannel;
 use App\Notifications\Channel\NotificacaoPushChannel;
 use App\Notifications\Channel\NotificacaoWebSocketChannel;
 use Illuminate\Bus\Queueable;
@@ -27,7 +27,6 @@ class Notificacao extends Notification implements ShouldQueue
         return [
             NotificacaoWebSocketChannel::class,
             NotificacaoPushChannel::class,
-            NotificacaoEmailChannel::class,
         ];
     }
 
@@ -40,9 +39,11 @@ class Notificacao extends Notification implements ShouldQueue
             NotificacaoPushChannel::class => now()->addSeconds(
                 config('equipamentos.notificacoes.notificacao_push_delay_secs')
             ),
-            NotificacaoEmailChannel::class => now()->addSeconds(
-                config('equipamentos.notificacoes.notificacao_email_delay_secs')
-            ),
         ];
+    }
+
+    public function shouldSend(mixed $notifiable): bool
+    {
+        return $this->notificacao->status !== StatusNotificacao::Visualizado;
     }
 }
