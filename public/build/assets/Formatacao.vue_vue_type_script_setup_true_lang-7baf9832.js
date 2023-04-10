@@ -1,1 +1,0 @@
-import{M as e}from"./InputMask-54421dd2.js";import{d as t,r as n,x as s,o as l,k as p,t as c}from"./app-b63c9c9f.js";const _=t({__name:"Formatacao",props:{tipo:String,valor:String},setup(o){const r=o,a=n(null);return s(()=>{e[r.tipo](a.value)}),(i,m)=>(l(),p("span",{ref_key:"elValor",ref:a},c(o.valor),513))}});export{_};
