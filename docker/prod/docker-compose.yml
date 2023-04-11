@@ -1,0 +1,51 @@
+version: "3.3"
+
+services:
+    equipamentos:
+        image: equipamentos
+        container_name: equipamentos
+        build: .
+        volumes:
+            - /var/www/equipamentos/storage/web:/var/www/html/storage
+        ports:
+            - 8000:8000
+        expose:
+            - 8000
+        networks:
+            - database
+            - socketi
+            - nginx
+        restart: always
+        entrypoint: './docker/prod/docker_entrypoint_web.sh'
+    equipamentos_queue:
+        image: equipamentos
+        container_name: equipamentos_queue
+        build: .
+        volumes:
+            - /var/www/equipamentos/storage/queue:/var/www/html/storage
+        networks:
+            - database
+            - socketi
+            - nginx
+        restart: always
+        entrypoint: './docker/prod/docker_entrypoint_queue.sh'
+    socketi:
+        container_name: socketi
+        image: quay.io/soketi/soketi:1.4-16-debian
+        ports:
+            - 10010:6001
+            - 10011:9601
+        expose:
+            - 10010
+            - 10011
+        restart: always
+        networks:
+            - socketi
+
+networks:
+    database:
+        name: database
+    socketi:
+        name: socketi
+    nginx:
+        name: nginx
