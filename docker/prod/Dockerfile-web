@@ -32,4 +32,6 @@ RUN composer install --optimize-autoloader --no-dev && \
     php artisan config:cache && \
     php artisan view:cache
 
+RUN chmod +x docker/prod/docker_entrypoint_web.sh
+
 EXPOSE 8000

@@ -18,7 +18,7 @@ services:
             - socketi
             - nginx
         restart: always
-        entrypoint: './docker/prod/docker_entrypoint_web.sh'
+        entrypoint: 'docker/prod/docker_entrypoint_web.sh'
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -32,7 +32,7 @@ services:
             - socketi
             - nginx
         restart: always
-        entrypoint: './docker/prod/docker_entrypoint_queue.sh'
+        entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
