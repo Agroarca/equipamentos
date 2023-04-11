@@ -50,13 +50,17 @@ async function enviarMensagemEvent() {
     try {
         let texto = textoMsg.value.trim()
         textoMsg.value = ''
+        erroMensagem.value = ''
         await enviarMensagem(texto)
     } catch (e) {
         erroMensagem.value = getMensagemErroEnviarMensagem(e)
 
-        setTimeout(() => {
-            window.location.reload()
-        }, 5000)
+        if (e?.response?.data?.mensagem?.length == 0) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 5000)
+
+        }
     }
 }
 
@@ -148,7 +152,8 @@ function excluirMensagemListener(mensagem) {
     <SiteLayout :titulo="`Conversa ${conversa.equipamento.titulo}`">
         <div class="container conversa">
             <h2>Conversa - {{ conversa.equipamento.titulo }}</h2>
-            <div v-if="!temPermNotificacao" class="alert alert-warning mt-2 mb-4 cursor-pointer" @click="solicitarPermNotificacao">
+            <div v-if="!temPermNotificacao" class="alert alert-warning mt-2 mb-4 cursor-pointer"
+                @click="solicitarPermNotificacao">
                 Você não irá receber notificações de novas mensagens.<br>
                 Clique aqui para autorizar as Notificações
             </div>
@@ -158,11 +163,9 @@ function excluirMensagemListener(mensagem) {
                         <div v-if="mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <Mensagem v-for="mensagem in mensagens" :key="mensagem.id"
-                                  :mensagem="mensagem"
-                                  :usuarioId="usuarioId"
-                                  :mensagensTempoExcluir="mensagensTempoExcluir"
-                                  @excluirMensagem="excluirMensagemListener" />
+                        <Mensagem v-for="mensagem in mensagens" :key="mensagem.id" :mensagem="mensagem"
+                            :usuarioId="usuarioId" :mensagensTempoExcluir="mensagensTempoExcluir"
+                            @excluirMensagem="excluirMensagemListener" />
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="temNovasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">
