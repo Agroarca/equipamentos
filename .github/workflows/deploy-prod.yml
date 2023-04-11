@@ -16,7 +16,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
       - name: deploy
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && ${{ secrets.SCRIPT_DEPLOY }}"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "${{ secrets.SCRIPT_DEPLOY }}"
 
       - name: clean
         run: rm -rf ~/.ssh
