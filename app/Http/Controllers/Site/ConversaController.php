@@ -144,6 +144,8 @@ class ConversaController extends Controller
     {
         $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
         $mensagem->delete();
+        $this->conversaService->processarExclusaoMensagem($mensagem);
+
         return response()->json('ok');
     }
 }

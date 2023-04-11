@@ -24,7 +24,7 @@ function mostrarMenu(e) {
 }
 
 function fecharMenu(e) {
-    if (!document.querySelector('.mensagem .menu-container').contains(e.target)) {
+    if (!document.querySelector('.mensagem .menu-container')?.contains(e.target)) {
         menuAberto.value = false
         window.removeEventListener('click', fecharMenu)
     }

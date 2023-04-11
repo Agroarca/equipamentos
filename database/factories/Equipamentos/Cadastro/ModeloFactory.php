@@ -22,6 +22,7 @@ class ModeloFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => StatusCadastro::Aprovado,
+            'marca_id' => Marca::factory()->statusAprovado(),
         ]);
     }
 }

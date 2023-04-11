@@ -11,7 +11,7 @@ class ProdutoListaFactory extends Factory
     public function definition(): array
     {
         return [
-            'equipamento_id' => Equipamento::factory(),
+            'equipamento_id' => Equipamento::factory()->statusAprovado(),
             'lista_id' => Lista::factory(),
         ];
     }

@@ -30,6 +30,14 @@ class EquipamentoFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => StatusEquipamento::Aprovado,
+            'modelo_id' => Modelo::factory()->statusAprovado(),
+        ]);
+    }
+
+    public function equipamentComImagens(): mixed
+    {
+        return $this->state(fn (array $attributes) => [
+            'imagens' => EquipamentoImagemFactory::new()->count(3)->make(),
         ]);
     }
 }

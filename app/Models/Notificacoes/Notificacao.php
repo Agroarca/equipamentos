@@ -15,14 +15,16 @@ class Notificacao extends Model
     protected $table = 'notificacoes';
 
     protected $fillable = [
-        'passo',
-        'processar_apos',
-        'visualizado',
+        'status',
         'usuario_id',
         'titulo',
         'texto',
         'tipo_id',
         'tipo_type',
+    ];
+
+    protected $casts = [
+        'status' => StatusNotificacao::class,
     ];
 
     public function tipo(): MorphTo

@@ -2,7 +2,8 @@ import { Ref, onMounted, ref } from 'vue'
 import { filter, first, last } from 'lodash'
 import axios from 'axios'
 import { getPush } from '@/Componentes/Notificacao/Push'
-import EventoConversa from '@/Componentes/Eventos/EventoConversa'
+import NovaMensagem from '@/Componentes/Eventos/NovaMensagem'
+import MensagemExcluida from '@/Componentes/Eventos/MensagemExcluida'
 import Listener from '@/Componentes/Eventos/Listener'
 import Conversa from '@/Models/Equipamento/Conversa/Conversa'
 import Mensagem from '@/Models/Equipamento/Conversa/Mensagem'
@@ -24,7 +25,8 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
     }
 
     onMounted(() => {
-        eventoConversaListener()
+        novaMensagemListener()
+        mensagemExcluidaListener()
     })
 
     function getUltimaMensagemVisualizada() {
@@ -127,8 +129,8 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         })
     }
 
-    function eventoConversaListener() {
-        EventoConversa.addListener(new Listener((e) => {
+    function novaMensagemListener() {
+        NovaMensagem.addListener(new Listener((e) => {
             if (e.mensagem_id > (last(mensagens.value)?.id ?? 0)) {
                 atualizarMensagens()
             }
