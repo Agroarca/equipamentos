@@ -117,7 +117,7 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         mensagens.value.push(new Mensagem(response.data.id, response.data.mensagem, response.data.usuario_id, response.data.created_at))
     }
 
-    function ajaxEnviarUltimaVisualizacao(id:number) {
+    function ajaxEnviarUltimaVisualizacao(id: number) {
         axios.post(`/conversa/${conversaId}/mensagens/visualizacao/${id}`)
     }
 
@@ -135,13 +135,18 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         }, 1))
     }
 
-    async function enviarMensagem(texto:string) {
+    async function enviarMensagem(texto: string) {
         let mensagem = new Mensagem(tempId, texto, usuarioId, new Date(), true)
         tempId -= 1
 
         mensagens.value.push(mensagem)
-        await ajaxEnviarMensagem(mensagem.mensagem)
-        mensagens.value = filter(mensagens.value, (m) => m.id !== mensagem.id)
+
+        try {
+            await ajaxEnviarMensagem(mensagem.mensagem)
+        } finally {
+            mensagens.value = filter(mensagens.value, (m) => m.id !== mensagem.id)
+        }
+
         deveSolicitarPermissao()
     }
 
