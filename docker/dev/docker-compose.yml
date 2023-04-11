@@ -4,7 +4,9 @@ services:
     equipamentos:
         image: equipamentos
         container_name: equipamentos
-        build: projeto/docker/prod/Dockerfile-web
+        build:
+            context: projeto
+            dockerfile: projeto/docker/prod/Dockerfile-web
         volumes:
             - /var/www/equipamentos/projeto:/var/www/html
             - /var/www/equipamentos/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
@@ -24,7 +26,9 @@ services:
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
-        build: projeto/docker/prod/Dockerfile-queue
+        build:
+            context: projeto
+            dockerfile: projeto/docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/projeto:/var/www/html
             - /var/www/equipamentos/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
