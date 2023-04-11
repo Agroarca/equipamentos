@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificacaoController extends Controller
 {
+    public function notificacao($id)
+    {
+        abort(403, 'Acesso negado');
+    }
+
     public function salvarToken(Request $request)
     {
         UsuarioTokenFCM::firstOrCreate([

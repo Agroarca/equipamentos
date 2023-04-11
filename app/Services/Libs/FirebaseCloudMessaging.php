@@ -22,16 +22,15 @@ class FirebaseCloudMessaging
      */
     public function enviarNotificacao(Usuario $usuario, Notificacao $notificacao): void
     {
-        $link = route('site.notificacao', [$notificacao->id]);
         foreach ($usuario->tokens as $token) {
-            $this->enviarMensagem($token->token, $notificacao->titulo, $notificacao->texto, $link);
+            $this->enviarRequest($token->token, $notificacao);
         }
     }
 
     /**
      * Monta o cliente HTTP com a autorização do google.
      */
-    public function montarCliente(): Client
+    private function montarCliente(): Client
     {
         $middleware = ApplicationDefaultCredentials::getMiddleware(
             ['https://www.googleapis.com/auth/firebase.messaging']
@@ -47,33 +46,55 @@ class FirebaseCloudMessaging
 
     /**
      * Envia uma mensagem para um token.
-     *
-     * @throws RequestException Erro ao enviar a mensagem para o FCM.
      */
-    public function enviarMensagem(string $token, string $titulo, string $mensagem): void
+    private function enviarRequest(string $token, Notificacao $notificacao): void
     {
-        $data = [
-            'json' => [
-                'message' => [
-                    'token' => $token,
-                    'notification' => [
-                        'title' => $titulo,
-                        'body' => $mensagem,
-                    ],
-                ],
-            ],
-        ];
         try {
-            Log::error('data:');
-            Log::error($data);
+            $data = $this->getJsonNotificacao($token, $notificacao);
             $this->montarCliente()->post(
                 'https://fcm.googleapis.com/v1/projects/agroarca-equipamentos/messages:send',
                 $data
             );
         } catch (RequestException $ex) {
-            Log::error('response:');
-            Log::error($ex->getResponse()?->getBody()?->getContents());
-            throw $ex;
+            Log::error('Erro ao enviar notificação para o FCM: ', [
+                'data' => $data,
+                'response' => $ex->getResponse()?->getBody()?->getContents(),
+            ]);
         }
+    }
+
+    /**
+     * Monta o json para enviar a notificação.
+     */
+    private function getJsonNotificacao(string $token, Notificacao $notificacao): array
+    {
+        return [
+            'json' => [
+                'message' => [
+                    'token' => $token,
+                    'notification' => [
+                        'title' => $notificacao->titulo,
+                        'body' => $notificacao->texto,
+                    ],
+                    'android' => [
+                        'notification' => [
+                            'click_action' => route('site.notificacao', [$notificacao->id]),
+                        ],
+                    ],
+                    'apns' => [
+                        'payload' => [
+                            'aps' => [
+                                'category' => 'NOTIFICACAO',
+                            ],
+                        ],
+                    ],
+                    'webpush' => [
+                        'fcm_options' => [
+                            'link' => route('site.notificacao', [$notificacao->id], true),
+                        ],
+                    ]
+                ],
+            ],
+        ];
     }
 }
