@@ -4,7 +4,9 @@ services:
     equipamentos:
         image: equipamentos
         container_name: equipamentos
-        build: .
+        build:
+            context: projeto
+            dockerfile: docker/prod/Dockerfile-web
         volumes:
             - /var/www/equipamentos/storage/web:/var/www/html/storage
         ports:
@@ -20,7 +22,9 @@ services:
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
-        build: .
+        build:
+            context: projeto
+            dockerfile: docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/storage/queue:/var/www/html/storage
         networks:
