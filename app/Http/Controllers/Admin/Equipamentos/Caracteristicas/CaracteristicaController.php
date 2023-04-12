@@ -44,6 +44,8 @@ class CaracteristicaController extends Controller
             ->findOrFail($id);
 
         $tipos = TipoCaracteristica::toArray();
+        $caracteristica->minimo = (float) $caracteristica->minimo;
+        $caracteristica->maximo = (float) $caracteristica->maximo;
 
         return Inertia::render('Admin/Equipamentos/Caracteristicas/Visualizar', compact('caracteristica', 'tipos'));
     }
