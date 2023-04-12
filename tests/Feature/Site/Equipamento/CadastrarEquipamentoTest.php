@@ -308,7 +308,7 @@ class CadastrarEquipamentoTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function testNaoPodeAcessarFinalizacaoSemImage(): void
+    public function testNaoPodeAcessarFinalizacaoSemImagem(): void
     {
         $equipamento = Equipamento::factory()->create();
 
