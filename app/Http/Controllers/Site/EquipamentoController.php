@@ -11,6 +11,7 @@ use App\Http\Requests\Site\Equipamento\Cadastro\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,8 @@ use Inertia\Inertia;
 class EquipamentoController extends Controller
 {
     public function __construct(
-        private EquipamentoCaracteristicaService $equipCaracService
+        private EquipamentoCaracteristicaService $equipCaracService,
+        private EquipamentoService $equipCadService
     ) {
     }
 
@@ -93,7 +95,7 @@ class EquipamentoController extends Controller
     public function imagensContinuar($id)
     {
         $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
-        if ($equipamento->imagens->count() == 0) {
+        if (!$this->equipCadService->temImagem($equipamento)) {
             throw ValidationException::withMessages(['imagem' => 'É necessário cadastrar pelo menos uma imagem.']);
         }
         if ($equipamento->passo_cadastro < 2) {
@@ -108,7 +110,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if ($equipamento->imagens->count() == 0) {
+        if (!$this->equipCadService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
@@ -131,11 +133,11 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if ($equipamento->imagens->count() == 0) {
+        if (!$this->equipCadService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
-        if ($equipamento->descricao === null) {
+        if (!$this->equipCadService->temDescricao($equipamento)) {
             return abort(403, 'Descrição não cadastrada');
         }
 
@@ -171,12 +173,16 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if ($equipamento->imagens->count() == 0) {
+        if (!$this->equipCadService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
-        if ($equipamento->descricao === null) {
+        if (!$this->equipCadService->temDescricao($equipamento)) {
             return abort(403, 'Descrição não cadastrada');
+        }
+
+        if ($this->equipCadService->faltamCaracteristicasObrigatorias($equipamento)) {
+            return abort(403, 'Características não cadastradas');
         }
 
         return Inertia::render('Site/Equipamento/Cadastrar/Finalizar', compact('equipamento'));

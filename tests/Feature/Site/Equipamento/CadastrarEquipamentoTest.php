@@ -165,7 +165,9 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarDescricao(): void
     {
         $equipamento = Equipamento::factory()->create();
-        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+        EquipamentoImagem::factory()->create([
+            'equipamento_id' => $equipamento->id,
+        ]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/descricao");
@@ -211,7 +213,9 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarCaracteristica(): void
     {
         $equipamento = Equipamento::factory()->create();
-        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+        EquipamentoImagem::factory()->create([
+            'equipamento_id' => $equipamento->id,
+        ]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/caracteristicas");
@@ -271,7 +275,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeFinalizar(): void
+    public function testPodeAcessarFinalizacao(): void
     {
         $equipamento = Equipamento::factory()->create();
         EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
@@ -284,16 +288,75 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Finalizar'));
     }
 
-    public function testPodeAcessarFinalizacao(): void
+    public function testNaoPodeAcessarDescricaoSemImagem(): void
     {
         $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/descricao");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarCaracteristicaSemImagem(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/caracteristicas");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarFinalizacaoSemImage(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/finalizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarCaracteristicaSemDescricao(): void
+    {
+        $equipamento = Equipamento::factory()->create(['descricao' => '']);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/caracteristicas");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarFinalizacaoSemDescricao(): void
+    {
+        $equipamento = Equipamento::factory()->create(['descricao' => '']);
         EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/{$equipamento->id}/finalizar");
 
-        $response->assertStatus(200);
-        $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Cadastrar/Finalizar'));
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarFinalizacaoSemCaracteristica(): void
+    {
+        $categoria = Categoria::factory()->create();
+        Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::Inteiro->value,
+            'obrigatorio' => true,
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/finalizar");
+
+        $response->assertStatus(403);
     }
 }
