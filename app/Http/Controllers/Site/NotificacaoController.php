@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificacaoController extends Controller
 {
+    /** phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter */
     public function notificacao($id)
     {
         abort(403, 'Acesso negado');
