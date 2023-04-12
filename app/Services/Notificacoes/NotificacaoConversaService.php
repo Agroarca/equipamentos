@@ -45,7 +45,7 @@ class NotificacaoConversaService
             if ($notificacao !== null) {
                 $this->atualizarNotificacao($notificacao->notificacao, $equipamento, $usuario);
             } else {
-                $this->criarNotificacao($equipamento, $usuario);
+                $notificacao = $this->criarNotificacao($equipamento, $usuario);
             }
 
             Notification::send($usuario, new NotificationsNotificacao($notificacao->notificacao));
@@ -55,15 +55,17 @@ class NotificacaoConversaService
     /**
      * Retorna a notificação de um equipamento e usuario.
      */
-    private function retornarNotificacao(Equipamento $equipamento, Usuario $usuario): NotificacaoConversaEquipamento
+    private function retornarNotificacao(Equipamento $equipamento, Usuario $usuario): ?NotificacaoConversaEquipamento
     {
         return NotificacaoConversaEquipamento::where('equipamento_id', $equipamento->id)
-            ->join(
-                $this->notificacaoTable,
-                "$this->notificacaoTable.tipo_id",
-                '=',
-                "$this->notificacaoConvEquipTable.id"
-            )->where('usuario_id', $usuario->id)->first();
+            ->whereIn(
+                'id',
+                fn ($query) =>
+                $query->select("$this->notificacaoTable.tipo_id")
+                    ->from($this->notificacaoTable)
+                    ->whereColumn("$this->notificacaoTable.tipo_id", "$this->notificacaoConvEquipTable.id")
+                    ->where('usuario_id', $usuario->id)
+            )->first();
     }
 
     /**
@@ -73,7 +75,7 @@ class NotificacaoConversaService
     {
         return $equipamento
             ->conversas()
-            ->join($this->visualizacaoTable, 'equipamento_conversa_id', '=', "$this->conversasTable .id")
+            ->join($this->visualizacaoTable, 'equipamento_conversa_id', '=', "$this->conversasTable.id")
             ->where("$this->visualizacaoTable.usuario_id", $usuario->id);
     }
 
