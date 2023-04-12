@@ -50,13 +50,16 @@ async function enviarMensagemEvent() {
     try {
         let texto = textoMsg.value.trim()
         textoMsg.value = ''
+        erroMensagem.value = ''
         await enviarMensagem(texto)
     } catch (e) {
         erroMensagem.value = getMensagemErroEnviarMensagem(e)
 
-        setTimeout(() => {
-            window.location.reload()
-        }, 5000)
+        if (e?.response?.data?.mensagem?.length === 0) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 5000)
+        }
     }
 }
 
@@ -158,10 +161,8 @@ function excluirMensagemListener(mensagem) {
                         <div v-if="mensagensAnteriores" class="loader-inline">
                             <span class="elemento" />
                         </div>
-                        <Mensagem v-for="mensagem in mensagens" :key="mensagem.id"
-                                  :mensagem="mensagem"
-                                  :usuarioId="usuarioId"
-                                  :mensagensTempoExcluir="mensagensTempoExcluir"
+                        <Mensagem v-for="mensagem in mensagens" :key="mensagem.id" :mensagem="mensagem"
+                                  :usuarioId="usuarioId" :mensagensTempoExcluir="mensagensTempoExcluir"
                                   @excluirMensagem="excluirMensagemListener" />
                     </div>
                     <Transition name="fade-transition" :duration="100">

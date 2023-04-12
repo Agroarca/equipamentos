@@ -79,6 +79,7 @@ class ConversaController extends Controller
 
     public function enviar(EnviarMensagemRequest $request, int $id)
     {
+        $request->verificarRateLimit();
         $mensagem = new Mensagem();
         DB::transaction(function () use ($request, $id, $mensagem) {
             $conversa = EquipamentoConversa::findOrFail($id);
