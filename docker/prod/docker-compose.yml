@@ -45,6 +45,7 @@ services:
         restart: always
         networks:
             - socketi
+            - nginx
 
 networks:
     database:
