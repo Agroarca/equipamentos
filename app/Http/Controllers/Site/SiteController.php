@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Site;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\Auth\RegistroRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
+use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class SiteController extends Controller
@@ -71,5 +74,25 @@ class SiteController extends Controller
             ->findOrFail($id);
 
         return Inertia::render('Site/Equipamento/Reprovado', compact('equipamento'));
+    }
+
+    public function perfil()
+    {
+        $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
+
+        return Inertia::render('Site/Perfil/Perfil', compact('user'));
+    }
+
+    public function atualizarPerfil(RegistroRequest $request)
+    {
+        $user = Usuario::findOrFail(Auth::user()->id);
+
+        if ($request->has('password') && strlen($request->input('password')) > 0) {
+            $user->update($request->all());
+        } else {
+            $user->update($request->only(['cpf', 'cnpj', 'nome', 'email', 'celular']));
+        }
+
+        return Redirect::route('site.perfil');
     }
 }

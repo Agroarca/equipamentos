@@ -74,13 +74,13 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <input id="password" class="form-control" type="password" autocomplete="new-password">
+                    <input id="password" v-model="form.password" class="form-control" type="password" autocomplete="new-password">
                     <FormError :error="form.errors.password" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password_confirmation">Confirmar Senha</label>
-                    <input id="password_confirmation" class="form-control" type="password" autocomplete="new-password">
+                    <input id="password_confirmation" v-model="form.password_confirmation" class="form-control" type="password" autocomplete="new-password">
                     <FormError :error="form.errors.password_confirmation" />
                 </div>
 

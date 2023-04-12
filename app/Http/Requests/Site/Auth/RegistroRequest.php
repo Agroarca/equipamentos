@@ -33,6 +33,7 @@ class RegistroRequest extends FormRequest
             ],
             'password' => [
                 'nullable',
+                'string',
                 'confirmed',
                 Password::defaults(),
             ],
