@@ -31,7 +31,7 @@ class EnviarMensagemRequest extends FormRequest
         $this->excedeuTentativas();
     }
 
-    public function excedeuTentativas(): void
+    private function excedeuTentativas(): void
     {
         event(new Lockout($this));
 
@@ -42,7 +42,7 @@ class EnviarMensagemRequest extends FormRequest
         ]);
     }
 
-    public function chaveRateLimit(): string
+    private function chaveRateLimit(): string
     {
         return Str::transliterate(Str::lower('conversa.' . Auth::Id()));
     }
