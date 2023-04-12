@@ -21,14 +21,9 @@ class EnviarMensagemRequest extends FormRequest
         return ['mensagem' => 'bail|string|min:3|max:2500'];
     }
 
-    public function enviar(): void
-    {
-        $this->verificarRateLimit();
-        RateLimiter::hit($this->chaveRateLimit());
-    }
-
     public function verificarRateLimit(): void
     {
+        RateLimiter::hit($this->chaveRateLimit());
         if (!RateLimiter::tooManyAttempts($this->chaveRateLimit(), 10)) {
             return;
         }
