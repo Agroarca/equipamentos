@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Modal } from 'bootstrap'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const elModal = ref(null)
 const props = defineProps({
@@ -12,6 +12,10 @@ let modal
 
 onMounted(() => {
     modal = new Modal(elModal.value)
+})
+
+onUnmounted(() => {
+    modal.hide()
 })
 
 function show() {
