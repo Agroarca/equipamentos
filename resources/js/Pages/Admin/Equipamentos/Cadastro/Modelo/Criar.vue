@@ -2,9 +2,9 @@
 import { useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
 
 const props = defineProps({
-    marcas: Object,
     statusCadastro: Array,
 })
 
@@ -34,11 +34,11 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="marca_id">Marca</label>
-                        <select id="marca_id" v-model="form.marca_id" name="marca_id" class="form-select" required>
-                            <option v-for="marca in marcas" :key="marca.id" :value="marca.id">
-                                {{ marca.nome }}
-                            </option>
-                        </select>
+                        <SelectAjax
+                            v-model="form.marca_id"
+                            placeholder="Selecione uma marca"
+                            href="/admin/marcas/pesquisar"
+                            :preBusca="true" />
                         <FormError :error="form.errors.marca_id" />
                     </div>
                     <div class="mb-3">

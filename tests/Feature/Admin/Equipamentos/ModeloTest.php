@@ -49,8 +49,7 @@ class ModeloTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Admin/Equipamentos/Cadastro/Modelo/Criar')
-            ->has('marcas', 5));
+            ->component('Admin/Equipamentos/Cadastro/Modelo/Criar'));
     }
 
     public function testPodeCriarAprovado(): void
@@ -177,8 +176,7 @@ class ModeloTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Admin/Equipamentos/Cadastro/Modelo/Editar')
             ->has('modelo')
-            ->where('modelo.id', $modelo->id)
-            ->has('marcas', 3));
+            ->where('modelo.id', $modelo->id));
     }
 
     public function testPodeEditar(): void
