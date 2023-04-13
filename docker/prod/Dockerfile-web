@@ -5,8 +5,7 @@ WORKDIR /app
 
 COPY . ./
 
-RUN ls -la && \
-    npm install && \
+RUN npm install --quiet && \
     rm -r public/build/* && \
     npm run build && \
     rm -r node_modules
@@ -19,15 +18,15 @@ WORKDIR /app
 COPY . ./
 COPY --from=node-build /app/public/build public/build
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
-    apt clean && \
+RUN apt -qq update && \
+    apt -qq upgrade -y && \
+    apt -qq install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
+    apt -qq clean && \
     docker-php-ext-configure zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer install --optimize-autoloader --no-dev && \
+RUN composer install --optimize-autoloader --no-dev -q && \
     php artisan cache:clear && \
     php artisan route:clear && \
     php artisan config:cache && \
