@@ -29,8 +29,6 @@ class Caracteristica extends Model
 
     protected $casts = [
         'tipo' => TipoCaracteristica::class,
-        'minimo' => 'float',
-        'maximo' => 'float',
     ];
 
     public function categoria(): BelongsTo
