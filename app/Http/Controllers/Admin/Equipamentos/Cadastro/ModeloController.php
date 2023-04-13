@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Equipamentos\Cadastro;
 use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\ModeloRequest;
-use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,10 +22,9 @@ class ModeloController extends Controller
 
     public function criar()
     {
-        $marcas = Marca::all();
         $statusCadastro = StatusCadastro::toArray();
 
-        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Criar', compact('marcas', 'statusCadastro'));
+        return Inertia::render('Admin/Equipamentos/Cadastro/Modelo/Criar', compact('statusCadastro'));
     }
 
     public function salvar(ModeloRequest $request)
@@ -38,13 +36,13 @@ class ModeloController extends Controller
 
     public function editar(int $id)
     {
-        $modelo = Modelo::findOrFail($id);
-        $marcas = Marca::all();
+        $modelo = Modelo::with('marca')->findOrFail($id);
+
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render(
             'Admin/Equipamentos/Cadastro/Modelo/Editar',
-            compact('modelo', 'marcas', 'statusCadastro')
+            compact('modelo', 'statusCadastro')
         );
     }
 
