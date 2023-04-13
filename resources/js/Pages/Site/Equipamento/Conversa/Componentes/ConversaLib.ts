@@ -33,11 +33,11 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         return mensagens.value.findLast((m) => m.id <= ultimaMsgVisualizadaId.value)
     }
 
-    function getProximaMensagem(id) {
+    function getProximaMensagem(id: number): Mensagem {
         return mensagens.value.find((m) => m.id > id)
     }
 
-    function visualizarMensagem(id: number) {
+    function visualizarMensagem(id: number) : void {
         if (id < ultimaMsgVisualizadaId.value) {
             return
         }
@@ -46,7 +46,7 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         ajaxEnviarUltimaVisualizacao(id)
     }
 
-    async function atualizarMensagens() {
+    async function atualizarMensagens() : Promise<void> {
         if (controleAtualizar.bloquearAtualizar) {
             controleAtualizar.atualizar = true
         }
@@ -54,7 +54,7 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         controleAtualizar.bloquearAtualizar = true
         controleAtualizar.atualizar = false
 
-        await ajaxNovasMensagens(last(mensagens.value)?.id ?? 0)
+        await ajaxNovasMensagens(mensagens.value.findLast((m) => m.id > 0)?.id ?? 0)
 
         controleAtualizar.bloquearAtualizar = false
         if (controleAtualizar.atualizar) {
@@ -62,11 +62,11 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         }
     }
 
-    function solicitarPermNotificacao() {
+    function solicitarPermNotificacao(): void {
         getPush().solicitarPermissao().then(() => { temPermNotificacao.value = getPush().temPermissao() })
     }
 
-    function deveSolicitarPermissao() {
+    function deveSolicitarPermissao(): void {
         if (getPush().jaSolicitouPermissao()) {
             return
         }
@@ -78,7 +78,7 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         solicitarPermNotificacao()
     }
 
-    async function atualizarMensagensAnteriores() {
+    async function atualizarMensagensAnteriores(): Promise<number|null> {
         if (!mensagensAnteriores.value || mensagens.value.length === 0) {
             return null
         }
@@ -90,28 +90,28 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         controleAtualizar.bloquearAtualizarAnteriores = true
         const mensagemId = first(mensagens.value).id
         await ajaxMensagensAnteriores(mensagemId)
-        return mensagemId
 
         controleAtualizar.bloquearAtualizarAnteriores = false
+        return mensagemId
     }
 
-    async function ajaxMensagensAnteriores(mensagemId: number) {
+    async function ajaxMensagensAnteriores(mensagemId: number): Promise<void> {
         let response = await axios.get(`/conversa/${conversaId}/mensagens/anteriores/${mensagemId}`)
 
-        mensagens.value = Mensagem.converterArray(response.data.mensagens).concat(mensagens.value)
+        mensagens.value = removerExistentes(Mensagem.converterArray(response.data.mensagens)).concat(mensagens.value)
         mensagensAnteriores.value = response.data.mais
     }
 
-    async function ajaxNovasMensagens(mensagemId: number) {
+    async function ajaxNovasMensagens(mensagemId: number): Promise<void> {
         let response = await axios.get(`/conversa/${conversaId}/mensagens/posteriores/${mensagemId}`)
 
         if (response.data.mensagens.length > 0) {
-            mensagens.value = mensagens.value.concat(Mensagem.converterArray(response.data.mensagens))
+            mensagens.value = mensagens.value.concat(removerExistentes(Mensagem.converterArray(response.data.mensagens)))
             temNovasMensagens.value = true
         }
     }
 
-    async function ajaxEnviarMensagem(texto: string) {
+    async function ajaxEnviarMensagem(texto: string): Promise<void> {
         let response = await axios.post(`/conversa/${conversaId}/enviar`, {
             mensagem: texto,
         })
@@ -119,17 +119,17 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         mensagens.value.push(new Mensagem(response.data.id, response.data.mensagem, response.data.usuario_id, response.data.created_at))
     }
 
-    function ajaxEnviarUltimaVisualizacao(id: number) {
+    function ajaxEnviarUltimaVisualizacao(id: number): void {
         axios.post(`/conversa/${conversaId}/mensagens/visualizacao/${id}`)
     }
 
-    function ajaxExcluirMensagem(id: number) {
+    function ajaxExcluirMensagem(id: number): void {
         axios.get(`/conversa/${conversaId}/mensagem/excluir/${id}`).then(() => {
             mensagens.value = filter(mensagens.value, (m) => id !== m.id)
         })
     }
 
-    function novaMensagemListener() {
+    function novaMensagemListener(): void {
         NovaMensagem.addListener(new Listener((e) => {
             if (e.mensagem_id > (last(mensagens.value)?.id ?? 0)) {
                 atualizarMensagens()
@@ -137,13 +137,13 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         }, 1))
     }
 
-    function mensagemExcluidaListener() {
+    function mensagemExcluidaListener(): void {
         MensagemExcluida.addListener(new Listener((e) => {
             mensagens.value = filter(mensagens.value, (m) => e.mensagem_id !== m.id)
         }, 1))
     }
 
-    async function enviarMensagem(texto: string) {
+    async function enviarMensagem(texto: string): Promise<void> {
         let mensagem = new Mensagem(tempId, texto, usuarioId, new Date(), true)
         tempId -= 1
 
@@ -158,7 +158,7 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
         deveSolicitarPermissao()
     }
 
-    function getMensagemErroEnviarMensagem(e) {
+    function getMensagemErroEnviarMensagem(e): string {
         if (e?.response?.data?.errors?.mensagem) {
             if (Array.isArray(e?.response?.data?.errors?.mensagem)) {
                 let [mensagem] = e.response.data.errors.mensagem
@@ -170,6 +170,10 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
             return e.response.data.message
         }
         return 'Erro ao enviar mensagem'
+    }
+
+    function removerExistentes(msgs: Mensagem[]): Mensagem[] {
+        return msgs.filter((m) => !mensagens.value.find((m2) => m2.id === m.id))
     }
 
     return {
