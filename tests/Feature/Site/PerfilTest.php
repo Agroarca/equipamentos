@@ -83,4 +83,52 @@ class PerfilTest extends TestCase
 
         $response->assertInvalid('password');
     }
+
+    public function testPodeLogarAposAlterarSenha(): void
+    {
+        $usuario = $this->getUsuario();
+        $novaSenha = Str::random(25);
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => 'teste@exemple.com',
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => $novaSenha,
+                'password_confirmation' => $novaSenha,
+            ]);
+
+        $response->assertRedirectToRoute('site.perfil');
+
+        $responseLogin = $this->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => $novaSenha,
+        ]);
+
+        $responseLogin->assertRedirectToRoute('site.inicio');
+    }
+
+    public function testNaoPodeLogarComSenhaAntiga(): void
+    {
+        $usuario = $this->getUsuario();
+        $novaSenha = Str::random(25);
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => $usuario->email,
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => $novaSenha,
+                'password_confirmation' => $novaSenha,
+            ]);
+
+        $response->assertRedirectToRoute('site.perfil');
+
+        $responseLogin = $this->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => $usuario->password,
+        ]);
+
+        $responseLogin->assertInvalid('email');
+    }
 }
