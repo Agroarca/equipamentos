@@ -10,7 +10,9 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -88,7 +90,9 @@ class SiteController extends Controller
         $user = Usuario::findOrFail(Auth::user()->id);
 
         if ($request->has('password') && strlen($request->input('password')) > 0) {
-            $user->update($request->all());
+            $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
+            $attributes['password'] = Hash::make($attributes['password']);
+            $user->update($attributes);
         } else {
             $user->update($request->only(['cpf', 'cnpj', 'nome', 'email', 'celular']));
         }
