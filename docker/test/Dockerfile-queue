@@ -5,17 +5,17 @@ WORKDIR /app
 
 COPY . ./
 
-RUN apt -qq update && \
-    apt -qq upgrade -y && \
-    apt -qq install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
-    apt -qq clean && \
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
+    apt clean && \
     docker-php-ext-configure zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
-RUN composer install --optimize-autoloader --no-dev -q && \
+RUN composer install --optimize-autoloader --no-dev && \
     php artisan cache:clear && \
     php artisan route:clear && \
     php artisan config:cache && \
