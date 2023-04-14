@@ -4,11 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 
 export default defineConfig({
-    build: {
-        sourcemap: true,
-        manifest: true,
-        minify: false,
-    },
     plugins: [
         laravel({
             input: 'resources/js/app.js',
@@ -32,4 +27,13 @@ export default defineConfig({
             hook: 'writeBundle',
         }),
     ],
+    build: {
+        minify: false,
+        minifyIdentifiers: false,
+        minifySyntax: false,
+        minifyWhitespace: false,
+        keepNames: true,
+        sourcemap: 'inline',
+        manifest: true,
+    },
 })
