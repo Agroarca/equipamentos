@@ -1,0 +1,1 @@
+import{_ as t}from"./SiteLayout.vue_vue_type_script_setup_true_lang-752f54e7.js";import{d as o,c as e,w as a,o as s,a as c}from"./app-6a1eb487.js";import"./_plugin-vue_export-helper-072f4611.js";import"./index-ac617c56.js";const n=c("p",null,"Início teste",-1),u=o({__name:"Inicio",setup(i){return(r,_)=>(s(),e(t,{titulo:"Início"},{default:a(()=>[n]),_:1}))}});export{u as default};
