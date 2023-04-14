@@ -10,7 +10,7 @@ sudo chmod +x docker/prod/docker_entrypoint_queue.sh
 
 cd /var/www/equipamentos
 
-sudo docker compose build
+sudo docker compose build --progress quiet
 sudo docker compose down
 sudo docker compose up -d
 
