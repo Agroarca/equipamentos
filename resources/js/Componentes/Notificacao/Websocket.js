@@ -45,6 +45,11 @@ function iniciarNotificacoes() {
 }
 
 function iniciarPusher() {
+    console.log({
+        log: 'debug-pusher',
+        options,
+        env: import.meta.env,
+    })
     window.Echo = new Echo({
         ...options,
         client: new Pusher(options.key, options),
