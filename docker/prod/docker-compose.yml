@@ -37,11 +37,11 @@ services:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
         ports:
-            - 10010:6001
-            - 10011:9601
+            - 6001
+            - 9601
         expose:
-            - 10010
-            - 10011
+            - 6001
+            - 9601
         restart: always
         networks:
             - socketi
