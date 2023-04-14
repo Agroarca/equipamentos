@@ -3,9 +3,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "dev-ws": "vite --config vitews.config.js",
-        "build-ws": "vite build --config vitews.config.js",
-        "eslint": "eslint resources/js/**"
+        "build-dev": "vite build --config vite.config.build.dev.js"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.4.0",
