@@ -1,0 +1,1 @@
+import{_ as o}from"./AlterarCategoriaMae.vue_vue_type_script_setup_true_lang-688601c2.js";import"./app-27f9bc00.js";import"./Modal.vue_vue_type_script_setup_true_lang-d8f67997.js";export{o as default};
