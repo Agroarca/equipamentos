@@ -2,8 +2,11 @@ version: "3.3"
 
 services:
     equipamentos:
+        image: equipamentos
         container_name: equipamentos
-        build: .
+        build:
+            context: projeto
+            dockerfile: docker/test/Dockerfile-web
         volumes:
             - /var/www/equipamentos/projeto:/var/www/html
         ports:
@@ -17,7 +20,9 @@ services:
         entrypoint: './docker/test/docker_entrypoint_web.sh'
     equipamentos_queue:
         container_name: equipamentos_queue
-        build: .
+        build:
+            context: projeto
+            dockerfile: docker/test/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/projeto:/var/www/html
         networks:
