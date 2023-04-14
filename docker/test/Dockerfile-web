@@ -5,9 +5,9 @@ WORKDIR /app
 
 COPY . ./
 
-RUN npm install --quiet && \
+RUN npm install && \
     rm -r public/build/* && \
-    npm run build-dev && \
+    npm run build && \
     rm -r node_modules
 
 # Runner

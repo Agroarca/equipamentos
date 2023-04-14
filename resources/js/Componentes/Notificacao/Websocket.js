@@ -15,9 +15,9 @@ const options = {
     wsHost: import.meta.env.VITE_PUSHER_HOST,
     wsPort: import.meta.env.VITE_PUSHER_PORT,
     wssPort: import.meta.env.VITE_PUSHER_PORT,
-    httpHost: import.meta.env.VITE_PUSHER_HOST,
     authEndpoint: '/broadcasting/auth',
-    disabledTransports: ['xhr_streaming', 'xhr_polling', 'xdr_streaming', 'xdr_polling'],
+    disableStats: true,
+    enabledTransports: ['ws', 'wss'],
 }
 
 let userId = null
