@@ -14,4 +14,8 @@ sudo docker compose build --progress quiet
 sudo docker compose down
 sudo docker compose up -d
 
+cd /var/www/nginx
+
+sudo docker compose restart
+
 sudo chmod +x deploy.sh
