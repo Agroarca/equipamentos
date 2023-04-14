@@ -7,17 +7,6 @@ import Notificacao from './NotificacaoModel'
 import MensagemExcluida from '../Eventos/MensagemExcluida'
 import NovaMensagem from '@/Componentes/Eventos/NovaMensagem'
 
-const options = {
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: false,
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
-    wsPort: import.meta.env.VITE_PUSHER_PORT,
-    wssPort: import.meta.env.VITE_PUSHER_PORT,
-    authEndpoint: '/broadcasting/auth',
-}
-
 let userId = null
 let channel = null
 
@@ -45,11 +34,17 @@ function iniciarNotificacoes() {
 }
 
 function iniciarPusher() {
-    console.log({
-        log: 'debug-pusher',
-        options,
-        env: import.meta.env,
-    })
+    const options = {
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+        forceTLS: false,
+        wsHost: import.meta.env.VITE_PUSHER_HOST,
+        wsPort: import.meta.env.VITE_PUSHER_PORT,
+        wssPort: import.meta.env.VITE_PUSHER_PORT,
+        authEndpoint: '/broadcasting/auth',
+    }
+
     window.Echo = new Echo({
         ...options,
         client: new Pusher(options.key, options),
