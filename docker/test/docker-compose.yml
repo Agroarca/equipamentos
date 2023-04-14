@@ -8,7 +8,7 @@ services:
             context: projeto
             dockerfile: docker/test/Dockerfile-web
         volumes:
-            - /var/www/equipamentos/projeto:/var/www/html
+            - /var/www/equipamentos/projeto/storage:/var/www/html/storage
         ports:
             - 8000:8000
         expose:
