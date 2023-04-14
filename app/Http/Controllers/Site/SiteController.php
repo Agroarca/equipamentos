@@ -85,17 +85,17 @@ class SiteController extends Controller
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
 
+    // phpcs:disable Squiz.PHP.DisallowComparisonAssignment.AssignedComparison
+    // phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
     public function atualizarPerfil(RegistroRequest $request)
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
+        $attributes = Arr::where($request->all(), fn ($v, $k) => $v !== null);
         if ($request->has('password') && strlen($request->input('password')) > 0) {
-            $attributes = Arr::where($request->all(), fn ($v, $k) => !is_null($v));
             $attributes['password'] = Hash::make($attributes['password']);
-            $user->update($attributes);
-        } else {
-            $user->update($request->only(['cpf', 'cnpj', 'nome', 'email', 'celular']));
         }
+        $user->update($attributes);
 
         return Redirect::route('site.perfil');
     }
