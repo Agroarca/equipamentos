@@ -1,0 +1,63 @@
+name: 'Checks, Builds, Tests'
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'resources/**'
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Run Eslint
+        run: npm run eslint
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Install composer dependencies
+        run: |
+          composer install --no-scripts
+
+      - name: Run PHP Code Sniffer
+        run: |
+          ./vendor/bin/phpcs
+
+      - name: CP .env
+        run: |
+          cp .env.ci .env
+
+      - name: Generate Key
+        run: |
+            php artisan key:generate
+
+      - name: Run Testsuite
+        run: php artisan test
