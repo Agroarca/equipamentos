@@ -1,11 +1,58 @@
-name: 'PHP CS && Test'
+name: 'Checks, Builds, Tests'
 
 on:
   pull_request:
     paths:
       - '**.php'
+      - 'resources/**'
 
 jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Run Eslint
+        run: npm run eslint
+  buildjs:
+    needs: eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          check-latest: true
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - run: rm -r public/build/*
+
+      - name: Compile assets for production
+        run: npm run build
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Github Action - Build Assets
+          file_pattern: public/build/
   phpcs:
     runs-on: ubuntu-latest
     container:
@@ -26,7 +73,7 @@ jobs:
         ./vendor/bin/phpcs
 
   laravel-test:
-    needs: phpcs
+    needs: [phpcs, buildjs]
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.2
