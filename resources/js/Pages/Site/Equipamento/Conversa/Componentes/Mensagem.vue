@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { differenceInSeconds } from 'date-fns'
-import Modal from '@/Componentes/Layout/Modal.vue'
+import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue.js'
 
 const props = defineProps({
     mensagem: Object,
