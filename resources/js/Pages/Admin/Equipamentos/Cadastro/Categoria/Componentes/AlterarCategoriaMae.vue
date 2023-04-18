@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { ref, reactive } from 'vue'
-import Modal from '@/Componentes/Layout/Modal.vue'
+import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue.js'
 
 const modal = ref(null)
 const props = defineProps({

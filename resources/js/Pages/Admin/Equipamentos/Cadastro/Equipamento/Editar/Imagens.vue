@@ -2,7 +2,7 @@
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import Modal from '@/Componentes/Layout/Modal.vue'
+import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue'
 import Navegacao from './Componentes/Navegacao.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
