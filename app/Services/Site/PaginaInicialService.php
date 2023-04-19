@@ -9,7 +9,7 @@ use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
-use Exception;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
 
 class PaginaInicialService
@@ -42,9 +42,17 @@ class PaginaInicialService
         return $versao->load([
             'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
             'componentes' => fn ($query) => $query->orderBy('ordem'),
-            'componentes.tipo',
-            'componentes.tipo.imagens',
-            'componentes.tipo.listaProdutos',
+            'componentes.tipo' => function (MorphTo $morphTo): void {
+                $morphTo->morphWith([
+                    Grid::class => ['imagens'],
+                    Lista::class => [
+                        'listaProdutos',
+                        'listaProdutos.produtoLista' => fn ($query) => $query->inRandomOrder()->limit(4),
+                        'listaProdutos.produtoLista.equipamento',
+                        'listaProdutos.produtoLista.equipamento.imagens'
+                    ],
+                ]);
+            },
         ]);
     }
 
