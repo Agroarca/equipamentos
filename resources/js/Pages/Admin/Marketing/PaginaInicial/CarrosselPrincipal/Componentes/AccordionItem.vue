@@ -13,7 +13,8 @@ const props = defineProps({
 })
 
 onMounted(() => {
-    collapse.value = new Collapse(collapseItem.value)
+    collapse.value = new Collapse(collapseItem.value, { toggle: false })
+    collapse.value.hide()
 })
 
 function accordionToggle(e) {
@@ -34,7 +35,7 @@ function accordionToggle(e) {
             <button ref="collapseButton"
                     class="accordion-button collapsed"
                     type="button"
-                    aria-expanded="true"
+                    aria-expanded="false"
                     :aria-controls="`#carrossel-principal-${item.id}-content`"
                     @click.prevent="accordionToggle">
                 ({{ item.ordem }}) {{ item.descricao }}
@@ -42,7 +43,7 @@ function accordionToggle(e) {
         </h2>
         <div :id="`#carrossel-principal-${item.id}-content`"
              ref="collapseItem"
-             class="accordion-collapse collapse show"
+             class="accordion-collapse collapse"
              :data-item-id="item.id"
              :aria-labelledby="`carrossel-principal-${item.id}-header`">
             <div class="accordion-body">

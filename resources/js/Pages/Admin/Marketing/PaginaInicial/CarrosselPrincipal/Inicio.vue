@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
 import AccordionItem from './Componentes/AccordionItem.vue'
 
 const props = defineProps({
     versao: Object,
 })
 
-const refItens = ref(null)
 </script>
 
 <template>
@@ -22,8 +20,8 @@ const refItens = ref(null)
             </Link>
         </div>
         <div class="card-body p-0">
-            <div class="accordion accordion-flush">
-                <AccordionItem v-for="item in versao.carrossel_itens" ref="refItens" :key="item.id" :versao="versao" :item="item" />
+            <div id="accordion-carrossel-principal" class="accordion accordion-flush">
+                <AccordionItem v-for="item in versao.carrossel_itens" :key="item.id" :versao="versao" :item="item" />
             </div>
         </div>
     </div>
