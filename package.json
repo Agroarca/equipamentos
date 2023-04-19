@@ -3,8 +3,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "dev-ws": "vite --config vitews.config.js",
-        "build-ws": "vite build --config vitews.config.js",
+        "build-dev": "vite build --config vite.config.build.dev.js",
         "eslint": "eslint resources/js/**"
     },
     "dependencies": {

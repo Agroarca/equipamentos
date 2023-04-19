@@ -2,6 +2,7 @@
 
 namespace App\Models\Notificacoes;
 
+use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

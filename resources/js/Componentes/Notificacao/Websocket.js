@@ -16,6 +16,8 @@ const options = {
     wsPort: import.meta.env.VITE_PUSHER_PORT,
     wssPort: import.meta.env.VITE_PUSHER_PORT,
     authEndpoint: '/broadcasting/auth',
+    disableStats: true,
+    enabledTransports: ['ws', 'wss'],
 }
 
 let userId = null

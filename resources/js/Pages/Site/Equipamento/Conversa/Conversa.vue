@@ -46,7 +46,7 @@ onMounted(() => {
     nextTick(setScrollPagina)
 })
 
-async function enviarMensagemEvent() {
+async function enviarMensagemEvent(): Promise<void> {
     try {
         let texto = textoMsg.value.trim()
         textoMsg.value = ''
@@ -63,7 +63,7 @@ async function enviarMensagemEvent() {
     }
 }
 
-function setScrollPagina() {
+function setScrollPagina(): void {
     const ultimaVisualizada = getUltimaMensagemVisualizada()
 
     if (ultimaVisualizada) {
@@ -77,7 +77,7 @@ function setScrollPagina() {
     nextTick(verificaUltimaVisualizada)
 }
 
-function novasMensagens() {
+function novasMensagens(): void {
     temNovasMensagens.value = false
     const proximaMensagem = getProximaMensagem(ultimaMsgVisualizadaId)
     if (proximaMensagem) {
@@ -88,7 +88,7 @@ function novasMensagens() {
     }
 }
 
-function setMensagensScrolltop(px) {
+function setMensagensScrolltop(px: number): void {
     elMensagens.value.scrollTop = px
 
     setTimeout(() => {
@@ -96,11 +96,11 @@ function setMensagensScrolltop(px) {
     }, 100)
 }
 
-function getOffsetMensagem(id) {
+function getOffsetMensagem(id: number): number {
     return elMensagens.value.querySelector(`#msg-${id}`).offsetTop - elMensagens.value.offsetTop
 }
 
-function onScroll() {
+function onScroll(): void {
     if (elMensagens.value.scrollTop <= scrollMargin) {
         atualizarMsgsAnteriores()
     }
@@ -112,7 +112,7 @@ function onScroll() {
     }
 }
 
-function verificaUltimaVisualizada() {
+function verificaUltimaVisualizada(): void {
     const ultimaVisualizada = procuraUltimaMensagemVisualizada()
     if (ultimaVisualizada && ultimaVisualizada.id > ultimaMsgVisualizadaId) {
         ultimaMsgVisualizadaId.value = ultimaVisualizada.id
@@ -120,20 +120,20 @@ function verificaUltimaVisualizada() {
     }
 }
 
-function procuraUltimaMensagemVisualizada() {
+function procuraUltimaMensagemVisualizada(): object {
     const idxUltima = mensagens.value.findIndex((m) => m.id > ultimaMsgVisualizadaId.value)
-    return mensagens.value.slice(idxUltima).findLast((m) => verificaMensagemVisualizada(m.id))
+    return mensagens.value.slice(idxUltima).findLast((m) => m.id > 0 && verificaMensagemVisualizada(m.id))
 }
 
-function verificaMensagemVisualizada(id) {
+function verificaMensagemVisualizada(id): boolean {
     const el = elMensagens.value.querySelector(`#msg-${id}`)
 
     const elOffset = el.offsetTop + el.clientHeight - el.parentElement.offsetTop
     return elOffset > el.parentElement.scrollTop && elOffset < el.parentElement.scrollTop + el.parentElement.clientHeight
 }
 
-function atualizarMsgsAnteriores() {
-    let mensagemId = atualizarMensagensAnteriores()
+async function atualizarMsgsAnteriores(): Promise<void> {
+    let mensagemId = await atualizarMensagensAnteriores()
     if (!mensagemId) { return }
 
     nextTick(() => {
@@ -141,7 +141,7 @@ function atualizarMsgsAnteriores() {
     })
 }
 
-function excluirMensagemListener(mensagem) {
+function excluirMensagemListener(mensagem: object): void {
     ajaxExcluirMensagem(mensagem.id)
 }
 

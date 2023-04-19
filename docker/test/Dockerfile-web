@@ -1,9 +1,22 @@
+# Build Front-End
+FROM node:18-alpine as node-build
+
+WORKDIR /app
+
+COPY . ./
+
+RUN npm install && \
+    rm -r public/build/* && \
+    npm run build && \
+    rm -r node_modules
+
 # Runner
 FROM php:8.2
 
 WORKDIR /app
 
 COPY . ./
+COPY --from=node-build /app/public/build public/build
 
 RUN apt update && \
     apt upgrade -y && \
@@ -13,12 +26,12 @@ RUN apt update && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
-
 RUN composer install --optimize-autoloader --no-dev && \
     php artisan cache:clear && \
     php artisan route:clear && \
     php artisan config:cache && \
     php artisan view:cache
 
-RUN chmod +x docker/prod/docker_entrypoint_queue.sh
+RUN chmod +x docker/prod/docker_entrypoint_web.sh
+
+EXPOSE 8000
