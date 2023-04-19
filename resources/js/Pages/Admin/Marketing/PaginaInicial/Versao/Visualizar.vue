@@ -15,7 +15,7 @@ const props = defineProps({
                 <span>Modo de Visualização</span>
                 <div>
                     <i class="fas fa-circle-left me-2" />
-                    Voltar para a lista de versões
+                    Ir para a lista de versões
                 </div>
             </div>
         </Link>

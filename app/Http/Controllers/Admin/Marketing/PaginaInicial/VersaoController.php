@@ -56,4 +56,28 @@ class VersaoController extends Controller
         $versao->delete();
         return redirect()->route('admin.marketing.paginaInicial');
     }
+
+    public function aprovar(Versao $versao)
+    {
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+    }
+
+    public function reprovar(Versao $versao)
+    {
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+    }
+
+    public function publicar(Versao $versao)
+    {
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+    }
+
+    public function voltar(Versao $versao)
+    {
+        $versao->status = StatusVersao::Criado;
+        $versao->save();
+    }
 }

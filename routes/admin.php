@@ -105,24 +105,4 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('salvar/ajax', [ModeloController::class, 'salvarAjax'])->name('.salvar.ajax');
         Route::get('pesquisar/{marca_id?}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
     });
-
-    Route::prefix('marketing')->name('.marketing')->group(function () {
-        Route::prefix('pagina/inicial')->name('.paginaInicial')->group(function () {
-            Route::get('', [PaginaInicialVersaoController::class, 'inicio'])->name('');
-            Route::get('criar', [PaginaInicialVersaoController::class, 'criar'])->name('.criar');
-            Route::post('salvar', [PaginaInicialVersaoController::class, 'salvar'])->name('.salvar');
-            Route::get('{versao}/visualizar', [PaginaInicialVersaoController::class, 'visualizar'])->name('.visualizar');
-            Route::get('{versao}/editar', [PaginaInicialVersaoController::class, 'editar'])->name('.editar');
-            Route::post('{versao}/atualizar', [PaginaInicialVersaoController::class, 'atualizar'])->name('.atualizar');
-            Route::get('{versao}/excluir', [PaginaInicialVersaoController::class, 'excluir'])->name('.excluir');
-
-            Route::prefix('{versao}/layout')->name('.layout')->group(function () {
-                Route::get('', [PaginaInicialLayoutController::class, 'inicio'])->name('');
-
-                Route::get('carrossel/adicionar', [PaginaInicialCarrosselController::class, 'adicionar'])->name('.carrossel.adicionar');
-                Route::post('carrossel/salvar', [PaginaInicialCarrosselController::class, 'salvar'])->name('.carrossel.salvar');
-                Route::get('carrossel/{item}/excluir', [PaginaInicialCarrosselController::class, 'excluir'])->name('.carrossel.excluir');
-            });
-        });
-    });
 });

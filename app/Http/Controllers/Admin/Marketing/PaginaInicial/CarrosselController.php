@@ -11,6 +11,14 @@ use Inertia\Inertia;
 
 class CarrosselController extends Controller
 {
+    public function visualizar(Versao $versao)
+    {
+        $versao->load([
+            'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
+        ]);
+        return Inertia::Render('Admin/Marketing/PaginaInicial/CarrosselPrincipal/Visualizar', compact('versao'));
+    }
+
     public function adicionar(Versao $versao): mixed
     {
         return Inertia::Render('Admin/Marketing/PaginaInicial/CarrosselPrincipal/AdicionarImagem', compact('versao'));

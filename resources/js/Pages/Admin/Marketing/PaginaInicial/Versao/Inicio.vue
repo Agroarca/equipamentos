@@ -42,6 +42,22 @@ const props = defineProps({
                                     <i class="fas fa-gears pe-1" />
                                     Layout
                                 </Link>
+                                <Link v-if="versao.status === 0" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
+                                    <i class="fas fa-gears pe-1" />
+                                    Aprovar
+                                </Link>
+                                <Link v-if="versao.status === 0" class="btn btn-danger me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/reprovar`">
+                                    <i class="fas fa-gears pe-1" />
+                                    Reprovar
+                                </Link>
+                                <Link v-if="versao.status === 1" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/publicar`">
+                                    <i class="fas fa-gears pe-1" />
+                                    Publicar
+                                </Link>
+                                <Link v-if="versao.status !== 0" class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/voltar`">
+                                    <i class="fas fa-gears pe-1" />
+                                    Voltar para edição
+                                </Link>
                                 <Link class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir

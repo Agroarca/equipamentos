@@ -8,14 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pagina_inicial_carrossel_item', function (Blueprint $table): void {
+        Schema::create('pagina_inicial_componentes', function (Blueprint $table): void {
             $table->id();
 
+            $table->string('titulo', 100)->nullable();
+            $table->string('subtitulo')->nullable();
             $table->unsignedSmallInteger('ordem');
-            $table->string('link');
-            $table->string('descricao');
-            $table->string('nome_arquivo_desktop');
-            $table->string('nome_arquivo_mobile');
+            $table->boolean('tela_cheia')->default(false);
+            $table->foreignId('tipo_id');
+            $table->string('tipo_type');
 
             $table->foreignId('versao_id');
             $table->foreign('versao_id')->references('id')->on('pagina_inicial_versoes');
@@ -26,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('pagina_inicial_carrossel_item');
+        Schema::dropIfExists('pagina_inicial_componentes');
     }
 };

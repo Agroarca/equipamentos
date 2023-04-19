@@ -9,11 +9,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pagina_inicial_versao', function (Blueprint $table): void {
+        Schema::create('pagina_inicial_versoes', function (Blueprint $table): void {
             $table->id();
 
             $table->smallInteger('status')->default(StatusVersao::Criado->value);
-            $table->integer('prioridade')->default(0);
+            $table->unsignedSmallInteger('prioridade')->default(0);
             $table->string('descricao');
             $table->date('data_inicio')->nullable();
             $table->date('data_fim')->nullable();
@@ -24,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('pagina_inicial_versao');
+        Schema::dropIfExists('pagina_inicial_versoes');
     }
 };

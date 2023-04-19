@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
 use App\Http\Controllers\Controller;
+use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
 use Inertia\Inertia;
@@ -18,5 +19,11 @@ class LayoutController extends Controller
     {
         $this->paginaInicialService->carregarVersao($versao);
         return Inertia::Render('Admin/Marketing/PaginaInicial/Layout/Inicio', compact('versao'));
+    }
+
+    public function excluirComponente(Versao $versao, Componente $componente): mixed
+    {
+        $this->paginaInicialService->excluirComponente($componente);
+        return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 }

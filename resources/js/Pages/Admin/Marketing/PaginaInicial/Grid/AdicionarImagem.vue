@@ -5,40 +5,40 @@ import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const props = defineProps({
     versao: Object,
+    grid: Object,
 })
 
 const form = useForm({
-    ordem: '',
     link: '',
     descricao: '',
-    imagem_desktop: {},
-    imagem_mobile: {},
+    ordem: 0,
+    imagem_desktop: null,
+    imagem_mobile: null,
 })
 
-const submit = () => {
-    form.post(`/admin/marketing/pagina/inicial/${props.versao.id}/layout/carrossel/salvar`)
+function submit() {
+    form.post(`/admin/marketing/pagina/inicial/${props.versao.id}/layout/grid/${props.grid.id}/imagem/salvar`)
 }
-
 </script>
 
 <template>
-    <AdminLayout titulo="Adicionar Imagem">
+    <AdminLayout titulo="Nova Imagem">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label for="descricao">Descrição</label>
-                        <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
-                        <FormError :error="form.errors.descricao" />
-                    </div>
                     <div class="mb-3">
                         <label for="link">Link</label>
                         <input id="link" v-model="form.link" class="form-control" type="text" required>
                         <FormError :error="form.errors.link" />
                     </div>
                     <div class="mb-3">
+                        <label for="descricao">Descrição</label>
+                        <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
+                        <FormError :error="form.errors.descricao" />
+                    </div>
+                    <div class="mb-3">
                         <label for="ordem">Ordem</label>
-                        <input id="ordem" v-model="form.ordem" class="form-control" type="number" required>
+                        <input id="ordem" v-model="form.ordem" class="form-control" type="number">
                         <FormError :error="form.errors.ordem" />
                     </div>
                     <div class="mb-3">
@@ -48,13 +48,13 @@ const submit = () => {
                     </div>
                     <div class="mb-3">
                         <label for="imagem_mobile">Imagem Mobile</label>
-                        <input id="imagem_mobile" class="form-control" type="file" required @input="form.imagem_mobile = $event.target.files[0]">
+                        <input id="imagem_mobile" class="form-control" type="file" @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>
                 </div>
-                <div class="card-body">
-                    <button type="submit" class="btn btn-primary">
-                        Adicionar
+                <div class="card-footer">
+                    <button class="btn btn-primary me-2" type="submit">
+                        Salvar
                     </button>
                 </div>
             </div>

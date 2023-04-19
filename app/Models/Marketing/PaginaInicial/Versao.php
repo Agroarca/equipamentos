@@ -12,7 +12,7 @@ class Versao extends Model
 {
     use HasFactory;
 
-    protected $table = 'pagina_inicial_versao';
+    protected $table = 'pagina_inicial_versoes';
 
     protected $fillable = [
         'status',
@@ -29,5 +29,10 @@ class Versao extends Model
     public function carrosselItens(): HasMany
     {
         return $this->hasMany(CarrosselItem::class);
+    }
+
+    public function componentes(): HasMany
+    {
+        return $this->hasMany(Componente::class);
     }
 }
