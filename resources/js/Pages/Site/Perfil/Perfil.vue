@@ -48,19 +48,19 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="nome">Nome</label>
-                    <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome">
+                    <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome" required>
                     <FormError :error="form.errors.nome" />
                 </div>
 
                 <div class="mb-3">
                     <label for="email">E-mail</label>
-                    <input id="email" v-model="form.email" class="form-control" type="email" autocomplete="email">
+                    <input id="email" v-model="form.email" class="form-control" type="email" autocomplete="email" required>
                     <FormError :error="form.errors.email" />
                 </div>
 
                 <div class="mb-3">
                     <label for="cpf_cnpj">CPF ou CNPJ</label>
-                    <input id="cpf_cnpj" ref="elCpfCnpj" v-model="form.cpf_cnpj" class="form-control" type="text" autocomplete="cpf_cnpj">
+                    <input id="cpf_cnpj" ref="elCpfCnpj" v-model="form.cpf_cnpj" class="form-control" type="text" autocomplete="cpf_cnpj" required>
                     <FormError :error="form.errors.cpf_cnpj" />
                     <FormError :error="form.errors.cpf" />
                     <FormError :error="form.errors.cnpj" />
@@ -68,7 +68,7 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="celular">Celular</label>
-                    <input id="celular" ref="elCelular" v-model="form.celular" class="form-control" type="text" autocomplete="celular">
+                    <input id="celular" ref="elCelular" v-model="form.celular" class="form-control" type="text" autocomplete="celular" required>
                     <FormError :error="form.errors.celular" />
                 </div>
 
