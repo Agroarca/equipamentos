@@ -2,6 +2,7 @@
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
 import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
+import Filtro from './Filtro.vue'
 
 const props = defineProps({
     equipamentos: Object,
@@ -19,7 +20,7 @@ const props = defineProps({
                     </h2>
                 </slot>
             </div>
-
+            <Filtro class=" " />
             <slot>
                 <div class="produtos">
                     <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
@@ -31,3 +32,5 @@ const props = defineProps({
         </section>
     </SiteLayout>
 </template>
+
+<style src="@vueform/slider/themes/default.css"></style>
