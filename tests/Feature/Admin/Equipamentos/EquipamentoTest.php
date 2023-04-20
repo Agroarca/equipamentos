@@ -261,6 +261,30 @@ class EquipamentoTest extends TestCase
             ->where('equipamento.id', $equipamento->id));
     }
 
+    public function testNaoPodeAcessarEditarAprovacaoAposAprovarEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/$equipamento->id/editar/aprovacao");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarEditarAprovacaoAposReprovarEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Reprovado,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/$equipamento->id/editar/aprovacao");
+
+        $response->assertStatus(403);
+    }
+
     public function testPodeAcessarEditarCaracteristicaValor(): void
     {
         $equipamento = Equipamento::factory()->create();
