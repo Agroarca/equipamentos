@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import Modal from '@/Componentes/Layout/Modal.vue'
+import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'

@@ -10,6 +10,7 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -17,13 +18,15 @@ use Inertia\Inertia;
 class SiteController extends Controller
 {
     public function __construct(
-        private EquipamentoCaracteristicaService $equipCaracService
+        private EquipamentoCaracteristicaService $equipCaracService,
+        private PaginaInicialService $paginaInicialService
     ) {
     }
 
     public function inicio()
     {
-        return Inertia::render('Site/Inicio');
+        $versaoPaginaInicial = $this->paginaInicialService->carregarVersaoAtual();
+        return Inertia::render('Site/PaginaInicial/Inicio', compact('versaoPaginaInicial'));
     }
 
     public function equipamento(int $id)
