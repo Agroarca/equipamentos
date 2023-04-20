@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import Slider from '@vueform/slider'
 import { reactive } from 'vue'
+import SliderRanger from '@/Componentes/Layout/Forms/SliderRanger.vue'
 
-let min = 0
-let max = 500000
 const minMax = reactive({ min: 2000, max: 500000 })
 
-let step = 100
-
-function slide(value: any) {
+function slide(value: Array<number>) {
     minMax.min = value[0]
     minMax.max = value[1]
 }
@@ -26,12 +22,12 @@ function slide(value: any) {
                     <h5>
                         Valor
                     </h5>
-                    <Slider
+                    <SliderRanger
                         class="m-2"
                         :value="[2000, 500000]"
-                        :min="min"
-                        :max="max"
-                        :step="step"
+                        :min="0"
+                        :max="500000"
+                        :step="50000"
                         :tooltips="false"
                         @slide="slide" />
                     <input class="form-control" :value="'R$ ' + minMax.min" type="text" name="min">
@@ -95,18 +91,3 @@ function slide(value: any) {
         </div>
     </div>
 </template>
-
-<style>
-
-:root {
-  --slider-tooltip-bg: none;
-  --slider-tooltip-color: black;
-  --slider-handle-bg: #009934;
-  --slider-connect-bg: #009934;
-  --slider-handle-shadow: none;
-  --slider-handle-height: 20px;
-  --slider-handle-width: 20px;
-  --slider-handle-shadow-active: none;
-  --slider-bg : gray;
-}
-</style>
