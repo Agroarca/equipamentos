@@ -37,7 +37,7 @@ const props = defineProps({
                             </td>
                         </tr>
                         <tr v-if="modelos.data.length == 0">
-                            <td colspan="3">
+                            <td colspan="4">
                                 Nenhum registro encontrado
                             </td>
                         </tr>
