@@ -1,4 +1,4 @@
-.site-layout #pagina-inicial {
+.site-layout .pagina-inicial {
 
     #carrossel-principal {
 
@@ -7,6 +7,40 @@
         picture source {
             width: 100%;
             display: block;
+        }
+    }
+
+    .grid-imagens {
+        display: grid;
+        grid-gap: .5rem;
+        margin: 1rem 0;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        @mixin breakpoint-down md {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &.formato-1,
+        &.formato-3 {
+            grid-gap: 0;
+        }
+
+        &.formato-2,
+        &.formato-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .lista-produtos {
+        grid-column-gap: 2rem;
+        grid-row-gap: 3rem;
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        @mixin breakpoint-down xl {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }

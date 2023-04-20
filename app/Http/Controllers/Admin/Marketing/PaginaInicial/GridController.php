@@ -47,7 +47,7 @@ class GridController extends Controller
 
     public function visualizar(Versao $versao, Grid $grid): mixed
     {
-        $formato = Formato::arrayNomes()[$grid->formato];
+        $formato = Formato::arrayNomes()[$grid->formato->value];
 
         $grid->load([
             'imagens' => fn ($query) => $query->orderBy('ordem'),

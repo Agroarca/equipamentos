@@ -17,7 +17,7 @@ onMounted(() => {
     collapse.value.hide()
 })
 
-function accordionToggle(e) {
+function accordionToggle() {
     if (collapseButton.value.classList.contains('collapsed')) {
         collapseButton.value.classList.remove('collapsed')
         collapse.value.show()

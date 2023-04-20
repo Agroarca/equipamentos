@@ -1,4 +1,4 @@
-.lista {
+.site-layout .lista {
     .produtos {
         grid-template-rows: repeat(1, auto);
         grid-template-columns: repeat(4, 1fr);
@@ -19,58 +19,59 @@
             margin: 0 .5rem;
         }
     }
+}
 
-    .produto {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 16px 22px rgba(0, 0, 0, 0.09) !important;
-        color: inherit;
-        text-decoration: inherit;
-        cursor: pointer;
+.site-layout .lista .produto,
+.site-layout .produto-componente {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 22px rgba(0, 0, 0, 0.09) !important;
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
+
+    @mixin breakpoint-down md {
+        border-radius: 5px;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .titulo {
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+    }
+
+    .valor {
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        padding: 1rem 1.5rem;
+        color: $listagem-valor-color;
+        font-size: 1.5rem;
+        font-weight: 600;
 
         @mixin breakpoint-down md {
-            border-radius: 5px;
             font-size: 2rem;
-            text-align: center;
         }
+    }
 
-        .titulo {
-            font-family: "Poppins", Arial, Helvetica, sans-serif;
-            padding: 1rem 1.5rem;
-            font-weight: 500;
-        }
+    .btn {
+        background-color: $listagem-btn-background-color;
+        color: $listagem-btn-color;
+        border: 2px solid $listagem-btn-border-color;
+        border-radius: 12px;
+        text-decoration: none;
+        margin: 1rem;
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.25rem !important;
+        font-weight: 600;
+    }
 
-        .valor {
-            font-family: "Poppins", Arial, Helvetica, sans-serif;
-            padding: 1rem 1.5rem;
-            color: $listagem-valor-color;
-            font-size: 1.5rem;
-            font-weight: 600;
-
-            @mixin breakpoint-down md {
-                font-size: 2rem;
-            }
-        }
-
-        .btn {
-            background-color: $listagem-btn-background-color;
-            color: $listagem-btn-color;
-            border: 2px solid $listagem-btn-border-color;
-            border-radius: 12px;
-            text-decoration: none;
-            margin: 1rem;
-            padding: 1rem;
-            text-align: center;
-            font-size: 1.25rem !important;
-            font-weight: 600;
-        }
-
-        &:hover .btn {
-            background-color: $listagem-btn-hover-background;
-            color: $listagem-btn-hover-color;
-        }
+    &:hover .btn {
+        background-color: $listagem-btn-hover-background;
+        color: $listagem-btn-hover-color;
     }
 }

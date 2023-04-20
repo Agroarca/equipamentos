@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name('admin.marketing')->group(function () {
-
     Route::prefix('pagina/inicial')->name('.paginaInicial')->group(function () {
         Route::get('', [VersaoController::class, 'inicio'])->name('');
         Route::get('criar', [VersaoController::class, 'criar'])->name('.criar');

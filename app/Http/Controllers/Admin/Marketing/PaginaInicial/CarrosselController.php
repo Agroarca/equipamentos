@@ -38,7 +38,7 @@ class CarrosselController extends Controller
         $item->nome_arquivo_mobile = $imagemMobile->hashName();
         $item->save();
 
-        return redirect()->route('admin.marketing.paginaInicial.layout', $versao->id);
+        return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
     }
 
     public function excluir(Versao $versao, CarrosselItem $item): mixed

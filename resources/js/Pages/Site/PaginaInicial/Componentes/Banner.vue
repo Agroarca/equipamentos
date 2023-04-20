@@ -8,12 +8,13 @@ const props = defineProps({
 })
 
 let tipo = props.componente.tipo as Banner
-
-console.log(tipo)
 </script>
 
 <template>
     <ComponenteBase :componente="componente">
-        <img class="w-100" :src="tipo.url_desktop">
+        <picture>
+            <source v-if="tipo.url_mobile" :srcset="tipo.url_mobile" media="(max-width: 767.98px)">
+            <img class="w-100" :src="tipo.url_desktop" :alt="tipo.descricao">
+        </picture>
     </ComponenteBase>
 </template>

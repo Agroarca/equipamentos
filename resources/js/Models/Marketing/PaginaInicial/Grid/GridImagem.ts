@@ -4,23 +4,23 @@ export default class GridImagem {
     link: string
     ordem: number
     descricao: string
-    nome_desktop: string
-    nome_mobile: string
+    url_desktop: string
+    url_mobile: string
 
     public constructor(
         id: number,
         link: string,
         ordem: number,
         descricao: string,
-        nome_desktop: string,
-        nome_mobile: string,
+        url_desktop: string,
+        url_mobile: string,
     ) {
         this.id = id
         this.link = link
         this.ordem = ordem
         this.descricao = descricao
-        this.nome_desktop = nome_desktop
-        this.nome_mobile = nome_mobile
+        this.url_desktop = url_desktop
+        this.url_mobile = url_mobile
     }
 
     public static fromObject(itens: Array<Object>): Array<GridImagem> {
@@ -29,8 +29,8 @@ export default class GridImagem {
             item.link,
             item.ordem,
             item.descricao,
-            item.nome_desktop,
-            item.nome_mobile,
+            item.url_desktop,
+            item.url_mobile,
         ))
     }
 }

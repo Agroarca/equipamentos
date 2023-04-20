@@ -40,9 +40,15 @@ class Banner extends Model
     public function urlMobile(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => asset(
-                config('equipamentos.public_path_imagens') . $attributes['nome_mobile']
-            )
+            get: function ($value, $attributes) {
+                if ($attributes['nome_mobile'] === null) {
+                    return null;
+                }
+
+                return asset(
+                    config('equipamentos.public_path_imagens') . $attributes['nome_mobile']
+                );
+            }
         );
     }
 

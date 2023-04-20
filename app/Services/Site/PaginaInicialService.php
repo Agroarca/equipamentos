@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Storage;
 class PaginaInicialService
 {
     /**
+     * Construtor do Service.
+     */
+    public function __construct(
+        private ListaService $listaService
+    ) {
+    }
+
+    /**
      * Retorna a Versão Atual da Página Inicial
      */
     public function getVersaoAtual(): Versao
@@ -39,7 +47,7 @@ class PaginaInicialService
      */
     public function carregarVersao(Versao $versao): Versao
     {
-        return $versao->load([
+        $versao->load([
             'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
             'componentes' => fn ($query) => $query->orderBy('ordem'),
             'componentes.tipo' => function (MorphTo $morphTo): void {
@@ -47,13 +55,19 @@ class PaginaInicialService
                     Grid::class => ['imagens'],
                     Lista::class => [
                         'listaProdutos',
-                        'listaProdutos.produtoLista' => fn ($query) => $query->inRandomOrder()->limit(4),
-                        'listaProdutos.produtoLista.equipamento',
-                        'listaProdutos.produtoLista.equipamento.imagens'
                     ],
                 ]);
             },
         ]);
+
+        foreach ($versao->componentes as $componente) {
+            if ($componente->tipo_type == Lista::class) {
+                $componente->tipo->listaProdutos->equipamentos = $this->listaService
+                    ->queryLista($componente->tipo->listaProdutos->id)->inRandomOrder()->limit(4)->get();
+            }
+        }
+
+        return $versao;
     }
 
     /**

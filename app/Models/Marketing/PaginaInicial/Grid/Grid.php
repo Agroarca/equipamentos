@@ -2,6 +2,7 @@
 
 namespace App\Models\Marketing\PaginaInicial\Grid;
 
+use App\Enums\Marketing\PaginaInicial\Grid\Formato;
 use App\Models\Marketing\PaginaInicial\Componente;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,10 @@ class Grid extends Model
 
     protected $fillable = [
         'formato',
+    ];
+
+    protected $casts = [
+        'formato' => Formato::class,
     ];
 
     public function imagens(): HasMany

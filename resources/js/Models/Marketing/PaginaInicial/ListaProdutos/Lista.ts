@@ -1,16 +1,17 @@
 /* eslint-disable camelcase */
 
 import Tipo from '../Tipo'
+import ListaProdutos from './Componentes/ListaProdutos'
 
 export default class Lista extends Tipo {
     id: number
     lista_produtos_id: number
-    lista_produtos: Object[]
+    lista_produtos: ListaProdutos
 
     public constructor(
         id:number,
         lista_produtos_id: number,
-        lista_produtos: Object[],
+        lista_produtos: ListaProdutos,
     ) {
         super()
         this.id = id
@@ -22,7 +23,7 @@ export default class Lista extends Tipo {
         return new Lista(
             tipo.id,
             tipo.lista_produtos_id,
-            tipo.lista_produtos,
+            ListaProdutos.fromObject(tipo.lista_produtos),
         )
     }
 }

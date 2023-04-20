@@ -39,7 +39,7 @@ function resolveComponent(componente: Componente) {
 
 <template>
     <SiteLayout titulo="Início">
-        <div id="pagina-inicial">
+        <div class="pagina-inicial">
             <Carrossel :carrosselItens="versao.carrossel_itens" />
 
             <template v-for="componente in versao.componentes" :key="componente.id">
