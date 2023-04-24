@@ -44,4 +44,10 @@ class ListaProdutosController extends Controller
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
+
+    public function visualizar(Versao $versao, Lista $lista): mixed
+    {
+        $lista->load(['listaProdutos', 'componente']);
+        return Inertia::render('Admin/Marketing/PaginaInicial/ListaProdutos/Visualizar', compact('versao', 'lista'));
+    }
 }

@@ -35,7 +35,7 @@ const props = defineProps({
                                     Editar
                                 </Link>
                                 <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/visualizar`">
-                                    <i class="fas fa-circle-info pe-1" />
+                                    <i class="fas fa-magnifying-glass pe-1" />
                                     Visualizar
                                 </Link>
                                 <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout`">

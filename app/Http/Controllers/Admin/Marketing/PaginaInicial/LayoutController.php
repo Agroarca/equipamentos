@@ -26,4 +26,16 @@ class LayoutController extends Controller
         $this->paginaInicialService->excluirComponente($componente);
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
+
+    public function ordemAcima(Versao $versao, Componente $componente): mixed
+    {
+        $this->paginaInicialService->ordemAcima($componente);
+        return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
+    }
+
+    public function ordemAbaixo(Versao $versao, Componente $componente): mixed
+    {
+        $this->paginaInicialService->ordemAbaixo($componente);
+        return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
+    }
 }

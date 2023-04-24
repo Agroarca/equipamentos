@@ -11,6 +11,7 @@ use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class PaginaInicialService
 {
@@ -104,5 +105,43 @@ class PaginaInicialService
         $banner = $componente->tipo;
         Storage::delete(config('equipamentos.path_imagens') . '/' . $banner->nome_desktop);
         Storage::delete(config('equipamentos.path_imagens') . '/' . $banner->nome_mobile);
+    }
+
+    /**
+     * Move o componente para cima na ordem
+     */
+    public function ordemAcima(Componente $componente): void
+    {
+        $ordem = $componente->ordem;
+
+        if ($ordem <= 2) {
+            throw new ValidationException('O componente já está na primeira posição');
+        }
+
+        $componenteAnterior = $componente->versao->componentes()->where('ordem', $ordem - 1)->first();
+        $componenteAnterior->ordem = $ordem;
+        $componenteAnterior->save();
+
+        $componente->ordem = $ordem - 1;
+        $componente->save();
+    }
+
+    /**
+     * Move o componente para baixo na ordem
+     */
+    public function ordemAbaixo(Componente $componente): void
+    {
+        $ordem = $componente->ordem;
+
+        if ($ordem >= $componente->versao->componentes()->max('ordem')) {
+            throw new ValidationException('O componente já está na última posição');
+        }
+
+        $componentePosterior = $componente->versao->componentes()->where('ordem', $ordem + 1)->first();
+        $componentePosterior->ordem = $ordem;
+        $componentePosterior->save();
+
+        $componente->ordem = $ordem + 1;
+        $componente->save();
     }
 }

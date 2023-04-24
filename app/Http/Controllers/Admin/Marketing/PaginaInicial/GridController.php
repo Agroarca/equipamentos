@@ -12,6 +12,7 @@ use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class GridController extends Controller
@@ -51,6 +52,7 @@ class GridController extends Controller
 
         $grid->load([
             'imagens' => fn ($query) => $query->orderBy('ordem'),
+            'componente'
         ]);
 
         return Inertia::render('Admin/Marketing/PaginaInicial/Grid/Visualizar', compact('versao', 'grid', 'formato'));
@@ -65,6 +67,7 @@ class GridController extends Controller
     {
         $gridImagem = new GridImagem($request->all());
         $gridImagem->grid_id = $grid->id;
+        $gridImagem->ordem = $grid->imagens->count() + 1;
 
         $imagemDesktop = $request->file('imagem_desktop');
         $imagemDesktop->store(config('equipamentos.path_imagens'));
@@ -81,11 +84,52 @@ class GridController extends Controller
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }
 
+    public function visualizarImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
+    {
+        return Inertia::render('Admin/Marketing/PaginaInicial/Grid/VisualizarImagem', compact('versao', 'grid', 'gridImagem'));
+    }
+
     public function excluirImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
     {
         Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_desktop);
         Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_mobile);
         $gridImagem->delete();
+
+        return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
+    }
+
+    public function ordemAcima(Versao $versao, Grid $grid, GridImagem $gridImagem)
+    {
+        $ordem = $gridImagem->ordem;
+
+        if ($ordem <= 1) {
+            throw new ValidationException('A imagem já está na primeira posição');
+        }
+
+        $imagemPosterior = $grid->imagens()->where('ordem', $ordem - 1)->first();
+        $imagemPosterior->ordem = $ordem;
+        $imagemPosterior->save();
+
+        $gridImagem->ordem = $ordem - 1;
+        $gridImagem->save();
+
+        return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
+    }
+
+    public function ordemAbaixo(Versao $versao, Grid $grid, GridImagem $gridImagem)
+    {
+        $ordem = $gridImagem->ordem;
+
+        if ($ordem >= $grid->imagens()->max('ordem')) {
+            throw new ValidationException('A imagem já está na última posição');
+        }
+
+        $imagemPosterior = $grid->imagens()->where('ordem', $ordem + 1)->first();
+        $imagemPosterior->ordem = $ordem;
+        $imagemPosterior->save();
+
+        $gridImagem->ordem = $ordem + 1;
+        $gridImagem->save();
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }

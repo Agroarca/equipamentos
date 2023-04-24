@@ -11,7 +11,6 @@ const props = defineProps({
 const form = useForm({
     link: '',
     descricao: '',
-    ordem: 0,
     imagem_desktop: null,
     imagem_mobile: null,
 })
@@ -35,11 +34,6 @@ function submit() {
                         <label for="descricao">Descrição</label>
                         <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
                         <FormError :error="form.errors.descricao" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="ordem">Ordem</label>
-                        <input id="ordem" v-model="form.ordem" class="form-control" type="number">
-                        <FormError :error="form.errors.ordem" />
                     </div>
                     <div class="mb-3">
                         <label for="imagem_desktop">Imagem Desktop</label>

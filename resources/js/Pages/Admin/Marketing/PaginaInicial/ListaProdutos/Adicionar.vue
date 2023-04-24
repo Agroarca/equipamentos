@@ -35,16 +35,14 @@ function submit() {
                         <input id="subtitulo" v-model="form.subtitulo" class="form-control" type="text">
                         <FormError :error="form.errors.subtitulo" />
                     </div>
-                    <div class="mb-3 form-check">
-                        <label for="tela_cheia">Tela cheia</label>
-                        <input v-model="form.tela_cheia" name="tela_cheia" :checked="form.tela_cheia" class="form-check-input" type="checkbox">
-                        <FormError :error="form.errors.tela_cheia" />
-                    </div>
                     <div class="mb-3">
                         <label for="lista_produtos_id">Lista de Produtos: </label>
                         <select v-model="form.lista_produtos_id" name="lista_produtos_id" class="form-select" required>
                             <option v-for="lista in listasProdutos" :key="lista.id" :value="lista.id">
                                 {{ lista.nome }}
+                            </option>
+                            <option v-if="listasProdutos.length === 0" value="" disabled>
+                                Nenhuma lista encontrada
                             </option>
                         </select>
                         <FormError :error="form.errors.lista_produtos_id" />

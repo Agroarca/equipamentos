@@ -51,4 +51,10 @@ class BannerController extends Controller
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
+
+    public function visualizar(Versao $versao, Banner $banner): mixed
+    {
+        $banner->load('componente');
+        return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Visualizar', compact('versao', 'banner'));
+    }
 }

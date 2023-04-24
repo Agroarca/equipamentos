@@ -7,11 +7,11 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="componente py-4" :class="{ container: !componente.tela_cheia }">
-        <h3 v-if="componente.titulo" class="text-center">
+    <div class="componente" :class="{ container: !componente.tela_cheia }">
+        <h2 v-if="componente.titulo" class="text-center titulo">
             {{ componente.titulo }}
-        </h3>
-        <p v-if="componente.subtitulo" class="text-center">
+        </h2>
+        <p v-if="componente.subtitulo" class="text-center subtitulo">
             {{ componente.subtitulo }}
         </p>
         <slot />

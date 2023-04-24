@@ -12,7 +12,7 @@ const props = defineProps({
     <AdminLayout :titulo="`Layout da Versão ${versao.id}`">
         <template #buttons>
             <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/visualizar`" class="btn btn-secondary me-2 d-flex flex-nowrap align-items-center">
-                <i class="fas fa-gears pe-1" /> Visualizar
+                <i class="fas fa-magnifying-glass pe-1" /> Visualizar
             </Link>
         </template>
 
@@ -21,26 +21,33 @@ const props = defineProps({
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
+                        <th>Ordem</th>
                         <th>Componente</th>
-                        <th>ordem</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr>
+                            <td />
                             <td>Carrossel Principal</td>
-                            <td>1</td>
                             <td>
                                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/visualizar`" class="btn btn-primary me-2">
-                                    <i class="fas fa-plus-circle pe-1" /> Visualizar
+                                    <i class="fas fa-magnifying-glass pe-1" /> Visualizar
                                 </Link>
                             </td>
                         </tr>
-                        <tr v-for="componente in versao.componentes" :key="componente.id">
+                        <tr v-for="(componente, index) in versao.componentes" :key="componente.id">
+                            <td>
+                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/acima`" class="btn btn-primary me-2" :class="{ disabled: index === 0 }">
+                                    <i class="fa-solid fa-circle-up" />
+                                </Link>
+                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/abaixo`" class="btn btn-primary me-2" :class="{ disabled: index === versao.componentes.length - 1 }">
+                                    <i class="fa-solid fa-circle-down" />
+                                </Link>
+                            </td>
                             <td>{{ componente.tipo_nome }}</td>
-                            <td>{{ componente.ordem }}</td>
                             <td>
                                 <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/${componente.url}/${componente.tipo.id}/visualizar`" class="btn btn-primary me-2">
-                                    <i class="fas fa-eraser pe-1" /> Visualizar
+                                    <i class="fas fa-magnifying-glass pe-1" /> Visualizar
                                 </Link>
                                 <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/excluir`" class="btn btn-danger me-2">
                                     <i class="fas fa-eraser pe-1" /> Excluir
