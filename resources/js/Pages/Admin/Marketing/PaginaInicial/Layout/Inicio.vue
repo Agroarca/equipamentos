@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
+import { isEmpty } from 'lodash'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 
 const props = defineProps({
     versao: Object,
+    errors: Object,
 })
 
 </script>
@@ -16,17 +18,24 @@ const props = defineProps({
             </Link>
         </template>
 
-        <!-- <CarrosselInicio :versao="versao" /> -->
+        <div v-if="!isEmpty(errors)" class="alert alert-danger">
+            <span v-for="error in errors" :key="error">
+                {{ error }}
+            </span>
+        </div>
+
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <th>Ordem</th>
+                        <th />
+                        <th>id</th>
                         <th>Componente</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr>
+                            <td />
                             <td />
                             <td>Carrossel Principal</td>
                             <td>
@@ -44,6 +53,7 @@ const props = defineProps({
                                     <i class="fa-solid fa-circle-down" />
                                 </Link>
                             </td>
+                            <td>{{ componente.id }}</td>
                             <td>{{ componente.tipo_nome }}</td>
                             <td>
                                 <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/${componente.url}/${componente.tipo.id}/visualizar`" class="btn btn-primary me-2">
@@ -66,6 +76,22 @@ const props = defineProps({
                 </Link>
                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/lista/produtos/adicionar`" class="btn btn-primary me-2">
                     <i class="fas fa-plus-circle pe-1" /> Adicionar Lista de Produtos
+                </Link>
+                <Link v-if="versao.status === 0" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
+                    <i class="fas fa-gears pe-1" />
+                    Aprovar
+                </Link>
+                <Link v-if="versao.status === 0" class="btn btn-danger me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/reprovar`">
+                    <i class="fas fa-gears pe-1" />
+                    Reprovar
+                </Link>
+                <Link v-if="versao.status === 1" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/publicar`">
+                    <i class="fas fa-gears pe-1" />
+                    Publicar
+                </Link>
+                <Link v-if="versao.status !== 0" class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/voltar`">
+                    <i class="fas fa-gears pe-1" />
+                    Voltar para edição
                 </Link>
             </div>
         </div>

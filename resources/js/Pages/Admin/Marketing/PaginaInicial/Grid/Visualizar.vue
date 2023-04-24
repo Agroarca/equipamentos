@@ -6,6 +6,7 @@ const props = defineProps({
     versao: Object,
     grid: Object,
     formato: String,
+    alerta: String,
 })
 </script>
 
@@ -33,6 +34,11 @@ const props = defineProps({
         </div>
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
+                <div v-if="alerta" class="p-3 pb-0">
+                    <div class="alert alert-danger m-0">
+                        {{ alerta }}
+                    </div>
+                </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <th />
@@ -64,7 +70,7 @@ const props = defineProps({
                             </td>
                         </tr>
                         <tr v-if="grid.imagens.length == 0">
-                            <td colspan="4">
+                            <td colspan="5">
                                 Nenhum registro encontrado
                             </td>
                         </tr>

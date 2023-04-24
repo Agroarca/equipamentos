@@ -59,6 +59,7 @@ class VersaoController extends Controller
 
     public function aprovar(Versao $versao)
     {
+        $this->paginaInicialService->validarVersao($versao);
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
     }

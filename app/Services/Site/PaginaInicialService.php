@@ -109,13 +109,15 @@ class PaginaInicialService
 
     /**
      * Move o componente para cima na ordem
+     *
+     * @throws ValidationException Quando não pode alterar a ordem
      */
     public function ordemAcima(Componente $componente): void
     {
         $ordem = $componente->ordem;
 
         if ($ordem <= 2) {
-            throw new ValidationException('O componente já está na primeira posição');
+            throw ValidationException::withMessages(['ordem' => 'O componente já está na primeira posição']);
         }
 
         $componenteAnterior = $componente->versao->componentes()->where('ordem', $ordem - 1)->first();
@@ -128,13 +130,15 @@ class PaginaInicialService
 
     /**
      * Move o componente para baixo na ordem
+     *
+     * @throws ValidationException Quando não pode alterar a ordem
      */
     public function ordemAbaixo(Componente $componente): void
     {
         $ordem = $componente->ordem;
 
         if ($ordem >= $componente->versao->componentes()->max('ordem')) {
-            throw new ValidationException('O componente já está na última posição');
+            throw new ValidationException(['ordem' => 'O componente já está na última posição']);
         }
 
         $componentePosterior = $componente->versao->componentes()->where('ordem', $ordem + 1)->first();
@@ -143,5 +147,49 @@ class PaginaInicialService
 
         $componente->ordem = $ordem + 1;
         $componente->save();
+    }
+
+    /**
+     * Valida se o Grid tem o número de imagens necessárias
+     *
+     * @throws ValidationException Quando não tem o número de imagens
+     */
+    public function validarImagensNecessarias(Grid $grid): void
+    {
+        $quantidadeImagens = $grid->imagens()->count();
+
+        if ($grid->formato->imagensNecessarias() < $quantidadeImagens) {
+            $componenteId = $grid->componente->id;
+            throw ValidationException::withMessages([
+                'grid' => "O Grid ($componenteId) não tem o número mínimo de imagens necessárias",
+            ]);
+        }
+
+        if ($grid->formato->imagensNecessarias() > $quantidadeImagens) {
+            $componenteId = $grid->componente->id;
+            throw ValidationException::withMessages([
+                'grid' => "O Grid ($componenteId) tem mais imagens do que o número permitido de imagens",
+            ]);
+        }
+    }
+
+    /**
+     * Valida se a versão pode ser aprovada
+     *
+     * @throws ValidationException Quando não tem o número de imagens
+     */
+    public function validarVersao(Versao $versao): void
+    {
+        if ($versao->carrosselItens->count() == 0) {
+            throw ValidationException::withMessages([
+                'carrossel' => 'O Carrossel Principal deve ter pelo menos um item',
+            ]);
+        }
+
+        foreach ($versao->componentes as $componente) {
+            if ($componente->tipo_type == Grid::class) {
+                $this->validarImagensNecessarias($componente->tipo);
+            }
+        }
     }
 }

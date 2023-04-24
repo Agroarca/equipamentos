@@ -41,7 +41,7 @@ function submit() {
                         <FormError :error="form.errors.imagem_desktop" />
                     </div>
                     <div class="mb-3">
-                        <label for="imagem_mobile">Imagem Mobile</label>
+                        <label for="imagem_mobile">Imagem Mobile <span class="opcional">(Opcional)</span></label>
                         <input id="imagem_mobile" class="form-control" type="file" @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>

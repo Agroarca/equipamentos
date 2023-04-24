@@ -33,6 +33,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name
 
         Route::prefix('{versao}/layout')->name('.layout')->group(function () {
             Route::get('', [LayoutController::class, 'inicio'])->name('');
+            Route::get('componente/{componente}/excluir', [LayoutController::class, 'excluirComponente'])->name('.componente.excluir');
             Route::get('componente/{componente}/ordem/acima', [LayoutController::class, 'ordemAcima'])->name('.componente.ordem.acima');
             Route::get('componente/{componente}/ordem/abaixo', [LayoutController::class, 'ordemAbaixo'])->name('.componente.ordem.abaixo');
 

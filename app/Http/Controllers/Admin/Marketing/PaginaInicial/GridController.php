@@ -55,7 +55,13 @@ class GridController extends Controller
             'componente'
         ]);
 
-        return Inertia::render('Admin/Marketing/PaginaInicial/Grid/Visualizar', compact('versao', 'grid', 'formato'));
+        $alerta = '';
+        $imagensNecessarias = $grid->formato->imagensNecessarias();
+        if ($grid->imagens->count() != $imagensNecessarias) {
+            $alerta = "O Grid deve ter $imagensNecessarias imagens.";
+        }
+
+        return Inertia::render('Admin/Marketing/PaginaInicial/Grid/Visualizar', compact('versao', 'grid', 'formato', 'alerta'));
     }
 
     public function adicionarImagem(Versao $versao, Grid $grid): mixed
@@ -103,7 +109,7 @@ class GridController extends Controller
         $ordem = $gridImagem->ordem;
 
         if ($ordem <= 1) {
-            throw new ValidationException('A imagem já está na primeira posição');
+            throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
         }
 
         $imagemPosterior = $grid->imagens()->where('ordem', $ordem - 1)->first();
@@ -121,7 +127,7 @@ class GridController extends Controller
         $ordem = $gridImagem->ordem;
 
         if ($ordem >= $grid->imagens()->max('ordem')) {
-            throw new ValidationException('A imagem já está na última posição');
+            throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
         }
 
         $imagemPosterior = $grid->imagens()->where('ordem', $ordem + 1)->first();

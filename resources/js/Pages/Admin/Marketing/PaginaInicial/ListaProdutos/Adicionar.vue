@@ -26,12 +26,12 @@ function submit() {
             <div class="card card-default">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="titulo">Título (opcional)</label>
+                        <label for="titulo">Título <span class="opcional">(Opcional)</span></label>
                         <input id="titulo" v-model="form.titulo" class="form-control" type="text">
                         <FormError :error="form.errors.titulo" />
                     </div>
                     <div class="mb-3">
-                        <label for="subtitulo">Subtítulo (opcional)</label>
+                        <label for="subtitulo">Subtítulo <span class="opcional">(Opcional)</span></label>
                         <input id="subtitulo" v-model="form.subtitulo" class="form-control" type="text">
                         <FormError :error="form.errors.subtitulo" />
                     </div>
