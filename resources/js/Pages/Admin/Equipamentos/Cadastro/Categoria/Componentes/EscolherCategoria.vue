@@ -34,11 +34,15 @@ function escolherCategoria(id) {
         <div class="mb-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item " @click="atualizarCategorias()">
-                        Categorias
+                    <li class="breadcrumb-item">
+                        <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias()">
+                            Categorias
+                        </button>
                     </li>
-                    <li v-for="bread in state.arvore" :key="bread.id" class="breadcrumb-item" @click="atualizarCategorias(bread.id)">
-                        {{ bread.nome }}
+                    <li v-for="bread in state.arvore" :key="bread.id" class="breadcrumb-item">
+                        <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias(bread.id)">
+                            {{ bread.nome }}
+                        </button>
                     </li>
                 </ol>
             </nav>
@@ -53,10 +57,10 @@ function escolherCategoria(id) {
                     <tr v-for="cat in state.categorias" :key="cat.id">
                         <td>{{ cat.nome }}</td>
                         <td>
-                            <button v-if="cat.possui_filhos == 1" type="button" class="btn btn-success" @click="atualizarCategorias(cat.id)">
+                            <button v-if="cat.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(cat.id)">
                                 Acessar <i class="fas fa-arrow-right" />
                             </button>
-                            <button type="button" class="btn btn-success ms-2" @click="escolherCategoria(cat.id)">
+                            <button type="button" class="btn btn-success " @click="escolherCategoria(cat.id)">
                                 Escolher <i class="fas fa-arrow-right" />
                             </button>
                         </td>
