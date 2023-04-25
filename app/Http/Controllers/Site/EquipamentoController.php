@@ -15,6 +15,7 @@ use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -27,9 +28,13 @@ class EquipamentoController extends Controller
     ) {
     }
 
+    public function categoria()
+    {
+        return Inertia::render('Site/Equipamento/Cadastrar/Categoria');
+    }
+
     public function cadastrar(?int $id = null)
     {
-        $categorias = Categoria::all()->pluck('nome', 'id');
         $equipamento = null;
         if ($id) {
             $equipamento = Equipamento::with([
@@ -37,9 +42,16 @@ class EquipamentoController extends Controller
                 'imagens',
                 'modelo',
                 'modelo.marca',
+                'categoria',
             ])->findOrFail($id);
         }
-        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias', 'equipamento'));
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('equipamento'));
+    }
+
+    public function cadastrarNovo(int $id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categoria'));
     }
 
     public function salvar(EquipamentoRequest $request)

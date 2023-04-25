@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Site\CategoriaController;
 use App\Http\Controllers\Site\ConversaController;
 use App\Http\Controllers\Site\EquipamentoController;
 use App\Http\Controllers\Site\ListaController;
@@ -31,7 +32,9 @@ Route::name('site')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::name('.equipamento')->prefix('equipamento')->group(function () {
-            Route::get('cadastrar/{id?}', [EquipamentoController::class, 'cadastrar'])->name('.cadastrar');
+            Route::get('categoria', [EquipamentoController::class, 'categoria'])->name('.categoria');
+            Route::get('cadastrar/{id}', [EquipamentoController::class, 'cadastrar'])->name('.cadastrar');
+            Route::get('cadastrar/categoria/{id}', [EquipamentoController::class, 'cadastrarNovo'])->name('.cadastrarNovo');
             Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
             Route::get('{id}/imagens', [EquipamentoController::class, 'imagens'])->name('.imagens');
             Route::post('{id}/imagens/salvar', [EquipamentoController::class, 'salvarImagens'])->name('.salvarImagens');
@@ -43,6 +46,8 @@ Route::name('site')->group(function () {
             Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.salvarCaracteristicas');
             Route::get('{id}/finalizar', [EquipamentoController::class, 'finalizar'])->name('.finalizar');
         });
+
+        Route::get('categorias/pesquisar/{id?}', [CategoriaController::class, 'pesquisar'])->name('.categorias.pesquisar');
 
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
         Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
