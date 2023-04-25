@@ -71,9 +71,9 @@ class ListaService
     }
 
     /**
-     * dev
+     * Retorna um array com a árvore de categorias de um produto.
      */
-    public function ArvoreCategoria(?int $id): array
+    public function arvoreCategoria(?int $id): array
     {
         return DB::select('
                 with recursive arvore_categorias as (

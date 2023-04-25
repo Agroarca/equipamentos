@@ -12,7 +12,6 @@ class CategoriaController extends Controller
     {
     }
 
-
     public function pesquisar(?int $categoriaId = null)
     {
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
@@ -34,5 +33,4 @@ class CategoriaController extends Controller
             'arvore' => $arvore,
         ]);
     }
-
 }

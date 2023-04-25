@@ -15,7 +15,6 @@ use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
