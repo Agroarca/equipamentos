@@ -9,7 +9,7 @@ const props = defineProps({
 
 const form = useForm({
     prioridade: props.versao.prioridade,
-    descricao: props.versao.descricao,
+    nome: props.versao.nome,
     data_inicio: props.versao.data_inicio,
     data_fim: props.versao.data_fim,
 })
@@ -31,9 +31,9 @@ function submit() {
                         <FormError :error="form.errors.prioridade" />
                     </div>
                     <div class="mb-3">
-                        <label for="descricao">Descrição</label>
-                        <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
-                        <FormError :error="form.errors.descricao" />
+                        <label for="nome">Nome</label>
+                        <input id="nome" v-model="form.nome" class="form-control" type="text" required>
+                        <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
                         <label for="data_inicio">Data Inicial <span class="opcional">(Opcional)</span></label>

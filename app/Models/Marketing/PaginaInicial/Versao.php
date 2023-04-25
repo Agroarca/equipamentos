@@ -17,7 +17,7 @@ class Versao extends Model
     protected $fillable = [
         'status',
         'prioridade',
-        'descricao',
+        'nome',
         'data_inicio',
         'data_fim',
     ];

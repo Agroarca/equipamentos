@@ -20,6 +20,9 @@ const props = defineProps({
                         <th>Prioridade</th>
                         <th>Data Inicial</th>
                         <th>Data Final</th>
+                        <th class="d-none d-md-table-cell">
+                            Nome
+                        </th>
                         <th />
                     </thead>
                     <tbody>
@@ -29,6 +32,9 @@ const props = defineProps({
                             <td>{{ versao.prioridade }}</td>
                             <td>{{ versao.data_inicio }}</td>
                             <td>{{ versao.data_fim }}</td>
+                            <td class="d-none d-md-table-cell">
+                                {{ versao.nome }}
+                            </td>
                             <td>
                                 <Link class="btn btn-primary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />

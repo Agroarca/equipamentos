@@ -15,7 +15,7 @@ const versao = new Versao(
     props.versaoPaginaInicial.id,
     props.versaoPaginaInicial.status,
     props.versaoPaginaInicial.prioridade,
-    props.versaoPaginaInicial.descricao,
+    props.versaoPaginaInicial.nome,
     props.versaoPaginaInicial.data_inicio,
     props.versaoPaginaInicial.data_fim,
     props.versaoPaginaInicial.carrossel_itens,
