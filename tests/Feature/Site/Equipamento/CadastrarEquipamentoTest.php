@@ -19,14 +19,42 @@ class CadastrarEquipamentoTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testPodeAcessar(): void
+    public function testPodeAcessarCadastroCategoria(): void
     {
         $response = $this->actingAs($this->getUsuario())
-            ->get('/equipamento/cadastrar');
+            ->get('/equipamento/categoria');
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Equipamento/Cadastrar/Categoria'));
+    }
+
+    public function testPodeAcessar(): void
+    {
+        $caracteristica = Caracteristica::factory()->create();
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/cadastrar/categoria/$caracteristica->id");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Equipamento/Cadastrar/Novo'));
+    }
+
+    public function testNaoPodeAcessarSemCaracteristica(): void
+    {
+        $response = $this->actingAs($this->getUsuario())
+            ->get('/equipamento/cadastrar/categoria');
+
+        $response->assertStatus(404);
+    }
+
+    public function testNaoPodeAcessarComCaracteristicaInvalida(): void
+    {
+        $response = $this->actingAs($this->getUsuario())
+            ->get('/equipamento/cadastrar/categoria/1');
+
+        $response->assertStatus(404);
     }
 
     public function testPodeSalvarCadastro(): void
