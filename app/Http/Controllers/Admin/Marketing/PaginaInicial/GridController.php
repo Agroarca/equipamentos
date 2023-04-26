@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\Grid\Formato;
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Grid\AdicionarGridRequest;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Grid\AdicionarImagemRequest;
@@ -30,6 +31,10 @@ class GridController extends Controller
 
     public function salvar(AdicionarGridRequest $request, Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $grid = Grid::create($request->only('formato'));
 
         $componente = new Componente($request->only([
@@ -66,11 +71,19 @@ class GridController extends Controller
 
     public function adicionarImagem(Versao $versao, Grid $grid): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         return Inertia::render('Admin/Marketing/PaginaInicial/Grid/AdicionarImagem', compact('versao', 'grid'));
     }
 
     public function salvarImagem(AdicionarImagemRequest $request, Versao $versao, Grid $grid): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $gridImagem = new GridImagem($request->all());
         $gridImagem->grid_id = $grid->id;
         $gridImagem->ordem = $grid->imagens->count() + 1;
@@ -97,6 +110,10 @@ class GridController extends Controller
 
     public function excluirImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_desktop);
         Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_mobile);
         $gridImagem->delete();
@@ -106,6 +123,10 @@ class GridController extends Controller
 
     public function ordemAcima(Versao $versao, Grid $grid, GridImagem $gridImagem)
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $ordem = $gridImagem->ordem;
 
         if ($ordem <= 1) {
@@ -124,6 +145,10 @@ class GridController extends Controller
 
     public function ordemAbaixo(Versao $versao, Grid $grid, GridImagem $gridImagem)
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $ordem = $gridImagem->ordem;
 
         if ($ordem >= $grid->imagens()->max('ordem')) {
