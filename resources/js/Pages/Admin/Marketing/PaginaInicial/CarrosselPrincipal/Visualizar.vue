@@ -29,7 +29,9 @@ const STATUS_VERSAO_CRIADO = 0
                                         <i class="fas fa-magnifying-glass pe-1" />
                                         Visualizar
                                     </Link>
-                                    <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
+                                    <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
+                                          class="btn btn-danger"
+                                          :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
                                         <i class="fas fa-eraser pe-1" />
                                         Excluir
                                     </Link>

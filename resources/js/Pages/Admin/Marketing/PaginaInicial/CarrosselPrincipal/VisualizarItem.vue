@@ -2,7 +2,6 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 
 const props = defineProps({
-    versao: Object,
     item: Object,
 })
 </script>

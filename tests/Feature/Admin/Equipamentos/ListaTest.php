@@ -158,7 +158,9 @@ class ListaTest extends TestCase
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.lista');
-        $this->assertSoftDeleted($lista);
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'id' => $lista->id,
+        ]);
     }
 
     public function testPodeAcessarProdutosSemProdutos(): void

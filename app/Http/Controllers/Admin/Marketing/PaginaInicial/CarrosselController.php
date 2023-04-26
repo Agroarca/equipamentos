@@ -66,6 +66,9 @@ class CarrosselController extends Controller
 
     public function visualizarItem(Versao $versao, CarrosselItem $item): mixed
     {
-        return Inertia::Render('Admin/Marketing/PaginaInicial/CarrosselPrincipal/VisualizarItem', compact('versao', 'item'));
+        return Inertia::Render(
+            'Admin/Marketing/PaginaInicial/CarrosselPrincipal/VisualizarItem',
+            compact('versao', 'item')
+        );
     }
 }

@@ -49,20 +49,30 @@ const STATUS_VERSAO_APROVADO = 1
                         </tr>
                         <tr v-for="(componente, index) in versao.componentes" :key="componente.id">
                             <td v-if="versao.status === STATUS_VERSAO_CRIADO">
-                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/acima`" class="btn btn-primary me-2" :class="{ disabled: index === 0 }">
+                                <Link
+                                    :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/acima`"
+                                    class="btn btn-primary me-2"
+                                    :class="{ disabled: index === 0 }">
                                     <i class="fa-solid fa-circle-up" />
                                 </Link>
-                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/abaixo`" class="btn btn-primary me-2" :class="{ disabled: index === versao.componentes.length - 1 }">
+                                <Link
+                                    :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/abaixo`"
+                                    class="btn btn-primary me-2"
+                                    :class="{ disabled: index === versao.componentes.length - 1 }">
                                     <i class="fa-solid fa-circle-down" />
                                 </Link>
                             </td>
                             <td>{{ componente.id }}</td>
                             <td>{{ componente.tipo_nome }}</td>
                             <td>
-                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/${componente.url}/${componente.tipo.id}/visualizar`" class="btn btn-primary me-2">
+                                <Link
+                                    :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/${componente.url}/${componente.tipo.id}/visualizar`"
+                                    class="btn btn-primary me-2">
                                     <i class="fas fa-magnifying-glass pe-1" /> Visualizar
                                 </Link>
-                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/excluir`" class="btn btn-danger me-2">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
+                                      :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/excluir`"
+                                      class="btn btn-danger me-2">
                                     <i class="fas fa-eraser pe-1" /> Excluir
                                 </Link>
                             </td>

@@ -66,7 +66,10 @@ class GridController extends Controller
             $alerta = "O Grid deve ter $imagensNecessarias imagens.";
         }
 
-        return Inertia::render('Admin/Marketing/PaginaInicial/Grid/Visualizar', compact('versao', 'grid', 'formato', 'alerta'));
+        return Inertia::render(
+            'Admin/Marketing/PaginaInicial/Grid/Visualizar',
+            compact('versao', 'grid', 'formato', 'alerta')
+        );
     }
 
     public function adicionarImagem(Versao $versao, Grid $grid): mixed
@@ -105,7 +108,10 @@ class GridController extends Controller
 
     public function visualizarImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
     {
-        return Inertia::render('Admin/Marketing/PaginaInicial/Grid/VisualizarImagem', compact('versao', 'grid', 'gridImagem'));
+        return Inertia::render(
+            'Admin/Marketing/PaginaInicial/Grid/VisualizarImagem',
+            compact('versao', 'grid', 'gridImagem')
+        );
     }
 
     public function excluirImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed

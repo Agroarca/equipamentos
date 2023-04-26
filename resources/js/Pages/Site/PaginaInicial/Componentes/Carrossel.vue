@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Carousel } from 'bootstrap'
 import { ref, onMounted } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import CarrosselItem from '@/Models/Marketing/PaginaInicial/Carrossel/CarrosselItem'
-import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     carrosselItens: Array<CarrosselItem>,
@@ -33,7 +33,7 @@ function next() {
 
 <template>
     <div id="carrossel-principal" ref="carrosselElement" class="carousel slide">
-        <div class="carousel-indicators" v-if="carrosselItens.length > 1">
+        <div v-if="carrosselItens.length > 1" class="carousel-indicators">
             <button v-for="(item, index) in carrosselItens"
                     :key="item.id"
                     :data-bs-slide-to="index"
@@ -54,11 +54,11 @@ function next() {
                 </Link>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" @click="prev" v-if="carrosselItens.length > 1">
+        <button v-if="carrosselItens.length > 1" class="carousel-control-prev" type="button" @click="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true" />
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" @click="next" v-if="carrosselItens.length > 1">
+        <button v-if="carrosselItens.length > 1" class="carousel-control-next" type="button" @click="next">
             <span class="carousel-control-next-icon" aria-hidden="true" />
             <span class="visually-hidden">Next</span>
         </button>

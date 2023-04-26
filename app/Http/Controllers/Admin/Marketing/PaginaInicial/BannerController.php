@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
@@ -33,6 +35,7 @@ class BannerController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
+
         $banner = new Banner($request->all());
 
         $imagemDesktop = $request->file('imagem_desktop');
