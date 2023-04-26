@@ -31,10 +31,10 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeAcessar(): void
     {
-        $caracteristica = Caracteristica::factory()->create();
+        $categoria = Categoria::factory()->create();
 
         $response = $this->actingAs($this->getUsuario())
-            ->get("/equipamento/cadastrar/categoria/$caracteristica->id");
+            ->get("/equipamento/cadastrar/categoria/$categoria->id");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
