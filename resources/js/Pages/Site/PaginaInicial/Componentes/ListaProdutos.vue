@@ -8,13 +8,13 @@ const props = defineProps({
     componente: Componente,
 })
 
-let tipo = props.componente.tipo as Lista
+let lista = props.componente.tipo as Lista
 </script>
 
 <template>
     <ComponenteBase :componente="componente">
         <div class="lista-produtos">
-            <Equipamento v-for="equipamento in tipo.lista_produtos.equipamentos" :key="equipamento.id" class="produto-componente" :equipamento="equipamento" />
+            <Equipamento v-for="equipamento in lista.lista_produtos.equipamentos" :key="equipamento.id" class="produto-componente" :equipamento="equipamento" />
         </div>
     </ComponenteBase>
 </template>

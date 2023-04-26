@@ -11,7 +11,6 @@ const props = defineProps({
 const form = useForm({
     link: '',
     descricao: '',
-    ordem: 0,
     imagem_desktop: null,
     imagem_mobile: null,
 })
@@ -32,22 +31,23 @@ function submit() {
                         <FormError :error="form.errors.link" />
                     </div>
                     <div class="mb-3">
+                        <div class="alert alert-info mb-0">
+                            <span>A descrição da imagem é usada por Leitores de Tela para informar a Deficientes Visuais o conteúdo da imagem</span>
+                        </div>
                         <label for="descricao">Descrição</label>
                         <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
                         <FormError :error="form.errors.descricao" />
                     </div>
                     <div class="mb-3">
-                        <label for="ordem">Ordem</label>
-                        <input id="ordem" v-model="form.ordem" class="form-control" type="number">
-                        <FormError :error="form.errors.ordem" />
-                    </div>
-                    <div class="mb-3">
+                        <div class="alert alert-info mb-0">
+                            <span>As imagens do grid devem ter largura mínima de 500px</span>
+                        </div>
                         <label for="imagem_desktop">Imagem Desktop</label>
                         <input id="imagem_desktop" class="form-control" type="file" required @input="form.imagem_desktop = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_desktop" />
                     </div>
                     <div class="mb-3">
-                        <label for="imagem_mobile">Imagem Mobile</label>
+                        <label for="imagem_mobile">Imagem Mobile <span class="opcional">(Opcional)</span></label>
                         <input id="imagem_mobile" class="form-control" type="file" @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>

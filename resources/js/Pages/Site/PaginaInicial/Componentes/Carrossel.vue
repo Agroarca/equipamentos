@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Carousel } from 'bootstrap'
 import { ref, onMounted } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import CarrosselItem from '@/Models/Marketing/PaginaInicial/Carrossel/CarrosselItem'
 
 const props = defineProps({
@@ -32,7 +33,7 @@ function next() {
 
 <template>
     <div id="carrossel-principal" ref="carrosselElement" class="carousel slide">
-        <div class="carousel-indicators">
+        <div v-if="carrosselItens.length > 1" class="carousel-indicators">
             <button v-for="(item, index) in carrosselItens"
                     :key="item.id"
                     :data-bs-slide-to="index"
@@ -45,20 +46,19 @@ function next() {
         </div>
         <div class="carousel-inner">
             <div v-for="(item, index) in carrosselItens" :key="item.id" class="carousel-item" :class="{ active: index === 0 }">
-                <picture>
-                    <source :srcset="item.url_mobile" media="(max-width: 767.98px)">
-                    <img :src="item.url_desktop" :alt="item.descricao">
-                </picture>
-                <div class="carousel-caption d-block">
-                    <span>{{ item.descricao }}</span>
-                </div>
+                <Link :href="item.link">
+                    <picture>
+                        <source :srcset="item.url_mobile" media="(max-width: 767.98px)">
+                        <img :src="item.url_desktop" :alt="item.descricao">
+                    </picture>
+                </Link>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" @click="prev">
+        <button v-if="carrosselItens.length > 1" class="carousel-control-prev" type="button" @click="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true" />
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" @click="next">
+        <button v-if="carrosselItens.length > 1" class="carousel-control-next" type="button" @click="next">
             <span class="carousel-control-next-icon" aria-hidden="true" />
             <span class="visually-hidden">Next</span>
         </button>

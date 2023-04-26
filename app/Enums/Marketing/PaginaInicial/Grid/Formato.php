@@ -22,4 +22,14 @@ enum Formato: int
             self::Banner_3x1_sem_gap->value => 'Banner 3x1 sem espaçamento',
         ];
     }
+
+    public function imagensNecessarias(): int
+    {
+        return match ($this) {
+            self::Banner_4x1_2x2 => 4,
+            self::Banner_4x1_2x2_sem_gap => 4,
+            self::Banner_3x1 => 3,
+            self::Banner_3x1_sem_gap => 3,
+        };
+    }
 }

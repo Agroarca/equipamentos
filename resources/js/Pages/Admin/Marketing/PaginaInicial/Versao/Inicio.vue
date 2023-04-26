@@ -7,6 +7,8 @@ const props = defineProps({
     versoes: Object,
     statusVersao: Array,
 })
+
+const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
@@ -20,6 +22,9 @@ const props = defineProps({
                         <th>Prioridade</th>
                         <th>Data Inicial</th>
                         <th>Data Final</th>
+                        <th class="d-none d-md-table-cell">
+                            Nome
+                        </th>
                         <th />
                     </thead>
                     <tbody>
@@ -29,36 +34,23 @@ const props = defineProps({
                             <td>{{ versao.prioridade }}</td>
                             <td>{{ versao.data_inicio }}</td>
                             <td>{{ versao.data_fim }}</td>
+                            <td class="d-none d-md-table-cell">
+                                {{ versao.nome }}
+                            </td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/editar`">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-primary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
                                 <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/visualizar`">
-                                    <i class="fas fa-circle-info pe-1" />
+                                    <i class="fas fa-magnifying-glass pe-1" />
                                     Visualizar
                                 </Link>
                                 <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout`">
                                     <i class="fas fa-gears pe-1" />
                                     Layout
                                 </Link>
-                                <Link v-if="versao.status === 0" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
-                                    <i class="fas fa-gears pe-1" />
-                                    Aprovar
-                                </Link>
-                                <Link v-if="versao.status === 0" class="btn btn-danger me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/reprovar`">
-                                    <i class="fas fa-gears pe-1" />
-                                    Reprovar
-                                </Link>
-                                <Link v-if="versao.status === 1" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/publicar`">
-                                    <i class="fas fa-gears pe-1" />
-                                    Publicar
-                                </Link>
-                                <Link v-if="versao.status !== 0" class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/voltar`">
-                                    <i class="fas fa-gears pe-1" />
-                                    Voltar para edição
-                                </Link>
-                                <Link class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/excluir`">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

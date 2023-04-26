@@ -1,4 +1,15 @@
 .site-layout .pagina-inicial {
+    margin-top: -1.5rem;
+    padding-bottom: 2rem;
+
+    .componente {
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        margin-top: 4rem;
+
+        .titulo {
+            font-weight: 600;
+        }
+    }
 
     #carrossel-principal {
 

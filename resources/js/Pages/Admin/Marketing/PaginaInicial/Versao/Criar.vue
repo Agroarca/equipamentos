@@ -5,7 +5,7 @@ import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const form = useForm({
     prioridade: 0,
-    descricao: '',
+    nome: '',
     data_inicio: null,
     data_fim: null,
 })
@@ -27,17 +27,17 @@ function submit() {
                         <FormError :error="form.errors.prioridade" />
                     </div>
                     <div class="mb-3">
-                        <label for="descricao">Descrição</label>
-                        <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
-                        <FormError :error="form.errors.descricao" />
+                        <label for="nome">Nome</label>
+                        <input id="nome" v-model="form.nome" class="form-control" type="text" required>
+                        <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="data_inicio">Data Inicial</label>
+                        <label for="data_inicio">Data Inicial <span class="opcional">(Opcional)</span></label>
                         <input id="data_inicio" v-model="form.data_inicio" class="form-control" type="datetime-local">
                         <FormError :error="form.errors.data_inicio" />
                     </div>
                     <div class="mb-3">
-                        <label for="data_fim">Data Final</label>
+                        <label for="data_fim">Data Final <span class="opcional">(Opcional)</span></label>
                         <input id="data_fim" v-model="form.data_fim" class="form-control" type="datetime-local">
                         <FormError :error="form.errors.data_fim" />
                     </div>

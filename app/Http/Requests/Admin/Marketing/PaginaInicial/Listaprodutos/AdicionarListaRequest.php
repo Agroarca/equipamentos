@@ -17,7 +17,7 @@ class AdicionarListaRequest extends FormRequest
             'titulo' => 'nullable|string|min:5|max:100',
             'subtitulo' => 'nullable|string|min:5|max:255',
             'tela_cheia' => 'required|boolean',
-            'lista_produtos_id' => 'bail|nullable|integer|exists:listas,id',
+            'lista_produtos_id' => 'bail|required|integer|exists:listas,id',
         ];
     }
 

@@ -15,7 +15,6 @@ class AdicionarImagemRequest extends FormRequest
     {
         return [
             'link' => 'string|required',
-            'ordem' => 'integer|required',
             'descricao' => 'string|required|min:10|max:255',
             'imagem_desktop' => 'file|required|image|dimensions:min_width=500',
             'imagem_mobile' => 'file|nullable|image|dimensions:min_width=500'
@@ -26,7 +25,6 @@ class AdicionarImagemRequest extends FormRequest
     {
         return [
             'link' => 'Link',
-            'ordem' => 'Ordem',
             'descricao' => 'Descrição',
             'imagem_desktop' => 'Imagem desktop',
             'imagem_mobile' => 'Imagem mobile'

@@ -34,16 +34,22 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name
         Route::prefix('{versao}/layout')->name('.layout')->group(function () {
             Route::get('', [LayoutController::class, 'inicio'])->name('');
             Route::get('componente/{componente}/excluir', [LayoutController::class, 'excluirComponente'])->name('.componente.excluir');
+            Route::get('componente/{componente}/ordem/acima', [LayoutController::class, 'ordemAcima'])->name('.componente.ordem.acima');
+            Route::get('componente/{componente}/ordem/abaixo', [LayoutController::class, 'ordemAbaixo'])->name('.componente.ordem.abaixo');
+
 
             Route::prefix('carrossel')->name('.carrossel')->group(function () {
                 Route::get('visualizar', [CarrosselController::class, 'visualizar'])->name('.visualizar');
                 Route::get('adicionar', [CarrosselController::class, 'adicionar'])->name('.adicionar');
                 Route::post('salvar', [CarrosselController::class, 'salvar'])->name('.salvar');
+                Route::get('{item}/visualizar', [CarrosselController::class, 'visualizarItem'])->name('.item.visualizar');
+                Route::get('{item}/excluir', [CarrosselController::class, 'excluir'])->name('.excluir');
             });
 
             Route::prefix('banner')->name('.banner')->group(function () {
                 Route::get('adicionar', [BannerController::class, 'adicionar'])->name('.adicionar');
                 Route::post('salvar', [BannerController::class, 'salvar'])->name('.salvar');
+                Route::get('{banner}/visualizar', [BannerController::class, 'visualizar'])->name('.visualizar');
             });
 
             Route::prefix('grid')->name('.grid')->group(function () {
@@ -52,12 +58,16 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name
                 Route::get('{grid}/visualizar', [GridController::class, 'visualizar'])->name('.visualizar');
                 Route::get('{grid}/imagem/adicionar', [GridController::class, 'adicionarImagem'])->name('.imagem.adicionar');
                 Route::post('{grid}/imagem/salvar', [GridController::class, 'salvarImagem'])->name('.imagem.salvar');
+                Route::get('{grid}/imagem/{gridImagem}/visualizar', [GridController::class, 'visualizarImagem'])->name('.imagem.visualizar');
                 Route::get('{grid}/imagem/{gridImagem}/excluir', [GridController::class, 'excluirImagem'])->name('.imagem.excluir');
+                Route::get('{grid}/imagem/{gridImagem}/ordem/acima', [GridController::class, 'ordemAcima'])->name('.imagem.ordem.acima');
+                Route::get('{grid}/imagem/{gridImagem}/ordem/abaixo', [GridController::class, 'ordemAbaixo'])->name('.imagem.ordem.abaixo');
             });
 
             Route::prefix('lista/produtos')->name('.lista.produtos')->group(function () {
                 Route::get('adicionar', [ListaProdutosController::class, 'adicionar'])->name('.adicionar');
                 Route::post('salvar', [ListaProdutosController::class, 'salvar'])->name('.salvar');
+                Route::get('{lista}/visualizar', [ListaProdutosController::class, 'visualizar'])->name('.visualizar');
             });
         });
     });

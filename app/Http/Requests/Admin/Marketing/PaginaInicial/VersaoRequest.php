@@ -15,7 +15,7 @@ class VersaoRequest extends FormRequest
     {
         return [
             'prioridade' => 'required|integer',
-            'descricao' => 'required|string|min:5|max:255',
+            'nome' => 'required|string|min:5|max:255',
             'data_inicio' => 'nullable|date',
             'data_fim' => 'nullable|date',
         ];
@@ -25,7 +25,7 @@ class VersaoRequest extends FormRequest
     {
         return [
             'prioridade' => 'Prioridade',
-            'descricao' => 'Descrição',
+            'nome' => 'Nome',
             'data_inicio' => 'Data Inicial',
             'data_fim' => 'Data Final',
         ];

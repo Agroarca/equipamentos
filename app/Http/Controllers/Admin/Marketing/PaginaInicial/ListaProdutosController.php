@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Listaprodutos\AdicionarListaRequest;
 use App\Models\Equipamentos\Lista\Lista as ListaProduto;
@@ -20,6 +21,10 @@ class ListaProdutosController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $listasProdutos = ListaProduto::all();
         return Inertia::render(
             'Admin/Marketing/PaginaInicial/ListaProdutos/Adicionar',
@@ -29,6 +34,10 @@ class ListaProdutosController extends Controller
 
     public function salvar(AdicionarListaRequest $request, Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $lista = Lista::create($request->only('lista_produtos_id'));
 
         $componente = new Componente($request->only([
@@ -43,5 +52,11 @@ class ListaProdutosController extends Controller
         $componente->save();
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
+    }
+
+    public function visualizar(Versao $versao, Lista $lista): mixed
+    {
+        $lista->load(['listaProdutos', 'componente']);
+        return Inertia::render('Admin/Marketing/PaginaInicial/ListaProdutos/Visualizar', compact('versao', 'lista'));
     }
 }

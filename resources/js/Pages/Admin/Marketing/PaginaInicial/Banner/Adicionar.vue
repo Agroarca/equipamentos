@@ -28,12 +28,12 @@ function submit() {
             <div class="card card-default">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="titulo">Título (opcional)</label>
+                        <label for="titulo">Título <span class="opcional">(Opcional)</span></label>
                         <input id="titulo" v-model="form.titulo" class="form-control" type="text">
                         <FormError :error="form.errors.titulo" />
                     </div>
                     <div class="mb-3">
-                        <label for="subtitulo">Subtítulo (opcional)</label>
+                        <label for="subtitulo">Subtítulo <span class="opcional">(Opcional)</span></label>
                         <input id="subtitulo" v-model="form.subtitulo" class="form-control" type="text">
                         <FormError :error="form.errors.subtitulo" />
                     </div>
@@ -48,17 +48,31 @@ function submit() {
                         <FormError :error="form.errors.link" />
                     </div>
                     <div class="mb-3">
+                        <div class="alert alert-info mb-0">
+                            <span>A descrição da imagem é usada por Leitores de Tela para informar a Deficientes Visuais o conteúdo da imagem</span>
+                        </div>
                         <label for="descricao">Descrição da Imagem</label>
                         <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
                         <FormError :error="form.errors.descricao" />
                     </div>
                     <div class="mb-3">
+                        <div class="alert alert-info mb-0">
+                            <span>A Imagem Desktop do banner deve ter largura mínima de 1500px</span>
+                        </div>
                         <label for="imagem_desktop">Imagem Desktop</label>
                         <input id="imagem_desktop" class="form-control" type="file" required @input="form.imagem_desktop = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_desktop" />
                     </div>
                     <div class="mb-3">
-                        <label for="imagem_mobile">Imagem Mobile</label>
+                        <div class="alert alert-info mb-0">
+                            <p class="m-0">
+                                A Imagem Mobile do banner deve ter largura mínima de 500px
+                            </p>
+                            <p class="m-0">
+                                Caso não seja cadastrada uma imagem Mobile, a imagem Desktop será utilizada
+                            </p>
+                        </div>
+                        <label for="imagem_mobile">Imagem Mobile <span class="opcional">(Opcional)</span></label>
                         <input id="imagem_mobile" class="form-control" type="file" @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>

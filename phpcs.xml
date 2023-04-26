@@ -38,6 +38,7 @@
         <exclude name="Squiz.Commenting.ClassComment.Missing" />
         <exclude name="Squiz.Commenting.VariableComment.Missing" />
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
         <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification" />
         <exclude name="SlevomatCodingStandard.Functions.StrictCall" />
         <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />

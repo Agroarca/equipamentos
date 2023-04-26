@@ -1,7 +1,10 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Banner\AdicionarBannerRequest;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
@@ -19,11 +22,20 @@ class BannerController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Adicionar', compact('versao'));
     }
 
     public function salvar(AdicionarBannerRequest $request, Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
+
         $banner = new Banner($request->all());
 
         $imagemDesktop = $request->file('imagem_desktop');
@@ -50,5 +62,11 @@ class BannerController extends Controller
         $componente->save();
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
+    }
+
+    public function visualizar(Versao $versao, Banner $banner): mixed
+    {
+        $banner->load('componente');
+        return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Visualizar', compact('versao', 'banner'));
     }
 }

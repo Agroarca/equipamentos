@@ -14,7 +14,6 @@ class AdicionarImagemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ordem' => 'integer|required',
             'link' => 'string|required',
             'descricao' => 'string|required|min:10|max:255',
             'imagem_desktop' => 'file|required|image|dimensions:min_width=1500,ratio=3/1',
@@ -25,7 +24,6 @@ class AdicionarImagemRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'ordem' => 'Ordem',
             'link' => 'Link',
             'descricao' => 'Descrição',
             'imagem_desktop' => 'Imagem desktop',
