@@ -7,7 +7,6 @@ import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const props = defineProps({
     lista: Object,
-    options: Object,
     produtos: Object,
 })
 
@@ -27,7 +26,7 @@ function submit() {
             <div class="card card-default mb-4">
                 <div class="card-body">
                     <div>
-                        <SelectAjax v-model="form.equipamento_id" href="/admin/equipamentos/pesquisar" :options="options" />
+                        <SelectAjax v-model="form.equipamento_id" href="/admin/equipamentos/pesquisar" :preBusca="true" />
                         <FormError :error="form.errors.equipamento_id" />
                     </div>
                 </div>
