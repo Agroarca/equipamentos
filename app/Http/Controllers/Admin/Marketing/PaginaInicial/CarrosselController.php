@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Carrossel\AdicionarImagemRequest;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
@@ -21,11 +22,19 @@ class CarrosselController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         return Inertia::Render('Admin/Marketing/PaginaInicial/CarrosselPrincipal/AdicionarImagem', compact('versao'));
     }
 
     public function salvar(AdicionarImagemRequest $request, Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $imagemDesktop = $request->file('imagem_desktop');
         $imagemDesktop->store(config('equipamentos.path_imagens'));
 
@@ -44,6 +53,10 @@ class CarrosselController extends Controller
 
     public function excluir(Versao $versao, CarrosselItem $item): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         Storage::delete(config('equipamentos.path_imagens') . '/' . $item->nome_arquivo_desktop);
         Storage::delete(config('equipamentos.path_imagens') . '/' . $item->nome_arquivo_mobile);
         $item->delete();

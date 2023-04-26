@@ -5,10 +5,12 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 const props = defineProps({
     versao: Object,
 })
+
+const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
-    <AdminLayout titulo="Carrossel Principal" buttonText="Adicionar Imagem" :link="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/adicionar`">
+    <AdminLayout titulo="Carrossel Principal" buttonText="Adicionar Imagem">
         <div class="card card-default">
             <div class="card-body p-0">
                 <div class="card-body table-responsive p-0">
@@ -27,7 +29,7 @@ const props = defineProps({
                                         <i class="fas fa-magnifying-glass pe-1" />
                                         Visualizar
                                     </Link>
-                                    <Link class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
+                                    <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
                                         <i class="fas fa-eraser pe-1" />
                                         Excluir
                                     </Link>
@@ -41,6 +43,11 @@ const props = defineProps({
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div v-if="versao.status === STATUS_VERSAO_CRIADO" class="card-footer">
+                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/adicionar`" class="btn btn-primary me-2">
+                    <i class="fas fa-plus-circle pe-1" /> Adicionar Imagem
+                </Link>
             </div>
         </div>
     </AdminLayout>

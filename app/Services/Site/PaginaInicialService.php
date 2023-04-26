@@ -158,14 +158,14 @@ class PaginaInicialService
     {
         $quantidadeImagens = $grid->imagens()->count();
 
-        if ($grid->formato->imagensNecessarias() < $quantidadeImagens) {
+        if ($quantidadeImagens < $grid->formato->imagensNecessarias()) {
             $componenteId = $grid->componente->id;
             throw ValidationException::withMessages([
                 'grid' => "O Grid ($componenteId) não tem o número mínimo de imagens necessárias",
             ]);
         }
 
-        if ($grid->formato->imagensNecessarias() > $quantidadeImagens) {
+        if ($quantidadeImagens < $grid->formato->imagensNecessarias()) {
             $componenteId = $grid->componente->id;
             throw ValidationException::withMessages([
                 'grid' => "O Grid ($componenteId) tem mais imagens do que o número permitido de imagens",

@@ -42,17 +42,29 @@ class VersaoController extends Controller
 
     public function editar(Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         return Inertia::render('Admin/Marketing/PaginaInicial/Versao/Editar', compact('versao'));
     }
 
     public function atualizar(VersaoRequest $request, Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $versao->update($request->all());
         return redirect()->route('admin.marketing.paginaInicial');
     }
 
     public function excluir(Versao $versao): mixed
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         $versao->delete();
         return redirect()->route('admin.marketing.paginaInicial');
     }

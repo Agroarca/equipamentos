@@ -8,10 +8,12 @@ const props = defineProps({
     formato: String,
     alerta: String,
 })
+
+const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
-    <AdminLayout titulo="Visualizar Grade de Imagens" buttonText="Adicionar Imagem" :link="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/adicionar`">
+    <AdminLayout titulo="Visualizar Grade de Imagens">
         <div class="card card-default mb-5">
             <div class="card-body">
                 <div class="mb-3">
@@ -41,7 +43,7 @@ const props = defineProps({
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
-                        <th />
+                        <th v-if="versao.status === STATUS_VERSAO_CRIADO" />
                         <th>Link</th>
                         <th>Ordem</th>
                         <th>Descrição</th>
@@ -49,7 +51,7 @@ const props = defineProps({
                     </thead>
                     <tbody>
                         <tr v-for="(imagem, index) in grid.imagens" :key="imagem.id">
-                            <td>
+                            <td v-if="versao.status === STATUS_VERSAO_CRIADO">
                                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/ordem/acima`" class="btn btn-primary me-2" :class="{ disabled: index === 0 }">
                                     <i class="fa-solid fa-circle-up" />
                                 </Link>
@@ -64,7 +66,7 @@ const props = defineProps({
                                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/visualizar`" class="btn btn-primary me-2">
                                     <i class="fas fa-magnifying-glass pe-1" /> Visualizar
                                 </Link>
-                                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/excluir`" class="btn btn-danger me-2">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/excluir`" class="btn btn-danger me-2">
                                     <i class="fas fa-eraser pe-1" /> Excluir
                                 </Link>
                             </td>
@@ -76,6 +78,11 @@ const props = defineProps({
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div v-if="versao.status === STATUS_VERSAO_CRIADO" class="card-footer">
+                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/adicionar`" class="btn btn-primary me-2">
+                    <i class="fas fa-plus-circle pe-1" /> Adicionar Imagem
+                </Link>
             </div>
         </div>
     </AdminLayout>

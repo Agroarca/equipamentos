@@ -7,6 +7,8 @@ const props = defineProps({
     versoes: Object,
     statusVersao: Array,
 })
+
+const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const props = defineProps({
                                 {{ versao.nome }}
                             </td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/editar`">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-primary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/editar`">
                                     <i class="fas fa-pen-to-square pe-1" />
                                     Editar
                                 </Link>
@@ -48,7 +50,7 @@ const props = defineProps({
                                     <i class="fas fa-gears pe-1" />
                                     Layout
                                 </Link>
-                                <Link class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/excluir`">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-danger" :href="`/admin/marketing/pagina/inicial/${versao.id}/excluir`">
                                     <i class="fas fa-eraser pe-1" />
                                     Excluir
                                 </Link>

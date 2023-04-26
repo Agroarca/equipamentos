@@ -8,13 +8,16 @@ const props = defineProps({
     errors: Object,
 })
 
+const STATUS_VERSAO_CRIADO = 0
+const STATUS_VERSAO_APROVADO = 1
+
 </script>
 
 <template>
     <AdminLayout :titulo="`Layout da Versão ${versao.id}`">
         <template #buttons>
             <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/visualizar`" class="btn btn-secondary me-2 d-flex flex-nowrap align-items-center">
-                <i class="fas fa-magnifying-glass pe-1" /> Visualizar
+                <i class="fas fa-magnifying-glass pe-1" /> Visualizar Layout
             </Link>
         </template>
 
@@ -28,14 +31,14 @@ const props = defineProps({
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <th />
+                        <th v-if="versao.status === STATUS_VERSAO_CRIADO" />
                         <th>id</th>
                         <th>Componente</th>
                         <th />
                     </thead>
                     <tbody>
                         <tr>
-                            <td />
+                            <td v-if="versao.status === STATUS_VERSAO_CRIADO" />
                             <td />
                             <td>Carrossel Principal</td>
                             <td>
@@ -45,7 +48,7 @@ const props = defineProps({
                             </td>
                         </tr>
                         <tr v-for="(componente, index) in versao.componentes" :key="componente.id">
-                            <td>
+                            <td v-if="versao.status === STATUS_VERSAO_CRIADO">
                                 <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/ordem/acima`" class="btn btn-primary me-2" :class="{ disabled: index === 0 }">
                                     <i class="fa-solid fa-circle-up" />
                                 </Link>
@@ -59,7 +62,7 @@ const props = defineProps({
                                 <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/${componente.url}/${componente.tipo.id}/visualizar`" class="btn btn-primary me-2">
                                     <i class="fas fa-magnifying-glass pe-1" /> Visualizar
                                 </Link>
-                                <Link :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/excluir`" class="btn btn-danger me-2">
+                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${props.versao.id}/layout/componente/${componente.id}/excluir`" class="btn btn-danger me-2">
                                     <i class="fas fa-eraser pe-1" /> Excluir
                                 </Link>
                             </td>
@@ -68,28 +71,28 @@ const props = defineProps({
                 </table>
             </div>
             <div class="card-footer">
-                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/adicionar`" class="btn btn-primary me-2">
+                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/adicionar`" class="btn btn-primary me-2">
                     <i class="fas fa-plus-circle pe-1" /> Adicionar Grade de Imagens
                 </Link>
-                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/banner/adicionar`" class="btn btn-primary me-2">
+                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/banner/adicionar`" class="btn btn-primary me-2">
                     <i class="fas fa-plus-circle pe-1" /> Adicionar Banner
                 </Link>
-                <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/lista/produtos/adicionar`" class="btn btn-primary me-2">
+                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/lista/produtos/adicionar`" class="btn btn-primary me-2">
                     <i class="fas fa-plus-circle pe-1" /> Adicionar Lista de Produtos
                 </Link>
-                <Link v-if="versao.status === 0" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
+                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
                     <i class="fas fa-gears pe-1" />
                     Aprovar
                 </Link>
-                <Link v-if="versao.status === 0" class="btn btn-danger me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/reprovar`">
+                <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-danger me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/reprovar`">
                     <i class="fas fa-gears pe-1" />
                     Reprovar
                 </Link>
-                <Link v-if="versao.status === 1" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/publicar`">
+                <Link v-if="versao.status === STATUS_VERSAO_APROVADO" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/publicar`">
                     <i class="fas fa-gears pe-1" />
                     Publicar
                 </Link>
-                <Link v-if="versao.status !== 0" class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/voltar`">
+                <Link v-if="versao.status !== STATUS_VERSAO_CRIADO" class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/voltar`">
                     <i class="fas fa-gears pe-1" />
                     Voltar para edição
                 </Link>
