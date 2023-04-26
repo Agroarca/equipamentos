@@ -57,7 +57,7 @@ const STATUS_VERSAO_CRIADO = 0
                             </td>
                         </tr>
                         <tr v-if="versoes.data.length == 0">
-                            <td colspan="6">
+                            <td colspan="7">
                                 Nenhum registro encontrado
                             </td>
                         </tr>
