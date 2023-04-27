@@ -488,7 +488,9 @@ class EquipamentoTest extends TestCase
 
     public function testPodePesquisar(): void
     {
-        $equipamento = Equipamento::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
@@ -496,6 +498,18 @@ class EquipamentoTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has(1));
+    }
+
+    public function testNaoPodePesquisarEquipamentoNaoAprovado(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 
     public function testNaoPodePesquisarInexistente(): void
