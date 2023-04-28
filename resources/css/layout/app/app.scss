@@ -8,6 +8,10 @@
 @import 'notificacao.scss';
 @import 'selectajax.scss';
 
+body {
+    margin: 0 !important;
+}
+
 .cursor-pointer {
     cursor: pointer;
 }

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-restricted-html-elements */
 import { Link, usePage } from '@inertiajs/vue3'
 import Menu from './Menu.vue'
+import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
@@ -10,12 +12,14 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
     <div class="header">
         <div class="header-contact py-2">
             <div class="container contact-container d-flex flex-nowrap">
-                <span class="phone"><i class="fas fa-phone-alt" />+55 54 9902-0345</span>
-                <span class="mail"><i class="fas fa-envelope" />contato@agroarca.com.br</span>
                 <Link v-if="isAdmin" class="painel" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />
                     <span class="d-none d-sm-inline">Acessar o Painel</span>
                 </Link>
+                <a :href="usePage().props.dados.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
+                    <i class="fa-brands fa-whatsapp" />
+                    <Formatacao tipo="telefone" :valor="usePage().props.dados.contato.telefone" />
+                </a>
             </div>
         </div>
         <header class="py-0 py-md-3 mb-4 navbar navbar-expand-md d-block">

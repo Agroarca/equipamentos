@@ -10,7 +10,8 @@
         }
 
         i {
-            padding: .5em;
+            font-size: 1.4rem;
+            padding: .4rem;
         }
 
         a {
@@ -20,7 +21,13 @@
         .contact-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+
+            .phone {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+            }
         }
     }
 
