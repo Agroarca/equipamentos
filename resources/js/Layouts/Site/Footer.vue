@@ -1,23 +1,30 @@
 <script setup lang="ts">
-
+import { usePage } from '@inertiajs/vue3'
+/* eslint-disable vue/no-restricted-html-elements */
 </script>
 
 <template>
     <div class="footer mt-4">
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
-        <p>Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer Footer</p>
+        <a :href="usePage().props.dados.contato.link"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Clique para falar conosco no Whatsapp"
+           class="contato">
+            <span class="contato-titulo me-4">
+                Fale Conosco
+            </span>
+            <span class="contato-numero">
+                <i class="fa-brands fa-whatsapp mx-1 fa-lg" />
+                +55 54 99902-0345
+            </span>
+        </a>
+        <div class="legal d-flex flex-column flex-md-row">
+            <span class="me-md-4">Rua Marco Angonese, 121 - Atlântico</span>
+            <span class="me-md-4">Erechim/RS - CEP 99705-574</span>
+            <span>{{ new Date().getFullYear() }} - Todos os direitos reservados</span>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.footer {
-    height: 300px;
-    background-color: #009934;
-    color: #fff
-}
 </style>

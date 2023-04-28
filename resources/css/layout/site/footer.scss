@@ -1,0 +1,26 @@
+.site-layout .footer {
+    .contato {
+        height: 200px;
+        background-color: #009934;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+
+        .contato-titulo,
+        .contato-numero {
+            font-size: 2rem;
+        }
+    }
+
+    .legal {
+        justify-content: center;
+        align-items: center;
+        $color: $cinza-primary;
+        padding: 1.5rem 1rem;
+        font-size: .8rem;
+        text-align: center;
+    }
+}
