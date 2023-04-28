@@ -12,14 +12,14 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
     <div class="header">
         <div class="header-contact py-2">
             <div class="container contact-container d-flex flex-nowrap">
-                <Link v-if="isAdmin" class="painel" href="/admin/dashboard">
-                    <i class="fa-solid fa-chart-line" />
-                    <span class="d-none d-sm-inline">Acessar o Painel</span>
-                </Link>
                 <a :href="usePage().props.dados.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
                     <Formatacao tipo="telefone" :valor="usePage().props.dados.contato.telefone" />
                 </a>
+                <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
+                    <i class="fa-solid fa-chart-line" />
+                    <span class="d-none d-sm-inline">Acessar o Painel</span>
+                </Link>
             </div>
         </div>
         <header class="py-0 py-md-3 mb-4 navbar navbar-expand-md d-block">
