@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import Menu from './Menu.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
+
+let pesquisa
+
+function pesquisar() {
+    let url = new URL(window.location.href)
+    url.searchParams.set('pesquisa', pesquisa)
+    router.visit(`/pesquisa?${url.searchParams}`, { preserveState: true, preserveScroll: true })
+}
 </script>
 
 <template>
@@ -27,8 +35,8 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
                 </div>
                 <div class="header-item search-container input-group order-5 order-md-2">
                     <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                    <input placeholder="Pequisar produtos..." type="text" class="search form-control">
-                    <button type="submit">
+                    <input v-model="pesquisa" placeholder="Pesquisar produtos..." type="text" class="search form-control" @change="pesquisar()">
+                    <button type="submit" @click="pesquisar()">
                         <i class="fa fa-search" />
                     </button>
                 </div>

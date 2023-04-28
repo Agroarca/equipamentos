@@ -30,6 +30,8 @@ Route::name('site')->group(function () {
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
+    Route::get('pesquisa', [SiteController::class, 'pesquisa'])->name('.pesquisa');
+
     Route::middleware(['auth'])->group(function () {
         Route::name('.equipamento')->prefix('equipamento')->group(function () {
             Route::get('cadastrar/{id?}', [EquipamentoController::class, 'cadastrar'])->name('.cadastrar');

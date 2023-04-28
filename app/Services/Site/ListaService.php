@@ -68,4 +68,33 @@ class ListaService
                 ->where('lista_id', $id);
         });
     }
+
+    /**
+     * Retorna a query para a pesquisa de produtos, com base no termo de pesquisa, retornando resultados
+     * que contenham o termo no título, descrição, nome do modelo ou nome da marca.
+     */
+    public function queryPesquisa(): Builder
+    {
+        $termo = request()->query('pesquisa');
+        return self::queryBase()->where(function ($query) use ($termo): void {
+            $query->whereFullText('equipamentos.titulo', $termo)
+                ->orWhere('equipamentos.titulo', 'like', "%$termo%")
+
+                ->orWhereFullText('equipamentos.descricao', $termo)
+                ->orWhere('equipamentos.descricao', 'like', "%$termo%")
+
+                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($termo): void {
+                    $query->select('id')
+                        ->from('modelos')
+                        ->whereFullText('modelos.nome', $termo)
+                        ->orWhere('modelos.nome', 'like', "%$termo%")
+                        ->orWhereIn('marca_id', function ($query) use ($termo): void {
+                            $query->select('id')
+                                ->from('marcas')
+                                ->whereFullText('marcas.nome', $termo)
+                                ->orWhere('marcas.nome', 'like', "%$termo%");
+                        });
+                });
+        });
+    }
 }
