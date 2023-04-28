@@ -1,27 +1,76 @@
 <script  setup lang="ts">
+/* eslint-disable vuejs-accessibility/form-control-has-label */
 import Slider from '@vueform/slider'
+import { onMounted, ref } from 'vue'
+import Mask from '@/Componentes/Helper/InputMask'
 
 const props = defineProps({
-    value: Array,
-    min: Number,
-    max: Number,
-    step: Number,
+    minimo: Number,
+    maximo: Number,
+    step: {
+        type: Number,
+        default: 1000,
+    },
+    inicialMinimo: Number,
+    inicialMaximo: Number,
     tooltips: Boolean,
+    inputMask: String,
+    showInputs: Boolean,
 })
 
-const emit = defineEmits<{(e: 'slide', value: any): void}>()
+let values = ref([
+    props.inicialMinimo ?? props.minimo,
+    props.inicialMaximo ?? props.maximo,
+])
 
-function slide(value: any) {
-    emit('slide', value)
+const minFormat = ref(null)
+const maxFormat = ref(null)
+
+onMounted(() => {
+    if (props.inputMask) {
+        Mask[props.inputMask](minFormat.value)
+        Mask[props.inputMask](maxFormat.value)
+    }
+})
+
+const emit = defineEmits<{(e: 'charge', value: any): void}>()
+
+function slide(sliderValues: any) {
+    values.value = sliderValues
 }
+
+function change(sliderValues: any) {
+    values.value = sliderValues
+    console.log(sliderValues)
+    emit('charge', sliderValues)
+}
+
 </script>
 
 <template>
-    <Slider
-        :value="props.value"
-        :min="props.min"
-        :max="props.max"
-        :step="props.step"
-        :tooltips="props.tooltips"
-        @slide="slide" />
+    <div>
+        <Slider
+            v-model="values"
+            :min="minimo"
+            :max="maximo"
+            :step="step"
+            :tooltips="tooltips"
+            @slide="slide"
+            @change="change" />
+
+        <div v-if="showInputs" class="inputs mt-2">
+            <span class="d-block">de: </span><input ref="minFormat" v-model="values[0]" class="form-control" type="text" name="min" @change="change(values)">
+            <span class="d-block">até: </span><input ref="maxFormat" v-model="values[1]" class="form-control" type="text" name="max" @change="change(values)">
+        </div>
+    </div>
 </template>
+
+<style scoped>
+
+.inputs {
+    display: grid;
+    grid-template-columns: 32px auto;
+    align-items: center;
+}
+
+</style>

@@ -12,4 +12,10 @@ return [
         'notificacao_websocket_delay_secs' => 0,
         'notificacao_push_delay_secs' => 60,
     ],
+
+    'filtros' => [
+        'quantidade_categorias' => 5,
+        'quantidade_marcas' => 5,
+        'quantidade_modelos' => 5,
+    ]
 ];

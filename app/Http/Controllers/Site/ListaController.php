@@ -19,8 +19,20 @@ class ListaController extends Controller
     public function categoria(?int $id = null)
     {
         $categoria = Categoria::find($id);
-        $equipamentos = $this->listaService->queryCategoria($id)->paginate(24);
-        return Inertia::render('Site/Lista/Categoria', compact(['equipamentos', 'categoria']));
+
+        $equipamentos = $this->listaService->filtrarQuery(
+            $this->listaService->queryCategoria($id)
+        )->paginate(24);
+
+        $filtros = $this->listaService->filtros(
+            $this->listaService->queryCategoria($id)
+        );
+
+        $filtrosSelecionados = $this->listaService->filtrosSelecionados(
+            $this->listaService->queryCategoria($id)
+        );
+
+        return Inertia::render('Site/Lista/Categoria', compact(['equipamentos', 'categoria', 'filtros', 'filtrosSelecionados']));
     }
 
     public function marca(int $id)
