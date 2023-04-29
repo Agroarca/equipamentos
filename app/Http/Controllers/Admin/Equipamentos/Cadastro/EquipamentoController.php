@@ -197,6 +197,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::select('id', 'titulo as texto')
             ->whereFullText('titulo', $request->input('termo'))
             ->orWhere('titulo', 'like', '%' . $request->input('termo') . '%')
+            ->where('status', StatusEquipamento::Aprovado)
             ->take(10)
             ->get();
 

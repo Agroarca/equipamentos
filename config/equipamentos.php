@@ -17,5 +17,10 @@ return [
         'quantidade_categorias' => 5,
         'quantidade_marcas' => 5,
         'quantidade_modelos' => 5,
+    ],
+
+    'contato' => [
+        'telefone' => '54999020345',
+        'link' => 'https://wa.me/+555499020345',
     ]
 ];

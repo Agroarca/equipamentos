@@ -5,7 +5,6 @@
 namespace App\Mail\Auth;
 
 use App\Models\Usuario;
-use Faker\Core\Number;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -60,7 +59,7 @@ class RedefinirSenha extends Mailable
         ], true);
     }
 
-    private function getUrlMinutosExpiracao(): Number
+    private function getUrlMinutosExpiracao(): int
     {
         return config('auth.passwords.' . config('auth.defaults.passwords') . '.expire');
     }

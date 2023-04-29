@@ -74,7 +74,6 @@ class ListaController extends Controller
     public function produtos(int $id)
     {
         $lista = Lista::findOrFail($id);
-        $options = Equipamento::select('id', 'titulo as texto')->take(10)->get();
         $produtos = $lista->produtoLista()->with([
             'equipamento',
             'equipamento.modelo',
@@ -82,7 +81,7 @@ class ListaController extends Controller
             'equipamento.modelo.marca',
         ])->paginate();
 
-        return Inertia::render('Admin/Equipamentos/Lista/Produtos', compact('lista', 'options', 'produtos'));
+        return Inertia::render('Admin/Equipamentos/Lista/Produtos', compact('lista', 'produtos'));
     }
 
     public function remover(int $listaId, int $produtoId)

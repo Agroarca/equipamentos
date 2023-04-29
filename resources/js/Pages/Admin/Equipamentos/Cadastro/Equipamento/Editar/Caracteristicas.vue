@@ -47,6 +47,11 @@ function submit() {
                                     <ValorCaracteristicas v-model="form['carac-' + caracteristica.id]" :caracteristica="caracteristica" />
                                 </td>
                             </tr>
+                            <tr v-if="caracteristicas.length == 0">
+                                <td colspan="2">
+                                    Nenhum registro encontrado
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -71,23 +71,24 @@ onUnmounted(() => {
             </aside>
             <div class="admin-wrapper">
                 <main class="container pt-3">
-                    <slot name="header">
+                    <slot name="header" />
+                    <template v-if="titulo">
                         <Head :title="titulo" />
-                        <header v-if="link" class="row pb-4">
-                            <div class="col-sm-8">
+                        <header class="row pb-4">
+                            <div class="col-md-8">
                                 <h1>{{ titulo }}</h1>
                             </div>
-                            <div class="col-sm-4 pt-3 pt-sm-0">
-                                <Link :href="link" class="btn btn-primary float-sm-end">
-                                    <i class="fas fa-plus-circle pr-1" /> {{ buttonText }}
-                                </Link>
+                            <div class="col-md-4 pt-3 pt-md-0 d-flex justify-content-md-end align-items-start">
+                                <slot name="buttons">
+                                    <template v-if="link">
+                                        <Link :href="link" class="btn btn-primary me-2 d-flex flex-nowrap align-items-center">
+                                            <i class="fas fa-plus-circle pe-1" /> {{ buttonText }}
+                                        </Link>
+                                    </template>
+                                </slot>
                             </div>
                         </header>
-                        <header v-else class="pb-4">
-                            <h1>{{ titulo }}</h1>
-                        </header>
-                    </slot>
-
+                    </template>
                     <article>
                         <slot />
                     </article>
