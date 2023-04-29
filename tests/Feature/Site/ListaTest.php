@@ -19,8 +19,7 @@ class ListaTest extends TestCase
     {
         Equipamento::factory()->statusAprovado()->count(4)->create();
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get('/categoria');
+        $response = $this->get('/categoria');
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
@@ -35,8 +34,7 @@ class ListaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get("/categoria/{$categoria->id}");
+        $response = $this->get("/categoria/{$categoria->id}");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
@@ -61,8 +59,7 @@ class ListaTest extends TestCase
 
         Equipamento::factory()->statusAprovado()->count(4)->create();
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get("/categoria/{$categoria->id}");
+        $response = $this->get("/categoria/{$categoria->id}");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
@@ -84,8 +81,7 @@ class ListaTest extends TestCase
             'modelo_id' => $modelo2->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get("/marca/{$modelo1->marca_id}");
+        $response = $this->get("/marca/{$modelo1->marca_id}");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Marca')
@@ -96,15 +92,13 @@ class ListaTest extends TestCase
 
     public function testNaoPodeAcessarMarcaInexistente(): void
     {
-        $response = $this->actingAs($this->getAdmin())
-            ->get('/marca/0');
+        $response = $this->get('/marca/0');
         $response->assertStatus(404);
     }
 
     public function testNaoPodeAcessarMarcaSemId(): void
     {
-        $response = $this->actingAs($this->getAdmin())
-            ->get('/marca');
+        $response = $this->get('/marca');
         $response->assertStatus(404);
     }
 
@@ -121,8 +115,7 @@ class ListaTest extends TestCase
             'lista_id' => $lista2->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get("/lista/{$lista1->id}");
+        $response = $this->get("/lista/{$lista1->id}");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Lista')
@@ -144,8 +137,7 @@ class ListaTest extends TestCase
             'lista_id' => $lista2->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
-            ->get("/lista/{$lista1->slug}");
+        $response = $this->get("/lista/{$lista1->slug}");
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Lista')
