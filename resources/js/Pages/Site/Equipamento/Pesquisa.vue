@@ -3,11 +3,10 @@ import Lista from '../Lista/Componentes/Lista.vue'
 
 const props = defineProps({
     equipamentos: Object,
+    pesquisa: String,
 })
-let url = new URL(window.location.href)
-let pesquisa = url.searchParams.get('pesquisa')
 </script>
 
 <template>
-    <Lista :equipamentos="equipamentos" :title="`${equipamentos.data.length} Resultados para ${pesquisa}`" />
+    <Lista :equipamentos="equipamentos" :title="`${equipamentos.data.length} resultados para ${pesquisa}`" />
 </template>

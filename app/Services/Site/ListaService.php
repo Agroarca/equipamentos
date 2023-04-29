@@ -73,26 +73,25 @@ class ListaService
      * Retorna a query para a pesquisa de produtos, com base no termo de pesquisa, retornando resultados
      * que contenham o termo no título, descrição, nome do modelo ou nome da marca.
      */
-    public function queryPesquisa(): Builder
+    public function queryPesquisa($pesquisa): Builder
     {
-        $termo = request()->query('pesquisa');
-        return self::queryBase()->where(function ($query) use ($termo): void {
-            $query->whereFullText('equipamentos.titulo', $termo)
-                ->orWhere('equipamentos.titulo', 'like', "%$termo%")
+        return self::queryBase()->where(function ($query) use ($pesquisa): void {
+            $query->whereFullText('equipamentos.titulo', $pesquisa)
+                ->orWhere('equipamentos.titulo', 'like', "%$pesquisa%")
 
-                ->orWhereFullText('equipamentos.descricao', $termo)
-                ->orWhere('equipamentos.descricao', 'like', "%$termo%")
+                ->orWhereFullText('equipamentos.descricao', $pesquisa)
+                ->orWhere('equipamentos.descricao', 'like', "%$pesquisa%")
 
-                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($termo): void {
+                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($pesquisa): void {
                     $query->select('id')
                         ->from('modelos')
-                        ->whereFullText('modelos.nome', $termo)
-                        ->orWhere('modelos.nome', 'like', "%$termo%")
-                        ->orWhereIn('marca_id', function ($query) use ($termo): void {
+                        ->whereFullText('modelos.nome', $pesquisa)
+                        ->orWhere('modelos.nome', 'like', "%$pesquisa%")
+                        ->orWhereIn('marca_id', function ($query) use ($pesquisa): void {
                             $query->select('id')
                                 ->from('marcas')
-                                ->whereFullText('marcas.nome', $termo)
-                                ->orWhere('marcas.nome', 'like', "%$termo%");
+                                ->whereFullText('marcas.nome', $pesquisa)
+                                ->orWhere('marcas.nome', 'like', "%$pesquisa%");
                         });
                 });
         });

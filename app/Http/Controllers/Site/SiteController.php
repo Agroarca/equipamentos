@@ -101,9 +101,9 @@ class SiteController extends Controller
         return Redirect::route('site.perfil');
     }
 
-    public function pesquisa()
+    public function pesquisa(string $pesquisa)
     {
-        $equipamentos = $this->listaservice->queryPesquisa()->paginate(24);
-        return Inertia::render('Site/Equipamento/Pesquisa', compact('equipamentos'));
+        $equipamentos = $this->listaservice->queryPesquisa($pesquisa)->paginate(24);
+        return Inertia::render('Site/Equipamento/Pesquisa', compact('equipamentos', 'pesquisa'));
     }
 }

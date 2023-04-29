@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { Link, router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Menu from './Menu.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
 
-let pesquisa
+let pesquisa = ref('')
 
 function pesquisar() {
-    let url = new URL(window.location.href)
-    url.searchParams.set('pesquisa', pesquisa)
-    router.visit(`/pesquisa?${url.searchParams}`, { preserveState: true, preserveScroll: true })
+    if (pesquisa.value.trim()) {
+        router.visit(`/pesquisa/${pesquisa.value}`)
+    }
 }
 </script>
 
@@ -34,11 +35,13 @@ function pesquisar() {
                     </Link>
                 </div>
                 <div class="header-item search-container input-group order-5 order-md-2">
-                    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                    <input v-model="pesquisa" placeholder="Pesquisar produtos..." type="text" class="search form-control" @change="pesquisar()">
-                    <button type="submit" @click="pesquisar()">
-                        <i class="fa fa-search" />
-                    </button>
+                    <form class="d-flex w-100" @submit.prevent="pesquisar()">
+                        <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
+                        <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
+                        <button type="submit">
+                            <i class="fa fa-search" />
+                        </button>
+                    </form>
                 </div>
                 <Link class="header-item profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />

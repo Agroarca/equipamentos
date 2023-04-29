@@ -57,7 +57,7 @@ class PesquisaTest extends TestCase
             ->has('equipamentos.data', 0));
     }
 
-    public function testPodePesquisarPelaModelo(): void
+    public function testPodePesquisarPeloModelo(): void
     {
         $equipamento = Equipamento::factory()->statusAprovado()->create();
 
