@@ -20,7 +20,7 @@ import { Link } from '@inertiajs/vue3'
                         </Link>
                     </li>
                     <li class="nav-item">
-                        <Link class="menu-item" href="/equipamento/categoria">
+                        <Link class="menu-item" href="/equipamento/cadastrar">
                             Cadastrar Produto
                         </Link>
                     </li>

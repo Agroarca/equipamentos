@@ -27,12 +27,12 @@ class EquipamentoController extends Controller
     ) {
     }
 
-    public function categoria()
+    public function cadastrar()
     {
         return Inertia::render('Site/Equipamento/Cadastrar/Categoria');
     }
 
-    public function cadastrar(int $id)
+    public function editar(int $id)
     {
         $equipamento = Equipamento::with([
             'categoria',
@@ -45,7 +45,7 @@ class EquipamentoController extends Controller
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('equipamento'));
     }
 
-    public function cadastrarNovo(int $id)
+    public function cadastro(int $id)
     {
         $categoria = Categoria::findOrFail($id);
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categoria'));

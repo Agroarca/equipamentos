@@ -4,7 +4,7 @@ import axios from 'axios'
 import { reactive } from 'vue'
 
 const emit = defineEmits<{(e: 'escolherCategoria', value: Number): void}>()
-const state = reactive({
+const resultados = reactive({
     categoriaAtual: {},
     categorias: [],
     categorias_mae: [],
@@ -14,9 +14,9 @@ function atualizarCategorias(categoriaId?) {
     loader.show()
     const url = categoriaId ? `/categorias/pesquisar/${categoriaId}` : '/categorias/pesquisar'
     axios.get(url).then((response) => {
-        state.categorias = response.data.categorias
-        state.categoriaAtual = response.data.categoria
-        state.categorias_mae = response.data.categorias_mae
+        resultados.categorias = response.data.categorias
+        resultados.categoriaAtual = response.data.categoria
+        resultados.categorias_mae = response.data.categorias_mae
         loader.hide()
     })
 }
@@ -39,7 +39,7 @@ function escolherCategoria(id) {
                             Categorias
                         </button>
                     </li>
-                    <li v-for="categoria in state.categorias_mae" :key="categoria.id" class="breadcrumb-item">
+                    <li v-for="categoria in resultados.categorias_mae" :key="categoria.id" class="breadcrumb-item">
                         <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias(categoria.id)">
                             {{ categoria.nome }}
                         </button>
@@ -54,7 +54,7 @@ function escolherCategoria(id) {
                     <th />
                 </thead>
                 <tbody>
-                    <tr v-for="categoria in state.categorias" :key="categoria.id">
+                    <tr v-for="categoria in resultados.categorias" :key="categoria.id">
                         <td>{{ categoria.nome }}</td>
                         <td>
                             <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(categoria.id)">

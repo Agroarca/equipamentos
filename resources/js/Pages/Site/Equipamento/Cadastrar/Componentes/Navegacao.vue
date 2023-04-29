@@ -17,7 +17,7 @@ const props = defineProps({
             </Link>
         </li>
         <li class="nav-item">
-            <Link class="nav-link" :class="{ active: passoAtual == 1, disabled: passoCadastro < 1 }" :href="`/equipamento/cadastrar/${equipamento?.id ?? ''}`">
+            <Link class="nav-link" :class="{ active: passoAtual == 1, disabled: passoCadastro < 1 }" :href="`/equipamento/cadastro/editar/${equipamento?.id ?? ''}`">
                 Cadastrar
             </Link>
         </li>

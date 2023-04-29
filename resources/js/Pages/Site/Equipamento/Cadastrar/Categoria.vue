@@ -5,7 +5,7 @@ import Navegacao from './Componentes/Navegacao.vue'
 import EscolherCategoria from '@/Pages/Admin/Equipamentos/Cadastro/Categoria/Componentes/EscolherCategoria.vue'
 
 function escolherCategoria(id) {
-    router.visit(`/equipamento/cadastrar/categoria/${id}`)
+    router.visit(`/equipamento/cadastro/${id}`)
 }
 
 </script>

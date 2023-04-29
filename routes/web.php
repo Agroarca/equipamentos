@@ -33,9 +33,9 @@ Route::name('site')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::name('.equipamento')->prefix('equipamento')->group(function () {
-            Route::get('categoria', [EquipamentoController::class, 'categoria'])->name('.categoria');
-            Route::get('cadastrar/{id}', [EquipamentoController::class, 'cadastrar'])->name('.cadastrar');
-            Route::get('cadastrar/categoria/{id}', [EquipamentoController::class, 'cadastrarNovo'])->name('.cadastrarNovo');
+            Route::get('cadastrar', [EquipamentoController::class, 'cadastrar'])->name('.cadastrar');
+            Route::get('cadastro/{id}', [EquipamentoController::class, 'cadastro'])->name('.cadastro');
+            Route::get('cadastro/editar/{id}', [EquipamentoController::class, 'editar'])->name('.editar');
             Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
             Route::get('{id}/imagens', [EquipamentoController::class, 'imagens'])->name('.imagens');
             Route::post('{id}/imagens/salvar', [EquipamentoController::class, 'salvarImagens'])->name('.salvarImagens');
