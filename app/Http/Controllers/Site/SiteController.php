@@ -9,8 +9,9 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
-use Illuminate\Support\Arr;
+use App\Services\Site\ListaService;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -20,7 +21,8 @@ class SiteController extends Controller
 {
     public function __construct(
         private EquipamentoCaracteristicaService $equipCaracService,
-        private PaginaInicialService $paginaInicialService
+        private PaginaInicialService $paginaInicialService,
+        private ListaService $listaservice
     ) {
     }
 
@@ -93,5 +95,11 @@ class SiteController extends Controller
         $user->update($attributes);
 
         return Redirect::route('site.perfil');
+    }
+
+    public function pesquisa(string $pesquisa)
+    {
+        $equipamentos = $this->listaservice->queryPesquisa($pesquisa)->paginate(24);
+        return Inertia::render('Site/Equipamento/Pesquisa', compact('equipamentos', 'pesquisa'));
     }
 }
