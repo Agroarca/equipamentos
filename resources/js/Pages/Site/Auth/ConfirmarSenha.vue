@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
-import Senha from '@/Componentes/Site/Senha.vue';
+import Senha from '@/Componentes/Site/Senha.vue'
 
 const form = useForm({
     password: '',
