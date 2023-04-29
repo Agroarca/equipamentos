@@ -3,6 +3,7 @@
 namespace Tests\Feature\Site;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -82,5 +83,68 @@ class PerfilTest extends TestCase
             ]);
 
         $response->assertInvalid('password');
+    }
+
+    public function testPodeLogarAposAlterarSenha(): void
+    {
+        $usuario = $this->getUsuario();
+        $novaSenha = Str::random(25);
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => $usuario->email,
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => $novaSenha,
+                'password_confirmation' => $novaSenha,
+            ]);
+
+        $response->assertValid();
+
+        $response->assertRedirectToRoute('site.perfil');
+
+        Auth::logout();
+
+        $this->assertGuest();
+
+        $responseLogin = $this->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => $novaSenha,
+        ]);
+
+        $responseLogin->assertRedirectToRoute('site.perfil');
+
+        $this->assertAuthenticated();
+    }
+
+    public function testNaoPodeLogarComSenhaAntiga(): void
+    {
+        $usuario = $this->getUsuario();
+        $novaSenha = Str::random(25);
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => $usuario->email,
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => $novaSenha,
+                'password_confirmation' => $novaSenha,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('site.perfil');
+
+        Auth::logout();
+
+        $this->assertGuest();
+
+        $responseLogin = $this->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => $usuario->password,
+        ]);
+
+        $responseLogin->assertInvalid('email');
+
+        $this->assertGuest();
     }
 }

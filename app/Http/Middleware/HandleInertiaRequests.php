@@ -20,6 +20,12 @@ class HandleInertiaRequests extends Middleware
             'admin' => [
                 'menus' => MenuService::getAuthMenus(),
             ],
+            'dados' => [
+                'contato' => [
+                    'telefone' => config('equipamentos.contato.telefone'),
+                    'link' => config('equipamentos.contato.link'),
+                ],
+            ],
         ]);
     }
 }

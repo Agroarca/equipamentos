@@ -19,7 +19,6 @@ COPY . ./
 COPY --from=node-build /app/public/build public/build
 
 RUN apt update && \
-    apt upgrade -y && \
     apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
     apt clean && \
     docker-php-ext-configure zip && \
