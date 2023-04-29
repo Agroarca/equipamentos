@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class EquipamentoImagem extends Model
 {
@@ -26,8 +27,8 @@ class EquipamentoImagem extends Model
     public function url(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => asset(
-                config('equipamentos.public_path_imagens') . $attributes['nome_arquivo']
+            get: fn ($value, $attributes) => Storage::url(
+                config('equipamentos.path_imagens') . $attributes['nome_arquivo']
             )
         );
     }
