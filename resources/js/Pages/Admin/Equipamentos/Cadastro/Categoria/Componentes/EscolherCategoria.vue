@@ -7,7 +7,7 @@ const emit = defineEmits<{(e: 'escolherCategoria', value: Number): void}>()
 const state = reactive({
     categoriaAtual: {},
     categorias: [],
-    arvore: [],
+    categorias_mae: [],
 })
 
 function atualizarCategorias(categoriaId?) {
@@ -16,7 +16,7 @@ function atualizarCategorias(categoriaId?) {
     axios.get(url).then((response) => {
         state.categorias = response.data.categorias
         state.categoriaAtual = response.data.categoria
-        state.arvore = response.data.arvore
+        state.categorias_mae = response.data.categorias_mae
         loader.hide()
     })
 }
@@ -33,18 +33,18 @@ function escolherCategoria(id) {
     <div>
         <div class="mb-3">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias()">
                             Categorias
                         </button>
                     </li>
-                    <li v-for="bread in state.arvore" :key="bread.id" class="breadcrumb-item">
-                        <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias(bread.id)">
-                            {{ bread.nome }}
+                    <li v-for="categoria in state.categorias_mae" :key="categoria.id" class="breadcrumb-item">
+                        <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias(categoria.id)">
+                            {{ categoria.nome }}
                         </button>
                     </li>
-                </ol>
+                </ul>
             </nav>
         </div>
         <div class="table-responsive">
@@ -54,13 +54,13 @@ function escolherCategoria(id) {
                     <th />
                 </thead>
                 <tbody>
-                    <tr v-for="cat in state.categorias" :key="cat.id">
-                        <td>{{ cat.nome }}</td>
+                    <tr v-for="categoria in state.categorias" :key="categoria.id">
+                        <td>{{ categoria.nome }}</td>
                         <td>
-                            <button v-if="cat.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(cat.id)">
+                            <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(categoria.id)">
                                 Acessar <i class="fas fa-arrow-right" />
                             </button>
-                            <button type="button" class="btn btn-success " @click="escolherCategoria(cat.id)">
+                            <button type="button" class="btn btn-success " @click="escolherCategoria(categoria.id)">
                                 Escolher <i class="fas fa-arrow-right" />
                             </button>
                         </td>

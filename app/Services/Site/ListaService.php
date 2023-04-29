@@ -73,16 +73,16 @@ class ListaService
     /**
      * Retorna um array com a árvore de categorias de um produto.
      */
-    public function arvoreCategoria(?int $id): array
+    public function arvoreCategoria(?int $id = null): array
     {
         return DB::select('
-                with recursive arvore_categorias as (
-                    select id, nome, categoria_mae_id, 1 as nivel
-                    from categorias where id = ?
-                    union all
-                    select c.id, c.nome, c.categoria_mae_id, ct.nivel + 1 as nivel
-                    from categorias c inner join arvore_categorias ct on ct.categoria_mae_id = c.id
-                )
+            with recursive arvore_categorias as (
+                select id, nome, categoria_mae_id, 1 as nivel
+                from categorias where id = ?
+                union all
+                select c.id, c.nome, c.categoria_mae_id, ct.nivel + 1 as nivel
+                from categorias c inner join arvore_categorias ct on ct.categoria_mae_id = c.id
+            )
             select id, nome, categoria_mae_id
             from arvore_categorias
             order by nivel desc;', [$id]);

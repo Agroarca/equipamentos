@@ -32,18 +32,16 @@ class EquipamentoController extends Controller
         return Inertia::render('Site/Equipamento/Cadastrar/Categoria');
     }
 
-    public function cadastrar(?int $id = null)
+    public function cadastrar(int $id)
     {
-        $equipamento = null;
-        if ($id) {
-            $equipamento = Equipamento::with([
-                'categoria',
-                'imagens',
-                'modelo',
-                'modelo.marca',
-                'categoria',
-            ])->findOrFail($id);
-        }
+        $equipamento = Equipamento::with([
+            'categoria',
+            'imagens',
+            'modelo',
+            'modelo.marca',
+            'categoria',
+        ])->findOrFail($id);
+
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('equipamento'));
     }
 

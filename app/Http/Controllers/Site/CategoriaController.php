@@ -20,17 +20,17 @@ class CategoriaController extends Controller
 
         $categorias = Categoria::select('categorias.*')->selectRaw(
             'case when exists (
-                    select * from categorias c2
-                    where c2.categoria_mae_id = categorias.id
-                ) then true else false
-                end as possui_filhos'
+                select * from categorias c2
+                where c2.categoria_mae_id = categorias.id
+            ) then true else false
+            end as possui_filhos'
         )->where('categoria_mae_id', $categoriaId)->get();
 
 
         return response()->json([
             'categoria' => $categoria,
             'categorias' => $categorias,
-            'arvore' => $arvore,
+            'categorias_mae' => $arvore,
         ]);
     }
 }

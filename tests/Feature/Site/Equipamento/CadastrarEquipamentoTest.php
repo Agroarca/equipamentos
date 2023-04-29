@@ -41,7 +41,7 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Novo'));
     }
 
-    public function testNaoPodeAcessarSemCaracteristica(): void
+    public function testNaoPodeAcessarSemCategoria(): void
     {
         $response = $this->actingAs($this->getUsuario())
             ->get('/equipamento/cadastrar/categoria');
@@ -49,7 +49,7 @@ class CadastrarEquipamentoTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testNaoPodeAcessarComCaracteristicaInvalida(): void
+    public function testNaoPodeAcessarComCategoriaInvalida(): void
     {
         $response = $this->actingAs($this->getUsuario())
             ->get('/equipamento/cadastrar/categoria/1');
