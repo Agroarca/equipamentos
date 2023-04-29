@@ -3,6 +3,7 @@
 namespace Tests\Feature\Site;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -91,21 +92,29 @@ class PerfilTest extends TestCase
         $response = $this->actingAs($usuario)
             ->post('/perfil/atualizar', [
                 'nome' => 'Nome alterado',
-                'email' => 'teste@exemple.com',
+                'email' => $usuario->email,
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
                 'password_confirmation' => $novaSenha,
             ]);
 
+        $response->assertValid();
+
         $response->assertRedirectToRoute('site.perfil');
+
+        Auth::logout();
+
+        $this->assertGuest();
 
         $responseLogin = $this->post('/entrar', [
             'email' => $usuario->email,
             'password' => $novaSenha,
         ]);
 
-        $responseLogin->assertRedirectToRoute('site.inicio');
+        $responseLogin->assertRedirectToRoute('site.perfil');
+
+        $this->assertAuthenticated();
     }
 
     public function testNaoPodeLogarComSenhaAntiga(): void
@@ -122,7 +131,12 @@ class PerfilTest extends TestCase
                 'password_confirmation' => $novaSenha,
             ]);
 
+        $response->assertValid();
         $response->assertRedirectToRoute('site.perfil');
+
+        Auth::logout();
+
+        $this->assertGuest();
 
         $responseLogin = $this->post('/entrar', [
             'email' => $usuario->email,
@@ -130,5 +144,7 @@ class PerfilTest extends TestCase
         ]);
 
         $responseLogin->assertInvalid('email');
+
+        $this->assertGuest();
     }
 }
