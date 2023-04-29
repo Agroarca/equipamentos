@@ -12,6 +12,7 @@ use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Site\ListaService;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
