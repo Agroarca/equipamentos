@@ -16,7 +16,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
 
-        $arvore = $this->listaService->ArvoreCategoria($categoriaId);
+        $arvore = $this->listaService->categoriasMae($categoriaId);
 
         $categorias = Categoria::select('categorias.*')->selectRaw(
             'case when exists (
