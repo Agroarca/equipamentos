@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
-import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
+import PerfilLayout from './Componentes/PerfilLayout.vue'
 
 const props = defineProps({
     equipamentos: Object,
@@ -15,8 +15,8 @@ const STATUS_REPROVADO = 5
 </script>
 
 <template>
-    <SiteLayout titulo="Meus Equipamentos">
-        <div class="container equipamentos">
+    <PerfilLayout titulo="Meus Equipamentos" pagina="equipamentos">
+        <div class="equipamentos">
             <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
                 <img class="imagem"
                      :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
@@ -45,5 +45,5 @@ const STATUS_REPROVADO = 5
             </div>
             <Paginacao :links="equipamentos.links" class="mt-1" />
         </div>
-    </SiteLayout>
+    </PerfilLayout>
 </template>
