@@ -38,19 +38,27 @@ function visitarModelo(id) {
 }
 
 function visitarValor(values) {
-    url.searchParams.set('valor_minimo', values[0])
-    url.searchParams.set('valor_maximo', values[1])
+    if (values[0] !== filtros.valor.minimo || url.searchParams.get('valor_minimo') !== values[0]) {
+        url.searchParams.set('valor_minimo', values[0])
+    }
+    if (values[1] !== filtros.valor.maximo || url.searchParams.get('valor_maximo') !== values[1]) {
+        url.searchParams.set('valor_maximo', values[1])
+    }
     router.visit(url)
 }
 
 function visitarAno(values) {
-    url.searchParams.set('ano_minimo', values[0])
-    url.searchParams.set('ano_maximo', values[1])
+    if (values[0] !== filtros.ano.minimo || url.searchParams.get('ano_minimo') !== values[0]) {
+        url.searchParams.set('ano_minimo', values[0])
+    }
+    if (values[1] !== filtros.ano.maximo || url.searchParams.get('ano_maximo') !== values[1]) {
+        url.searchParams.set('ano_maximo', values[1])
+    }
     router.visit(url)
 }
 
 function temUmaMarcaSelecionada() {
-    if (url.searchParams.get('marca_id')) {
+    if (url.searchParams.get('marca_id') || url.pathname.startsWith('/marca')) {
         return true
     }
     return false
@@ -73,18 +81,16 @@ function RemoverFiltro(filtro) {
                 Filtros
             </h2>
             <div class="d-flex">
-                <span v-for="filtro in filtrosSelecionados" :key="filtro.tipo" class="badge m-1">{{ filtro.nome }}
-                    <button type="button" class="btn filtroSel" @click="RemoverFiltro(filtro)">
-                        <i class="fa-solid fa-xmark fa-2xs" />
-                    </button>
-                </span>
+                <button v-for="filtro in filtrosSelecionados" :key="filtro.tipo" type="button" class="btn btn-primary me-3 filtros-selecionados" @click="RemoverFiltro(filtro)">
+                    {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
+                </button>
             </div>
         </div>
         <div class="filtro-container">
             <div class="valor mb-3">
                 <h4>Valor</h4>
                 <SliderRanger
-                    class="mb-2 w-75"
+                    class="m-2"
                     :minimo="filtros.valor.minimo"
                     :maximo="filtros.valor.maximo"
                     :inicialMinimo="valoresIniciaisPreco[0]"
@@ -127,7 +133,7 @@ function RemoverFiltro(filtro) {
             <div class="ano mb-3">
                 <h4>Ano</h4>
                 <SliderRanger
-                    class="mb-2 w-75"
+                    class="m-2"
                     :step="1"
                     :minimo="filtros.ano.minimo"
                     :maximo="filtros.ano.maximo"

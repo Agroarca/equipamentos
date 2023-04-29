@@ -33,15 +33,14 @@ onMounted(() => {
     }
 })
 
-const emit = defineEmits<{(e: 'charge', value: any): void}>()
+const emit = defineEmits<{(e: 'charge', value: Array<Number>): void}>()
 
-function slide(sliderValues: any) {
+function slide(sliderValues: Array<Number>) {
     values.value = sliderValues
 }
 
-function change(sliderValues: any) {
+function change(sliderValues: Array<Number>) {
     values.value = sliderValues
-    console.log(sliderValues)
     emit('charge', sliderValues)
 }
 
