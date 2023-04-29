@@ -189,11 +189,14 @@ class ListaService
     public function filtrarQuery(Builder $query): Builder
     {
         if (request()->query('categoria_id')) {
-            $query = $this->filtrarQueryCategoria($query);
+            $query = $this->filtrarQueryCategoria($query, request()->query('categoria_id'));
         }
 
         if (request()->query('marca_id')) {
-            $query->where('marca_id', request()->query('marca_id'));
+            $query->whereIn('modelo_id', fn ($query) => $query->select('id')
+                ->from('modelos')
+                ->where('marca_id', request()
+                    ->query('marca_id')));
         }
 
         if (request()->query('modelo_id')) {
@@ -253,7 +256,7 @@ class ListaService
     /**
      * Retorna a query filtrada por categoria.
      */
-    private function filtrarQueryCategoria(Builder $query): Builder
+    private function filtrarQueryCategoria(Builder $query, $categoriaId): Builder
     {
         $query->whereRaw(
             'categoria_id in (
@@ -262,7 +265,7 @@ class ListaService
                             (@id is null and categoria_mae_id is null) or (@id is not null and id = @id)
                         union all select cat.id from categorias cat inner join cats on cat.categoria_mae_id = cats.id)
                     select id from cats, (select @id := ?) inicializacao)',
-            [request()->query('categoria_id')]
+            [$categoriaId]
         );
 
         return $query;
