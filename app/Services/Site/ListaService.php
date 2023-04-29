@@ -4,6 +4,7 @@ namespace App\Services\Site;
 
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Classe responsável por processar as listagens de produtos.
@@ -95,5 +96,23 @@ class ListaService
                         });
                 });
         });
+    }
+
+    /**
+     * Retorna um array com a árvore de categorias de um produto.
+     */
+    public function categoriasMae(?int $id = null): array
+    {
+        return DB::select('
+            with recursive categorias_mae as (
+                select id, nome, categoria_mae_id, 1 as nivel
+                from categorias where id = ?
+                union all
+                select c.id, c.nome, c.categoria_mae_id, ct.nivel + 1 as nivel
+                from categorias c inner join categorias_mae ct on ct.categoria_mae_id = c.id
+            )
+            select id, nome, categoria_mae_id
+            from categorias_mae
+            order by nivel desc;', [$id]);
     }
 }
