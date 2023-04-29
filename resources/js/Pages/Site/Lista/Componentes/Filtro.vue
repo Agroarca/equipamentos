@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
+import { some } from 'lodash'
 import SliderRanger from '@/Componentes/Layout/Forms/SliderRanger.vue'
 import Filtros from './Classes/Filtros'
 
@@ -11,6 +13,22 @@ const props = defineProps({
 let filtros = Filtros.fromObject(props.filtrosListagem)
 
 let url = new URL(window.location.href)
+
+onMounted(() => {
+    let params = [
+        'categoria_id',
+        'modelo_id',
+        'ano_minimo',
+        'ano_maximo',
+        'valor_minimo',
+        'valor_maximo',
+        'marca_id',
+    ]
+    let searchParam = new URLSearchParams(url.search)
+    if (searchParam.entries().next().value && some(params, (param) => url.searchParams.has(param))) {
+        document.getElementById('filtros').classList.add('show')
+    }
+})
 
 let valoresIniciaisPreco = [
     url.searchParams.get('valor_minimo'),
@@ -38,20 +56,20 @@ function visitarModelo(id) {
 }
 
 function visitarValor(values) {
-    if (values[0] !== filtros.valor.minimo || url.searchParams.get('valor_minimo') !== values[0]) {
+    if (filtros.valor.minimo !== values[0] || url.searchParams.get('valor_minimo')) {
         url.searchParams.set('valor_minimo', values[0])
     }
-    if (values[1] !== filtros.valor.maximo || url.searchParams.get('valor_maximo') !== values[1]) {
+    if (filtros.valor.maximo !== values[1] || url.searchParams.get('valor_maximo')) {
         url.searchParams.set('valor_maximo', values[1])
     }
     router.visit(url)
 }
 
 function visitarAno(values) {
-    if (values[0] !== filtros.ano.minimo || url.searchParams.get('ano_minimo') !== values[0]) {
+    if (filtros.ano.minimo !== values[0] || url.searchParams.get('ano_minimo')) {
         url.searchParams.set('ano_minimo', values[0])
     }
-    if (values[1] !== filtros.ano.maximo || url.searchParams.get('ano_maximo') !== values[1]) {
+    if (filtros.ano.maximo !== values[1] || url.searchParams.get('ano_maximo')) {
         url.searchParams.set('ano_maximo', values[1])
     }
     router.visit(url)
@@ -76,71 +94,83 @@ function RemoverFiltro(filtro) {
 
 <template>
     <div>
-        <div class="mb-3">
-            <h2 class="mb-4">
-                Filtros
-            </h2>
-            <div class="d-flex">
-                <button v-for="filtro in filtrosSelecionados" :key="filtro.tipo" type="button" class="btn btn-primary me-3 filtros-selecionados" @click="RemoverFiltro(filtro)">
-                    {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
-                </button>
-            </div>
-        </div>
-        <div class="filtro-container">
-            <div class="valor mb-3">
-                <h4>Valor</h4>
-                <SliderRanger
-                    class="m-2"
-                    :minimo="filtros.valor.minimo"
-                    :maximo="filtros.valor.maximo"
-                    :inicialMinimo="valoresIniciaisPreco[0]"
-                    :inicialMaximo="valoresIniciaisPreco[1]"
-                    :showInputs="true"
-                    inputMask="preco"
-                    :values="filtros.valor"
-                    @charge="visitarValor" />
-            </div>
-            <div v-if="filtros.categorias.length >= 1" class="categorias">
-                <h4 class="titulo text-center">
-                    Todas Categorias
-                </h4>
-                <div v-for="categoria in filtros.categorias" :key="categoria.id" class="m-2">
-                    <button type="button" class="btn btn-link" @click="visitarCategoria(categoria.id)">
-                        {{ categoria.nome }}
-                    </button>
+        <button type="button"
+                class="btn btn-primary mb-3"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtros"
+                aria-expanded="false"
+                aria-controls="filtros">
+            Filtros
+        </button>
+        <div id="filtros" class="collapse">
+            <div class="card card-body mb-3 ">
+                <div>
+                    <h2 class="card-title">
+                        Filtros
+                    </h2>
+                    <div class="d-flex">
+                        <button v-for="filtro in filtrosSelecionados" :key="filtro.tipo" type="button" class="btn btn-primary me-3 filtros-selecionados" @click="RemoverFiltro(filtro)">
+                            {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div v-if="filtros.marcas.length > 1" class="marcas">
-                <h4 class="titulo text-center">
-                    Marcas
-                </h4>
-                <div v-for="marca in filtros.marcas" :key="marca.id" class="m-2">
-                    <button type="button" class="btn btn-link" @click="visitarMarca(marca.id)">
-                        {{ marca.nome }} ({{ marca.quantidade }})
-                    </button>
+                <div class="filtro-container">
+                    <div class="valor mb-3">
+                        <h4>Valor</h4>
+                        <SliderRanger
+                            class="m-2"
+                            :minimo="filtros.valor.minimo"
+                            :maximo="filtros.valor.maximo"
+                            :inicialMinimo="valoresIniciaisPreco[0]"
+                            :inicialMaximo="valoresIniciaisPreco[1]"
+                            :showInputs="true"
+                            inputMask="preco"
+                            :values="filtros.valor"
+                            @charge="visitarValor" />
+                    </div>
+                    <div v-if="filtros.categorias.length >= 1" class="categorias">
+                        <h4 class="titulo text-center">
+                            Todas Categorias
+                        </h4>
+                        <div v-for="categoria in filtros.categorias" :key="categoria.id" class="m-2">
+                            <button type="button" class="btn btn-link" @click="visitarCategoria(categoria.id)">
+                                {{ categoria.nome }}
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="filtros.marcas.length > 1" class="marcas">
+                        <h4 class="titulo text-center">
+                            Marcas
+                        </h4>
+                        <div v-for="marca in filtros.marcas" :key="marca.id" class="m-2">
+                            <button type="button" class="btn btn-link" @click="visitarMarca(marca.id)">
+                                {{ marca.nome }} ({{ marca.quantidade }})
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="temUmaMarcaSelecionada() && filtros.modelos.length > 1" class="modelos">
+                        <h4 class="titulo text-center">
+                            Modelos
+                        </h4>
+                        <div v-for="modelo in filtros.modelos" :key="modelo.id" class="m-2">
+                            <button type="button" class="btn btn-link" @click="visitarModelo(modelo.id)">
+                                {{ modelo.nome }} ({{ modelo.quantidade }})
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ano mb-3">
+                        <h4>Ano</h4>
+                        <SliderRanger
+                            class="m-2"
+                            :step="1"
+                            :minimo="filtros.ano.minimo"
+                            :maximo="filtros.ano.maximo"
+                            :inicialMinimo="valoresIniciaisAno[0]"
+                            :inicialMaximo="valoresIniciaisAno[1]"
+                            :showInputs="true"
+                            @charge="visitarAno" />
+                    </div>
                 </div>
-            </div>
-            <div v-if="temUmaMarcaSelecionada() && filtros.modelos.length > 1" class="modelos">
-                <h4 class="titulo text-center">
-                    Modelos
-                </h4>
-                <div v-for="modelo in filtros.modelos" :key="modelo.id" class="m-2">
-                    <button type="button" class="btn btn-link" @click="visitarModelo(modelo.id)">
-                        {{ modelo.nome }} ({{ modelo.quantidade }})
-                    </button>
-                </div>
-            </div>
-            <div class="ano mb-3">
-                <h4>Ano</h4>
-                <SliderRanger
-                    class="m-2"
-                    :step="1"
-                    :minimo="filtros.ano.minimo"
-                    :maximo="filtros.ano.maximo"
-                    :inicialMinimo="valoresIniciaisAno[0]"
-                    :inicialMaximo="valoresIniciaisAno[1]"
-                    :showInputs="true"
-                    @charge="visitarAno" />
             </div>
         </div>
     </div>

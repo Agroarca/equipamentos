@@ -14,9 +14,14 @@ use Illuminate\Database\Eloquent\Builder;
 class ListaService
 {
     private int $categorias;
+
     private int $marcas;
+
     private int $modelos;
 
+    /**
+     * Construtor do Service.
+     */
     public function __construct()
     {
         $this->categorias = config('equipamentos.filtros.quantidade_categorias');
@@ -156,7 +161,13 @@ class ListaService
             ))
             ->addSelect([
                 'quantidade' => fn ($q) => $q->selectRaw('count(*)')->from($query)
-                    ->whereIn('modelo_id', fn ($q) => $q->select('id')->from('modelos')->whereColumn('marca_id', 'marcas.id')),
+                    ->whereIn(
+                        'modelo_id',
+                        fn ($q) => $q
+                            ->select('id')
+                            ->from('modelos')
+                            ->whereColumn('marca_id', 'marcas.id')
+                    ),
             ])
             ->orderBy('quantidade', 'desc');
     }
@@ -170,25 +181,19 @@ class ListaService
             ->whereIn('id', fn ($q) => $q->select('id')->from($query));
     }
 
+    //phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
+    /**
+     * Retorna os produtos filtrados.
+     */
     public function filtrarQuery(Builder $query): Builder
     {
         if (request()->query('categoria_id')) {
-            $query->whereRaw(
-                'categoria_id in (
-                    with recursive cats (id) as (
-                        select id from categorias where
-                            (@id is null and categoria_mae_id is null) or (@id is not null and id = @id)
-                        union all select cat.id from categorias cat inner join cats on cat.categoria_mae_id = cats.id)
-                    select id from cats, (select @id := ?) inicializacao)',
-                [request()->query('categoria_id')]
-            );
+            $query = $this->filtrarQueryCategoria($query);
         }
 
         if (request()->query('marca_id')) {
-            $query->whereIn('modelo_id', fn ($query) => $query->select('id')
-                ->from('modelos')
-                ->where('marca_id', request()
-                    ->query('marca_id')));
+            $query->where('marca_id', request()->query('marca_id'));
         }
 
         if (request()->query('modelo_id')) {
@@ -217,7 +222,7 @@ class ListaService
     /**
      * Retorna os filtros selecionados
      */
-    public function filtrosSelecionados(Builder $query): array
+    public function filtrosSelecionados(): array
     {
         $filtrosSelecionados = [];
 
@@ -243,5 +248,23 @@ class ListaService
         }
 
         return $filtrosSelecionados;
+    }
+
+    /**
+     * Retorna a query filtrada por categoria.
+     */
+    private function filtrarQueryCategoria(Builder $query): Builder
+    {
+        $query->whereRaw(
+            'categoria_id in (
+                    with recursive cats (id) as (
+                        select id from categorias where
+                            (@id is null and categoria_mae_id is null) or (@id is not null and id = @id)
+                        union all select cat.id from categorias cat inner join cats on cat.categoria_mae_id = cats.id)
+                    select id from cats, (select @id := ?) inicializacao)',
+            [request()->query('categoria_id')]
+        );
+
+        return $query;
     }
 }
