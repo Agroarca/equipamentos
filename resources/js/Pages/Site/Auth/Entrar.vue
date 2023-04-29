@@ -2,6 +2,7 @@
 import { useForm, Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import Senha from '@/Componentes/Site/Senha.vue'
 
 const form = useForm({
     email: '',
@@ -31,10 +32,7 @@ function submit() {
                 </div>
 
                 <div class="mb-3">
-                    <label for="password">Senha</label>
-                    <input id="password" v-model="form.password" class="form-control" type="password" required
-                           autocomplete="current-password">
-                    <FormError :error="form.errors.password" />
+                    <Senha v-model="form.password" :error="form.errors.password" />
                 </div>
 
                 <div class="form-check mb-3">
