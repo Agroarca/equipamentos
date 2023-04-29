@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import Modal from '@/Componentes/Layout/Modal.vue'
+import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
@@ -67,12 +67,12 @@ function upload() {
         <Modal :id="'modal_' + equipamento.id" ref="modal" title="Adicionar Imagem">
             <div class="mb-3">
                 <label for="descricao">Descrição</label>
-                <input v-model="form.descricao" type="text" name="descricao" class="form-control">
+                <input v-model="form.descricao" type="text" name="descricao" class="form-control" required>
                 <FormError :error="form.errors.descricao" />
             </div>
             <div class="mb-3">
                 <label for="imagem" />
-                <input type="file" name="imagem" class="form-control form-control-file" @input="form.imagem = $event.target.files[0]">
+                <input type="file" name="imagem" class="form-control form-control-file" required @input="form.imagem = $event.target.files[0]">
                 <FormError :error="form.errors.imagem" />
             </div>
             <template #footer>

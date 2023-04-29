@@ -37,7 +37,7 @@ function submit() {
                             <td>
                                 <label :for="`caracteristica-${caracteristica.id}`">
                                     {{ caracteristica.nome }}
-                                    <span v-if="caracteristica.obrigatorio" class="opcional">* Obrigatório</span>
+                                    <span v-if="!caracteristica.obrigatorio" class="opcional"> (Opcional)</span>
                                 </label>
                                 <FormError :error="form.errors['carac-' + caracteristica.id]" />
                             </td>

@@ -261,6 +261,30 @@ class EquipamentoTest extends TestCase
             ->where('equipamento.id', $equipamento->id));
     }
 
+    public function testNaoPodeAcessarEditarAprovacaoAposAprovarEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/$equipamento->id/editar/aprovacao");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarEditarAprovacaoAposReprovarEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Reprovado,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/$equipamento->id/editar/aprovacao");
+
+        $response->assertStatus(403);
+    }
+
     public function testPodeAcessarEditarCaracteristicaValor(): void
     {
         $equipamento = Equipamento::factory()->create();
@@ -464,7 +488,9 @@ class EquipamentoTest extends TestCase
 
     public function testPodePesquisar(): void
     {
-        $equipamento = Equipamento::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
@@ -472,6 +498,18 @@ class EquipamentoTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has(1));
+    }
+
+    public function testNaoPodePesquisarEquipamentoNaoAprovado(): void
+    {
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/pesquisar?termo=$equipamento->titulo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 
     public function testNaoPodePesquisarInexistente(): void

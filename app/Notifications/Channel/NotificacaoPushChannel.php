@@ -2,7 +2,7 @@
 
 namespace App\Notifications\Channel;
 
-use App\Enums\Equipamentos\Cadastro\StatusNotificacao;
+use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Usuario;
 use App\Notifications\Notificacao as NotificationsNotificacao;
 use App\Services\Libs\FirebaseCloudMessaging;

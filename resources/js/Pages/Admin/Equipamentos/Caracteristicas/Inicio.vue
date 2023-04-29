@@ -34,6 +34,11 @@ const props = defineProps({
                                 </Link>
                             </td>
                         </tr>
+                        <tr v-if="categoria.caracteristicas.length == 0">
+                            <td colspan="3">
+                                Nenhum registro encontrado
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

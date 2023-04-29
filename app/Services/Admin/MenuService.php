@@ -52,6 +52,11 @@ class MenuService
                 'icon' => '',
                 'url' => '/admin/modelos',
             ],
+            [
+                'title' => 'Pagina Inicial',
+                'icon' => '',
+                'url' => '/admin/marketing/pagina/inicial',
+            ],
         ];
     }
 }

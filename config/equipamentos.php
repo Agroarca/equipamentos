@@ -12,4 +12,9 @@ return [
         'notificacao_websocket_delay_secs' => 0,
         'notificacao_push_delay_secs' => 60,
     ],
+
+    'contato' => [
+        'telefone' => '54999020345',
+        'link' => 'https://wa.me/+555499020345',
+    ]
 ];
