@@ -22,7 +22,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testPodeAcessarCadastroCategoria(): void
     {
         $response = $this->actingAs($this->getUsuario())
-            ->get('/equipamento/categoria');
+            ->get('equipamento/cadastrar');
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
@@ -34,7 +34,7 @@ class CadastrarEquipamentoTest extends TestCase
         $categoria = Categoria::factory()->create();
 
         $response = $this->actingAs($this->getUsuario())
-            ->get("/equipamento/cadastrar/categoria/$categoria->id");
+            ->get("/equipamento/cadastro/$categoria->id");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
