@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-restricted-html-elements */
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Menu from './Menu.vue'
