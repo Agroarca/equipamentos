@@ -10,8 +10,10 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Support\Arr;
 use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -86,15 +88,17 @@ class SiteController extends Controller
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
 
+    // phpcs:disable Squiz.PHP.DisallowComparisonAssignment.AssignedComparison
+    // phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
     public function atualizarPerfil(RegistroRequest $request)
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 
+        $attributes = Arr::where($request->all(), fn ($v, $k) => $v !== null);
         if ($request->has('password') && strlen($request->input('password')) > 0) {
-            $user->update($request->all());
-        } else {
-            $user->update($request->only(['cpf', 'cnpj', 'nome', 'email', 'celular']));
+            $attributes['password'] = Hash::make($attributes['password']);
         }
+        $user->update($attributes);
 
         return Redirect::route('site.perfil');
     }
