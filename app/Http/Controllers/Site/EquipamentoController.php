@@ -27,19 +27,28 @@ class EquipamentoController extends Controller
     ) {
     }
 
-    public function cadastrar(?int $id = null)
+    public function cadastrar()
     {
-        $categorias = Categoria::all()->pluck('nome', 'id');
-        $equipamento = null;
-        if ($id) {
-            $equipamento = Equipamento::with([
-                'categoria',
-                'imagens',
-                'modelo',
-                'modelo.marca',
-            ])->findOrFail($id);
-        }
-        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias', 'equipamento'));
+        return Inertia::render('Site/Equipamento/Cadastrar/Categoria');
+    }
+
+    public function editar(int $id)
+    {
+        $equipamento = Equipamento::with([
+            'categoria',
+            'imagens',
+            'modelo',
+            'modelo.marca',
+            'categoria',
+        ])->findOrFail($id);
+
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('equipamento'));
+    }
+
+    public function cadastro(int $id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categoria'));
     }
 
     public function salvar(EquipamentoRequest $request)

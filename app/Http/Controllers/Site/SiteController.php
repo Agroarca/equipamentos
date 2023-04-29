@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Site;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\Auth\RegistroRequest;
-use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\Visualizacao;
 use App\Models\Usuario;
@@ -45,13 +44,6 @@ class SiteController extends Controller
         ]);
 
         return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
-    }
-
-    public function cadastrarEquipamento()
-    {
-        $categorias = Categoria::all()->pluck('nome', 'id');
-
-        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categorias'));
     }
 
     public function equipamentosPerfil()
