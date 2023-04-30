@@ -4,9 +4,11 @@ import Lista from '@/Pages/Site/Lista/Componentes/Lista.vue'
 const props = defineProps({
     equipamentos: Object,
     categoria: Object,
+    filtros: Object,
+    filtrosSelecionados: Object,
 })
 </script>
 
 <template>
-    <Lista :equipamentos="equipamentos" :title="categoria?.nome" />
+    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="categoria?.nome" />
 </template>
