@@ -28,7 +28,7 @@ class EquipamentoImagem extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.path_imagens') . $attributes['nome_arquivo']
+                config('equipamentos.imagens.equipamentos') . $attributes['nome_arquivo']
             )
         );
     }

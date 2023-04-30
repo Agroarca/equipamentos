@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'path_imagens' => 'equipamentos/',
     'mensagens_por_pagina' => 20,
     'mensagens_tempo_excluir_secs' => 21600, // 6 horas
 
@@ -21,5 +20,10 @@ return [
     'contato' => [
         'telefone' => '54999020345',
         'link' => 'https://wa.me/+555499020345',
+    ],
+
+    'imagens' => [
+        'equipamentos' => 'equipamentos/',
+        'pagina_inicial' => 'pagina_inicial/',
     ]
 ];

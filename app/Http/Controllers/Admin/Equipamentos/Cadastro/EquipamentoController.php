@@ -111,8 +111,10 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
 
-        if ($equipamento->status === StatusEquipamento::Aprovado
-            || $equipamento->status === StatusEquipamento::Reprovado) {
+        if (
+            $equipamento->status === StatusEquipamento::Aprovado
+            || $equipamento->status === StatusEquipamento::Reprovado
+        ) {
             return abort(403, 'Ação não permitida');
         }
 
@@ -171,7 +173,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
-        $file->store(config('equipamentos.path_imagens'));
+        $file->store(config('equipamentos.imagens.equipamentos'));
 
         $imagem = new EquipamentoImagem();
         $imagem->descricao = $request->input('descricao');
@@ -186,7 +188,7 @@ class EquipamentoController extends Controller
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
 
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
+        Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
