@@ -10,14 +10,7 @@ RUN apt update && \
     apt clean && \
     docker-php-ext-configure zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
-
-RUN composer install --optimize-autoloader --no-dev && \
-    php artisan cache:clear && \
-    php artisan route:clear && \
-    php artisan config:cache && \
-    php artisan view:cache
-
-RUN chmod +x docker/prod/docker_entrypoint_queue.sh
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root && \
+    composer install --optimize-autoloader --no-dev && \
+    chmod +x docker/prod/docker_entrypoint_queue.sh
