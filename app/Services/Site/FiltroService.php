@@ -10,20 +10,20 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FiltroService
 {
-    private int $qtgFiltrosCategorias;
+    private int $qtdFiltrosCategorias;
 
-    private int $qtgFiltrosMarcas;
+    private int $qtdFiltrosMarcas;
 
-    private int $qtgFiltrosModelos;
+    private int $qtdFiltrosModelos;
 
     /**
      * Construtor do Service.
      */
     public function __construct()
     {
-        $this->qtgFiltrosCategorias = config('equipamentos.filtros.quantidade_categorias');
-        $this->qtgFiltrosMarcas = config('equipamentos.filtros.quantidade_marcas');
-        $this->qtgFiltrosModelos = config('equipamentos.filtros.quantidade_modelos');
+        $this->qtdFiltrosCategorias = config('equipamentos.filtros.quantidade_categorias');
+        $this->qtdFiltrosMarcas = config('equipamentos.filtros.quantidade_marcas');
+        $this->qtdFiltrosModelos = config('equipamentos.filtros.quantidade_modelos');
     }
 
     /**
@@ -35,13 +35,9 @@ class FiltroService
 
         $filtros = [
             'valor' => $this->queryFiltroPreco($query)->first(),
-
             'ano' => $this->queryFiltroAno($query)->first(),
-
             'categorias' => $this->queryFiltroCategoria($queryFiltrada)->get(),
-
             'modelos' => $this->queryFiltroModelo($queryFiltrada)->get(),
-
             'marcas' => $this->queryFiltroMarca($queryFiltrada)->get(),
         ];
 
@@ -60,7 +56,7 @@ class FiltroService
         return Categoria::select('categorias.id', 'categorias.nome')
             ->whereIn('id', fn ($q) => $q->select('categoria_id')->from($query))
             ->where('categoria_mae_id', request()->query('categoria_id'))
-            ->take($this->qtgFiltrosCategorias);
+            ->take($this->qtdFiltrosCategorias);
     }
 
     /**
@@ -68,7 +64,7 @@ class FiltroService
      */
     private function queryFiltroPreco(Builder $query): Builder
     {
-        return Equipamento::selectRaw(' min(equipamentos.valor) as minimo, max(equipamentos.valor) as maximo')
+        return Equipamento::selectRaw('min(equipamentos.valor) as minimo, max(equipamentos.valor) as maximo')
             ->whereIn('id', fn ($q) => $q->select('id')->from($query));
     }
 
@@ -84,7 +80,7 @@ class FiltroService
                     ->whereColumn('modelo_id', 'modelos.id'),
             ])
             ->orderBy('quantidade', 'desc')
-            ->take($this->qtgFiltrosModelos);
+            ->take($this->qtdFiltrosModelos);
     }
 
     /**
@@ -93,10 +89,9 @@ class FiltroService
     private function queryFiltroMarca(Builder $query): Builder
     {
         return Marca::select('marcas.id', 'marcas.nome')
-            ->whereIn('id', fn ($q) => $q->select('marca_id')->from('modelos')->whereIn(
-                'id',
-                fn ($q) => $q->select('modelo_id')->from($query)
-            ))
+            ->whereIn('id', fn ($q) => $q->select('marca_id')
+            ->from('modelos')
+            ->whereIn('id', fn ($q) => $q->select('modelo_id')->from($query)))
             ->addSelect([
                 'quantidade' => fn ($q) => $q->selectRaw('count(*)')
                     ->from($query)
@@ -108,7 +103,7 @@ class FiltroService
                     ),
             ])
             ->orderBy('quantidade', 'desc')
-            ->take($this->qtgFiltrosMarcas);
+            ->take($this->qtdFiltrosMarcas);
     }
 
     /**

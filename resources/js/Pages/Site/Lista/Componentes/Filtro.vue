@@ -26,8 +26,7 @@ let params = [
 ]
 
 onMounted(() => {
-    let searchParam = new URLSearchParams(url.search)
-    if (searchParam.entries().next().value && some(params, (param) => url.searchParams.has(param))) {
+    if (some(params, (param) => url.searchParams.has(param))) {
         document.getElementById('filtros').classList.add('show')
     }
 })
@@ -59,7 +58,7 @@ function selecionarModelo(id) {
 }
 
 function selecionarValor(values) {
-    let valor
+    let valor = {}
     if (filtros.valor.minimo !== values[0] || url.searchParams.get('valor_minimo')) {
         valor = { valor_minimo: values[0] }
     }
@@ -70,7 +69,7 @@ function selecionarValor(values) {
 }
 
 function selecionarAno(values) {
-    let ano
+    let ano = {}
     if (filtros.ano.minimo !== values[0] || url.searchParams.get('ano_minimo')) {
         ano = { ano_minimo: values[0] }
     }
