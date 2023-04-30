@@ -46,6 +46,10 @@ services:
         networks:
             - socketi
             - nginx
+        environment:
+            DEBUG: false
+            SOKETI_METRICS_ENABLED: true
+            SOKETI_DEBUG: 0
 
 networks:
     database:
