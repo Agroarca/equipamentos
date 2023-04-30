@@ -22,59 +22,40 @@ class ListaController extends Controller
     {
         $categoria = Categoria::find($id);
 
-        $equipamentos = $this->filtroService->filtros(
+        $filtros = $this->filtroService->filtros(
             $this->listaService->queryCategoria($id)
         );
 
-        return Inertia::render('Site/Lista/Categoria', compact([
-            'equipamentos',
-            'categoria',
-        ]));
+        return Inertia::render('Site/Lista/Categoria', [
+            'categoria' => $categoria,
+            ...$filtros
+        ]);
     }
 
     public function marca(int $id)
     {
         $marca = Marca::findOrFail($id);
-        $equipamentos = $this->listaService->filtrarQuery(
-            $this->listaService->queryMarca($id)
-        )->paginate(24)->withQueryString();
 
-        $filtros = $this->listaService->filtros(
+        $filtros = $this->filtroService->filtros(
             $this->listaService->queryMarca($id)
         );
-
-        $filtrosSelecionados = $this->listaService->filtrosSelecionados(
-            $this->listaService->queryMarca($id)
-        );
-
-        return Inertia::render('Site/Lista/Marca', compact([
-            'equipamentos',
-            'marca',
-            'filtros',
-            'filtrosSelecionados',
-        ]));
+        return Inertia::render('Site/Lista/Marca', [
+            'marca' => $marca,
+            ...$filtros
+        ]);
     }
 
     public function lista(int|string $idOuSlug)
     {
         $lista = Lista::where('id', $idOuSlug)->orWhere('slug', $idOuSlug)->firstOrFail();
-        $equipamentos = $this->listaService->filtrarQuery(
-            $this->listaService->queryLista($lista->id)
-        )->paginate(24)->withQueryString();
 
-        $filtros = $this->listaService->filtros(
+        $filtros = $this->filtroService->filtros(
             $this->listaService->queryLista($lista->id)
         );
 
-        $filtrosSelecionados = $this->listaService->filtrosSelecionados(
-            $this->listaService->queryLista($lista->id)
-        );
-
-        return Inertia::render('Site/Lista/Lista', compact([
-            'equipamentos',
-            'lista',
-            'filtros',
-            'filtrosSelecionados',
-        ]));
+        return Inertia::render('Site/Lista/Lista', [
+            'lista' => $lista,
+            ...$filtros
+        ]);
     }
 }
