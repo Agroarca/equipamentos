@@ -111,8 +111,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
 
-        if (
-            $equipamento->status === StatusEquipamento::Aprovado
+        if ($equipamento->status === StatusEquipamento::Aprovado
             || $equipamento->status === StatusEquipamento::Reprovado
         ) {
             return abort(403, 'Ação não permitida');
