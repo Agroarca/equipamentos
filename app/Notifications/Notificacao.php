@@ -4,7 +4,7 @@
 
 namespace App\Notifications;
 
-use App\Enums\Equipamentos\Cadastro\StatusNotificacao;
+use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Notificacoes\Notificacao as NotificacaoModel;
 use App\Notifications\Channel\NotificacaoPushChannel;
 use App\Notifications\Channel\NotificacaoWebSocketChannel;
