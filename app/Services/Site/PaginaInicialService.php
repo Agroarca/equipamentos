@@ -32,7 +32,7 @@ class PaginaInicialService
             ->where(fn ($query) => $query->whereNull('data_inicio')->orWhere('data_inicio', '>=', Carbon::now()))
             ->where(fn ($query) => $query->whereNull('data_fim')->orWhere('data_fim', '<', Carbon::now()))
             ->orderBy('prioridade', 'desc')
-            ->first();
+            ->first() ?? new Versao();
     }
 
     /**
