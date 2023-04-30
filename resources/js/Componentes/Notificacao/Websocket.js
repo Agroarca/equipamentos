@@ -47,6 +47,7 @@ function iniciarNotificacoes() {
 }
 
 function iniciarPusher() {
+    window.debugWebsockets = !!import.meta.env.VITE_DEBUG_WEBSOCKETS
     window.Echo = new Echo({
         ...options,
         client: new Pusher(options.key, options),
@@ -56,6 +57,12 @@ function iniciarPusher() {
     window.Echo.private(channel)
         .listen('.ConversaWebSocket', (e) => conversaWebSocket(e))
         .listen('.NotificacaoWebSocket', (e) => notificacaoWebSocket(e))
+        .listenToAll((a, b) => {
+            if (window.debugWebsockets) {
+                /* eslint-disable-next-line no-console */
+                console.log(a, b)
+            }
+        })
 
     window.Pusher = Pusher
 }

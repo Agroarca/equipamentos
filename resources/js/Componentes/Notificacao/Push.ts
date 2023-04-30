@@ -1,32 +1,16 @@
-import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
-import { getMessaging, getToken } from 'firebase/messaging'
 import axios from 'axios'
 import { addDays, isAfter, isBefore, isDate } from 'date-fns'
+import getFirebase, { Firebase } from '../Firebase/Firebase'
 
-const firebaseConfig = {
-    apiKey: 'AIzaSyDK6yPqneJ5TafOA_AySHcCw0wps_F8CPE',
-    authDomain: 'agroarca-equipamentos.firebaseapp.com',
-    projectId: 'agroarca-equipamentos',
-    messagingSenderId: '260002359203',
-    appId: '1:260002359203:web:8c19a187bf2fe28079dc16',
-    measurementId: 'G-DHSLGFC76R',
-}
-
-const vapidKey = 'BPlE43kDpMP4nb3ltOOZZRDDxkJA-CKsdim6elA8c5amJmykNZl-_UmxsRGJGe1P3I0R50Qgwyf7Tlaf9ICUcqU'
 const DIAS_PARA_RENOVAR_TOKEN = 14
 
 let instance
 
 export class Push {
-    app
-    messaging
-    analytics
+    firebase: Firebase
 
     constructor() {
-        this.app = initializeApp(firebaseConfig)
-        this.messaging = getMessaging(this.app)
-        this.analytics = getAnalytics(this.app)
+        this.firebase = getFirebase()
     }
 
     solicitarPermissao(): Promise<void> {
@@ -66,7 +50,7 @@ export class Push {
     }
 
     criarToken(): void {
-        getToken(instance.messaging, { vapidKey }).then((token) => {
+        getPush().firebase.getMessagingToken().then((token) => {
             if (token) {
                 instance.salvarToken(token)
             }
