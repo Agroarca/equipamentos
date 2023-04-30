@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Lista\Lista;
+use App\Services\Site\FiltroService;
 use App\Services\Site\ListaService;
 use Inertia\Inertia;
 
 class ListaController extends Controller
 {
     public function __construct(
-        public ListaService $listaService
+        public ListaService $listaService,
+        public FiltroService $filtroService
     ) {
     }
 
@@ -20,23 +22,13 @@ class ListaController extends Controller
     {
         $categoria = Categoria::find($id);
 
-        $equipamentos = $this->listaService->filtrarQuery(
-            $this->listaService->queryCategoria($id)
-        )->paginate(24)->withQueryString();
-
-        $filtros = $this->listaService->filtros(
-            $this->listaService->queryCategoria($id)
-        );
-
-        $filtrosSelecionados = $this->listaService->filtrosSelecionados(
+        $equipamentos = $this->filtroService->filtros(
             $this->listaService->queryCategoria($id)
         );
 
         return Inertia::render('Site/Lista/Categoria', compact([
             'equipamentos',
             'categoria',
-            'filtros',
-            'filtrosSelecionados',
         ]));
     }
 

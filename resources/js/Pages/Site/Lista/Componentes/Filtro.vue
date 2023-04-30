@@ -1,8 +1,10 @@
 <script setup lang="ts">
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import { router } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
 import { some } from 'lodash'
-import SliderRanger from '@/Componentes/Layout/Forms/SliderRanger.vue'
+import Slider from '@/Componentes/Layout/Forms/Slider.vue'
 import Filtros from './Classes/Filtros'
 
 const props = defineProps({
@@ -13,66 +15,69 @@ const props = defineProps({
 let filtros = Filtros.fromObject(props.filtrosListagem)
 
 let url = new URL(window.location.href)
+let params = [
+    'categoria_id',
+    'modelo_id',
+    'ano_minimo',
+    'ano_maximo',
+    'valor_minimo',
+    'valor_maximo',
+    'marca_id',
+]
 
 onMounted(() => {
-    let params = [
-        'categoria_id',
-        'modelo_id',
-        'ano_minimo',
-        'ano_maximo',
-        'valor_minimo',
-        'valor_maximo',
-        'marca_id',
-    ]
     let searchParam = new URLSearchParams(url.search)
     if (searchParam.entries().next().value && some(params, (param) => url.searchParams.has(param))) {
         document.getElementById('filtros').classList.add('show')
     }
 })
 
-let valoresIniciaisPreco = [
-    url.searchParams.get('valor_minimo'),
-    url.searchParams.get('valor_maximo'),
-]
+let valoresIniciais = {
+    valorMinimo: url.searchParams.get('valor_minimo'),
+    valorMaximo: url.searchParams.get('valor_maximo'),
+    anoMinimo: url.searchParams.get('ano_minimo'),
+    anoMaximo: url.searchParams.get('ano_maximo'),
+}
 
-let valoresIniciaisAno = [
-    url.searchParams.get('ano_minimo'),
-    url.searchParams.get('ano_maximo'),
-]
-
-function visitarCategoria(id) {
-    url.searchParams.set('categoria_id', id)
+function adicionarFiltros(novosFiltros) {
+    for (let filtro in novosFiltros) {
+        url.searchParams.set(filtro, novosFiltros[filtro])
+    }
     router.visit(url)
 }
 
-function visitarMarca(id) {
-    url.searchParams.set('marca_id', id)
-    router.visit(url)
+function selecionarCategoria(id) {
+    adicionarFiltros({ categoria_id: id })
 }
 
-function visitarModelo(id) {
-    url.searchParams.set('modelo_id', id)
-    router.visit(url)
+function selecionarMarca(id) {
+    adicionarFiltros({ marca_id: id })
 }
 
-function visitarValor(values) {
+function selecionarModelo(id) {
+    adicionarFiltros({ modelo_id: id })
+}
+
+function selecionarValor(values) {
+    let valor
     if (filtros.valor.minimo !== values[0] || url.searchParams.get('valor_minimo')) {
-        url.searchParams.set('valor_minimo', values[0])
+        valor = { valor_minimo: values[0] }
     }
     if (filtros.valor.maximo !== values[1] || url.searchParams.get('valor_maximo')) {
-        url.searchParams.set('valor_maximo', values[1])
+        valor = { ...valor, valor_maximo: values[1] }
     }
-    router.visit(url)
+    adicionarFiltros(valor)
 }
 
-function visitarAno(values) {
+function selecionarAno(values) {
+    let ano
     if (filtros.ano.minimo !== values[0] || url.searchParams.get('ano_minimo')) {
-        url.searchParams.set('ano_minimo', values[0])
+        ano = { ano_minimo: values[0] }
     }
     if (filtros.ano.maximo !== values[1] || url.searchParams.get('ano_maximo')) {
-        url.searchParams.set('ano_maximo', values[1])
+        ano = { ...ano, ano_maximo: values[1] }
     }
-    router.visit(url)
+    adicionarFiltros(ano)
 }
 
 function temUmaMarcaSelecionada() {
@@ -82,7 +87,7 @@ function temUmaMarcaSelecionada() {
     return false
 }
 
-function RemoverFiltro(filtro) {
+function removerFiltro(filtro) {
     url.searchParams.delete(filtro.tipo)
     if (filtro.tipo === 'marca_id') {
         url.searchParams.delete('modelo_id')
@@ -94,46 +99,53 @@ function RemoverFiltro(filtro) {
 
 <template>
     <div>
-        <button type="button"
-                class="btn btn-primary mb-3"
-                data-bs-toggle="collapse"
-                data-bs-target="#filtros"
-                aria-expanded="false"
-                aria-controls="filtros">
-            Filtros
-        </button>
-        <div id="filtros" class="collapse">
-            <div class="card card-body mb-3 ">
+        <div class="card mb-3 ">
+            <div class="card-header">
+                <button type="button"
+                        class="btn btn-primary mb-3"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#filtros"
+                        aria-expanded="false"
+                        aria-controls="filtros">
+                    Filtros
+                </button>
+                <div class="d-flex">
+                    <button
+                        v-for="filtro in filtrosSelecionados"
+                        :key="filtro.tipo"
+                        type="button"
+                        class="btn btn-primary me-3 filtros-selecionados"
+                        @click="removerFiltro(filtro)">
+                        {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
+                    </button>
+                </div>
+            </div>
+            <div id="filtros" class="card-body collapse">
                 <div>
                     <h2 class="card-title">
                         Filtros
                     </h2>
-                    <div class="d-flex">
-                        <button v-for="filtro in filtrosSelecionados" :key="filtro.tipo" type="button" class="btn btn-primary me-3 filtros-selecionados" @click="RemoverFiltro(filtro)">
-                            {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
-                        </button>
-                    </div>
                 </div>
                 <div class="filtro-container">
                     <div class="valor mb-3">
                         <h4>Valor</h4>
-                        <SliderRanger
+                        <Slider
                             class="m-2"
                             :minimo="filtros.valor.minimo"
                             :maximo="filtros.valor.maximo"
-                            :inicialMinimo="valoresIniciaisPreco[0]"
-                            :inicialMaximo="valoresIniciaisPreco[1]"
+                            :inicialMinimo="valoresIniciais.valorMinimo"
+                            :inicialMaximo="valoresIniciais.valorMaximo"
                             :showInputs="true"
                             inputMask="preco"
                             :values="filtros.valor"
-                            @charge="visitarValor" />
+                            @charge="selecionarValor" />
                     </div>
                     <div v-if="filtros.categorias.length >= 1" class="categorias">
                         <h4 class="titulo text-center">
-                            Todas Categorias
+                            Categorias
                         </h4>
                         <div v-for="categoria in filtros.categorias" :key="categoria.id" class="m-2">
-                            <button type="button" class="btn btn-link" @click="visitarCategoria(categoria.id)">
+                            <button type="button" class="btn btn-link" @click="selecionarCategoria(categoria.id)">
                                 {{ categoria.nome }}
                             </button>
                         </div>
@@ -143,7 +155,7 @@ function RemoverFiltro(filtro) {
                             Marcas
                         </h4>
                         <div v-for="marca in filtros.marcas" :key="marca.id" class="m-2">
-                            <button type="button" class="btn btn-link" @click="visitarMarca(marca.id)">
+                            <button type="button" class="btn btn-link" @click="selecionarMarca(marca.id)">
                                 {{ marca.nome }} ({{ marca.quantidade }})
                             </button>
                         </div>
@@ -153,22 +165,22 @@ function RemoverFiltro(filtro) {
                             Modelos
                         </h4>
                         <div v-for="modelo in filtros.modelos" :key="modelo.id" class="m-2">
-                            <button type="button" class="btn btn-link" @click="visitarModelo(modelo.id)">
+                            <button type="button" class="btn btn-link" @click="selecionarModelo(modelo.id)">
                                 {{ modelo.nome }} ({{ modelo.quantidade }})
                             </button>
                         </div>
                     </div>
                     <div class="ano mb-3">
                         <h4>Ano</h4>
-                        <SliderRanger
+                        <Slider
                             class="m-2"
                             :step="1"
                             :minimo="filtros.ano.minimo"
                             :maximo="filtros.ano.maximo"
-                            :inicialMinimo="valoresIniciaisAno[0]"
-                            :inicialMaximo="valoresIniciaisAno[1]"
-                            :showInputs="true"
-                            @charge="visitarAno" />
+                            :inicialMinimo="valoresIniciais.anoMinimo"
+                            :inicialMaximo="valoresIniciais.anoMaximo"
+                            showInputs
+                            @charge="selecionarAno" />
                     </div>
                 </div>
             </div>

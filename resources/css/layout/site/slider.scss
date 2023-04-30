@@ -6,4 +6,10 @@
     --slider-handle-width: 20px;
     --slider-handle-shadow-active: none;
     --slider-bg: $slider-bg;
+
+    .slider-component-inputs {
+        display: grid;
+        grid-template-columns: 32px auto;
+        align-items: center;
+    }
 }

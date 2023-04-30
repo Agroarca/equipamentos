@@ -7,8 +7,6 @@ import Filtro from './Filtro.vue'
 const props = defineProps({
     equipamentos: Object,
     title: String,
-    filtros: Object,
-    filtrosSelecionados: Object,
 })
 </script>
 
@@ -22,17 +20,15 @@ const props = defineProps({
                     </h2>
                 </slot>
             </div>
-            <Filtro :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
+            <Filtro :filtrosListagem="equipamentos.filtros" :filtrosSelecionados="equipamentos.filtrosSelecionados" />
             <slot>
                 <div class="produtos">
-                    <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
+                    <template v-for="equipamento in equipamentos.equipamentos.data" :key="equipamento.id">
                         <Equipamento :equipamento="equipamento" />
                     </template>
                 </div>
-                <Paginacao :links="equipamentos.links" class="mt-5" />
+                <Paginacao :links="equipamentos.equipamentos.links" class="mt-5" />
             </slot>
         </section>
     </SiteLayout>
 </template>
-
-<style src="@vueform/slider/themes/default.css"></style>

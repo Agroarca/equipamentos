@@ -3,6 +3,7 @@
 import Slider from '@vueform/slider'
 import { onMounted, ref } from 'vue'
 import Mask from '@/Componentes/Helper/InputMask'
+import '@vueform/slider/themes/default.css'
 
 const props = defineProps({
     minimo: Number,
@@ -23,13 +24,13 @@ let values = ref([
     props.inicialMaximo ?? props.maximo,
 ])
 
-const minFormat = ref(null)
-const maxFormat = ref(null)
+const minInput = ref(null)
+const maxInput = ref(null)
 
 onMounted(() => {
     if (props.inputMask) {
-        Mask[props.inputMask](minFormat.value)
-        Mask[props.inputMask](maxFormat.value)
+        Mask[props.inputMask](minInput.value)
+        Mask[props.inputMask](maxInput.value)
     }
 })
 
@@ -57,19 +58,9 @@ function change(sliderValues: Array<Number>) {
             @slide="slide"
             @change="change" />
 
-        <div v-if="showInputs" class="inputs mt-2">
-            <span class="d-block">de: </span><input ref="minFormat" v-model="values[0]" class="form-control" type="text" name="min" @change="change(values)">
-            <span class="d-block">até: </span><input ref="maxFormat" v-model="values[1]" class="form-control" type="text" name="max" @change="change(values)">
+        <div v-if="showInputs" class="slider-component-inputs mt-2">
+            <span class="d-block">de: </span><input ref="minInput" v-model="values[0]" class="form-control" type="text" name="min" @change="change(values)">
+            <span class="d-block">até: </span><input ref="maxInput" v-model="values[1]" class="form-control" type="text" name="max" @change="change(values)">
         </div>
     </div>
 </template>
-
-<style scoped>
-
-.inputs {
-    display: grid;
-    grid-template-columns: 32px auto;
-    align-items: center;
-}
-
-</style>
