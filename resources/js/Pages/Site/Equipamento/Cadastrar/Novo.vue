@@ -8,11 +8,11 @@ import Navegacao from './Componentes/Navegacao.vue'
 import Mask from '@/Componentes/Helper/InputMask'
 
 const props = defineProps({
-    categorias: Object,
     equipamento: Object,
+    categoria: Object,
 })
 
-const placeholderModelo = computed(() => (form.marca ? 'Selecione um Modelo' : 'Selecione uma Marca'))
+const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma Marca'))
 
 const form = useForm({
     id: props.equipamento?.id,
@@ -21,7 +21,7 @@ const form = useForm({
     ano: props.equipamento?.ano,
     modelo_id: props.equipamento?.modelo?.id,
     marca_id: props.equipamento?.modelo?.marca?.id,
-    categoria_id: props.equipamento?.categoria_id,
+    categoria_id: props.equipamento?.categoria_id ?? props.categoria?.id,
 })
 
 const elValor = ref(null)
@@ -42,7 +42,7 @@ function submit() {
             <h2 class="titulo text-center mb-3">
                 Cadastrar Novo Equipamento
             </h2>
-            <Navegacao class="mb-3 d-flex justify-content-center" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 0" :equipamento="equipamento" />
+            <Navegacao class="mb-3 d-flex justify-content-center" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" :equipamento="equipamento" />
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="titulo">Título</label>
@@ -73,11 +73,7 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="categoria_id">Categoria</label>
-                    <select id="categoria_id" v-model="form.categoria_id" class="form-select" required>
-                        <option v-for="(categoria, index) in categorias" :key="index" :value="index">
-                            {{ categoria }}
-                        </option>
-                    </select>
+                    <input id="ano" :value="categoria?.nome ?? equipamento.categoria.nome" class="form-control" type="text" disabled>
                 </div>
                 <button type="submit" class="btn btn-primary">
                     Continuar

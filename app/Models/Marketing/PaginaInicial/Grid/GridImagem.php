@@ -7,6 +7,7 @@ namespace App\Models\Marketing\PaginaInicial\Grid;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class GridImagem extends Model
 {
@@ -30,8 +31,8 @@ class GridImagem extends Model
     public function urlDesktop(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => asset(
-                config('equipamentos.public_path_imagens') . $attributes['nome_desktop']
+            get: fn ($value, $attributes) => Storage::url(
+                config('equipamentos.path_imagens') . $attributes['nome_desktop']
             )
         );
     }
@@ -44,8 +45,8 @@ class GridImagem extends Model
                     return null;
                 }
 
-                return asset(
-                    config('equipamentos.public_path_imagens') . $attributes['nome_mobile']
+                return Storage::url(
+                    config('equipamentos.path_imagens') . $attributes['nome_mobile']
                 );
             }
         );

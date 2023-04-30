@@ -1,11 +1,20 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-restricted-html-elements */
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Menu from './Menu.vue'
 import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
+
+let pesquisa = ref('')
+
+function pesquisar() {
+    if (pesquisa.value.trim()) {
+        router.visit(`/pesquisa/${pesquisa.value}`)
+    }
+}
 </script>
 
 <template>
@@ -30,11 +39,13 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
                     </Link>
                 </div>
                 <div class="header-item search-container input-group order-5 order-md-2">
-                    <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                    <input placeholder="Pequisar produtos..." type="text" class="search form-control">
-                    <button type="submit">
-                        <i class="fa fa-search" />
-                    </button>
+                    <form class="d-flex w-100" @submit.prevent="pesquisar()">
+                        <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
+                        <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
+                        <button type="submit">
+                            <i class="fa fa-search" />
+                        </button>
+                    </form>
                 </div>
                 <Link class="header-item profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />
