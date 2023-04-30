@@ -36,10 +36,10 @@ class CarrosselController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
         $imagemDesktop = $request->file('imagem_desktop');
-        $imagemDesktop->store(config('equipamentos.path_imagens'));
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
 
         $imagemMobile = $request->file('imagem_mobile');
-        $imagemMobile->store(config('equipamentos.path_imagens'));
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
 
         $item = new CarrosselItem($request->all());
         $item->versao_id = $versao->id;
@@ -57,8 +57,8 @@ class CarrosselController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $item->nome_arquivo_desktop);
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $item->nome_arquivo_mobile);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_desktop);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_mobile);
         $item->delete();
 
         return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);

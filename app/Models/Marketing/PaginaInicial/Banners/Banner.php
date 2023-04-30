@@ -33,7 +33,7 @@ class Banner extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.path_imagens') . $attributes['nome_desktop']
+                config('equipamentos.imagens.pagina_inicial') . $attributes['nome_desktop']
             )
         );
     }
@@ -47,7 +47,7 @@ class Banner extends Model
                 }
 
                 return Storage::url(
-                    config('equipamentos.path_imagens') . $attributes['nome_mobile']
+                    config('equipamentos.imagens.pagina_inicial') . $attributes['nome_mobile']
                 );
             }
         );

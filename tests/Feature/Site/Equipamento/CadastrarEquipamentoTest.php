@@ -136,7 +136,7 @@ class CadastrarEquipamentoTest extends TestCase
                 'imagem' => $imagem
             ]);
 
-        Storage::assertExists(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
+        Storage::assertExists(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
         $response->assertValid();
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
@@ -153,12 +153,12 @@ class CadastrarEquipamentoTest extends TestCase
         $equipamentoImagem->nome_arquivo = $imagem->hashName();
         $equipamentoImagem->save();
 
-        $imagem->storeAs(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
+        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/excluir");
 
-        Storage::assertMissing(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
+        Storage::assertMissing(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'id' => $equipamentoImagem->id,
@@ -173,7 +173,7 @@ class CadastrarEquipamentoTest extends TestCase
         $equipamentoImagem->nome_arquivo = $imagem->hashName();
         $equipamentoImagem->save();
 
-        $imagem->storeAs(config('equipamentos.path_imagens') . '/' . $imagem->hashName());
+        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/continuar");
 

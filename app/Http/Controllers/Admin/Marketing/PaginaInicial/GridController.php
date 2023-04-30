@@ -92,12 +92,12 @@ class GridController extends Controller
         $gridImagem->ordem = $grid->imagens->count() + 1;
 
         $imagemDesktop = $request->file('imagem_desktop');
-        $imagemDesktop->store(config('equipamentos.path_imagens'));
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
         $gridImagem->nome_desktop = $imagemDesktop->hashName();
 
         if ($request->hasFile('imagem_mobile')) {
             $imagemMobile = $request->file('imagem_mobile');
-            $imagemMobile->store(config('equipamentos.path_imagens'));
+            $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
             $gridImagem->nome_mobile = $imagemMobile->hashName();
         }
 
@@ -120,8 +120,8 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_desktop);
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $gridImagem->nome_mobile);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $gridImagem->nome_desktop);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $gridImagem->nome_mobile);
         $gridImagem->delete();
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);

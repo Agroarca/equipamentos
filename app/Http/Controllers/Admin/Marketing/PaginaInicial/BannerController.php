@@ -39,12 +39,12 @@ class BannerController extends Controller
         $banner = new Banner($request->all());
 
         $imagemDesktop = $request->file('imagem_desktop');
-        $imagemDesktop->store(config('equipamentos.path_imagens'));
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
         $banner->nome_desktop = $imagemDesktop->hashName();
 
         if ($request->hasFile('imagem_mobile')) {
             $imagemMobile = $request->file('imagem_mobile');
-            $imagemMobile->store(config('equipamentos.path_imagens'));
+            $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
             $banner->nome_mobile = $imagemMobile->hashName();
         }
 

@@ -35,7 +35,7 @@ class CarrosselItem extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.path_imagens') . $attributes['nome_arquivo_desktop']
+                config('equipamentos.imagens.pagina_inicial') . $attributes['nome_arquivo_desktop']
             )
         );
     }
@@ -44,7 +44,7 @@ class CarrosselItem extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.path_imagens') . $attributes['nome_arquivo_mobile']
+                config('equipamentos.imagens.pagina_inicial') . $attributes['nome_arquivo_mobile']
             )
         );
     }

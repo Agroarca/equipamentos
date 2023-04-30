@@ -80,7 +80,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
 
         $file = $request->file('imagem');
-        $file->store(config('equipamentos.path_imagens'));
+        $file->store(config('equipamentos.imagens.equipamentos'));
 
         $imagem = new EquipamentoImagem();
         $imagem->descricao = $request->input('descricao');
@@ -95,7 +95,7 @@ class EquipamentoController extends Controller
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $id)->findOrFail($imagemId);
 
-        Storage::delete(config('equipamentos.path_imagens') . '/' . $imagem->nome_arquivo);
+        Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('site.equipamento.imagens', $id);
