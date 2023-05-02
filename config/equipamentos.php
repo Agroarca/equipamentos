@@ -19,7 +19,7 @@ return [
 
     'contato' => [
         'telefone' => '51999020345',
-        'link' => 'https://wa.me/+555499020345',
+        'link' => 'https://wa.me/+555199020345',
     ],
 
     'imagens' => [
