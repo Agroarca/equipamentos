@@ -12,7 +12,7 @@ return [
     ],
 
     'contato' => [
-        'telefone' => '54999020345',
+        'telefone' => '51999020345',
         'link' => 'https://wa.me/+555499020345',
     ],
 

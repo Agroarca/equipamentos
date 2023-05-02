@@ -15,7 +15,7 @@ import { usePage } from '@inertiajs/vue3'
             </span>
             <span class="contato-numero">
                 <i class="fa-brands fa-whatsapp mx-1 fa-lg" />
-                +55 54 99902-0345
+                {{ usePage().props.dados.contato.telefone }}
             </span>
         </a>
         <div class="legal d-flex flex-column flex-md-row">
