@@ -11,6 +11,12 @@ return [
         'notificacao_push_delay_secs' => 60,
     ],
 
+    'filtros' => [
+        'quantidade_categorias' => 5,
+        'quantidade_marcas' => 5,
+        'quantidade_modelos' => 5,
+    ],
+
     'contato' => [
         'telefone' => '51999020345',
         'link' => 'https://wa.me/+555499020345',

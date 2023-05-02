@@ -1,0 +1,15 @@
+.site-layout {
+    --slider-handle-bg: $verde-primary;
+    --slider-connect-bg: $verde-primary;
+    --slider-handle-shadow: none;
+    --slider-handle-height: 20px;
+    --slider-handle-width: 20px;
+    --slider-handle-shadow-active: none;
+    --slider-bg: $slider-bg;
+
+    .slider-component-inputs {
+        display: grid;
+        grid-template-columns: 32px auto;
+        align-items: center;
+    }
+}

@@ -1,0 +1,25 @@
+.site-layout {
+    .filtro-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: auto;
+        gap: 1rem;
+
+        @mixin breakpoint-down xxl {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @mixin breakpoint-down xl {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @mixin breakpoint-down md {
+            grid-template-columns: repeat(1, 1fr);
+            margin: 0 .5rem;
+        }
+    }
+
+    .filtros-selecionados {
+        padding: 0.5rem 1.5rem;
+    }
+}
