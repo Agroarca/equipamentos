@@ -98,33 +98,26 @@ function removerFiltro(filtro) {
 
 <template>
     <div>
-        <div class="card mb-3 ">
-            <div class="card-header">
+        <div class="card mb-3 border-0 filtros">
+            <div class="card-header pb-0 bg-white border-0 d-flex flex-wrap">
                 <button type="button"
-                        class="btn btn-primary mb-3"
+                        class="btn btn-primary me-3 mb-3"
                         data-bs-toggle="collapse"
                         data-bs-target="#filtros"
                         aria-expanded="false"
                         aria-controls="filtros">
                     Filtros
                 </button>
-                <div class="d-flex">
-                    <button
-                        v-for="filtro in filtrosSelecionados"
-                        :key="filtro.tipo"
-                        type="button"
-                        class="btn btn-primary me-3 filtros-selecionados"
-                        @click="removerFiltro(filtro)">
-                        {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
-                    </button>
-                </div>
+                <button
+                    v-for="filtro in filtrosSelecionados"
+                    :key="filtro.tipo"
+                    type="button"
+                    class="btn btn-outline-primary me-3 mb-3 filtros-selecionados"
+                    @click="removerFiltro(filtro)">
+                    {{ filtro.nome }} <i class="fa-solid fa-xmark ms-1" />
+                </button>
             </div>
-            <div id="filtros" class="card-body collapse">
-                <div>
-                    <h2 class="card-title">
-                        Filtros
-                    </h2>
-                </div>
+            <div id="filtros" class="card-body pt-0 collapse">
                 <div class="filtro-container">
                     <div class="valor mb-3">
                         <h4>Valor</h4>
