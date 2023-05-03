@@ -18,6 +18,18 @@
         }
     }
 
+    .btn-outline-primary {
+        color: $form-btn;
+        border: 1px solid $form-btn;
+        background-color: transparent;
+
+        &:hover,
+        &:active {
+            color: $form-btn-hover-outline;
+            background-color: $form-btn;
+        }
+    }
+
     .btn-link {
         color: $form-btn;
         font-family: "Poppins", Arial, Helvetica, sans-serif;
