@@ -20,8 +20,6 @@ let imagemUrl = ref(null)
 
 let cropper = {
     obj: null,
-    width: 800,
-    height: 600,
     options: {},
 }
 
@@ -51,13 +49,14 @@ function iniciarEdicao() {
 
 function configureCropper() {
     cropper.options = {
+        responsive: true,
         aspectRatio: 4 / 3,
-        viewMode: 3,
-        zoomable: false,
+        viewMode: 0,
         scalable: false,
+        movable: false,
+        zoomable: false,
         zoomOnWheel: false,
         zoomOnTouch: false,
-        minCanvasWidth: 800,
         ready: readyCropper,
     }
 }
@@ -65,15 +64,14 @@ function configureCropper() {
 function readyCropper() {
     let containerData = this.cropper.getContainerData()
     this.cropper.setCropBoxData({
-        width: cropper.width,
-        height: cropper.height,
-        left: (containerData.width - cropper.width) / 2,
-        top: (containerData.height - cropper.height) / 2,
+        width: containerData.width,
+        height: containerData.height,
+        left: containerData.width,
+        top: containerData.height,
     })
 }
 
 function startCropper() {
-    console.log('start')
     let image = document.getElementById('crop-image') as HTMLImageElement
     cropper.obj = new Cropper(image, cropper.options)
 }
@@ -98,7 +96,6 @@ function destroyCropper() {
 }
 
 function inputImagem(e) {
-    console.log(e.target.files[0])
     if (!e.target.files[0]) {
         mostrarEditor.value = false
         imagemInput.value = null
@@ -110,7 +107,6 @@ function inputImagem(e) {
         destroyCropper()
         URL.revokeObjectURL(imagemUrl.value)
     }
-    console.log('teste')
     // eslint-disable-next-line prefer-destructuring
     imagemInput.value = e.target.files[0]
     imagemUrl.value = URL.createObjectURL(e.target.files[0])
@@ -154,7 +150,7 @@ function inputImagem(e) {
                     </Link>
                 </div>
             </div>
-            <Modal :id="'modal_' + equipamento.id" ref="modal" class="modal-lg" title="Adicionar Imagem">
+            <Modal :id="'modal_' + equipamento.id" ref="modal" modalSizeClass="modal-lg modal-fullscreen-sm-down" title="Adicionar Imagem">
                 <div class="mb-3">
                     <label for="descricao">Descrição</label>
                     <input v-model="form.descricao" type="text" name="descricao" class="form-control">
