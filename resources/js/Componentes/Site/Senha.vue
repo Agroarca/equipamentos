@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import FormError from '../Layout/Forms/FormError.vue'
 
 let props = defineProps({
     modelValue: null,
-    error: String,
 })
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
@@ -32,6 +30,5 @@ const value = computed({
                 <label class="form-check-label ps-2" for="mostrar_senha">Mostrar senha</label>
             </span>
         </div>
-        <FormError :error="error" />
     </div>
 </template>

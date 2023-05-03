@@ -32,7 +32,8 @@ function submit() {
                 </div>
 
                 <div class="mb-3">
-                    <Senha v-model="form.password" :error="form.errors.password" />
+                    <Senha v-model="form.password" />
+                    <FormError :error="form.errors.password" />
                 </div>
 
                 <div class="form-check mb-3">

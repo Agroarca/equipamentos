@@ -67,10 +67,12 @@ function submit() {
 
                 <div class="mb-3">
                     <Senha v-model="form.password" :error="form.errors.password" />
+                    <FormError :error="form.errors.password" />
                 </div>
 
                 <div class="mb-3">
                     <Senha v-model="form.password_confirmation" :error="form.errors.password_confirmation" />
+                    <FormError :error="form.errors.password_confirmation" />
                 </div>
 
                 <div class="mb-3">

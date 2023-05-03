@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Senha from '@/Componentes/Site/Senha.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const form = useForm({
     password: '',
@@ -23,7 +24,7 @@ function submit() {
 
         <form @submit.prevent="submit">
             <Senha v-model="form.password" :error="form.errors.password" />
-
+            <FormError :error="form.errors.password" />
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">
                     Confirmar
