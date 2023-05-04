@@ -39,12 +39,13 @@ function submit() {
             </div>
 
             <div class="form-group">
+                <label for="password">Senha</label>
                 <Senha v-model="form.password" />
                 <FormError :error="form.errors.password" />
             </div>
 
             <div class="form-group">
-                <Senha v-model="form.password_confirmation" />
+                <Senha v-model="form.password_confirmation" name="password" />
                 <FormError :error="form.errors.password_confirmation" />
             </div>
 

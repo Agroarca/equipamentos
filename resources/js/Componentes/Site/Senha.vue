@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-
+/* eslint-disable vuejs-accessibility/form-control-has-label */
 let props = defineProps({
     modelValue: null,
+    inputName: String,
+    inputId: String,
 })
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
@@ -22,9 +24,8 @@ const value = computed({
 
 <template>
     <div>
-        <label for="password">Senha</label>
         <div class="input-group">
-            <input id="password" v-model="value" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
+            <input :id="inputId" v-model="value" :name="inputName" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
             <span id="basic-addon2" class="input-group-text" @click="mostrarSenha = !mostrarSenha">
                 <input id=" mostrar_senha" v-model="mostrarSenha" class="form-check-input" type="checkbox">
                 <label class="form-check-label ps-2" for="mostrar_senha">Mostrar senha</label>
