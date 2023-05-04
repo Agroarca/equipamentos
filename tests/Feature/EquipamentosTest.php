@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
 use Tests\TestCase;
