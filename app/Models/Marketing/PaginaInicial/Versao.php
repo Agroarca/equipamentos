@@ -24,6 +24,8 @@ class Versao extends Model
 
     protected $casts = [
         'status' => StatusVersao::class,
+        'data_inicio' => 'date',
+        'data_fim' => 'date',
     ];
 
     public function carrosselItens(): HasMany

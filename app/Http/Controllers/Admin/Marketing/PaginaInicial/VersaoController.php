@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\VersaoRequest;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class VersaoController extends Controller
@@ -71,6 +72,11 @@ class VersaoController extends Controller
 
     public function aprovar(Versao $versao)
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            throw ValidationException::withMessages([
+                'status' => 'Não é possivel aprovar uma versão com status diferente de criado',
+            ]);
+        }
         $this->paginaInicialService->validarVersao($versao);
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
@@ -78,12 +84,22 @@ class VersaoController extends Controller
 
     public function reprovar(Versao $versao)
     {
+        if ($versao->status !== StatusVersao::Criado) {
+            throw ValidationException::withMessages([
+                'status' => 'Não é possivel aprovar uma versão com status diferente de criado',
+            ]);
+        }
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
     }
 
     public function publicar(Versao $versao)
     {
+        if ($versao->status !== StatusVersao::Aprovado) {
+            throw ValidationException::withMessages([
+                'status' => 'Não é possivel publicar uma versão com status diferente de aprovado',
+            ]);
+        }
         $versao->status = StatusVersao::Publicado;
         $versao->save();
     }
