@@ -77,12 +77,15 @@ function startCropper() {
 }
 
 async function saveCrop() {
-    const canvas = cropper.obj.getCroppedCanvas({
-        width: cropper.width,
-        height: cropper.height,
-    })
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png', 1)) as Blob
-    let file = new File([blob], 'imagem.png', {
+    const canvas = cropper.obj.getCroppedCanvas()
+
+    const blobImg = await new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+            resolve(blob)
+        }, 'image/png', 1)
+    }) as Blob
+
+    let file = new File([blobImg], 'imagem.png', {
         type: 'image/png',
         lastModified: new Date().getTime(),
     })
@@ -175,10 +178,3 @@ function inputImagem(e) {
         </div>
     </SiteLayout>
 </template>
-
-    <style>
-        .crop-image-container .crop-image {
-            display: block;
-            max-width: 100%;
-        }
-    </style>
