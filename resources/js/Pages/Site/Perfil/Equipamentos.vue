@@ -17,33 +17,38 @@ const STATUS_REPROVADO = 5
 <template>
     <PerfilLayout titulo="Meus Equipamentos" pagina="equipamentos">
         <div class="equipamentos">
-            <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
-                <img class="imagem"
-                     :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
-                     :alt="equipamento.imagens[0]?.descricao ?? 'Imagem do produto'" />
-
-                <div class="informacoes">
-                    <h3>{{ equipamento.titulo }}</h3>
-                    <span>Modelo: {{ equipamento.modelo.marca.nome }} / {{ equipamento.modelo.nome }}</span>
-                    <span>Preço: <Formatacao tipo="preco" :valor="equipamento.valor" /></span>
-                    <span>Status: {{ status[equipamento.status] }}</span>
+            <div v-if="equipamentos.data.length == 0">
+                <div class="alert alert-danger">
+                    Você não possui nenhum equipamento cadastrado
                 </div>
+                <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
+                    <img class="imagem"
+                         :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
+                         :alt="equipamento.imagens[0]?.descricao ?? 'Imagem do produto'" />
 
-                <Link v-if="equipamento.status == STATUS_REPROVADO"
-                      :href="`/equipamento/reprovado/${equipamento.id}`"
-                      class="btn btn-primary">
-                    <span>Motivo da Reprovação</span>
-                </Link>
+                    <div class="informacoes">
+                        <h3>{{ equipamento.titulo }}</h3>
+                        <span>Modelo: {{ equipamento.modelo.marca.nome }} / {{ equipamento.modelo.nome }}</span>
+                        <span>Preço: <Formatacao tipo="preco" :valor="equipamento.valor" /></span>
+                        <span>Status: {{ status[equipamento.status] }}</span>
+                    </div>
 
-                <Link v-if="equipamento.status == STATUS_APROVADO"
-                      :href="`/conversa/equipamento/${equipamento.id}`"
-                      class="btn btn-primary">
-                    Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">
-                        {{ (equipamento.mensagens_nao_visualizadas) }}
-                    </span>
-                </Link>
+                    <Link v-if="equipamento.status == STATUS_REPROVADO"
+                          :href="`/equipamento/reprovado/${equipamento.id}`"
+                          class="btn btn-primary">
+                        <span>Motivo da Reprovação</span>
+                    </Link>
+
+                    <Link v-if="equipamento.status == STATUS_APROVADO"
+                          :href="`/conversa/equipamento/${equipamento.id}`"
+                          class="btn btn-primary">
+                        Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">
+                            {{ (equipamento.mensagens_nao_visualizadas) }}
+                        </span>
+                    </Link>
+                </div>
+                <Paginacao :links="equipamentos.links" class="mt-1" />
             </div>
-            <Paginacao :links="equipamentos.links" class="mt-1" />
         </div>
     </PerfilLayout>
 </template>
