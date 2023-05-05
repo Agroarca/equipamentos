@@ -34,6 +34,14 @@ class EquipamentoFactory extends Factory
         ]);
     }
 
+    public function statusReprovado(): mixed
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => StatusEquipamento::Reprovado,
+            'modelo_id' => Modelo::factory()->statusAprovado(),
+        ]);
+    }
+
     public function equipamentComImagens(): mixed
     {
         return $this->state(fn (array $attributes) => [
