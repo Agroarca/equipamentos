@@ -1,0 +1,308 @@
+<?php
+
+namespace Tests\Feature\Admin\Marketing\PaginaInicial;
+
+use App\Enums\Marketing\PaginaInicial\Grid\Formato;
+use App\Models\Marketing\PaginaInicial\Grid\Grid;
+use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia;
+use Illuminate\Support\Str;
+
+class GridTest extends PaginaInicialTestBase
+{
+    use RefreshDatabase;
+
+    public function testPodeAcessarAdicionar(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar");
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Marketing/PaginaInicial/Grid/Adicionar')
+                ->has('formatos', count(Formato::values()))
+        );
+    }
+
+    public function testPodeCriarNovo(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Grid::class)->getTable(), [
+            'formato' => Formato::Banner_3x1_1x3->value,
+        ]);
+    }
+
+    public function testPodeCriarVisualizar(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/visualizar");
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Marketing/PaginaInicial/Grid/Visualizar')
+                ->has('formato')
+                ->where('versao.id', $versao->id)
+                ->where('grid.id', $grid->id)
+        );
+    }
+
+    public function testPodeCriarVisualizarComDados(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $this->criarGridImagem($grid, 3);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/visualizar");
+
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Marketing/PaginaInicial/Grid/Visualizar')
+                ->has('formato')
+                ->where('versao.id', $versao->id)
+                ->where('grid.id', $grid->id)
+                ->has('grid.imagens', 3)
+        );
+    }
+
+    public function testPodeAcessarAdicionarImagem(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Marketing/PaginaInicial/Grid/AdicionarImagem')
+        );
+    }
+
+    public function testPodeAdicionarImagem(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    public function testPodeAdicionarImagemDeskEMobile(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
+
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+            'nome_mobile' => $imagemMobile->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeAdicionarSemCampos(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", []);
+
+        $response->assertInvalid(['link', 'descricao', 'imagem_desktop']);
+    }
+
+    public function testPodeVisualizarImagem(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagem = $this->criarGridImagem($grid)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/visualizar");
+
+        $response->assertStatus(200);
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page
+                ->component('Admin/Marketing/PaginaInicial/Grid/VisualizarImagem')
+                ->where('versao.id', $versao->id)
+                ->where('grid.id', $grid->id)
+                ->where('gridImagem.id', $imagem->id)
+        );
+    }
+
+    public function testPodeExcluir(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $name = $imagemDesktop->hashName();
+
+        $gridImagem = GridImagem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'nome_desktop' => $name,
+            'grid_id' => $grid->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$gridImagem->id/excluir");
+
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'id' => $gridImagem->id,
+        ]);
+    }
+
+    public function testPodeAlterarOrdemAcima(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 3);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $imagem3 = $imagens[2];
+        $imagem3->ordem = 3;
+        $imagem3->save();
+
+        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima";
+        $response = $this->actingAs($this->getAdmin())->get($url);
+
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 2,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem3->id,
+            'ordem' => 3,
+        ]);
+    }
+
+    public function testPodeAlterarOrdemAbaixo(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 3);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $imagem3 = $imagens[2];
+        $imagem3->ordem = 3;
+        $imagem3->save();
+
+        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo";
+        $response = $this->actingAs($this->getAdmin())->get($url);
+
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 3,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem3->id,
+            'ordem' => 2,
+        ]);
+    }
+}

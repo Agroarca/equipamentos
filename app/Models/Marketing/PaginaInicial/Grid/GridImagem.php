@@ -21,6 +21,7 @@ class GridImagem extends Model
         'descricao',
         'nome_desktop',
         'nome_mobile',
+        'grid_id',
     ];
 
     protected $appends = [

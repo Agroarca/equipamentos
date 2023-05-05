@@ -22,7 +22,7 @@ services:
         deploy:
             resources:
                 limits:
-                    memory: 600M
+                    memory: 1G
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
