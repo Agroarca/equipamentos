@@ -6,8 +6,8 @@
     }
 
     .conversa {
-        border: 1px solid $conversas-conversa-borda;
-        border-radius: 2rem;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, .1);
+        border-radius: 1rem;
         padding: 1rem 2rem;
         display: flex;
         flex-direction: row;
