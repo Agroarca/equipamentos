@@ -9,12 +9,12 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
 
 const modal = ref(null)
+const elementImg = ref(null)
 const props = defineProps({
     equipamento: Object,
     errors: Object,
 })
 
-let imagemInput = ref(null)
 let mostrarEditor = ref(false)
 let imagemUrl = ref(null)
 
@@ -72,7 +72,7 @@ function readyCropper() {
 }
 
 function startCropper() {
-    let image = document.getElementById('crop-image') as HTMLImageElement
+    let image = elementImg.value as HTMLImageElement
     cropper.obj = new Cropper(image, cropper.options)
 }
 
@@ -90,7 +90,6 @@ async function saveCrop() {
         lastModified: new Date().getTime(),
     })
     form.imagem = file
-    imagemInput.value = file
     imagemUrl.value = URL.createObjectURL(file)
 }
 function destroyCropper() {
@@ -101,7 +100,6 @@ function destroyCropper() {
 function inputImagem(e) {
     if (!e.target.files[0]) {
         mostrarEditor.value = false
-        imagemInput.value = null
         imagemUrl.value = null
         destroyCropper()
         return
@@ -111,7 +109,6 @@ function inputImagem(e) {
         URL.revokeObjectURL(imagemUrl.value)
     }
     // eslint-disable-next-line prefer-destructuring
-    imagemInput.value = e.target.files[0]
     imagemUrl.value = URL.createObjectURL(e.target.files[0])
     nextTick(() => {
         iniciarEdicao()
@@ -140,7 +137,7 @@ function inputImagem(e) {
                     <Link :href="`/equipamento/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
                         Excluir
                     </Link>
-                    <div v-if="equipamento.imagens.length == 0" class="alert alert-warning">
+                    <div v-if="equipamento.imagens.length === 0" class="alert alert-warning">
                         <span>Nenhuma imagem adicionada</span>
                     </div>
                 </div>
@@ -166,7 +163,7 @@ function inputImagem(e) {
                 </div>
                 <div v-if="mostrarEditor" class="mb-3">
                     <div class="crop-image-container mb-3">
-                        <img id="crop-image" ref="imagemInput" class="crop-image" alt="crop image" :src="imagemUrl" />
+                        <img id="crop-image" ref="elementImg" class="crop-image" alt="crop image" :src="imagemUrl" />
                     </div>
                 </div>
                 <template #footer>

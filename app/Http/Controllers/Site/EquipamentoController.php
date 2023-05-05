@@ -15,7 +15,6 @@ use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -78,7 +77,6 @@ class EquipamentoController extends Controller
 
     public function salvarImagens(EquipamentoImagemRequest $request, $id)
     {
-        Log::info('message');
         $equipamento = Equipamento::findOrFail($id);
 
         $file = $request->file('imagem');
