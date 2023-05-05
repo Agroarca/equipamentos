@@ -120,8 +120,9 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $gridImagem->nome_desktop);
-        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $gridImagem->nome_mobile);
+
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_desktop);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_mobile);
         $gridImagem->delete();
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);

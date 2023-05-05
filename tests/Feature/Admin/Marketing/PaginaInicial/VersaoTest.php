@@ -4,19 +4,15 @@ namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
-use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
-use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
-use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
-use Tests\TestCase;
 use Illuminate\Support\Str;
 
-class VersaoTest extends TestCase
+class VersaoTest extends PaginaInicialTestBase
 {
     use RefreshDatabase;
 
@@ -367,50 +363,6 @@ class VersaoTest extends TestCase
         );
     }
 
-    private function getVersaoCompleto(): Versao
-    {
-        $versao = Versao::factory()->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
-
-        $banner = Banner::factory()->create();
-        $componente = new Componente([
-            'versao_id' => $versao->id,
-            'tela_cheia' => false,
-            'ordem' => 0,
-        ]);
-
-        $componente->tipo()->associate($banner);
-        $componente->save();
-
-        $lista = Lista::factory()->create();
-        $componente = new Componente([
-            'versao_id' => $versao->id,
-            'tela_cheia' => false,
-            'ordem' => 0,
-        ]);
-
-        $componente->tipo()->associate($lista);
-        $componente->save();
-
-        $grid = Grid::factory()->create();
-        $componente = new Componente([
-            'versao_id' => $versao->id,
-            'tela_cheia' => false,
-            'ordem' => 0,
-        ]);
-
-        $componente->tipo()->associate($grid);
-        $componente->save();
-
-        GridImagem::factory()->count(3)->create([
-            'grid_id' => $grid->id,
-        ]);
-
-        return $versao;
-    }
-
     public function testPodeExcluir(): void
     {
         $versao = Versao::factory()->create();
@@ -428,9 +380,7 @@ class VersaoTest extends TestCase
     public function testPodeAprovarCriado(): void
     {
         $versao = Versao::factory()->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -459,14 +409,7 @@ class VersaoTest extends TestCase
     public function testNaoPodeAprovarGridSemImagensSuficientes(): void
     {
         $versao = Versao::factory()->create();
-        $grid = Grid::factory()->create();
-        $componente = new Componente([
-            'versao_id' => $versao->id,
-            'tela_cheia' => false,
-            'ordem' => 0,
-        ]);
-        $componente->tipo()->associate($grid);
-        $componente->save();
+        $this->criarGrid($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -481,9 +424,7 @@ class VersaoTest extends TestCase
     public function testPodeReprovarCriado(): void
     {
         $versao = Versao::factory()->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
@@ -500,9 +441,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Aprovado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
@@ -519,9 +458,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Publicado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
@@ -538,9 +475,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Reprovado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
@@ -557,9 +492,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Reprovado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -572,9 +505,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Publicado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -587,9 +518,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Reprovado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
@@ -602,9 +531,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Criado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
@@ -617,9 +544,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Publicado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
@@ -632,9 +557,7 @@ class VersaoTest extends TestCase
         $versao = Versao::factory([
             'status' => StatusVersao::Aprovado,
         ])->create();
-        CarrosselItem::factory()->count(2)->create([
-            'versao_id' => $versao->id,
-        ]);
+        $this->criarCarrosselItem($versao);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
