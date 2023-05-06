@@ -11,6 +11,7 @@ use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PaginaInicialTestBase extends TestCase
@@ -98,6 +99,8 @@ class PaginaInicialTestBase extends TestCase
 
         $banner = Banner::factory()->create([
             'nome_desktop' => $imagemDesktop->hashName(),
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
         ]);
         $componente = new Componente([
             'versao_id' => $versao->id,

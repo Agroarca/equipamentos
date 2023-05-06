@@ -26,6 +26,10 @@ class GridController extends Controller
     public function adicionar(Versao $versao): mixed
     {
         $formatos = Formato::arrayNomes();
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
         return Inertia::render('Admin/Marketing/PaginaInicial/Grid/Adicionar', compact('versao', 'formatos'));
     }
 

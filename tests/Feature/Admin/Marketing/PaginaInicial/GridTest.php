@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\Grid\Formato;
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -303,6 +304,216 @@ class GridTest extends PaginaInicialTestBase
         $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
             'id' => $imagem3->id,
             'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAdicionarVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNazoPodeCriarNovoVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNazoPodeCriarNovoVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNazoPodeCriarNovoVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarImagemVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarImagemVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarImagemVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarImagemVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeAdicionarImagemVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeAdicionarImagemVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
         ]);
     }
 }

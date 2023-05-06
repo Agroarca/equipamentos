@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -174,5 +175,197 @@ class CarrosselTest extends PaginaInicialTestBase
         $this->assertDatabaseMissing(app(CarrosselItem::class)->getTable(), [
             'id' => $item->id,
         ]);
+    }
+
+    public function testNaoPodeAdicionarVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeSalvarVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao)[0];
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
+                'link' => $carrossel->link,
+                'descricao' => $carrossel->descricao,
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+    }
+
+    public function testNaoPodeSalvarVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao)[0];
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
+                'link' => $carrossel->link,
+                'descricao' => $carrossel->descricao,
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+    }
+
+    public function testNaoPodeSalvarVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao)[0];
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
+                'link' => $carrossel->link,
+                'descricao' => $carrossel->descricao,
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+    }
+
+    public function testNaoPodeExcluirVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+        $item = CarrosselItem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'versao_id' => $versao->id,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+        $item = CarrosselItem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'versao_id' => $versao->id,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+        $item = CarrosselItem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'versao_id' => $versao->id,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+
+
+        $response->assertStatus(403);
     }
 }

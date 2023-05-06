@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -170,5 +171,110 @@ class BannerTest extends PaginaInicialTestBase
                 ->has('banner')
                 ->where('banner.id', $banner->id)
         );
+    }
+
+    public function testNaoPodeAdicionarVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeSalvarVersaoAprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $banner = $this->criarBanner($versao);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
+                'link' => $banner->link,
+                'descricao' => $banner->descricao,
+                'tela_cheia' => $banner->componente->tela_cheia,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+    }
+
+    public function testNaoPodeSalvarVersaoReprovada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $banner = $this->criarBanner($versao);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
+                'link' => $banner->link,
+                'descricao' => $banner->descricao,
+                'tela_cheia' => $banner->componente->tela_cheia,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+    }
+
+    public function testNaoPodeSalvarVersaoPublicada(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $banner = $this->criarBanner($versao);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
+                'link' => $banner->link,
+                'descricao' => $banner->descricao,
+                'tela_cheia' => $banner->componente->tela_cheia,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
     }
 }
