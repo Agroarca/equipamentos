@@ -15,3 +15,7 @@ sudo docker compose down
 sudo docker compose up -d
 
 sudo chmod +x deploy.sh
+
+cd /var/www/nginx
+
+sudo docker compose restart
