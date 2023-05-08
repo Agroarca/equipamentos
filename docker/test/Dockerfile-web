@@ -22,15 +22,8 @@ RUN apt update && \
     apt clean && \
     docker-php-ext-configure zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-RUN composer install --optimize-autoloader --no-dev && \
-    php artisan cache:clear && \
-    php artisan route:clear && \
-    php artisan config:cache && \
-    php artisan view:cache && \
-    php artisan storage:link
-
-RUN chmod +x docker/prod/docker_entrypoint_web.sh
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer install --optimize-autoloader --no-dev && \
+    chmod +x docker/prod/docker_entrypoint_web.sh
 
 EXPOSE 8000
