@@ -23,13 +23,11 @@ const value = computed({
 </script>
 
 <template>
-    <div>
-        <div class="input-group">
-            <input :id="inputId" v-model="value" :name="inputName" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
-            <span id="basic-addon2" class="input-group-text" @click="mostrarSenha = !mostrarSenha">
-                <input id=" mostrar_senha" v-model="mostrarSenha" class="form-check-input" type="checkbox">
-                <label class="form-check-label ps-2" for="mostrar_senha">Mostrar senha</label>
-            </span>
-        </div>
+    <div class="input-group">
+        <input :id="inputId" v-model="value" :name="inputName" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
+        <span id="basic-addon2" class="input-group-text" @click="mostrarSenha = !mostrarSenha">
+            <input id=" mostrar_senha" v-model="mostrarSenha" class="form-check-input" type="checkbox">
+            <label class="form-check-label ps-2" for="mostrar_senha">Mostrar senha</label>
+        </span>
     </div>
 </template>

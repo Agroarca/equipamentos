@@ -13,7 +13,6 @@ const form = useForm({
     cpf_cnpj: '',
     celular: '',
     password: '',
-    password_confirmation: '',
 })
 
 const elCpfCnpj = ref(null)
@@ -26,7 +25,7 @@ onMounted(() => {
 
 function submit() {
     form.post('/registrar', {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset('password'),
     })
 }
 </script>
@@ -69,11 +68,6 @@ function submit() {
                     <label for="password">Senha</label>
                     <Senha v-model="form.password" name="password" :error="form.errors.password" />
                     <FormError :error="form.errors.password" />
-                </div>
-
-                <div class="mb-3">
-                    <Senha v-model="form.password_confirmation" :error="form.errors.password_confirmation" />
-                    <FormError :error="form.errors.password_confirmation" />
                 </div>
 
                 <div class="mb-3">
