@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Autenticacao;
 
-use Illuminate\Support\Str;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

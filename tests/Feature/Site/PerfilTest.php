@@ -5,7 +5,6 @@ namespace Tests\Feature\Site;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PerfilTest extends TestCase
