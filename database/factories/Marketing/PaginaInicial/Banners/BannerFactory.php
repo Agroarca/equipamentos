@@ -3,6 +3,7 @@
 namespace Database\Factories\Marketing\PaginaInicial\Banners;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BannerFactory extends Factory
 {
@@ -10,8 +11,8 @@ class BannerFactory extends Factory
     {
         return [
             'link' => '/',
-            'descricao' => $this->faker->text(10),
-            'nome_desktop' => $this->faker->text(10),
+            'descricao' => Str::random(10),
+            'nome_desktop' => Str::random(10),
         ];
     }
 }

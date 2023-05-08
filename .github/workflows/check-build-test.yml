@@ -61,3 +61,9 @@ jobs:
 
       - name: Run Testsuite
         run: php artisan test
+
+      - name: Check composer vulnerabilities
+        run: composer audit --locked
+
+      - name: Check npm vulnerabilities
+        run: npm audit
