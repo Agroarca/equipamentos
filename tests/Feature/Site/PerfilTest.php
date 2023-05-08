@@ -33,7 +33,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => '',
-                'password_confirmation' => '',
             ]);
         $response->assertRedirectToRoute('site.perfil');
     }
@@ -49,7 +48,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
             ]);
         $response->assertRedirectToRoute('site.perfil');
     }
@@ -96,7 +94,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
             ]);
 
         $response->assertValid();

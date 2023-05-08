@@ -24,7 +24,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '243.287.440-46',
             'celular' => '(54) 9111-1111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $this->assertAuthenticated();
@@ -39,7 +38,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '22018399055',
             'celular' => '5491111112',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $this->assertAuthenticated();
@@ -54,7 +52,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '52.385.899/0001-01',
             'celular' => '(54) 9111-11111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $this->assertAuthenticated();
@@ -69,7 +66,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '50134660000133',
             'celular' => '54 3111 1111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $this->assertAuthenticated();
@@ -84,7 +80,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '243.287.440-47',
             'celular' => '(54) 9111-1111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $response->assertInvalid(['cpf']);
@@ -98,7 +93,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '52.386.899/0001-01',
             'celular' => '(54) 9111-1111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $response->assertInvalid(['cnpj']);
@@ -112,7 +106,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '501346600001',
             'celular' => '5491111-11111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $response->assertInvalid(['cpf_cnpj', 'celular']);
@@ -126,7 +119,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '22018399055',
             'celular' => '5491111-11',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $response->assertInvalid(['celular']);
@@ -140,7 +132,6 @@ class RegistroTest extends TestCase
             'cpf_cnpj' => '22018399055',
             'celular' => '543111-111',
             'password' => 'password',
-            'password_confirmation' => 'password',
         ]);
 
         $response->assertInvalid(['celular']);

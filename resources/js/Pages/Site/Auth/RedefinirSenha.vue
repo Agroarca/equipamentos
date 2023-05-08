@@ -19,12 +19,11 @@ const form = useForm({
     token: props.token,
     email: props.email,
     password: '',
-    password_confirmation: '',
 })
 
 function submit() {
     form.post('/reset-password', {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset('password'),
     })
 }
 </script>
@@ -42,11 +41,6 @@ function submit() {
                 <label for="password">Senha</label>
                 <Senha v-model="form.password" />
                 <FormError :error="form.errors.password" />
-            </div>
-
-            <div class="form-group">
-                <Senha v-model="form.password_confirmation" name="password" />
-                <FormError :error="form.errors.password_confirmation" />
             </div>
 
             <div class="form-group">
