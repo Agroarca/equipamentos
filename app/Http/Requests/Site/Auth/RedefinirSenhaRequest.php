@@ -20,7 +20,7 @@ class RedefinirSenhaRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                Password::defaults(),
+                Password::min(8)->mixedCase()->numbers(),
             ],
         ];
     }
