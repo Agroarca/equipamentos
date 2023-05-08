@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import Senha from '@/Componentes/Site/Senha.vue'
 
 const props = defineProps({
     email: {
@@ -18,12 +19,11 @@ const form = useForm({
     token: props.token,
     email: props.email,
     password: '',
-    password_confirmation: '',
 })
 
 function submit() {
     form.post('/reset-password', {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset('password'),
     })
 }
 </script>
@@ -39,16 +39,8 @@ function submit() {
 
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input id="password" v-model="form.password" class="form-control" type="password" required
-                       autocomplete="new-password">
+                <Senha v-model="form.password" />
                 <FormError :error="form.errors.password" />
-            </div>
-
-            <div class="form-group">
-                <label for="password_confirmation">Confirmar Senha</label>
-                <input id="password_confirmation" v-model="form.password_confirmation" class="form-control"
-                       type="password" required autocomplete="new-password">
-                <FormError :error="form.errors.password_confirmation" />
             </div>
 
             <div class="form-group">

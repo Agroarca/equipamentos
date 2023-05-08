@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import Mask from '@/Componentes/Helper/InputMask'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import PerfilLayout from './Componentes/PerfilLayout.vue'
+import Senha from '@/Componentes/Site/Senha.vue'
 
 const props = defineProps({
     user: Object,
@@ -16,7 +17,6 @@ const form = useForm({
     cpf_cnpj: props.user.cpf ?? props.user.cnpj,
     celular: props.user.celular,
     password: '',
-    password_confirmation: '',
 })
 
 const elCpfCnpj = ref(null)
@@ -33,7 +33,7 @@ function submit() {
         celular: data.celular.replaceAll(/\D/g, ''),
         cpf_cnpj: data.cpf_cnpj.replaceAll(/\D/g, ''),
     })).post('/perfil/atualizar', {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset('password'),
     })
 }
 </script>
@@ -73,14 +73,8 @@ function submit() {
 
             <div class="mb-3">
                 <label for="password">Senha</label>
-                <input id="password" v-model="form.password" class="form-control" type="password" autocomplete="new-password">
+                <Senha v-model="form.password" name="password" :error="form.errors.password" />
                 <FormError :error="form.errors.password" />
-            </div>
-
-            <div class="mb-3">
-                <label for="password_confirmation">Confirmar Senha</label>
-                <input id="password_confirmation" v-model="form.password_confirmation" class="form-control" type="password" autocomplete="new-password">
-                <FormError :error="form.errors.password_confirmation" />
             </div>
 
             <div class="mb-3">
