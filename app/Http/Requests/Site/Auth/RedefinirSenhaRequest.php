@@ -19,7 +19,6 @@ class RedefinirSenhaRequest extends FormRequest
             'email' => 'required|email',
             'password' => [
                 'required',
-                'confirmed',
                 Password::min(8)->mixedCase()->numbers(),
             ],
         ];

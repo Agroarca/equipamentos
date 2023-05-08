@@ -33,7 +33,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => '',
-                'password_confirmation' => '',
             ]);
         $response->assertRedirectToRoute('site.perfil');
     }
@@ -49,40 +48,8 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
             ]);
         $response->assertRedirectToRoute('site.perfil');
-    }
-
-    public function testNaoPodeAlterarDadosComSenhaDiferenteDaConfirmacao(): void
-    {
-        $usuario = $this->getUsuario();
-        $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
-                'nome' => 'Nome alterado',
-                'email' => 'teste@exemple.com',
-                'cpf_cnpj' => $usuario->cpf,
-                'celular' => $usuario->celular,
-                'password' => Str::random(25),
-                'password_confirmation' => Str::random(25),
-            ]);
-
-        $response->assertInvalid('password');
-    }
-
-    public function testNaoPodeAlterarDadosComSenhaSemConfirmacao(): void
-    {
-        $usuario = $this->getUsuario();
-        $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
-                'nome' => 'Nome alterado',
-                'email' => 'teste@exemple.com',
-                'cpf_cnpj' => $usuario->cpf,
-                'celular' => $usuario->celular,
-                'password' => Str::random(25),
-            ]);
-
-        $response->assertInvalid('password');
     }
 
     public function testPodeLogarAposAlterarSenha(): void
@@ -96,7 +63,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
             ]);
 
         $response->assertValid();
@@ -128,7 +94,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
             ]);
 
         $response->assertValid();

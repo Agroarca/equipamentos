@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Senha from '@/Componentes/Site/Senha.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 
 const form = useForm({
@@ -22,13 +23,9 @@ function submit() {
         </div>
 
         <form @submit.prevent="submit">
-            <div class="form-group">
-                <label for="password">Senha</label>
-                <input id="password" v-model="form.password" class="form-control" type="password" required
-                       autocomplete="current-password">
-                <FormError :error="form.errors.password" />
-            </div>
-
+            <label for="password">Senha</label>
+            <Senha v-model="form.password" name="password" :error="form.errors.password" />
+            <FormError :error="form.errors.password" />
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">
                     Confirmar

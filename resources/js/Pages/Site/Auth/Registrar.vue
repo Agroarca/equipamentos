@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import Mask from '@/Componentes/Helper/InputMask'
+import Senha from '@/Componentes/Site/Senha.vue'
 
 const form = useForm({
     nome: '',
@@ -12,7 +13,6 @@ const form = useForm({
     cpf_cnpj: '',
     celular: '',
     password: '',
-    password_confirmation: '',
 })
 
 const elCpfCnpj = ref(null)
@@ -25,7 +25,7 @@ onMounted(() => {
 
 function submit() {
     form.post('/registrar', {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => form.reset('password'),
     })
 }
 </script>
@@ -66,14 +66,8 @@ function submit() {
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <input id="password" v-model="form.password" class="form-control" type="password" required autocomplete="new-password">
+                    <Senha v-model="form.password" name="password" :error="form.errors.password" />
                     <FormError :error="form.errors.password" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="password_confirmation">Confirmar Senha</label>
-                    <input id="password_confirmation" v-model="form.password_confirmation" class="form-control" type="password" required autocomplete="new-password">
-                    <FormError :error="form.errors.password_confirmation" />
                 </div>
 
                 <div class="mb-3">

@@ -28,7 +28,7 @@ class RedefinirSenhaController extends Controller
     public function redefinirSenha(RedefinirSenhaRequest $request)
     {
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->only('email', 'password', 'token'),
             function ($user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->password),
