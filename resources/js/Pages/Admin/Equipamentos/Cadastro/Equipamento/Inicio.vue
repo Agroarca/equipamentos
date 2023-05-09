@@ -18,7 +18,7 @@ const props = defineProps({
                         <th>Título</th>
                         <th>Categoria</th>
                         <th>Status</th>
-                        <th />
+                        <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="equipamento in equipamentos.data" :key="equipamento.id">
@@ -26,14 +26,16 @@ const props = defineProps({
                             <td>{{ equipamento.categoria.nome }}</td>
                             <td>{{ statusEquipamentos[equipamento.status] }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/equipamentos/${equipamento.id}/editar`">
-                                    <i class="fas fa-pen-to-square pe-1" />
-                                    Editar
-                                </Link>
-                                <Link class="btn btn-danger" :href="`/admin/equipamentos/${equipamento.id}/excluir`">
-                                    <i class="fas fa-eraser pe-1" />
-                                    Excluir
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link class="btn btn-primary me-2" :href="`/admin/equipamentos/${equipamento.id}/editar`">
+                                        <i class="fas fa-pen-to-square pe-1" />
+                                        Editar
+                                    </Link>
+                                    <Link class="btn btn-danger" :href="`/admin/equipamentos/${equipamento.id}/excluir`">
+                                        <i class="fas fa-eraser pe-1" />
+                                        Excluir
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                         <tr v-if="equipamentos.data.length == 0">

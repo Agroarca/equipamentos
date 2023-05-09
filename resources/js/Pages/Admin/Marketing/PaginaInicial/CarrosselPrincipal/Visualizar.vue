@@ -18,23 +18,25 @@ const STATUS_VERSAO_CRIADO = 0
                         <thead>
                             <th>Link</th>
                             <th>Descrição</th>
-                            <th />
+                            <th>Ações</th>
                         </thead>
                         <tbody>
                             <tr v-for="item in versao.carrossel_itens" :key="item.id">
                                 <td>{{ item.link }}</td>
                                 <td>{{ item.descricao }}</td>
                                 <td>
-                                    <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/visualizar`">
-                                        <i class="fas fa-magnifying-glass pe-1" />
-                                        Visualizar
-                                    </Link>
-                                    <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
-                                          class="btn btn-danger"
-                                          :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
-                                        <i class="fas fa-eraser pe-1" />
-                                        Excluir
-                                    </Link>
+                                    <div class="grade-botoes">
+                                        <Link class="btn btn-secondary me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/visualizar`">
+                                            <i class="fas fa-magnifying-glass pe-1" />
+                                            Visualizar
+                                        </Link>
+                                        <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
+                                              class="btn btn-danger"
+                                              :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/excluir`">
+                                            <i class="fas fa-eraser pe-1" />
+                                            Excluir
+                                        </Link>
+                                    </div>
                                 </td>
                             </tr>
                             <tr v-if="versao.carrossel_itens.length == 0">

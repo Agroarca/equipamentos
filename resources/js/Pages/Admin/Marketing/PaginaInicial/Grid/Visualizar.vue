@@ -47,38 +47,42 @@ const STATUS_VERSAO_CRIADO = 0
                         <th>Link</th>
                         <th>Ordem</th>
                         <th>Descrição</th>
-                        <th />
+                        <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="(imagem, index) in grid.imagens" :key="imagem.id">
                             <td v-if="versao.status === STATUS_VERSAO_CRIADO">
-                                <Link
-                                    :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/ordem/acima`"
-                                    class="btn btn-primary me-2"
-                                    :class="{ disabled: index === 0 }">
-                                    <i class="fa-solid fa-circle-up" />
-                                </Link>
-                                <Link
-                                    :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/ordem/abaixo`"
-                                    class="btn btn-primary me-2"
-                                    :class="{ disabled: index === grid.imagens.length - 1 }">
-                                    <i class="fa-solid fa-circle-down" />
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link
+                                        :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/ordem/acima`"
+                                        class="btn btn-primary me-2"
+                                        :class="{ disabled: index === 0 }">
+                                        <i class="fa-solid fa-circle-up" />
+                                    </Link>
+                                    <Link
+                                        :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/ordem/abaixo`"
+                                        class="btn btn-primary me-2"
+                                        :class="{ disabled: index === grid.imagens.length - 1 }">
+                                        <i class="fa-solid fa-circle-down" />
+                                    </Link>
+                                </div>
                             </td>
                             <td>{{ imagem.link }}</td>
                             <td>{{ imagem.ordem }}</td>
                             <td>{{ imagem.descricao }}</td>
                             <td>
-                                <Link
-                                    :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/visualizar`"
-                                    class="btn btn-primary me-2">
-                                    <i class="fas fa-magnifying-glass pe-1" /> Visualizar
-                                </Link>
-                                <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
-                                      :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/excluir`"
-                                      class="btn btn-danger me-2">
-                                    <i class="fas fa-eraser pe-1" /> Excluir
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link
+                                        :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/visualizar`"
+                                        class="btn btn-primary me-2">
+                                        <i class="fas fa-magnifying-glass pe-1" /> Visualizar
+                                    </Link>
+                                    <Link v-if="versao.status === STATUS_VERSAO_CRIADO"
+                                          :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/${imagem.id}/excluir`"
+                                          class="btn btn-danger me-2">
+                                        <i class="fas fa-eraser pe-1" /> Excluir
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                         <tr v-if="grid.imagens.length == 0">

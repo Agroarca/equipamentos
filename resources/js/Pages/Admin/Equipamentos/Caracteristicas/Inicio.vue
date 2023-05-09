@@ -17,21 +17,23 @@ const props = defineProps({
                     <thead>
                         <th>Nome</th>
                         <th>Tipo</th>
-                        <th />
+                        <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="caracteristica in categoria.caracteristicas" :key="caracteristica.id">
                             <td>{{ caracteristica.nome }}</td>
                             <td>{{ tipos[caracteristica.tipo] }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categoria.id}/caracteristicas/${caracteristica.id}/visualizar`">
-                                    <i class="fas fa-magnifying-glass pe-1" />
-                                    Visualizar
-                                </Link>
-                                <Link class="btn btn-danger" :href="`/admin/categorias/${categoria.id}/caracteristicas/${caracteristica.id}/excluir`">
-                                    <i class="fas fa-eraser pe-1" />
-                                    Excluir
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categoria.id}/caracteristicas/${caracteristica.id}/visualizar`">
+                                        <i class="fas fa-magnifying-glass pe-1" />
+                                        Visualizar
+                                    </Link>
+                                    <Link class="btn btn-danger" :href="`/admin/categorias/${categoria.id}/caracteristicas/${caracteristica.id}/excluir`">
+                                        <i class="fas fa-eraser pe-1" />
+                                        Excluir
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                         <tr v-if="categoria.caracteristicas.length == 0">

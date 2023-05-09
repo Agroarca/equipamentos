@@ -27,7 +27,7 @@ function submit() {
                     Características
                 </h5>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>
                         <td>Nome</td>
