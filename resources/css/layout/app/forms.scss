@@ -1,0 +1,11 @@
+.btn {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.grade-botoes {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
