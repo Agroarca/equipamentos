@@ -22,7 +22,7 @@ class EntrarController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->route('site.perfil');
     }
 
     public function sair(Request $request)
