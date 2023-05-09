@@ -29,8 +29,8 @@ class PaginaInicialService
     public function getVersaoAtual(): Versao
     {
         return Versao::where('status', StatusVersao::Publicado)
-            ->where(fn ($query) => $query->whereNull('data_inicio')->orWhere('data_inicio', '>=', Carbon::now()))
-            ->where(fn ($query) => $query->whereNull('data_fim')->orWhere('data_fim', '<', Carbon::now()))
+            ->where(fn ($query) => $query->whereNull('data_inicio')->orWhere('data_inicio', '<=', Carbon::now()))
+            ->where(fn ($query) => $query->whereNull('data_fim')->orWhere('data_fim', '>', Carbon::now()))
             ->orderBy('prioridade', 'desc')
             ->first() ?? new Versao();
     }
@@ -138,7 +138,7 @@ class PaginaInicialService
         $ordem = $componente->ordem;
 
         if ($ordem >= $componente->versao->componentes()->max('ordem')) {
-            throw new ValidationException(['ordem' => 'O componente já está na última posição']);
+            throw ValidationException::withMessages(['ordem' => 'O componente já está na última posição']);
         }
 
         $componentePosterior = $componente->versao->componentes()->where('ordem', $ordem + 1)->first();
@@ -165,7 +165,7 @@ class PaginaInicialService
             ]);
         }
 
-        if ($quantidadeImagens < $grid->formato->imagensNecessarias()) {
+        if ($quantidadeImagens > $grid->formato->imagensNecessarias()) {
             $componenteId = $grid->componente->id;
             throw ValidationException::withMessages([
                 'grid' => "O Grid ($componenteId) tem mais imagens do que o número permitido de imagens",
