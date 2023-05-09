@@ -34,7 +34,7 @@ class RegistroRequest extends FormRequest
             'password' => [
                 'nullable',
                 'string',
-                Password::defaults(),
+                Password::min(8)->mixedCase()->numbers(),
             ],
             'cpf_cnpj' => [
                 'bail',
@@ -63,12 +63,12 @@ class RegistroRequest extends FormRequest
         if (Auth::check()) {
             $rules['password'] = [
                 'nullable',
-                Password::defaults(),
+                Password::min(8)->mixedCase()->numbers(),
             ];
         } else {
             $rules['password'] = [
                 'required',
-                Password::defaults(),
+                Password::min(8)->mixedCase()->numbers(),
             ];
         }
 
