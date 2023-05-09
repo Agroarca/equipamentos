@@ -2,13 +2,19 @@
 
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
+use App\Enums\Marketing\PaginaInicial\Grid\Formato;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
+use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
+use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
+use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
 
@@ -326,6 +332,75 @@ class VersaoTest extends PaginaInicialTestBase
         ]);
     }
 
+    public function testNaoPodeEditarVersaoAprovada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $nome = Str::random(10);
+        $prioridade = 10;
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
+                'nome' => $nome,
+                'prioridade' => $prioridade,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Aprovado,
+            'nome' => $versao->nome,
+        ]);
+    }
+
+    public function testNaoPodeEditarVersaoReprovada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $nome = Str::random(10);
+        $prioridade = 10;
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
+                'nome' => $nome,
+                'prioridade' => $prioridade,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Reprovado,
+            'nome' => $versao->nome,
+        ]);
+    }
+
+    public function testNaoPodeEditarVersaoPublicada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $nome = Str::random(10);
+        $prioridade = 10;
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
+                'nome' => $nome,
+                'prioridade' => $prioridade,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Publicado,
+            'nome' => $versao->nome,
+        ]);
+    }
+
     public function testPodeAcessarVisualizar(): void
     {
         $versao = Versao::factory()->create();
@@ -377,6 +452,51 @@ class VersaoTest extends PaginaInicialTestBase
         ]);
     }
 
+    public function testNaoPodeExcluirVersaoAprovada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+        ]);
+    }
+
+    public function testNaoPodeExcluirVersaoReprovada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+        ]);
+    }
+
+    public function testNaoPodeExcluirVersaoPublicada(): void
+    {
+        $versao = Versao::factory()->create();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+        ]);
+    }
+
     public function testPodeAprovarCriado(): void
     {
         $versao = Versao::factory()->create();
@@ -409,12 +529,31 @@ class VersaoTest extends PaginaInicialTestBase
     public function testNaoPodeAprovarGridSemImagensSuficientes(): void
     {
         $versao = Versao::factory()->create();
-        $this->criarGrid($versao);
+        $this->criarCarrosselItem($versao);
+        $grid = $this->criarGrid($versao);
+        $this->criarGridImagem($grid, 1);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
-        $response->assertInvalid();
+        $response->assertInvalid(['grid']);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Aprovado,
+        ]);
+    }
+
+    public function testNaoPodeAprovarGridImagensDemais(): void
+    {
+        $versao = Versao::factory()->create();
+        $this->criarCarrosselItem($versao);
+        $grid = $this->criarGrid($versao);
+        $this->criarGridImagem($grid, 5);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
+
+        $response->assertInvalid(['grid']);
         $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
             'id' => $versao->id,
             'status' => StatusVersao::Aprovado,
@@ -563,5 +702,123 @@ class VersaoTest extends PaginaInicialTestBase
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
 
         $response->assertInvalid('status');
+    }
+
+    public function testPodeCriarVersaoCompleta(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+
+        // Criar Carrossel
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
+                'link' => '/link',
+                'descricao' => 'descrição da imagem',
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
+
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'link' => '/link',
+            'descricao' => 'descrição da imagem',
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+
+        // Criar Banner
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
+                'link' => '/link',
+                'descricao' => 'descricao da imagem',
+                'titulo' => 'titulo',
+                'subtitulo' => 'subtitulo',
+                'tela_cheia' => true,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Banner::class)->getTable(), [
+            'link' => '/link',
+            'descricao' => 'descricao da imagem',
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'titulo' => 'titulo',
+            'subtitulo' => 'subtitulo',
+            'tela_cheia' => true,
+        ]);
+
+        // Criar Lista de Produtos
+        $lista = Lista::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
+                'lista_produtos_id' => $lista->lista_produtos_id,
+                'titulo' => $lista->titulo,
+                'subtitulo' => $lista->subtitulo,
+                'tela_cheia' => false,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Lista::class)->getTable(), [
+            'lista_produtos_id' => $lista->lista_produtos_id,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'titulo' => $lista->titulo,
+            'subtitulo' => $lista->subtitulo,
+            'tela_cheia' => false,
+        ]);
+
+        // Criar Grid
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Grid::class)->getTable(), [
+            'formato' => Formato::Banner_3x1_1x3->value,
+        ]);
+
+        // Criar Imagem do grid
+        $componente = Componente::where('versao_id', $versao->id)->where('tipo_type', Grid::class)->first();
+        $grid = $componente->tipo;
+
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
+            $versao->id,
+            $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
     }
 }

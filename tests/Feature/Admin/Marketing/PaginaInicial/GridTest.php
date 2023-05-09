@@ -246,8 +246,9 @@ class GridTest extends PaginaInicialTestBase
         $imagem3->ordem = 3;
         $imagem3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
+        );
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
             $versao->id,
@@ -264,6 +265,36 @@ class GridTest extends PaginaInicialTestBase
         $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
             'id' => $imagem3->id,
             'ordem' => 3,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaPrimeiraPosicao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem1->id/ordem/acima"
+        );
+
+        $response->assertInvalid('ordem');
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
         ]);
     }
 
@@ -286,8 +317,9 @@ class GridTest extends PaginaInicialTestBase
         $imagem3->ordem = 3;
         $imagem3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.grid.visualizar', [
             $versao->id,
@@ -303,6 +335,36 @@ class GridTest extends PaginaInicialTestBase
         ]);
         $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
             'id' => $imagem3->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoUltimaPos(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
+
+        $response->assertInvalid('ordem');
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
             'ordem' => 2,
         ]);
     }
@@ -346,7 +408,7 @@ class GridTest extends PaginaInicialTestBase
         $response->assertStatus(403);
     }
 
-    public function testNazoPodeCriarNovoVersaoAprovada(): void
+    public function testNaoPodeCriarNovoVersaoAprovada(): void
     {
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Aprovado;
@@ -361,7 +423,7 @@ class GridTest extends PaginaInicialTestBase
         $response->assertStatus(403);
     }
 
-    public function testNazoPodeCriarNovoVersaoReprovada(): void
+    public function testNaoPodeCriarNovoVersaoReprovada(): void
     {
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Reprovado;
@@ -376,7 +438,7 @@ class GridTest extends PaginaInicialTestBase
         $response->assertStatus(403);
     }
 
-    public function testNazoPodeCriarNovoVersaoPublicada(): void
+    public function testNaoPodeCriarNovoVersaoPublicada(): void
     {
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Publicado;
@@ -514,6 +576,252 @@ class GridTest extends PaginaInicialTestBase
             'link' => $link,
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeExcluirImagemVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagem = $this->criarGridImagem($grid)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem->id,
+        ]);
+    }
+
+    public function testNaoPodeExcluirImagemVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagem = $this->criarGridImagem($grid)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem->id,
+        ]);
+    }
+
+    public function testNaoPodeExcluirImagemVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagem = $this->criarGridImagem($grid)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem->id,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 2);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+            'ordem' => 2,
         ]);
     }
 }
