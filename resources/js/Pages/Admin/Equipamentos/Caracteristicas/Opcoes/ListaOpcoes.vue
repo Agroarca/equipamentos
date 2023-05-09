@@ -25,16 +25,18 @@ const props = defineProps({
             <table class="table table-stri=ped table-hover">
                 <thead>
                     <th>Nome</th>
-                    <th />
+                    <th>Ações</th>
                 </thead>
                 <tbody>
                     <tr v-for="opcao in caracteristica.opcoes" :key="opcao.id">
                         <td>{{ opcao.nome }}</td>
                         <td>
-                            <Link class="btn btn-danger" :href="`/admin/categorias/${caracteristica.categoria_id}/caracteristicas/${caracteristica.id}/opcoes/${opcao.id}/excluir`">
-                                <i class="fas fa-eraser pe-1" />
-                                Excluir
-                            </Link>
+                            <div class="grade-botoes">
+                                <Link class="btn btn-danger" :href="`/admin/categorias/${caracteristica.categoria_id}/caracteristicas/${caracteristica.id}/opcoes/${opcao.id}/excluir`">
+                                    <i class="fas fa-eraser pe-1" />
+                                    Excluir
+                                </Link>
+                            </div>
                         </td>
                     </tr>
                     <tr v-if="caracteristica.opcoes.length == 0">

@@ -25,7 +25,7 @@ const link = props.categoria ? `/admin/categorias/criar/${props.categoria.id}` :
                     <thead>
                         <th>Nome</th>
                         <th>Categoria Mãe</th>
-                        <th />
+                        <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="categ in categorias.data" :key="categ.id">
@@ -36,22 +36,24 @@ const link = props.categoria ? `/admin/categorias/criar/${props.categoria.id}` :
                                 </span>
                             </td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/caracteristicas`">
-                                    <i class="fas fa-sliders pe-1" />
-                                    Características
-                                </Link>
-                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ?.id}`">
-                                    <i class="fas fa-bars-staggered pe-1" />
-                                    Subcategorias
-                                </Link>
-                                <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/editar`">
-                                    <i class="fas fa-pen-to-square pe-1" />
-                                    Editar
-                                </Link>
-                                <Link class="btn btn-danger" :href="`/admin/categorias/${categ.id}/excluir`">
-                                    <i class="fas fa-eraser pe-1" />
-                                    Excluir
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/caracteristicas`">
+                                        <i class="fas fa-sliders pe-1" />
+                                        Características
+                                    </Link>
+                                    <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ?.id}`">
+                                        <i class="fas fa-bars-staggered pe-1" />
+                                        Subcategorias
+                                    </Link>
+                                    <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categ.id}/editar`">
+                                        <i class="fas fa-pen-to-square pe-1" />
+                                        Editar
+                                    </Link>
+                                    <Link class="btn btn-danger" :href="`/admin/categorias/${categ.id}/excluir`">
+                                        <i class="fas fa-eraser pe-1" />
+                                        Excluir
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                         <tr v-if="categorias.data.length == 0">

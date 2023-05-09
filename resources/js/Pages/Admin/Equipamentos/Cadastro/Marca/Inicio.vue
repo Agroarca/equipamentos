@@ -17,21 +17,23 @@ const props = defineProps({
                     <thead>
                         <th>Nome</th>
                         <th>Status</th>
-                        <th />
+                        <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="marca in marcas.data" :key="marca.id">
                             <td>{{ marca.nome }}</td>
                             <td>{{ statusCadastro[marca.status] }}</td>
                             <td>
-                                <Link class="btn btn-primary me-2" :href="`/admin/marcas/${marca.id}/editar`">
-                                    <i class="fas fa-pen-to-square pe-1" />
-                                    Editar
-                                </Link>
-                                <Link class="btn btn-danger" :href="`/admin/marcas/${marca.id}/excluir`">
-                                    <i class="fas fa-eraser pe-1" />
-                                    Excluir
-                                </Link>
+                                <div class="grade-botoes">
+                                    <Link class="btn btn-primary me-2" :href="`/admin/marcas/${marca.id}/editar`">
+                                        <i class="fas fa-pen-to-square pe-1" />
+                                        Editar
+                                    </Link>
+                                    <Link class="btn btn-danger" :href="`/admin/marcas/${marca.id}/excluir`">
+                                        <i class="fas fa-eraser pe-1" />
+                                        Excluir
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
                         <tr v-if="marcas.data.length == 0">

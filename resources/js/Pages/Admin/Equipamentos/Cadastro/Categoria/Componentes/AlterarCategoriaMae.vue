@@ -49,15 +49,17 @@ defineExpose({ show })
             <table class="table table-striped table-hover">
                 <thead>
                     <th>Nome</th>
-                    <th />
+                    <th>Ações</th>
                 </thead>
                 <tbody>
                     <tr v-for="cat in state.categorias" :key="cat.id">
                         <td>{{ cat.nome }}</td>
                         <td>
-                            <button v-if="cat.id != categoria.id" type="button" class="btn btn-primary" @click="atualizarCategorias(cat.id)">
-                                Acessar <i class="fas fa-arrow-right" />
-                            </button>
+                            <div class="grade-botoes">
+                                <button v-if="cat.id != categoria.id" type="button" class="btn btn-primary" @click="atualizarCategorias(cat.id)">
+                                    Acessar <i class="fas fa-arrow-right" />
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
