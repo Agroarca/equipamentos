@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Site\Equipamento;
 
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
@@ -9,6 +10,7 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -41,10 +43,52 @@ class CadastrarEquipamentoTest extends TestCase
             ->component('Site/Equipamento/Cadastrar/Novo'));
     }
 
+    public function testPodeAcessarEditarEquipamento(): void
+    {
+        $usuario = $this->getUsuario();
+
+        $equipamento = Equipamento::factory()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+
+        $response = $this->actingAs($usuario)
+            ->get("/equipamento/cadastro/editar/$equipamento->id");
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Equipamento/Editar/Editar'));
+    }
+
+    public function testNaoPodeAcessarEditarEquipamentoAprovado(): void
+    {
+        $usuario = $this->getUsuario();
+        $equipamento = Equipamento::factory()->statusAprovado()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+
+        $response = $this->actingAs($usuario)
+            ->get("/equipamento/cadastro/editar/$equipamento->id");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarEditarEquipamentoDeOutroUsuario(): void
+    {
+        $usuario = Usuario::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/cadastro/editar/$equipamento->id");
+
+        $response->assertStatus(403);
+    }
+
     public function testNaoPodeAcessarSemCategoria(): void
     {
         $response = $this->actingAs($this->getUsuario())
-            ->get('/equipamento/cadastrar/categoria');
+            ->get('/equipamento/cadastro/');
 
         $response->assertStatus(404);
     }
@@ -52,7 +96,7 @@ class CadastrarEquipamentoTest extends TestCase
     public function testNaoPodeAcessarComCategoriaInvalida(): void
     {
         $response = $this->actingAs($this->getUsuario())
-            ->get('/equipamento/cadastrar/categoria/1');
+            ->get('/equipamento/cadastrar/1');
 
         $response->assertStatus(404);
     }
