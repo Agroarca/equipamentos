@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Site\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\Auth\EntrarRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
