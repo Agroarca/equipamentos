@@ -23,6 +23,11 @@ const props = defineProps({
                 </slot>
             </div>
             <Filtro :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
+            <div v-if="equipamentos.data.length == 0">
+                <div class="alert alert-danger">
+                    Nenhum equipamento encontrado
+                </div>
+            </div>
             <slot>
                 <div class="produtos">
                     <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
