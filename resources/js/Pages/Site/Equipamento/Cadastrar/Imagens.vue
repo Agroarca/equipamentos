@@ -142,7 +142,7 @@ function inputImagem(e) {
                     </div>
                 </div>
                 <div class="mt-3">
-                    <button type="button" class="btn btn-primary me-3 mb-3" @click="adicionar()">
+                    <button type="button" class="btn btn-primary me-3" @click="adicionar()">
                         Adicionar Imagem
                     </button>
                     <Link :href="`/equipamento/${equipamento.id}/imagens/continuar`" class="btn btn-primary" :class="{ disabled: equipamento.imagens.length == 0 }">

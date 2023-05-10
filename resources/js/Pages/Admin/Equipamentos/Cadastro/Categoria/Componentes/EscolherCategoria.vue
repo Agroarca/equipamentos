@@ -58,11 +58,11 @@ function escolherCategoria(id) {
                         <td>{{ categoria.nome }}</td>
                         <td>
                             <div class="grade-botoes">
-                                <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(categoria.id)">
-                                    Acessar <i class="fas fa-arrow-right" />
+                                <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-primary me-3" @click="atualizarCategorias(categoria.id)">
+                                    Acessar<i class="ms-2 fas fa-arrow-right" />
                                 </button>
-                                <button type="button" class="btn btn-success " @click="escolherCategoria(categoria.id)">
-                                    Escolher <i class="fas fa-arrow-right" />
+                                <button type="button" class="btn btn-primary " @click="escolherCategoria(categoria.id)">
+                                    Escolher <i class="ms-2 fas fa-arrow-right" />
                                 </button>
                             </div>
                         </td>
