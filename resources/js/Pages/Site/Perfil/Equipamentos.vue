@@ -17,6 +17,9 @@ const STATUS_REPROVADO = 5
 <template>
     <PerfilLayout titulo="Meus Equipamentos" pagina="equipamentos">
         <div class="equipamentos">
+            <div v-if="equipamentos.data.length == 0" class="alert alert-danger">
+                Você não possui nenhum equipamento cadastrado
+            </div>
             <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
                 <img class="imagem"
                      :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
