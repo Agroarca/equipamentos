@@ -25,7 +25,7 @@ class AddSecurityHeaders
         if (!App::environment('local')) {
             // Content Security Policy
             // phpcs:ignore Generic.Files.LineLength.MaxExceeded
-            $response->header('Content-Security-Policy', "default-src 'self'; object-src 'none'; media-src 'none'; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://*.googleapis.com https://www.google-analytics.com *://agroarca.com.br:*;");
+            $response->header('Content-Security-Policy', "default-src 'self'; object-src 'none'; media-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://*.googleapis.com https://www.google-analytics.com wss://agroarca.com.br:*;");
         }
         return $response;
     }
