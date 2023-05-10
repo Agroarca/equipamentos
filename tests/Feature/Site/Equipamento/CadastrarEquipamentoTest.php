@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Site\Equipamento;
 
-use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
