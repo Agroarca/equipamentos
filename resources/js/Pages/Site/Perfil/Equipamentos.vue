@@ -48,6 +48,5 @@ const STATUS_REPROVADO = 5
             </div>
             <Paginacao :links="equipamentos.links" class="mt-1" />
         </div>
-        </div>
     </PerfilLayout>
 </template>
