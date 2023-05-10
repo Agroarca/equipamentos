@@ -35,7 +35,13 @@ const STATUS_REPROVADO = 5
                     <span>Motivo da Reprovação</span>
                 </Link>
 
-                <Link v-if="equipamento.status == STATUS_APROVADO"
+                <Link v-if="equipamento.status !== STATUS_APROVADO"
+                      :href="`/equipamento/cadastro/editar/${equipamento.id}`"
+                      class="btn btn-primary">
+                    Editar
+                </Link>
+
+                <Link v-if="equipamento.status === STATUS_APROVADO"
                       :href="`/conversa/equipamento/${equipamento.id}`"
                       class="btn btn-primary">
                     Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">
