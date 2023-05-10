@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Enums\Usuario\TipoUsuario;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
@@ -42,7 +43,15 @@ class EquipamentoController extends Controller
             'categoria',
         ])->findOrFail($id);
 
-        return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('equipamento'));
+        if ($equipamento->usuario_id !== Auth::id()) {
+            return abort(403, 'Você não tem permissão para editar este equipamento');
+        }
+
+        if ($equipamento->status === StatusEquipamento::Aprovado) {
+            return abort(403, 'Você não pode editar um equipamento aprovado');
+        }
+
+        return Inertia::render('Site/Equipamento/Editar/Editar', compact('equipamento'));
     }
 
     public function cadastro(int $id)
@@ -55,6 +64,15 @@ class EquipamentoController extends Controller
     {
         if ($request->has('id')) {
             $equipamento = Equipamento::findOrFail($request->input('id'));
+
+            if ($equipamento->usuario_id !== Auth::id() && !Auth::user()->tipo_usuario == TipoUsuario::Admin) {
+                return abort(403, 'Você não tem permissão para editar este equipamento');
+            }
+
+            if ($equipamento->status === StatusEquipamento::Aprovado->value) {
+                return abort(403, 'Você não pode editar um equipamento aprovado');
+            }
+
             $equipamento->update($request->all());
         } else {
             $equipamento = Equipamento::create([

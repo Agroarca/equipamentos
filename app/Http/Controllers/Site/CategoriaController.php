@@ -16,7 +16,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
 
-        $arvore = $this->listaService->categoriasMae($categoriaId);
+        $categoriasMae = $this->listaService->categoriasMae($categoriaId);
 
         $categorias = Categoria::select('categorias.*')->selectRaw(
             'case when exists (
@@ -30,7 +30,7 @@ class CategoriaController extends Controller
         return response()->json([
             'categoria' => $categoria,
             'categorias' => $categorias,
-            'categorias_mae' => $arvore,
+            'categorias_mae' => $categoriasMae,
         ]);
     }
 }

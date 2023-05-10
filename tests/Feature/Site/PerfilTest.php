@@ -5,7 +5,6 @@ namespace Tests\Feature\Site;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PerfilTest extends TestCase
@@ -33,7 +32,6 @@ class PerfilTest extends TestCase
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
                 'password' => '',
-                'password_confirmation' => '',
             ]);
         $response->assertRedirectToRoute('site.perfil');
     }
@@ -41,20 +39,18 @@ class PerfilTest extends TestCase
     public function testPodeAlterarDadosComSenha(): void
     {
         $usuario = $this->getUsuario();
-        $novaSenha = Str::random(25);
         $response = $this->actingAs($usuario)
             ->post('/perfil/atualizar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
-                'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
+                'password' => 'Password123',
             ]);
         $response->assertRedirectToRoute('site.perfil');
     }
 
-    public function testNaoPodeAlterarDadosComSenhaDiferenteDaConfirmacao(): void
+    public function testNaoPodeAlterarDadosComSenhaSemCaracteresMaiusculos(): void
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
@@ -63,14 +59,12 @@ class PerfilTest extends TestCase
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
-                'password' => Str::random(25),
-                'password_confirmation' => Str::random(25),
+                'password' => 'password123',
             ]);
-
-        $response->assertInvalid('password');
+        $response->assertInvalid(['password']);
     }
 
-    public function testNaoPodeAlterarDadosComSenhaSemConfirmacao(): void
+    public function testNaoPodeAlterarDadosComSenhaSemCaracteresMinusculos(): void
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
@@ -79,24 +73,49 @@ class PerfilTest extends TestCase
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
-                'password' => Str::random(25),
+                'password' => 'PASSWORD123',
             ]);
+        $response->assertInvalid(['password']);
+    }
 
-        $response->assertInvalid('password');
+    public function testNaoPodeAlterarDadosComSenhaSemNumeros(): void
+    {
+        $usuario = $this->getUsuario();
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => 'teste@exemple.com',
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => 'Password',
+            ]);
+        $response->assertInvalid(['password']);
+    }
+
+    public function testNaoPodeAlterarSenhaSem8CaracteresMinimos(): void
+    {
+        $usuario = $this->getUsuario();
+        $response = $this->actingAs($usuario)
+            ->post('/perfil/atualizar', [
+                'nome' => 'Nome alterado',
+                'email' => 'teste@exemple.com',
+                'cpf_cnpj' => $usuario->cpf,
+                'celular' => $usuario->celular,
+                'password' => 'Pass123',
+            ]);
+        $response->assertInvalid(['password']);
     }
 
     public function testPodeLogarAposAlterarSenha(): void
     {
         $usuario = $this->getUsuario();
-        $novaSenha = Str::random(25);
         $response = $this->actingAs($usuario)
             ->post('/perfil/atualizar', [
                 'nome' => 'Nome alterado',
                 'email' => $usuario->email,
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
-                'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
+                'password' => 'Password123',
             ]);
 
         $response->assertValid();
@@ -109,7 +128,7 @@ class PerfilTest extends TestCase
 
         $responseLogin = $this->post('/entrar', [
             'email' => $usuario->email,
-            'password' => $novaSenha,
+            'password' => 'Password123',
         ]);
 
         $responseLogin->assertRedirectToRoute('site.perfil');
@@ -120,15 +139,13 @@ class PerfilTest extends TestCase
     public function testNaoPodeLogarComSenhaAntiga(): void
     {
         $usuario = $this->getUsuario();
-        $novaSenha = Str::random(25);
         $response = $this->actingAs($usuario)
             ->post('/perfil/atualizar', [
                 'nome' => 'Nome alterado',
                 'email' => $usuario->email,
                 'cpf_cnpj' => $usuario->cpf,
                 'celular' => $usuario->celular,
-                'password' => $novaSenha,
-                'password_confirmation' => $novaSenha,
+                'password' => 'Password123',
             ]);
 
         $response->assertValid();
@@ -140,7 +157,7 @@ class PerfilTest extends TestCase
 
         $responseLogin = $this->post('/entrar', [
             'email' => $usuario->email,
-            'password' => $usuario->password,
+            'password' => 'Password',
         ]);
 
         $responseLogin->assertInvalid('email');

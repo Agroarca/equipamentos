@@ -51,18 +51,20 @@ function escolherCategoria(id) {
             <table class="table table-hover">
                 <thead>
                     <th>Nome</th>
-                    <th />
+                    <th>Ações</th>
                 </thead>
                 <tbody>
                     <tr v-for="categoria in resultados.categorias" :key="categoria.id">
                         <td>{{ categoria.nome }}</td>
                         <td>
-                            <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-success me-3" @click="atualizarCategorias(categoria.id)">
-                                Acessar <i class="fas fa-arrow-right" />
-                            </button>
-                            <button type="button" class="btn btn-success " @click="escolherCategoria(categoria.id)">
-                                Escolher <i class="fas fa-arrow-right" />
-                            </button>
+                            <div class="grade-botoes">
+                                <button v-if="categoria.possui_filhos == 1" type="button" class="btn btn-primary me-3" @click="atualizarCategorias(categoria.id)">
+                                    Acessar<i class="ms-2 fas fa-arrow-right" />
+                                </button>
+                                <button type="button" class="btn btn-primary " @click="escolherCategoria(categoria.id)">
+                                    Escolher <i class="ms-2 fas fa-arrow-right" />
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

@@ -132,7 +132,7 @@ async function salvarModelo() {
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
-                        Criar
+                        <i class="fas fa-plus-circle pe-1" />Criar
                     </button>
                 </div>
             </div>

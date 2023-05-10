@@ -17,6 +17,9 @@ const STATUS_REPROVADO = 5
 <template>
     <PerfilLayout titulo="Meus Equipamentos" pagina="equipamentos">
         <div class="equipamentos">
+            <div v-if="equipamentos.data.length == 0" class="alert alert-danger">
+                Você não possui nenhum equipamento cadastrado
+            </div>
             <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
                 <img class="imagem"
                      :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
@@ -35,7 +38,13 @@ const STATUS_REPROVADO = 5
                     <span>Motivo da Reprovação</span>
                 </Link>
 
-                <Link v-if="equipamento.status == STATUS_APROVADO"
+                <Link v-if="equipamento.status !== STATUS_APROVADO"
+                      :href="`/equipamento/cadastro/editar/${equipamento.id}`"
+                      class="btn btn-primary">
+                    Editar
+                </Link>
+
+                <Link v-if="equipamento.status === STATUS_APROVADO"
                       :href="`/conversa/equipamento/${equipamento.id}`"
                       class="btn btn-primary">
                     Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">

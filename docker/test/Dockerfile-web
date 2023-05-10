@@ -26,4 +26,6 @@ RUN apt update && \
     composer install --optimize-autoloader --no-dev && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
+RUN php artisan storage:link
+
 EXPOSE 8000
