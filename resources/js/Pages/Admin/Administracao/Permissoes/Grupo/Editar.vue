@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import { useForm } from '@inertiajs/vue3'
+import AdminLayout from '@/Layouts/AdminLayout.vue'
+import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+
+const props = defineProps({
+    grupo: Object,
+})
+
+const form = useForm({
+    nome: props.grupo.nome,
+})
+
+function submit() {
+    form.post(`/admin/administracao/permissoes/grupo/${props.grupo.id}/atualizar`)
+}
+</script>
+
+<template>
+    <AdminLayout titulo="Editar Grupo">
+        <form @submit.prevent="submit">
+            <div class="card card-default">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="nome">Nome</label>
+                        <input id="nome" v-model="form.nome" class="form-control" type="text" required>
+                        <FormError :error="form.errors.nome" />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        Editar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </AdminLayout>
+</template>

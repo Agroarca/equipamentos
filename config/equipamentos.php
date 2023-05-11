@@ -18,7 +18,7 @@ return [
     ],
 
     'contato' => [
-        'telefone' => '51999020345',
+        'telefone' => '(51) 99902-0345',
         'link' => 'https://wa.me/+555199020345',
     ],
 

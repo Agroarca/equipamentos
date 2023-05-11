@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\Usuario\TipoPessoa;
 use App\Enums\Usuario\TipoUsuario;
+use App\Models\Administracao\Permissoes\Grupo;
 use App\Models\Notificacoes\UsuarioTokenFCM;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -45,5 +47,10 @@ class Usuario extends Authenticatable
     public function tokens(): HasMany
     {
         return $this->hasMany(UsuarioTokenFCM::class);
+    }
+
+    public function grupos(): HasManyThrough
+    {
+        return $this->hasManyThrough(Grupo::class, GrupoUsuario::class);
     }
 }
