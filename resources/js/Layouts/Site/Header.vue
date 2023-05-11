@@ -3,7 +3,6 @@
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Menu from './Menu.vue'
-import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
@@ -23,7 +22,7 @@ function pesquisar() {
             <div class="container contact-container d-flex flex-nowrap">
                 <a :href="usePage().props.dados.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
-                    <Formatacao tipo="telefone" :valor="usePage().props.dados.contato.telefone" />
+                    {{ usePage().props.dados.contato.telefone }}
                 </a>
                 <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />
