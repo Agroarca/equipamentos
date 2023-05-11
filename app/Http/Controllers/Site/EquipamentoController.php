@@ -65,11 +65,11 @@ class EquipamentoController extends Controller
         if ($request->has('id')) {
             $equipamento = Equipamento::findOrFail($request->input('id'));
 
-            if ($equipamento->usuario_id !== Auth::id() && !Auth::user()->tipo_usuario == TipoUsuario::Admin) {
+            if ($equipamento->usuario_id !== Auth::id()) {
                 return abort(403, 'Você não tem permissão para editar este equipamento');
             }
 
-            if ($equipamento->status === StatusEquipamento::Aprovado->value) {
+            if ($equipamento->status === StatusEquipamento::Aprovado) {
                 return abort(403, 'Você não pode editar um equipamento aprovado');
             }
 

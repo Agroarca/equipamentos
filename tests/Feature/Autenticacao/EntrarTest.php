@@ -17,7 +17,7 @@ class EntrarTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testePodeAutenticar(): void
+    public function testPodeAutenticar(): void
     {
         $usuario = Usuario::factory()->create();
 
@@ -30,7 +30,7 @@ class EntrarTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
-    public function testeAutenticarSenhaIncorreta(): void
+    public function testAutenticarSenhaIncorreta(): void
     {
         $usuario = Usuario::factory()->create();
 

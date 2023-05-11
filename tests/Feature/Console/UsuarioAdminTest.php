@@ -10,7 +10,7 @@ class UsuarioAdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testePodeTornarAdminComCpf(): void
+    public function testPodeTornarAdminComCpf(): void
     {
         $usuario = Usuario::factory()->create();
         $command = $this->artisan('usuario:admin --cpf=' . $usuario->cpf);
@@ -21,7 +21,7 @@ class UsuarioAdminTest extends TestCase
         ]);
     }
 
-    public function testePodeTornarAdminComEmail(): void
+    public function testPodeTornarAdminComEmail(): void
     {
         $usuario = Usuario::factory()->create();
         $command = $this->artisan('usuario:admin --email=' . $usuario->email);
@@ -32,7 +32,7 @@ class UsuarioAdminTest extends TestCase
         ]);
     }
 
-    public function testePodeTornarAdminComId(): void
+    public function testPodeTornarAdminComId(): void
     {
         $usuario = Usuario::factory()->create();
         $command = $this->artisan('usuario:admin --id=' . $usuario->id);
@@ -43,14 +43,14 @@ class UsuarioAdminTest extends TestCase
         ]);
     }
 
-    public function testeNaoPodeTornarAdminSemCpfEmailOuId(): void
+    public function testNaoPodeTornarAdminSemCpfEmailOuId(): void
     {
         $command = $this->artisan('usuario:admin');
         $command->assertExitCode(0);
         $command->expectsOutput('É necessário fornecer pelo menos uma das opções: --id, --cpf ou --email');
     }
 
-    public function testeNaoPodeUsarComandoComUsuarioInexistente(): void
+    public function testNaoPodeUsarComandoComUsuarioInexistente(): void
     {
         $command = $this->artisan('usuario:admin --id=1');
         $command->assertExitCode(0);
