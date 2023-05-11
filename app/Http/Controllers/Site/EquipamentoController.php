@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Site;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
-use App\Enums\Usuario\TipoUsuario;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
