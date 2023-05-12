@@ -7,6 +7,10 @@ services:
         build:
             context: projeto
             dockerfile: docker/prod/Dockerfile-web
+            args:
+                - NEW_RELIC_AGENT_VERSION=10.2.0.314
+                - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+                - NEW_RELIC_APP_NAME=equipamentos
         volumes:
             - /var/www/equipamentos/storage:/app/storage
         ports:
@@ -17,6 +21,7 @@ services:
             - database
             - socketi
             - nginx
+            - newrelic
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
     equipamentos_queue:
@@ -50,6 +55,11 @@ services:
             DEBUG: false
             SOKETI_METRICS_ENABLED: true
             SOKETI_DEBUG: 0
+    newrelic-php-daemon:
+        container-name: newrelic-php-daemon
+        image: newrelic/php-daemon
+        networks:
+            - newrelic
 
 networks:
     database:
@@ -58,3 +68,5 @@ networks:
         name: socketi
     nginx:
         name: nginx
+    newrelic:
+        name: newrelic
