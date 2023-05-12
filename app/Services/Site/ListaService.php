@@ -115,4 +115,16 @@ class ListaService
             from categorias_mae
             order by nivel desc;', [$id]);
     }
+
+    /**
+     * Retorna a query para a listagem de produtos de um vendedor.
+     */
+    public function queryListaVendedor(int $id): Builder
+    {
+        return self::queryBase()->whereIn('usuario_id', function ($query) use ($id): void {
+            $query->select('id')
+                ->from('usuarios')
+                ->where('usuario_id', $id);
+        });
+    }
 }

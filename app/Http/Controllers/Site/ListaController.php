@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Lista\Lista;
+use App\Models\Usuario;
 use App\Services\Site\FiltroService;
 use App\Services\Site\ListaService;
 use Inertia\Inertia;
@@ -55,6 +56,20 @@ class ListaController extends Controller
 
         return Inertia::render('Site/Lista/Lista', [
             'lista' => $lista,
+            ...$filtros
+        ]);
+    }
+
+    public function vendedor(int $id)
+    {
+        $vendedor = Usuario::findOrFail($id);
+
+        $filtros = $this->filtroService->filtros(
+            $this->listaService->queryListaVendedor($id)
+        );
+
+        return Inertia::render('Site/Vendedor/Produtos', [
+            'vendedor' => $vendedor,
             ...$filtros
         ]);
     }
