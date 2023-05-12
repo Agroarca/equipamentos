@@ -30,7 +30,7 @@ function upload() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Equipamento">
+    <AdminLayout titulo="Editar imagens Equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="imagens" />
         <div class="card card-default">
             <div class="card-header">
