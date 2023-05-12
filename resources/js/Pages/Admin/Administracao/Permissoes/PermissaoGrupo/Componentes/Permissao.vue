@@ -1,18 +1,21 @@
 <script setup lang="ts">
 
 const props = defineProps({
-    permissao: Object,
+    grupo: Object,
 })
 </script>
 
 <template>
     <div class="permissao">
-        <span>{{ permissao.nome }}</span>
+        <span>{{ grupo.nome }}</span>
         <div class="lista">
-            <div v-for="(item, index) in permissao.permissoes" :key="index" class="item">
-                <input :id="`${permissao.chave}:${item}`" type="checkbox" :checked="item.checked" @change="alterar(item)">
-                <label :for="item.id">{{ item.nome }}</label>
+            <div v-for="permissao in grupo.permissoes" :key="permissao.chave" class="item">
+                <input :id="`${permissao.chave}`" type="checkbox">
+                <label :for="permissao.chave">{{ permissao.nome }}</label>
             </div>
+        </div>
+        <div class="px-4">
+            <Permissao v-for="subgrupo in grupo.grupos" :key="subgrupo.chave" :grupo="subgrupo" />
         </div>
     </div>
 </template>

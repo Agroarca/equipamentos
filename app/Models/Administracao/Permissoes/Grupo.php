@@ -20,7 +20,7 @@ class Grupo extends Model
 
     public function permissoes(): HasMany
     {
-        return $this->hasMany(Permissao::class);
+        return $this->hasMany(PermissaoGrupo::class);
     }
 
     public function usuarios(): HasManyThrough

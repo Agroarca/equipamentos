@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Administracao\Permissoes\GrupoController;
+use App\Http\Controllers\Admin\Administracao\Permissoes\PermissaoGrupoController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/administracao')->
             Route::get('{grupo}/editar', [GrupoController::class, 'editar'])->name('.editar');
             Route::post('{grupo}/atualizar', [GrupoController::class, 'atualizar'])->name('.atualizar');
             Route::get('{grupo}/excluir', [GrupoController::class, 'excluir'])->name('.excluir');
+
+            Route::prefix('{grupo}/permissoes')->name('.permissoes')->group(function () {
+                Route::get('', [PermissaoGrupoController::class, 'inicio'])->name('');
+            });
         });
     });
 });

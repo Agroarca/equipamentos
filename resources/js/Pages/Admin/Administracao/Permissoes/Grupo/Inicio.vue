@@ -22,7 +22,15 @@ const props = defineProps({
                             <td>{{ grupo.nome }}</td>
                             <td>
                                 <div class="grade-botoes">
-                                    <Link class="btn btn-primary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/editar`">
+                                    <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/permissoes`">
+                                        <i class="fas fa-pen-to-square pe-1" />
+                                        Editar Permissões
+                                    </Link>
+                                    <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/editar`">
+                                        <i class="fas fa-pen-to-square pe-1" />
+                                        Editar Usuários
+                                    </Link>
+                                    <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/editar`">
                                         <i class="fas fa-pen-to-square pe-1" />
                                         Editar
                                     </Link>

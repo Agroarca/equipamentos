@@ -10,7 +10,7 @@ class PermissaoGrupo extends Model
 {
     use HasFactory;
 
-    protected $table = 'nome_da_tabela';
+    protected $table = 'administracao_permissao_grupo';
 
     protected $fillable = [
         'chave',
