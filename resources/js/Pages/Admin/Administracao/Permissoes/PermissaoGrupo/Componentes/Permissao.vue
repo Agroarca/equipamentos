@@ -1,21 +1,24 @@
 <script setup lang="ts">
 
 const props = defineProps({
-    grupo: Object,
+    permissao: Object,
 })
+
+const emit = defineEmits<{(e: 'alterarPermissao', chave: String, value: Boolean): void}>()
+
+function alterarPermissao(chave: String, value: Boolean) {
+    if (value === props.permissao.valor) {
+        emit('alterarPermissao', chave, null)
+        return
+    }
+
+    emit('alterarPermissao', chave, value)
+}
 </script>
 
 <template>
     <div class="permissao">
-        <span>{{ grupo.nome }}</span>
-        <div class="lista">
-            <div v-for="permissao in grupo.permissoes" :key="permissao.chave" class="item">
-                <input :id="`${permissao.chave}`" type="checkbox">
-                <label :for="permissao.chave">{{ permissao.nome }}</label>
-            </div>
-        </div>
-        <div class="px-4">
-            <Permissao v-for="subgrupo in grupo.grupos" :key="subgrupo.chave" :grupo="subgrupo" />
-        </div>
+        <input :id="`${permissao.chave}`" :checked="permissao.valor" type="checkbox" @change="e => alterarPermissao(permissao.chave, e.target.checked)">
+        <label :for="permissao.chave" class="ms-1">{{ permissao.nome }}</label>
     </div>
 </template>

@@ -6,7 +6,9 @@ namespace App\Services\Administracao\Permissoes;
 
 use App\Classes\Administracao\Permissoes\GrupoPermissao;
 use App\Models\Administracao\Permissoes\Grupo;
+use App\Models\Administracao\Permissoes\PermissaoGrupo;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Log;
 
 class PermissoesService
 {
@@ -47,5 +49,22 @@ class PermissoesService
                     $grupo->permissao('Excluir', 'excluir');
                 });
             });
+    }
+
+    public function salvarPermissoesGrupo(Grupo $grupo, array $permissoes): void
+    {
+        foreach ($permissoes as $permissao) {
+            if ($permissao['valor']) {
+                PermissaoGrupo::create([
+                    'grupo_id' => $grupo->id,
+                    'chave' => $permissao['chave'],
+                ]);
+            } else {
+                PermissaoGrupo::where([
+                    'grupo_id' => $grupo->id,
+                    'chave' => $permissao['chave'],
+                ])->delete();
+            }
+        }
     }
 }

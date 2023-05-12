@@ -25,6 +25,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/administracao')->
 
             Route::prefix('{grupo}/permissoes')->name('.permissoes')->group(function () {
                 Route::get('', [PermissaoGrupoController::class, 'inicio'])->name('');
+                Route::post('salvar', [PermissaoGrupoController::class, 'salvar'])->name('.salvar');
             });
         });
     });

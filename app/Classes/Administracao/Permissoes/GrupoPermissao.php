@@ -35,7 +35,7 @@ class GrupoPermissao
 
     public function grupo(string $nome, string $chave, callable $callback): self
     {
-        $grupo = new self("$this->nome/$nome", "$this->chave.$chave", $this->grupo);
+        $grupo = new self($nome, "$this->chave.$chave", $this->grupo);
 
         $callback($grupo);
 

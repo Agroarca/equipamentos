@@ -17,13 +17,8 @@ class PermissaoGrupoPolicy
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:visualizar');
     }
 
-    public function criar(Usuario $usuario): bool
+    public function editar(Usuario $usuario): bool
     {
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:criar');
-    }
-
-    public function excluir(Usuario $usuario): bool
-    {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:excluir');
     }
 }
