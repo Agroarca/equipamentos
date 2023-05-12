@@ -17,7 +17,6 @@ services:
             - database
             - socketi
             - nginx
-            - newrelic
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
     equipamentos_queue:
