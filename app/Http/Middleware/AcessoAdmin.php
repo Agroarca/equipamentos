@@ -12,7 +12,7 @@ class AcessoAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->tipo_usuario == TipoUsuario::Admin) {
+        if ($request->user()->tipo_usuario !== TipoUsuario::Admin) {
             abort(403);
         }
 

@@ -49,7 +49,7 @@ function submit() {
                 </table>
                 <div>
                     <button type="submit" class="btn btn-primary">
-                        Salvar
+                        <i class="fa-solid fa-floppy-disk me-1" />Salvar
                     </button>
                 </div>
             </div>

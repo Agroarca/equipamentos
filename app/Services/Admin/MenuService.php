@@ -57,6 +57,11 @@ class MenuService
                 'icon' => '',
                 'url' => '/admin/marketing/pagina/inicial',
             ],
+            [
+                'title' => 'Grupo',
+                'icon' => '',
+                'url' => '/admin/administracao/permissoes/grupo',
+            ],
         ];
     }
 }
