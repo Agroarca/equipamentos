@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Site\Equipamento;
 
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
@@ -429,5 +430,148 @@ class CadastrarEquipamentoTest extends TestCase
             ->get("/equipamento/{$equipamento->id}/finalizar");
 
         $response->assertStatus(403);
+    }
+
+    public function testPodeAcessarCaracteristicasComValor(): void
+    {
+        $categoria = Categoria::factory()->create();
+        $caracteristicaObrigatoria = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'obrigatorio' => true,
+            'categoria_id' => $categoria->id,
+        ]);
+        $caracteristicaOpcional = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'obrigatorio' => false,
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($this->getUsuario())
+        ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+            "carac-$caracteristicaObrigatoria->id" => Str::random(200),
+        ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('site.equipamento.finalizar', $equipamento->id);
+        $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
+            'caracteristica_id' => $caracteristicaObrigatoria->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $this->assertDatabaseMissing(app(CaracteristicaEquipamento::class)->getTable(), [
+            'caracteristica_id' => $caracteristicaOpcional->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $response = $this->actingAs($this->getUsuario())
+        ->get("/equipamento/{$equipamento->id}/caracteristicas");
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+        ->component('Site/Equipamento/Cadastrar/Caracteristicas'));
+    }
+
+    public function testMudarStatusParaCriadoAposSalvarCaracteristica(): void
+    {
+        $usuario = Usuario::factory()->create();
+        $categoria = Categoria::factory()->create();
+        $caracteristicaObrigatoria = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'obrigatorio' => true,
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+            'usuario_id' => $usuario->id,
+            'status' => StatusEquipamento::Cadastrando->value,
+        ]);
+
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($usuario)
+        ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+            "carac-$caracteristicaObrigatoria->id" => Str::random(200),
+        ]);
+
+        $response->assertStatus(302);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'status' => StatusEquipamento::Criado->value,
+        ]);
+    }
+
+    public function testPodeSalvaEquipametoEditado(): void
+    {
+        $usuario = Usuario::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($usuario)
+            ->post('/equipamento/salvar', [
+                'id' => $equipamento->id,
+                'titulo' => 'Nome editado',
+                'valor' => 100,
+                'ano' => 2000,
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'titulo' => 'Nome editado',
+            'valor' => 100,
+            'ano' => 2000,
+        ]);
+    }
+
+    public function testNaoPodeEditarEquipamentoDeOutroUsuario(): void
+    {
+        $usuario = Usuario::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post('/equipamento/salvar', [
+                'id' => $equipamento->id,
+                'titulo' => 'Nome editado',
+                'valor' => 100,
+                'ano' => 2000,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeSalvaEquipamentoEditadoAprovado(): void
+    {
+        $usuario = Usuario::factory()->create();
+        $equipamento = Equipamento::factory()->statusAprovado()->create([
+            'usuario_id' => $usuario->id,
+        ]);
+        EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
+
+        $response = $this->actingAs($usuario)
+            ->post('/equipamento/salvar', [
+                'id' => $equipamento->id,
+                'titulo' => 'Nome editado',
+                'valor' => 100,
+                'ano' => 2000,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'titulo' => 'Nome editado',
+            'valor' => 100,
+            'ano' => 2000,
+        ]);
     }
 }
