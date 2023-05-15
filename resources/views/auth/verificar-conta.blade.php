@@ -88,7 +88,7 @@
                     <tr>
                         <td class="td-info">
                             <h1 class="text-color">Bem vindo(a)!</h1>
-                            <p class="text-color">Caro {{ $nome }}, seja bem vindo(a) a Agroarca, click no botão abaixo para confirmar a sua conta</p>
+                            <p class="text-color">Caro(a) {{ $nome }}, seja bem vindo(a) a Agroarca, click no botão abaixo para confirmar a sua conta</p>
                             <table class="table-link">
                                 <tr>
                                     <td class="td-link">
