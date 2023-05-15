@@ -19,7 +19,7 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[php]": {
-        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+        "editor.defaultFormatter": "shevaua.phpcs"
     },
     "php.version": "8.2.0",
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
