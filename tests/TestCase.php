@@ -25,7 +25,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Retorna um usuário administrador e não faz a verificação de autorização.
      */
-    protected function getAdminTodasPermissoes(): Usuario
+    protected function ignorarTodasPermissoes(): void
     {
         $this->instance(
             PermissoesService::class,
@@ -33,8 +33,6 @@ abstract class TestCase extends BaseTestCase
                 $mock->shouldReceive('verificarPermissao')->andReturn(true);
             })
         );
-
-        return Usuario::factory()->admin()->create();
     }
 
     /**
