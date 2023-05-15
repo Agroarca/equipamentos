@@ -17,6 +17,7 @@
         "naoray.laravel-goto-components",
         "onecentlin.laravel-blade",
         "ryannaddy.laravel-artisan",
-        "shevaua.phpcs"
+        "shevaua.phpcs",
+        "neilbrayfield.php-docblocker",
     ]
 }
