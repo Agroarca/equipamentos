@@ -6,7 +6,7 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 <template>
     <SiteLayout titulo="Verificar E-mail">
         <div>
-            Email verificado Com sucesso!
-        </div>>
+            Email verificado com sucesso!
+        </div>
     </SiteLayout>
 </template>
