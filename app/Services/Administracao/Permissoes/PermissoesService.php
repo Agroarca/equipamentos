@@ -6,15 +6,45 @@ namespace App\Services\Administracao\Permissoes;
 
 use App\Classes\Administracao\Permissoes\GrupoPermissao;
 use App\Models\Administracao\Permissoes\Grupo;
+use App\Models\Administracao\Permissoes\GrupoUsuario;
 use App\Models\Administracao\Permissoes\PermissaoGrupo;
 use App\Models\Usuario;
-use Illuminate\Support\Facades\Log;
 
 class PermissoesService
 {
     public function temPermissao(Usuario $usuario, string $chave): bool
     {
-        return true;
+        return $usuario->grupos()->whereIn(
+            'administracao_grupos.id',
+            fn ($query) => $query->select('grupo_id')
+                ->from('administracao_permissao_grupo')
+                ->where('chave', $chave)
+        )->exists();
+    }
+
+    public function salvarPermissoesGrupo(Grupo $grupo, array $permissoes): void
+    {
+        foreach ($permissoes as $permissao) {
+            if ($permissao['valor']) {
+                PermissaoGrupo::create([
+                    'grupo_id' => $grupo->id,
+                    'chave' => $permissao['chave'],
+                ]);
+            } else {
+                PermissaoGrupo::where([
+                    'grupo_id' => $grupo->id,
+                    'chave' => $permissao['chave'],
+                ])->delete();
+            }
+        }
+    }
+
+    public function adicionarUsuarioGrupo($usuarioId, Grupo $grupo): void
+    {
+        GrupoUsuario::firstOrCreate([
+            'grupo_id' => $grupo->id,
+            'usuario_id' => $usuarioId,
+        ]);
     }
 
     public function retornarPermissoesGrupo(Grupo $grupo): array
@@ -48,22 +78,5 @@ class PermissoesService
                     $grupo->permissao('Editar', 'editar');
                 });
             });
-    }
-
-    public function salvarPermissoesGrupo(Grupo $grupo, array $permissoes): void
-    {
-        foreach ($permissoes as $permissao) {
-            if ($permissao['valor']) {
-                PermissaoGrupo::create([
-                    'grupo_id' => $grupo->id,
-                    'chave' => $permissao['chave'],
-                ]);
-            } else {
-                PermissaoGrupo::where([
-                    'grupo_id' => $grupo->id,
-                    'chave' => $permissao['chave'],
-                ])->delete();
-            }
-        }
     }
 }

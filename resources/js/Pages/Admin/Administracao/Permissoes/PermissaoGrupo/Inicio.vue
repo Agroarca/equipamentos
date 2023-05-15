@@ -35,16 +35,16 @@ function alterarPermissao(chave: string, valor: boolean) {
 }
 
 function collapse(id: string) {
-    const collapse = collapses.value.find((collapse: object) => collapse.id === id)
+    const categoria = collapses.value.find((coll: object) => coll.id === id)
 
-    if (collapse.mostrando) {
-        collapse.collapse.hide()
-        collapse.mostrando = false
+    if (categoria.mostrando) {
+        categoria.collapse.hide()
+        categoria.mostrando = false
         return
     }
 
-    collapse.collapse.show()
-    collapse.mostrando = true
+    categoria.collapse.show()
+    categoria.mostrando = true
 }
 
 async function salvarPermissoes() {
@@ -88,18 +88,18 @@ async function salvarPermissoes() {
                 </button>
             </div>
         </div>
-        <div v-for="grupo in permissoes" :key="grupo.chave" class="card card-default mt-3">
-            <div class="card-header d-flex flex-row justify-content-between" @click="collapse(`card-${grupo.chave}`)">
+        <div v-for="grupoPerm in permissoes" :key="grupoPerm.chave" class="card card-default mt-3">
+            <div class="card-header d-flex flex-row justify-content-between" @click="collapse(`card-${grupoPerm.chave}`)">
                 <div class="title">
-                    {{ grupo.nome }}
+                    {{ grupoPerm.nome }}
                 </div>
                 <div class="controls">
                     <i class="fa-solid fa-chevron-down" />
                 </div>
             </div>
-            <div :id="`card-${grupo.chave}`" class="card-body p-0 collapse">
+            <div :id="`card-${grupoPerm.chave}`" class="card-body p-0 collapse">
                 <div class="p-2">
-                    <GrupoPermissao :grupo="grupo" @alterarPermissao="alterarPermissao" />
+                    <GrupoPermissao :grupo="grupoPerm" @alterarPermissao="alterarPermissao" />
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Equipamentos\Cadastro\ModeloController;
 use App\Http\Controllers\Admin\Equipamentos\Caracteristicas\CaracteristicaController;
 use App\Http\Controllers\Admin\Equipamentos\Caracteristicas\CaracteristicaOpcaoController;
 use App\Http\Controllers\Admin\Equipamentos\Lista\ListaController;
+use App\Http\Controllers\Admin\PesquisaController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,10 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('.dashboard');
+
+    Route::prefix('pesquisar')->name('.pesquisar')->group(function () {
+        Route::get('usuario/admin', [PesquisaController::class, 'usuarioAdmin'])->name('.usuarios');
+    });
 
     Route::prefix('categorias')->name('.categorias')->group(function () {
         Route::get('{categoriaId?}', [CategoriaController::class, 'inicio'])->name('');

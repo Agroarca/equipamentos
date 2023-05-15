@@ -26,7 +26,7 @@ const props = defineProps({
                                         <i class="fas fa-pen-to-square pe-1" />
                                         Editar Permissões
                                     </Link>
-                                    <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/editar`">
+                                    <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/usuarios`">
                                         <i class="fas fa-pen-to-square pe-1" />
                                         Editar Usuários
                                     </Link>
