@@ -35,7 +35,7 @@ function submit() {
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
-                        Criar
+                        <i class="fa-solid fa-circle-plus me-1" /> Criar
                     </button>
                 </div>
             </div>

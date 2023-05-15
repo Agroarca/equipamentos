@@ -52,7 +52,7 @@ function submit() {
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-primary me-2" type="submit">
-                        Salvar
+                        <i class="fa-solid fa-floppy-disk me-1" />Salvar
                     </button>
                 </div>
             </div>

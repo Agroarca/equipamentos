@@ -22,7 +22,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Equipamento">
+    <AdminLayout titulo="Editar características Equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="caracteristicas" />
         <form @submit.prevent="submit">
             <div class="card card-default">
@@ -57,7 +57,7 @@ function submit() {
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
-                        Salvar
+                        <i class="fa-solid fa-floppy-disk me-1" />Salvar
                     </button>
                 </div>
             </div>
