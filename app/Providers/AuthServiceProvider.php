@@ -22,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return new VerificarConta($notifiable, $url);
-
+        });
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
             return str_replace('Models', 'Policies', $modelClass . 'Policy');
         });
