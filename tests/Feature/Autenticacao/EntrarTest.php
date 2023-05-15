@@ -23,7 +23,7 @@ class EntrarTest extends TestCase
 
         $response = $this->post('/entrar', [
             'email' => $usuario->email,
-            'password' => 'password',
+            'password' => 'Password123',
         ]);
 
         $this->assertAuthenticated();
