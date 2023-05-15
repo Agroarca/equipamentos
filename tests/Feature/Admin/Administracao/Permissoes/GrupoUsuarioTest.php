@@ -18,10 +18,7 @@ class GrupoUsuarioTest extends TestCase
     {
         $grupo = Grupo::factory()->create();
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo_usuario:ver']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo_usuario:ver'))
             ->get("/admin/administracao/permissoes/grupo/$grupo->id/usuarios");
 
         $response->assertStatus(200);
@@ -37,10 +34,7 @@ class GrupoUsuarioTest extends TestCase
             $service->adicionarUsuarioGrupo($usuario->id, $grupo);
         }
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo_usuario:ver']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo_usuario:ver'))
             ->get("/admin/administracao/permissoes/grupo/$grupo->id/usuarios");
 
         $response->assertStatus(200);
@@ -56,10 +50,7 @@ class GrupoUsuarioTest extends TestCase
         $grupo = Grupo::factory()->create();
         $usuario = Usuario::factory()->create();
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo_usuario:adicionar']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo_usuario:adicionar'))
             ->post("/admin/administracao/permissoes/grupo/$grupo->id/usuarios/adicionar", [
                 'usuario_id' => $usuario->id,
             ]);
@@ -77,10 +68,7 @@ class GrupoUsuarioTest extends TestCase
         $usuario = Usuario::factory()->create();
         app(PermissoesService::class)->adicionarUsuarioGrupo($usuario->id, $grupo);
 
-        $admin = $this->getAdmin();
-        $this->adicionarPermissoes($admin, ['administracao.permissoes.grupo_usuario:excluir']);
-
-        $response = $this->actingAs($admin)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo_usuario:excluir'))
             ->get("/admin/administracao/permissoes/grupo/$grupo->id/usuarios/$usuario->id/excluir");
 
         $response->assertRedirectToRoute('admin.administracao.permissoes.grupo.usuarios', $grupo->id);

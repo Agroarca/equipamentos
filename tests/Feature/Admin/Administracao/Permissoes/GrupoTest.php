@@ -230,10 +230,7 @@ class GrupoTest extends TestCase
 
     public function testPodeAcessarComPermissao(): void
     {
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:ver']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:ver'))
             ->get('/admin/administracao/permissoes/grupo');
 
             $response->assertStatus(200);
@@ -241,10 +238,7 @@ class GrupoTest extends TestCase
 
     public function testPodeAcessarCriarComPermissao(): void
     {
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:criar']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:criar'))
             ->get('/admin/administracao/permissoes/grupo/criar');
             $response->assertStatus(200);
     }
@@ -253,10 +247,7 @@ class GrupoTest extends TestCase
     {
         $nome = Str::random(25);
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:criar']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:criar'))
             ->post('/admin/administracao/permissoes/grupo/salvar', [
                 'nome' => $nome,
             ]);
@@ -271,10 +262,7 @@ class GrupoTest extends TestCase
     {
         $grupo = Grupo::factory()->create();
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:editar']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:editar'))
             ->get("/admin/administracao/permissoes/grupo/$grupo->id/editar");
             $response->assertStatus(200);
     }
@@ -284,10 +272,7 @@ class GrupoTest extends TestCase
         $grupo = Grupo::factory()->create();
         $nome = Str::random(25);
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:editar']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:editar'))
             ->post("/admin/administracao/permissoes/grupo/$grupo->id/atualizar", [
                 'nome' => $nome,
             ]);
@@ -303,10 +288,7 @@ class GrupoTest extends TestCase
     {
         $grupo = Grupo::factory()->create();
 
-        $usuario = $this->getAdmin();
-        $this->adicionarPermissoes($usuario, ['administracao.permissoes.grupo:excluir']);
-
-        $response = $this->actingAs($usuario)
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo:excluir'))
             ->get("/admin/administracao/permissoes/grupo/$grupo->id/excluir");
 
         $response->assertStatus(302);

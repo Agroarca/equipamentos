@@ -57,4 +57,14 @@ abstract class TestCase extends BaseTestCase
         $service->salvarPermissoesGrupo($grupo, $permissoes);
         $service->adicionarUsuarioGrupo($usuario->id, $grupo);
     }
+
+    /**
+     * Retorna um usuário administrador com a permissão informada
+     */
+    protected function getAdminComPermissao($permissao): Usuario
+    {
+        $admin = $this->getAdmin();
+        $this->adicionarPermissoes($admin, [$permissao]);
+        return $admin;
+    }
 }
