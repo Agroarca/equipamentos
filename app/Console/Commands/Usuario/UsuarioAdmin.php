@@ -1,11 +1,14 @@
 <?php
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
+// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength
 
 namespace App\Console\Commands\Usuario;
 
 use App\Enums\Usuario\TipoUsuario;
+use App\Models\Administracao\Permissoes\Grupo;
 use App\Models\Usuario;
+use App\Services\Administracao\Permissoes\PermissoesService;
 use Illuminate\Console\Command;
 
 class UsuarioAdmin extends Command
@@ -39,6 +42,12 @@ class UsuarioAdmin extends Command
         $usuario->tipo_usuario = TipoUsuario::Admin;
         $usuario->save();
 
-        $this->info('Usuário atualizado com sucesso');
+        $grupo = Grupo::where('nome', 'Administração')->first();
+        if ($grupo) {
+            app(PermissoesService::class)->adicionarUsuarioGrupo($usuario->id, $grupo);
+            $this->info('Usuário atualizado e adicionado ao grupo Administração com sucesso');
+        } else {
+            $this->info('Usuário atualizado com sucesso');
+        }
     }
 }

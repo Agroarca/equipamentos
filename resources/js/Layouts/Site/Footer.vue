@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3'
-import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 /* eslint-disable vue/no-restricted-html-elements */
 </script>
 
@@ -16,7 +15,7 @@ import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
             </span>
             <span class="contato-numero">
                 <i class="fa-brands fa-whatsapp mx-1 fa-lg" />
-                <Formatacao tipo="telefone" :valor="usePage().props.dados.contato.telefone" />
+                {{ usePage().props.dados.contato.telefone }}
             </span>
         </a>
         <div class="legal d-flex flex-column flex-md-row">

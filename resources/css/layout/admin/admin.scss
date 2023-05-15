@@ -11,9 +11,12 @@ body:has(.admin-layout) {
     table.table {
         margin: 0;
 
-        td,
-        th {
-            padding: 0.75rem;
+        thead th {
+            padding: .5rem;
+        }
+
+        &.table-sm thead th {
+            padding: .25rem;
         }
     }
 

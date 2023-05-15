@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\Models\Usuario;
+use App\Services\Administracao\Permissoes\PermissoesService;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Mockery;
 
 /**
  * Classe base dos testes do sistema.
@@ -17,6 +19,21 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getAdmin(): Usuario
     {
+        return Usuario::factory()->admin()->create();
+    }
+
+    /**
+     * Retorna um usuário administrador e não faz a verificação de autorização.
+     */
+    protected function getAdminTodasPermissoes(): Usuario
+    {
+        $this->instance(
+            PermissoesService::class,
+            Mockery::mock(PermissoesService::class, function ($mock): mixed {
+                $mock->shouldReceive('verificarPermissao')->andReturn(true);
+            })
+        );
+
         return Usuario::factory()->admin()->create();
     }
 
