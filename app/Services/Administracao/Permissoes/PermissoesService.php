@@ -31,22 +31,21 @@ class PermissoesService
         return GrupoPermissao::create('Administração', 'administracao', $grupo)
             ->grupo('Permissões', 'permissoes', function (GrupoPermissao $grupo): void {
                 $grupo->grupo('Grupo', 'grupo', function (GrupoPermissao $grupo): void {
-                    $grupo->permissao('Visualizar', 'visualizar');
+                    $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Criar', 'criar');
                     $grupo->permissao('Editar', 'editar');
                     $grupo->permissao('Excluir', 'excluir');
                 });
 
                 $grupo->grupo('Grupo Usuário', 'grupo_usuario', function (GrupoPermissao $grupo): void {
-                    $grupo->permissao('Visualizar', 'visualizar');
+                    $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Adicionar', 'adicionar');
                     $grupo->permissao('Excluir', 'excluir');
                 });
 
                 $grupo->grupo('Permissao do grupo', 'permissao_grupo', function (GrupoPermissao $grupo): void {
-                    $grupo->permissao('Visualizar', 'visualizar');
-                    $grupo->permissao('Adicionar', 'adicionar');
-                    $grupo->permissao('Excluir', 'excluir');
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Editar', 'editar');
                 });
             });
     }

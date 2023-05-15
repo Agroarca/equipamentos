@@ -32,13 +32,13 @@ class GrupoController extends Controller
 
     public function editar(Grupo $grupo): mixed
     {
-        Gate::authorize('atualizar', $grupo);
+        Gate::authorize('editar', $grupo);
         return Inertia::render('Admin/Administracao/Permissoes/Grupo/Editar', compact('grupo'));
     }
 
     public function atualizar(Request $request, Grupo $grupo): mixed
     {
-        Gate::authorize('atualizar', $grupo);
+        Gate::authorize('editar', $grupo);
         $grupo->update($request->all());
         return redirect()->route('admin.administracao.permissoes.grupo');
     }

@@ -14,11 +14,11 @@ class PermissaoGrupoPolicy
 
     public function ver(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:visualizar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:ver');
     }
 
     public function editar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:criar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:editar');
     }
 }

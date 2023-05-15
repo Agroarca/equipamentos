@@ -14,7 +14,7 @@ class GrupoPolicy
 
     public function ver(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo:visualizar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo:ver');
     }
 
     public function criar(Usuario $usuario): bool
@@ -22,7 +22,7 @@ class GrupoPolicy
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo:criar');
     }
 
-    public function atualizar(Usuario $usuario): bool
+    public function editar(Usuario $usuario): bool
     {
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo:editar');
     }
