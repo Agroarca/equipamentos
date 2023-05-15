@@ -10,5 +10,5 @@ const props = defineProps({
 </script>
 
 <template>
-    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="vendedor.nome" />
+    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="`Anúncios de ${vendedor.nome}`" />
 </template>
