@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import Mask from '@/Componentes/Helper/InputMask'
@@ -83,5 +83,13 @@ function submit() {
                 </button>
             </div>
         </form>
+        <div v-if="!user.email_verified_at" class="alert alert-warning" role="alert">
+            Email Não verificado
+            <div class="d-flex justify-content-end">
+                <Link href="/perfil/verificar/reenviar" class="btn btn-primary">
+                    Reenviar
+                </Link>
+            </div>
+        </div>
     </PerfilLayout>
 </template>
