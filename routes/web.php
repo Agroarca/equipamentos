@@ -32,6 +32,8 @@ Route::name('site')->group(function () {
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
+    Route::get('anunciante/{id}', [ListaController::class, 'anunciante'])->name('.anunciante');
+
     Route::get('pesquisa/{pesquisa}', [SiteController::class, 'pesquisa'])->name('.pesquisa');
 
     Route::middleware(['auth'])->group(function () {
