@@ -18,6 +18,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarString(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -52,6 +53,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMinMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -88,6 +90,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -123,6 +126,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -158,6 +162,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMenorMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -187,6 +192,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMenorMinSemMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -215,6 +221,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMaiorMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -244,6 +251,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMaiorMaxSemMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,

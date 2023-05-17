@@ -16,6 +16,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testPodeEnviarImagem(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(25);
@@ -38,6 +39,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarDescricaoMinimo(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(5);
@@ -59,6 +61,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarDescricaoMaximo(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(500);
@@ -80,6 +83,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarTamanhoMinimo(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
         $descricao = Str::random(50);
@@ -101,6 +105,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarTamanhoInvalido(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
         $descricao = Str::random(50);
@@ -122,6 +127,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testPodeExcluirImagem(): void
     {
+        $this->ignorarTodasPermissoes();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();

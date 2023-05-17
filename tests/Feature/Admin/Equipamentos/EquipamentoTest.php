@@ -24,6 +24,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessar(): void
     {
+        $this->ignorarTodasPermissoes();
         $response = $this->actingAs($this->getAdmin())
             ->get('/admin/equipamentos');
 
@@ -37,6 +38,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarComDados(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamentos = Equipamento::factory()->count(3)->create();
         $response = $this->actingAs($this->getAdmin())
             ->get('/admin/equipamentos');
@@ -51,6 +53,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarCriar(): void
     {
+        $this->ignorarTodasPermissoes();
         $categorias = Categoria::factory()->count(4)->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -64,6 +67,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarComMarcaModeloDinamico(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->make();
 
         $marcaResponse = $this->actingAs($this->getAdmin())
@@ -117,6 +121,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarNovo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->make();
 
         $response = $this->actingAs($this->getAdmin())
@@ -143,6 +148,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeCriarMinimo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->make();
         $equipamento->titulo = Str::random(9);
         $equipamento->ano = 1899;
@@ -162,6 +168,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeCriarMaximo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->make();
         $equipamento->titulo = Str::random(150);
         $equipamento->ano = Carbon::now()->year + 2;
@@ -181,6 +188,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarCadastro(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
@@ -202,6 +210,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarDescricao(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -216,6 +225,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarCaracteristicas(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $caracteristicas = Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
@@ -235,6 +245,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarImagens(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -249,6 +260,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarAprovacao(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -263,6 +275,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeAcessarEditarAprovacaoAposAprovarEquipamento(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Aprovado,
         ]);
@@ -275,6 +288,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeAcessarEditarAprovacaoAposReprovarEquipamento(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Reprovado,
         ]);
@@ -287,6 +301,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarCaracteristicaValor(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $caracteristica = Caracteristica::factory()->create([
             'categoria_id' => $equipamento->categoria_id,
@@ -321,6 +336,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeEditar(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(50);
         $novoAno = 2005;
@@ -347,6 +363,7 @@ class EquipamentoTest extends TestCase
 
     public function testAtualizarDescricao(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $novaDescricao = fake()->paragraph(3);
 
@@ -363,6 +380,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeEditarMinimo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(5);
         $novoAno = 1899;
@@ -381,6 +399,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeEditarMaximo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(150);
         $novoAno = Carbon::now()->year + 2;
@@ -399,6 +418,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeExcluir(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -412,6 +432,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAprovarEquipamento(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -431,6 +452,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeAprovarEquipamentoComMotivo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -450,6 +472,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeReprovarEquipamento(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -470,6 +493,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeReprovarEquipamentoSemMotivo(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -488,6 +512,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodePesquisar(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Aprovado,
         ]);
@@ -502,6 +527,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodePesquisarEquipamentoNaoAprovado(): void
     {
+        $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getAdmin())
@@ -514,6 +540,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodePesquisarInexistente(): void
     {
+        $this->ignorarTodasPermissoes();
         Equipamento::factory()->create();
         $termo = Str::random(20);
 

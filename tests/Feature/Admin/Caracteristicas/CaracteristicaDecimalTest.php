@@ -15,6 +15,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimal(): void
     {
+        $this->ignorarTodasPermissoes();
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
@@ -36,6 +37,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimalTamanhos(): void
     {
+        $this->ignorarTodasPermissoes();
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
@@ -61,6 +63,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimalQuantidade(): void
     {
+        $this->ignorarTodasPermissoes();
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 

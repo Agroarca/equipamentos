@@ -15,6 +15,7 @@ use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -27,6 +28,7 @@ class EquipamentoController extends Controller
 
     public function inicio()
     {
+        Gate::authorize('ver', Equipamento::class);
         $equipamentos = Equipamento::with('categoria')->paginate(10);
         $statusEquipamentos = StatusEquipamento::toArray();
 
@@ -38,6 +40,7 @@ class EquipamentoController extends Controller
 
     public function criar()
     {
+        Gate::authorize('criar', Equipamento::class);
         $categorias = Categoria::all()->pluck('nome', 'id');
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Criar', compact('categorias'));
@@ -45,6 +48,7 @@ class EquipamentoController extends Controller
 
     public function salvar(EquipamentoRequest $request)
     {
+        Gate::authorize('criar', Equipamento::class);
         Equipamento::create([
             ...$request->all(),
             'usuario_id' => Auth::id(),
@@ -55,6 +59,7 @@ class EquipamentoController extends Controller
 
     public function editar(int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::with([
             'categoria',
             'imagens',
@@ -72,6 +77,7 @@ class EquipamentoController extends Controller
 
     public function editarDescricao(int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Descricao', compact('equipamento'));
@@ -79,6 +85,7 @@ class EquipamentoController extends Controller
 
     public function editarCaracteristicas(int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::with('caracteristicas')->findOrFail($id);
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
 
@@ -99,6 +106,7 @@ class EquipamentoController extends Controller
 
     public function editarImagens(int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
         return Inertia::render(
@@ -109,6 +117,7 @@ class EquipamentoController extends Controller
 
     public function editarAprovacao(int $id)
     {
+        Gate::authorize('aprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
         if ($equipamento->status === StatusEquipamento::Aprovado
@@ -127,6 +136,7 @@ class EquipamentoController extends Controller
 
     public function atualizar(EquipamentoRequest $request, int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->update($request->all());
 
@@ -135,6 +145,7 @@ class EquipamentoController extends Controller
 
     public function atualizarDescricao(Request $request, int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
         $equipamento->save();
@@ -144,6 +155,7 @@ class EquipamentoController extends Controller
 
     public function atualizarStatus(EquipamentoStatusRequest $request, $id)
     {
+        Gate::authorize('aprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->status = $request->input('status');
         $equipamento->motivo_reprovado = HTMLPurifier::purify($request->input('motivo_reprovado'));
@@ -154,6 +166,7 @@ class EquipamentoController extends Controller
 
     public function excluir($id)
     {
+        Gate::authorize('excluir', Equipamento::class);
         Equipamento::findOrFail($id)->delete();
 
         return redirect()->route('admin.equipamentos');
@@ -161,6 +174,7 @@ class EquipamentoController extends Controller
 
     public function salvarCaracteristicas(CaracteristicasValorRequest $request, int $id)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
 
@@ -169,6 +183,7 @@ class EquipamentoController extends Controller
 
     public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
     {
+        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
@@ -185,6 +200,7 @@ class EquipamentoController extends Controller
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
     {
+        Gate::authorize('editar', Equipamento::class);
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
 
         Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
