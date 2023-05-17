@@ -5,10 +5,10 @@ const props = defineProps({
     equipamentos: Object,
     filtros: Object,
     filtrosSelecionados: Object,
-    vendedor: Object,
+    anunciante: Object,
 })
 </script>
 
 <template>
-    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="`Anúncios de ${vendedor.nome}`" />
+    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="`Anúncios de ${anunciante.nome}`" />
 </template>

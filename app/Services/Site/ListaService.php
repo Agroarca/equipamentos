@@ -117,9 +117,9 @@ class ListaService
     }
 
     /**
-     * Retorna a query para a listagem de produtos de um vendedor.
+     * Retorna a query para a listagem de produtos de um anunciante.
      */
-    public function queryListaVendedor(int $id): Builder
+    public function queryListaAnunciante(int $id): Builder
     {
         return self::queryBase()->whereIn('usuario_id', function ($query) use ($id): void {
             $query->select('id')

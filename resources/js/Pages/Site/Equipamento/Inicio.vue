@@ -34,7 +34,7 @@ const props = defineProps({
                             {{ equipamento.usuario.nome }}
                         </div>
                         <span>
-                            <Link class="btn btn-link" :href="`/vendedor/${equipamento.usuario_id}`">
+                            <Link class="btn btn-link" :href="`/anunciante/${equipamento.usuario_id}`">
                                 Ver mais <i class="fa-solid fa-arrow-right fa-2xs" />
                             </Link>
                         </span>
