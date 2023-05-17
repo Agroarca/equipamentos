@@ -20,9 +20,6 @@ class AuthServiceProvider extends ServiceProvider
         ResetPassword::toMailUsing(function ($notifiable, $token) {
             return new RedefinirSenha($notifiable, $token);
         });
-        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
-            return new VerificarConta($notifiable, $url);
-        });
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
             return str_replace('Models', 'Policies', $modelClass . 'Policy');
         });
