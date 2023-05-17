@@ -27,13 +27,28 @@ class EquipamentoPolicy
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editar');
     }
 
+    public function editarDescricao(Usuario $usuario): bool
+    {
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarDescricao');
+    }
+
+    public function editarCaracteristicas(Usuario $usuario): bool
+    {
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarCaracteristicas');
+    }
+
+    public function editarStatus(Usuario $usuario): bool
+    {
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarAprovacao');
+    }
+
     public function excluir(Usuario $usuario): bool
     {
         return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:excluir');
     }
 
-    public function aprovar(Usuario $usuario): bool
+    public function aprovarReprovar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:aprovar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:aprovarReprovar');
     }
 }

@@ -59,7 +59,6 @@ class EquipamentoController extends Controller
 
     public function editar(int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
         $equipamento = Equipamento::with([
             'categoria',
             'imagens',
@@ -67,6 +66,7 @@ class EquipamentoController extends Controller
             'modelo.marca',
         ])->findOrFail($id);
 
+        Gate::authorize('editar', $equipamento);
         $statusEquipamentos = StatusEquipamento::toArray();
 
         return Inertia::render(
@@ -77,7 +77,7 @@ class EquipamentoController extends Controller
 
     public function editarDescricao(int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarDescricao', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Descricao', compact('equipamento'));
@@ -85,7 +85,7 @@ class EquipamentoController extends Controller
 
     public function editarCaracteristicas(int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarCaracteristicas', Equipamento::class);
         $equipamento = Equipamento::with('caracteristicas')->findOrFail($id);
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
 
