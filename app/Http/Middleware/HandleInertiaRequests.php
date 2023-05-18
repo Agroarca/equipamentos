@@ -26,6 +26,7 @@ class HandleInertiaRequests extends Middleware
                     'link' => config('equipamentos.contato.link'),
                 ],
             ],
+            'mensagem' => session()->get('mensagem'),
         ]);
     }
 }
