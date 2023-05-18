@@ -43,4 +43,15 @@
             color: $form-btn-hover;
         }
     }
+
+    .link-plain {
+        text-decoration: none;
+        padding: 0;
+        text-transform: none;
+
+        &:hover,
+        &:active {
+            color: inherit;
+        }
+    }
 }
