@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "phpmailer/phpmailer": "^6.8",
+        "predis/predis": "^2.1",
         "pusher/pusher-php-server": "^7.2",
         "stevebauman/purify": "^5.1"
     },
