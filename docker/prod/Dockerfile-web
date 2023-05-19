@@ -18,24 +18,10 @@ COPY . ./
 COPY --from=node-build /app/public/build public/build
 
 RUN apt update && \
-    apt install -y \
-        ca-certificates \
-        cron \
-        curl \
-        tar \
-        unzip \
-        libpng-dev \
-        libxml2-dev \
-        libzip-dev && \
+    apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
     apt clean && \
-    docker-php-ext-configure \
-        zip && \
-    docker-php-ext-install \
-        bcmath \
-        gd \
-        pdo_mysql \
-        zip \
-        opcache && \
+    docker-php-ext-configure  zip && \
+    docker-php-ext-install  bcmath  gd pdo_mysql zip opcache && \
     pecl install apcu-5.1.5 && \
     docker-php-ext-enable apcu && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
