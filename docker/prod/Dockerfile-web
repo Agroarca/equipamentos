@@ -21,12 +21,12 @@ RUN apt update && \
     apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
     apt clean && \
     docker-php-ext-configure  zip && \
-    docker-php-ext-install  bcmath  gd pdo_mysql zip opcache && \
+    docker-php-ext-install bcmath gd pdo_mysql zip opcache xml && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer install --optimize-autoloader --no-dev && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
-RUN pecl install apcu-5.1.5 && \
+RUN pecl install apcu && \
     docker-php-ext-enable apcu
 
 EXPOSE 8000
