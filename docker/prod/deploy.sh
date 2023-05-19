@@ -2,8 +2,7 @@
 
 cd /var/www/equipamentos/projeto
 
-git checkout main --force
-git pull
+git pull --force
 
 sudo chmod +x docker/prod/docker_entrypoint_web.sh
 sudo chmod +x docker/prod/docker_entrypoint_queue.sh
