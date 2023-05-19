@@ -27,6 +27,4 @@ RUN apt update && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
 RUN chmod -R 777 public/build
-RUN cp ./app/docker/prod/otimizacao.ini /usr/local/etc/php/conf.d/otimizacao.ini
-
-EXPOSE 8000
+RUN cp /app/docker/prod/otimizacao.ini /usr/local/etc/php/conf.d/otimizacao.ini
