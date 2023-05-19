@@ -17,6 +17,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
         # healthcheck:
@@ -37,6 +38,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
     socketi:
@@ -85,3 +87,5 @@ networks:
         name: socketi
     nginx:
         name: nginx
+    redis:
+        name: redis

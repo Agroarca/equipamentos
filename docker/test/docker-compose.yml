@@ -17,6 +17,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: './docker/test/docker_entrypoint_web.sh'
     equipamentos_queue:
@@ -30,6 +31,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: './docker/test/docker_entrypoint_queue.sh'
     socketi:
@@ -71,3 +73,5 @@ networks:
         name: socketi
     nginx:
         name: nginx
+    redis:
+        name: redis
