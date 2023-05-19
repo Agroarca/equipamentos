@@ -2,7 +2,7 @@
 
 cd /var/www/equipamentos/projeto
 
-git checkout main --force
+git reset --hard
 git pull
 
 sudo chmod +x docker/prod/docker_entrypoint_web.sh
