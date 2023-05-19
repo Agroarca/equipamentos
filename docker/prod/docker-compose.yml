@@ -93,3 +93,4 @@ networks:
 
 volumes:
     equipamentos-public:
+        name: equipamentos-public
