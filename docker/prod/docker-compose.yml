@@ -9,6 +9,7 @@ services:
             dockerfile: docker/prod/Dockerfile-web
         volumes:
             - /var/www/equipamentos/storage:/app/storage
+            - equipamentos-public:/app/public
         ports:
             - 9000:9000
         expose:
@@ -89,3 +90,6 @@ networks:
         name: nginx
     redis:
         name: redis
+
+volumes:
+    equipamentos-public:
