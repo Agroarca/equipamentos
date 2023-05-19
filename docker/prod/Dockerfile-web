@@ -26,7 +26,4 @@ RUN apt update && \
     composer install --optimize-autoloader --no-dev && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
-RUN pecl install apcu && \
-    docker-php-ext-enable apcu
-
 EXPOSE 8000
