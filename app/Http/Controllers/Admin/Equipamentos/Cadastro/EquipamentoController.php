@@ -106,7 +106,7 @@ class EquipamentoController extends Controller
 
     public function editarImagens(int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarImagens', Equipamento::class);
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
         return Inertia::render(
@@ -117,7 +117,7 @@ class EquipamentoController extends Controller
 
     public function editarAprovacao(int $id)
     {
-        Gate::authorize('aprovar', Equipamento::class);
+        Gate::authorize('aprovarReprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
         if ($equipamento->status === StatusEquipamento::Aprovado
@@ -145,7 +145,7 @@ class EquipamentoController extends Controller
 
     public function atualizarDescricao(Request $request, int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarDescricao', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->descricao = HTMLPurifier::purify($request->input('descricao'));
         $equipamento->save();
@@ -155,7 +155,7 @@ class EquipamentoController extends Controller
 
     public function atualizarStatus(EquipamentoStatusRequest $request, $id)
     {
-        Gate::authorize('aprovar', Equipamento::class);
+        Gate::authorize('aprovarReprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $equipamento->status = $request->input('status');
         $equipamento->motivo_reprovado = HTMLPurifier::purify($request->input('motivo_reprovado'));
@@ -174,7 +174,7 @@ class EquipamentoController extends Controller
 
     public function salvarCaracteristicas(CaracteristicasValorRequest $request, int $id)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarCaracteristicas', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
 
@@ -183,7 +183,7 @@ class EquipamentoController extends Controller
 
     public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarImagens', Equipamento::class);
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
@@ -200,7 +200,7 @@ class EquipamentoController extends Controller
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
     {
-        Gate::authorize('editar', Equipamento::class);
+        Gate::authorize('editarImagens', Equipamento::class);
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
 
         Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);

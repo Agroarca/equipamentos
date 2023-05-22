@@ -34,12 +34,13 @@ class EquipamentoPolicy
 
     public function editarCaracteristicas(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarCaracteristicas');
+        return $this->permissoesService
+            ->temPermissao($usuario, 'administracao.permissoes.equipamento:editarCaracteristicas');
     }
 
-    public function editarStatus(Usuario $usuario): bool
+    public function editarImagens(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarAprovacao');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarImagens');
     }
 
     public function excluir(Usuario $usuario): bool
