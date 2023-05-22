@@ -30,7 +30,9 @@ class VerificarEmailController extends Controller
         if (RateLimiter::tooManyAttempts('verificar-email' . $request->user()->id, 1)) {
             $segundos = RateLimiter::availableIn('verificar-email' . $request->user()->id);
 
-            return redirect()->route('site.perfil')->with('mensagem', 'Muitas tentativas, tente novamente em ' . $segundos . ' seconds.');
+            return redirect()
+                ->route('site.perfil')
+                ->with('mensagem', "Muitas tentativas, tente novamente em $segundos seconds.");
         }
         $request->user()->sendEmailVerificationNotification();
         RateLimiter::hit('verificar-email' . $request->user()->id);

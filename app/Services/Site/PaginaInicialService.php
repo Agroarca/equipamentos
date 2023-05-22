@@ -80,9 +80,10 @@ class PaginaInicialService
         foreach ($versao->componentes as $componente) {
             if ($componente->tipo_type == Lista::class) {
                 $lista = $componente->tipo->listaProdutos;
-                $lista->equipamentos = Cache::tags('pagina-inicial')->remember("$lista->id", 60, function () use ($lista) {
-                    return $this->listaService->queryLista($lista->id)->get();
-                });
+                $lista->equipamentos = Cache::tags('pagina-inicial')
+                    ->remember("$lista->id", 60, function () use ($lista) {
+                        return $this->listaService->queryLista($lista->id)->get();
+                    });
             }
         }
     }
