@@ -20,7 +20,8 @@ class PermissaoGrupoSeeder extends Seeder
             'administracao.permissoes.grupo:editar',
             'administracao.permissoes.grupo:excluir',
             'administracao.permissoes.grupo_usuario:ver',
-            'administracao.permissoes.grupo_usuario:editar',
+            'administracao.permissoes.grupo_usuario:adicionar',
+            'administracao.permissoes.grupo_usuario:excluir',
             'administracao.permissoes.permissao_grupo:ver',
             'administracao.permissoes.permissao_grupo:editar',
         ];

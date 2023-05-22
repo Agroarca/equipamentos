@@ -5,7 +5,6 @@
     "files.trimTrailingWhitespace": true,
     "html.autoClosingTags": true,
     "eslint.format.enable": true,
-    "laravel-pint.enable": true,
     "[blade]": {
         "editor.formatOnSave": false,
     },
@@ -19,7 +18,7 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[php]": {
-        "editor.defaultFormatter": "shevaua.phpcs"
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
     },
     "php.version": "8.2.0",
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
@@ -30,4 +29,8 @@
     "phpcs.enable": true,
     "phpcs.executablePath": "vendor/bin/phpcs",
     "phpcs.lintOnlyOpened": false,
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/vendor/**": true,
+    }
 }

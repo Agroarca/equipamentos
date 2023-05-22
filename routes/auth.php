@@ -3,6 +3,7 @@
 use App\Http\Controllers\Site\Auth\EntrarController;
 use App\Http\Controllers\Site\Auth\RecuperarSenhaController;
 use App\Http\Controllers\Site\Auth\RegistroController;
+use App\Http\Controllers\Site\Auth\VerificarEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('auth')->group(function () {
@@ -17,6 +18,8 @@ Route::name('auth')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('sair', [EntrarController::class, 'sair'])->name('.sair');
+        Route::get('perfil/verificar/{id}/{hash}', [VerificarEmailController::class, 'verificar'])->middleware(['auth', 'signed'])->name('.verificar.email');
+        Route::get('perfil/verificar/reenviar', [VerificarEmailController::class, 'reenviarEmail'])->name('.reenviar.email');
     });
 });
 

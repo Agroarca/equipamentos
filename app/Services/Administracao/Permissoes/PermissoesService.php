@@ -47,6 +47,13 @@ class PermissoesService
         ]);
     }
 
+    public function removerUsuarioGrupo($usuarioId, Grupo $grupo): void
+    {
+        GrupoUsuario::where('grupo_id', $grupo->id)
+            ->where('usuario_id', $usuarioId)
+            ->delete();
+    }
+
     public function retornarPermissoesGrupo(Grupo $grupo): array
     {
         $grupo->load('permissoes');

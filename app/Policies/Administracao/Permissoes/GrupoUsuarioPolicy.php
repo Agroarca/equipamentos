@@ -14,12 +14,12 @@ class GrupoUsuarioPolicy
 
     public function ver(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:visualizar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:ver');
     }
 
-    public function criar(Usuario $usuario): bool
+    public function adicionar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:criar');
+        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.grupo_usuario:adicionar');
     }
 
     public function excluir(Usuario $usuario): bool

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Administracao\Permissoes;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Administracao\Permissoes\GrupoRequest;
 use App\Models\Administracao\Permissoes\Grupo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -23,7 +23,7 @@ class GrupoController extends Controller
         return Inertia::render('Admin/Administracao/Permissoes/Grupo/Criar');
     }
 
-    public function salvar(Request $request): mixed
+    public function salvar(GrupoRequest $request): mixed
     {
         Gate::authorize('criar', Grupo::class);
         Grupo::create($request->all());
@@ -36,7 +36,7 @@ class GrupoController extends Controller
         return Inertia::render('Admin/Administracao/Permissoes/Grupo/Editar', compact('grupo'));
     }
 
-    public function atualizar(Request $request, Grupo $grupo): mixed
+    public function atualizar(GrupoRequest $request, Grupo $grupo): mixed
     {
         Gate::authorize('editar', $grupo);
         $grupo->update($request->all());

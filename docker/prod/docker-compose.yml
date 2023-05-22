@@ -19,6 +19,12 @@ services:
             - nginx
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
+            interval: 30s
+            timeout: 10s
+            retries: 2
+            start_period: 2m
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -50,6 +56,13 @@ services:
             DEBUG: false
             SOKETI_METRICS_ENABLED: true
             SOKETI_DEBUG: 0
+    autoheal:
+        restart: always
+        image: willfarrell/autoheal
+        environment:
+            - AUTOHEAL_CONTAINER_LABEL=all
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
     database:
