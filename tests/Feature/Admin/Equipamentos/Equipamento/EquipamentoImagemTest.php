@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin\Equipamentos;
+namespace Tests\Feature\Admin\Equipamentos\Equipamento;
 
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
@@ -16,13 +16,13 @@ class EquipamentoImagemTest extends TestCase
 
     public function testPodeEnviarImagem(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -39,13 +39,13 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarDescricaoMinimo(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(5);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -61,13 +61,13 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarDescricaoMaximo(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(500);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -83,13 +83,13 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarTamanhoMinimo(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
         $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -105,13 +105,13 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarTamanhoInvalido(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
         $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
                 'descricao' => $descricao,
                 'imagem' => $imagem
@@ -127,7 +127,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testPodeExcluirImagem(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();
@@ -136,7 +136,7 @@ class EquipamentoImagemTest extends TestCase
 
         $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
 
         Storage::assertMissing(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
