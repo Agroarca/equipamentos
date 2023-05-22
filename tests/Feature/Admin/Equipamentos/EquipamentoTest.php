@@ -64,6 +64,8 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarComMarcaModeloDinamico(): void
     {
+        $this->ignorarTodasPermissoes();
+
         $equipamento = Equipamento::factory()->make();
 
         $marcaResponse = $this->actingAs($this->getAdmin())
