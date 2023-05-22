@@ -12,5 +12,5 @@ RUN apt update && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root && \
-    composer install --optimize-autoloader --no-dev && \
-    chmod +x docker/prod/docker_entrypoint_queue.sh
+    composer install --optimize-autoloader --no-dev
+RUN chmod +x docker/prod/docker_entrypoint_queue.sh

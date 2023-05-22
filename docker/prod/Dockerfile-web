@@ -10,7 +10,7 @@ RUN npm install  && \
     rm -r node_modules
 
 # Runner
-FROM php:8.2
+FROM php:8.2-fpm
 
 WORKDIR /app
 
@@ -20,10 +20,11 @@ COPY --from=node-build /app/public/build public/build
 RUN apt update && \
     apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev && \
     apt clean && \
-    docker-php-ext-configure zip && \
-    docker-php-ext-install bcmath gd pdo_mysql zip && \
+    docker-php-ext-configure  zip && \
+    docker-php-ext-install bcmath gd pdo_mysql zip opcache xml && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer install --optimize-autoloader --no-dev && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
-EXPOSE 8000
+RUN chmod -R 777 public/build
+RUN cp /app/docker/prod/config.ini /usr/local/etc/php/conf.d/config.ini

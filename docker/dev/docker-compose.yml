@@ -17,6 +17,7 @@ services:
         networks:
             - database
             - socketi
+            - redis
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_web.sh'
     equipamentos_queue:
@@ -31,6 +32,7 @@ services:
         networks:
             - database
             - socketi
+            - redis
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_queue.sh'
         deploy:
@@ -55,9 +57,25 @@ services:
             resources:
                 limits:
                     memory: 200M
+    redis:
+        container_name: redis
+        image: redis
+        ports:
+            - 6379:6379
+        expose:
+            - 6379
+        restart: always
+        networks:
+            - redis
+        deploy:
+            resources:
+                limits:
+                    memory: 200M
 
 networks:
     database:
         name: database
     socketi:
         name: socketi
+    redis:
+        name: redis

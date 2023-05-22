@@ -17,6 +17,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: './docker/test/docker_entrypoint_web.sh'
     equipamentos_queue:
@@ -30,6 +31,7 @@ services:
             - database
             - socketi
             - nginx
+            - redis
         restart: always
         entrypoint: './docker/test/docker_entrypoint_queue.sh'
     socketi:
@@ -49,6 +51,20 @@ services:
             DEBUG: false
             SOKETI_METRICS_ENABLED: true
             SOKETI_DEBUG: 0
+    redis:
+        container_name: redis
+        image: redis
+        ports:
+            - 6379:6379
+        expose:
+            - 6379
+        restart: always
+        networks:
+            - redis
+        deploy:
+            resources:
+                limits:
+                    memory: 200M
 
 networks:
     database:
@@ -57,3 +73,5 @@ networks:
         name: socketi
     nginx:
         name: nginx
+    redis:
+        name: redis
