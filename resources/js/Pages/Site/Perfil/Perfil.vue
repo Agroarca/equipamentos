@@ -44,7 +44,10 @@ function submit() {
             <div class="mb-3">
                 <h1>Meus Dados</h1>
             </div>
-            <div v-if="usePage()?.props?.mensagem" class="alert alert-warning" role="alert">
+            <div v-if="usePage()?.props?.mensagem"
+                 class="alert"
+                 :class="{ 'alert-warning': usePage().props.tipo_mensagem == 'erro', 'alert-success': usePage().props.tipo_mensagem == 'sucesso' }"
+                 role="alert">
                 {{ usePage()?.props?.mensagem }}
             </div>
             <Link v-if="!user.email_verified_at" class="link-plain" href="/perfil/verificar/reenviar">

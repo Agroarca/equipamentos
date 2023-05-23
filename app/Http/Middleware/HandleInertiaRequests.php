@@ -27,6 +27,7 @@ class HandleInertiaRequests extends Middleware
                 ],
             ],
             'mensagem' => session()->get('mensagem'),
+            'tipo_mensagem' => session()->get('tipo_mensagem'),
         ]);
     }
 }
