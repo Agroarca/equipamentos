@@ -10,7 +10,7 @@ const props = defineProps({
     maximo: Number,
     step: {
         type: Number,
-        default: 1000,
+        default: 100,
     },
     inicialMinimo: null,
     inicialMaximo: null,

@@ -10,6 +10,7 @@ use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -28,11 +29,13 @@ class PaginaInicialService
      */
     public function getVersaoAtual(): Versao
     {
-        return Versao::where('status', StatusVersao::Publicado)
-            ->where(fn ($query) => $query->whereNull('data_inicio')->orWhere('data_inicio', '<=', Carbon::now()))
-            ->where(fn ($query) => $query->whereNull('data_fim')->orWhere('data_fim', '>', Carbon::now()))
-            ->orderBy('prioridade', 'desc')
-            ->first() ?? new Versao();
+        return Cache::tags('pagina-inicial')->remember('versao_atual', 60, function () {
+            return Versao::where('status', StatusVersao::Publicado)
+                ->where(fn ($query) => $query->whereNull('data_inicio')->orWhere('data_inicio', '<=', Carbon::now()))
+                ->where(fn ($query) => $query->whereNull('data_fim')->orWhere('data_fim', '>', Carbon::now()))
+                ->orderBy('prioridade', 'desc')
+                ->first() ?? new Versao();
+        });
     }
 
     /**
@@ -48,27 +51,40 @@ class PaginaInicialService
      */
     public function carregarVersao(Versao $versao): Versao
     {
-        $versao->load([
-            'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
-            'componentes' => fn ($query) => $query->orderBy('ordem'),
-            'componentes.tipo' => function (MorphTo $morphTo): void {
-                $morphTo->morphWith([
-                    Grid::class => ['imagens'],
-                    Lista::class => [
-                        'listaProdutos',
-                    ],
-                ]);
-            },
-        ]);
+        $versao = Cache::tags('pagina-inicial')->remember(
+            "versao_$versao->id",
+            600,
+            fn () => $versao->load([
+                'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
+                'componentes' => fn ($query) => $query->orderBy('ordem'),
+                'componentes.tipo' => function (MorphTo $morphTo): void {
+                    $morphTo->morphWith([
+                        Grid::class => ['imagens'],
+                        Lista::class => [
+                            'listaProdutos',
+                        ],
+                    ]);
+                },
+            ])
+        );
 
+        $this->carregarEquipamentosListas($versao);
+        return $versao;
+    }
+
+    /**
+     * Carrega os equipamentos das listas
+     */
+    public function carregarEquipamentosListas(Versao $versao): void
+    {
         foreach ($versao->componentes as $componente) {
             if ($componente->tipo_type == Lista::class) {
-                $componente->tipo->listaProdutos->equipamentos = $this->listaService
-                    ->queryLista($componente->tipo->listaProdutos->id)->inRandomOrder()->limit(4)->get();
+                $lista = $componente->tipo->listaProdutos;
+                $lista->equipamentos = Cache::tags('pagina-inicial')->remember("$lista->id", 60, function () use ($lista) {
+                    return $this->listaService->queryLista($lista->id)->get();
+                });
             }
         }
-
-        return $versao;
     }
 
     /**

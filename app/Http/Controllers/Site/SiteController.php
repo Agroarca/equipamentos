@@ -34,7 +34,7 @@ class SiteController extends Controller
 
     public function equipamento(int $id)
     {
-        $equipamento = Equipamento::aprovado()->findOrFail($id);
+        $equipamento = Equipamento::aprovado()->with('usuario')->findOrFail($id);
 
         $equipamento->load([
             'caracteristicas',

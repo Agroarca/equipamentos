@@ -6,8 +6,6 @@ use App\Http\Controllers\Site\Auth\RegistroController;
 use App\Http\Controllers\Site\Auth\VerificarEmailController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('perfil/verificar/{id}/{hash}', [VerificarEmailController::class, 'verificar'])->middleware(['auth', 'signed'])->name('verification.verify');
-
 Route::name('auth')->group(function () {
     Route::get('entrar', [EntrarController::class, 'inicio'])->name('.entrar');
     Route::post('entrar', [EntrarController::class, 'entrar'])->name('.autenticar');
@@ -20,7 +18,8 @@ Route::name('auth')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('sair', [EntrarController::class, 'sair'])->name('.sair');
-        Route::get('perfil/verificar/reenviar', [VerificarEmailController::class, 'reenviarEmail'])->name('.reenviarEmail');
+        Route::get('perfil/verificar/{id}/{hash}', [VerificarEmailController::class, 'verificar'])->middleware(['auth', 'signed'])->name('.verificar.email');
+        Route::get('perfil/verificar/reenviar', [VerificarEmailController::class, 'reenviarEmail'])->name('.reenviar.email');
     });
 });
 
