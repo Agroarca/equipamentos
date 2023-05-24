@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class VerificarEmailController extends Controller
 {
+    // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
     public function verificar(EmailVerificationRequest $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('site.perfil')
                 ->with('mensagem', [
                     'class' => 'alert-warning',
-                    'texto' => 'Sua conta já foi verificada.'
+                    'texto' => 'Sua conta já foi verificada.',
                 ]);
         }
         $request->fulfill();
@@ -24,13 +26,13 @@ class VerificarEmailController extends Controller
             return redirect()->route('site.perfil')
                 ->with('mensagem', [
                     'class' => 'alert-warning',
-                    'texto' => 'Link de verificação inválido ou expirado.'
+                    'texto' => 'Link de verificação inválido ou expirado.',
                 ]);
         }
         return redirect()->route('site.perfil')
             ->with('mensagem', [
                 'class' => 'alert-success',
-                'texto' => 'Email verificado com sucesso'
+                'texto' => 'Email verificado com sucesso',
             ]);
     }
 
@@ -40,7 +42,7 @@ class VerificarEmailController extends Controller
             return redirect()->route('site.perfil')
                 ->with('mensagem', [
                     'class' => 'alert-warning',
-                    'texto' => 'Sua conta já foi verificada.'
+                    'texto' => 'Sua conta já foi verificada.',
                 ]);
         }
         if (RateLimiter::tooManyAttempts('verificar-email' . $request->user()->id, 1)) {
@@ -50,7 +52,7 @@ class VerificarEmailController extends Controller
                 ->route('site.perfil')
                 ->with('mensagem', [
                     'class' => 'alert-warning',
-                    'texto' => "Muitas tentativas, tente novamente em $segundos seconds."
+                    'texto' => "Muitas tentativas, tente novamente em $segundos seconds.",
                 ]);
         }
         $request->user()->sendEmailVerificationNotification();
@@ -58,7 +60,7 @@ class VerificarEmailController extends Controller
         return redirect()->route('site.perfil')
             ->with('mensagem', [
                 'class' => 'alert-success',
-                'texto' => 'Email de verificação será enviado em instantes.'
+                'texto' => 'Email de verificação será enviado em instantes.',
             ]);
     }
 }
