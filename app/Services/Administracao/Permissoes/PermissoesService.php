@@ -88,6 +88,8 @@ class PermissoesService
             });
     }
 
+    // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength
+
     private function equipamentos(Grupo $grupo): GrupoPermissao
     {
         return GrupoPermissao::create('Equipamentos', 'equipamentos', $grupo)
