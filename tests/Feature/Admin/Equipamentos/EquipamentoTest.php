@@ -64,11 +64,9 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarComMarcaModeloDinamico(): void
     {
-        $this->ignorarTodasPermissoes();
-
         $equipamento = Equipamento::factory()->make();
 
-        $marcaResponse = $this->actingAs($this->getAdmin())
+        $marcaResponse = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
             ->post('/admin/marcas/salvar/ajax', [
                 'nome' => Str::random(25),
             ]);
@@ -80,7 +78,7 @@ class EquipamentoTest extends TestCase
             'nome' => $marcaResponse->json('nome'),
         ]);
 
-        $modeloResponse = $this->actingAs($this->getAdmin())
+        $modeloResponse = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar/ajax', [
                 'nome' => Str::random(25),
                 'marca_id' => $marcaResponse->json('id'),
