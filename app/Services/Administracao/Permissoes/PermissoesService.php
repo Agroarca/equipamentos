@@ -60,6 +60,7 @@ class PermissoesService
 
         return [
             $this->administracao($grupo),
+            $this->equipamentos($grupo),
         ];
     }
 
@@ -83,6 +84,29 @@ class PermissoesService
                 $grupo->grupo('Permissao do grupo', 'permissao_grupo', function (GrupoPermissao $grupo): void {
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Editar', 'editar');
+                });
+            });
+    }
+
+    private function equipamentos(Grupo $grupo): GrupoPermissao
+    {
+        return GrupoPermissao::create('Equipamentos', 'equipamentos', $grupo)
+            ->grupo('Lista', 'lista', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Lista', 'lista', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
+                    $grupo->permissao('Adicionar', 'adicionar');
+                    $grupo->permissao('Remover', 'remover');
+                });
+            })
+            ->grupo('Cadastro', 'cadastro', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Marca', 'marca', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
                 });
             });
     }

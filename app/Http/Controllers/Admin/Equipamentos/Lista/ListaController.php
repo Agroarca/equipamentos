@@ -9,12 +9,14 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Lista\Lista;
 use App\Models\Equipamentos\Lista\ProdutoLista;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class ListaController extends Controller
 {
     public function inicio()
     {
+        Gate::authorize('ver', Lista::class);
         $listas = Lista::paginate();
 
         return Inertia::render('Admin/Equipamentos/Lista/Inicio', compact('listas'));
@@ -22,11 +24,13 @@ class ListaController extends Controller
 
     public function criar()
     {
+        Gate::authorize('criar', Lista::class);
         return Inertia::render('Admin/Equipamentos/Lista/Criar');
     }
 
     public function salvar(ListaRequest $request)
     {
+        Gate::authorize('criar', Lista::class);
         $lista = new Lista($request->all());
         $lista->slug = ($lista->slug ?? Str::kebab($lista->nome));
         $lista->save();
@@ -36,6 +40,7 @@ class ListaController extends Controller
 
     public function editar(int $id)
     {
+        Gate::authorize('editar', Lista::class);
         $lista = Lista::findOrFail($id);
 
         return Inertia::render('Admin/Equipamentos/Lista/Editar', compact('lista'));
@@ -43,6 +48,7 @@ class ListaController extends Controller
 
     public function atualizar(ListaRequest $request, int $id)
     {
+        Gate::authorize('editar', Lista::class);
         $lista = Lista::findOrFail($id);
         $lista->nome = $request->nome;
         $lista->slug = $request->slug ?? Str::kebab($request->nome);
@@ -53,6 +59,7 @@ class ListaController extends Controller
 
     public function excluir(int $id)
     {
+        Gate::authorize('excluir', Lista::class);
         Lista::findOrFail($id)->delete();
 
         return redirect()->route('admin.lista');
@@ -60,6 +67,7 @@ class ListaController extends Controller
 
     public function adicionar(ProdutoListaRequest $request, int $listaId)
     {
+        Gate::authorize('adicionar', Lista::class);
         $lista = Lista::findOrFail($listaId);
         $equipamento = Equipamento::findOrFail($request->equipamento_id);
 
@@ -73,6 +81,7 @@ class ListaController extends Controller
 
     public function produtos(int $id)
     {
+        Gate::authorize('ver', Lista::class);
         $lista = Lista::findOrFail($id);
         $produtos = $lista->produtoLista()->with([
             'equipamento',
@@ -86,6 +95,7 @@ class ListaController extends Controller
 
     public function remover(int $listaId, int $produtoId)
     {
+        Gate::authorize('remover', Lista::class);
         $produto = ProdutoLista::where('lista_id', $listaId)->findOrFail($produtoId);
         $produto->delete();
 
