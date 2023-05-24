@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
@@ -78,6 +78,11 @@ function submit() {
                                 </option>
                             </select>
                             <FormError :error="form.errors.categoria" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria">Vendedor</label>
+                            <input id="ano" v-model="equipamento.usuario.nome" class="form-control" type="text" disabled>
+                            <Link></Link>
                         </div>
                     </div>
                     <div class="card-footer">

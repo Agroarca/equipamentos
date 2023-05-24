@@ -58,6 +58,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::with([
             'categoria',
             'imagens',
+            'usuario',
             'modelo',
             'modelo.marca',
         ])->findOrFail($id);
@@ -111,7 +112,8 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
 
-        if ($equipamento->status === StatusEquipamento::Aprovado
+        if (
+            $equipamento->status === StatusEquipamento::Aprovado
             || $equipamento->status === StatusEquipamento::Reprovado
         ) {
             return abort(403, 'Ação não permitida');
