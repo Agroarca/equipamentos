@@ -26,9 +26,9 @@ RUN apt update && \
     composer install --optimize-autoloader --no-dev && \
     chmod +x docker/prod/docker_entrypoint_web.sh
 
-RUN wget https://github.com/elastic/apm-agent-php/releases/download/v1.8.3/apm-agent-php_1.8.3_all.deb && \
-    dpkg -i apm-agent-php_1.8.3_all.deb && \
-    rm apm-agent-php_1.8.3_all.deb
+RUN wget https://github.com/elastic/apm-agent-php/releases/download/v1.8.4/apm-agent-php_1.8.4_all.deb && \
+    dpkg -i apm-agent-php_1.8.4_all.deb && \
+    rm apm-agent-php_1.8.4_all.deb
 
 RUN chmod -R 777 public/build
 RUN cp /app/docker/prod/config.ini /usr/local/etc/php/conf.d/config.ini
