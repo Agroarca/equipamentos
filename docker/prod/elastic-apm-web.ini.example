@@ -1,0 +1,7 @@
+elastic_apm.server_url=http://fleetserver:8200
+elastic_apm.service_name=equipamentos
+elastic_apm.log_level=DEBUG
+elastic_apm.log_level_file=DEBUG
+elastic_apm.log_file=/app/storage/logs/elastic-apm.log
+elastic_apm.enabled=true
+elastic_apm.api_key=""

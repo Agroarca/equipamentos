@@ -119,6 +119,21 @@ class PermissoesService
                     $grupo->permissao('Editar Imagens', 'editarImagens');
                     $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
                 });
+
+                $grupo->grupo('Modelo', 'modelo', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
+                });
+
+                $grupo->grupo('Categoria', 'categoria', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
+                    $grupo->permissao('Mover', 'mover');
+                });
             });
     }
 }
