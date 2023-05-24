@@ -10,6 +10,7 @@ services:
         volumes:
             - /var/www/equipamentos/storage:/app/storage
             - equipamentos-public:/app/public
+            - /var/www/equipamentos/elastic-apm-web.ini:/usr/local/etc/php/conf.d/elastic-apm-web.ini:ro
         ports:
             - 9000:9000
         expose:
@@ -35,6 +36,7 @@ services:
             dockerfile: docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/storage:/app/storage
+            - /var/www/equipamentos/elastic-apm-queue.ini:/usr/local/etc/php/conf.d/elastic-apm-queue.ini:ro
         networks:
             - database
             - socketi
