@@ -40,16 +40,16 @@ class ListaController extends Controller
 
     public function editar(int $id)
     {
-        Gate::authorize('editar', Lista::class);
         $lista = Lista::findOrFail($id);
+        Gate::authorize('editar', Lista::class);
 
         return Inertia::render('Admin/Equipamentos/Lista/Editar', compact('lista'));
     }
 
     public function atualizar(ListaRequest $request, int $id)
     {
-        Gate::authorize('editar', Lista::class);
         $lista = Lista::findOrFail($id);
+        Gate::authorize('editar', Lista::class);
         $lista->nome = $request->nome;
         $lista->slug = $request->slug ?? Str::kebab($request->nome);
         $lista->save();
@@ -59,16 +59,18 @@ class ListaController extends Controller
 
     public function excluir(int $id)
     {
+        $lista = Lista::findOrFail($id);
         Gate::authorize('excluir', Lista::class);
-        Lista::findOrFail($id)->delete();
+        $lista->delete();
 
         return redirect()->route('admin.lista');
     }
 
     public function adicionar(ProdutoListaRequest $request, int $listaId)
     {
-        Gate::authorize('adicionar', Lista::class);
         $lista = Lista::findOrFail($listaId);
+        Gate::authorize('adicionar', $lista);
+
         $equipamento = Equipamento::findOrFail($request->equipamento_id);
 
         ProdutoLista::firstOrCreate([
@@ -81,8 +83,9 @@ class ListaController extends Controller
 
     public function produtos(int $id)
     {
-        Gate::authorize('ver', Lista::class);
         $lista = Lista::findOrFail($id);
+        Gate::authorize('ver', $lista);
+
         $produtos = $lista->produtoLista()->with([
             'equipamento',
             'equipamento.modelo',
@@ -95,7 +98,9 @@ class ListaController extends Controller
 
     public function remover(int $listaId, int $produtoId)
     {
-        Gate::authorize('remover', Lista::class);
+        $lista = Lista::findOrFail($listaId);
+        Gate::authorize('remover', $lista);
+
         $produto = ProdutoLista::where('lista_id', $listaId)->findOrFail($produtoId);
         $produto->delete();
 
