@@ -67,7 +67,7 @@ class EquipamentoTest extends TestCase
         $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
         $this->adicionarPermissoes($usuario, [
             'equipamentos.cadastro.marca:criar',
-            'equipamentos.cadastro.modelo:criar'
+            'equipamentos.cadastro.modelo:criar',
         ]);
 
         $equipamento = Equipamento::factory()->make();
