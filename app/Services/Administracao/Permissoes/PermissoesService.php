@@ -86,4 +86,21 @@ class PermissoesService
                 });
             });
     }
+
+    private function equipamento(Grupo $grupo): GrupoPermissao
+    {
+        return GrupoPermissao::create('Equipamentos', 'equipamentos', $grupo)
+            ->grupo('Cadastro', 'cadastro', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Equipamento', 'equipamento', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Editar Descrição', 'editarDescricao');
+                    $grupo->permissao('Editar Caracteristicas', 'editarCaracteristicas');
+                    $grupo->permissao('Editar Imagens', 'editarImagens');
+                    $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
+                    $grupo->permissao('Excluir', 'excluir');
+                });
+            });
+    }
 }
