@@ -23,7 +23,12 @@ class RegistroRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'nome' => 'required|string|max:255',
+            'nome' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^(\w+(\s\w+)+)$/',
+            ],
             'email' => [
                 'required',
                 'string',
@@ -116,5 +121,12 @@ class RegistroRequest extends FormRequest
         }
 
         $this->merge($attributes);
+    }
+
+    public function messages(): array
+    {
+        return [
+            'nome.regex' => 'O campo deve conter nome e sobrenome.',
+        ];
     }
 }

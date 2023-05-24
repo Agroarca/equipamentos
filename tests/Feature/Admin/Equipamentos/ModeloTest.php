@@ -17,7 +17,7 @@ class ModeloTest extends TestCase
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:ver'))
             ->get('/admin/modelos');
 
 
@@ -31,7 +31,7 @@ class ModeloTest extends TestCase
         Modelo::factory()->count(4)->create();
         Modelo::factory()->statusAprovado()->count(3)->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:ver'))
             ->get('/admin/modelos');
 
         $response->assertStatus(200);
@@ -44,7 +44,7 @@ class ModeloTest extends TestCase
     public function testPodeAcessarCriar(): void
     {
         Marca::factory()->count(5)->create();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->get('/admin/modelos/criar');
 
         $response->assertStatus(200);
@@ -58,7 +58,7 @@ class ModeloTest extends TestCase
         $marca = Marca::factory()->statusAprovado()->create();
         $status = StatusCadastro::Aprovado->value;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -79,7 +79,7 @@ class ModeloTest extends TestCase
         $nome = Str::random(25);
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -98,7 +98,7 @@ class ModeloTest extends TestCase
         $marca = Marca::factory()->create();
         $status = StatusCadastro::Aprovado->value;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -118,7 +118,7 @@ class ModeloTest extends TestCase
         $nome = 'aa';
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -132,7 +132,7 @@ class ModeloTest extends TestCase
         $nome = Str::random(150);
         $marca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -147,7 +147,7 @@ class ModeloTest extends TestCase
         $marca = Marca::factory()->create();
         $statusInexistente = 99;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:criar'))
             ->post('/admin/modelos/salvar', [
                 'nome' => $nome,
                 'marca_id' => $marca->id,
@@ -169,7 +169,7 @@ class ModeloTest extends TestCase
             'marca_id' => $marcas->first()->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->get("/admin/modelos/$modelo->id/editar");
 
         $response->assertStatus(200);
@@ -186,7 +186,7 @@ class ModeloTest extends TestCase
         $novaMarca = Marca::factory()->statusAprovado()->create();
         $novoStatus = StatusCadastro::Aprovado->value;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome,
                 'marca_id' => $novaMarca->id,
@@ -209,7 +209,7 @@ class ModeloTest extends TestCase
         $novoNome = Str::random(25);
         $novaMarca = Marca::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome,
                 'marca_id' => $novaMarca->id,
@@ -228,7 +228,7 @@ class ModeloTest extends TestCase
         $modelo = Modelo::factory()->create();
         $novoNome = 'aa';
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->post("/admin/modelos/$modelo->id/atualizar", ['nome' => $novoNome]);
 
         $response->assertInvalid('nome');
@@ -243,7 +243,7 @@ class ModeloTest extends TestCase
         $modelo = Modelo::factory()->create();
         $novoNome = Str::random(150);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->post("/admin/modelos/$modelo->id/atualizar", ['nome' => $novoNome]);
 
         $response->assertInvalid('nome');
@@ -260,7 +260,7 @@ class ModeloTest extends TestCase
         $novaMarca = Marca::factory()->create();
         $novoStatusInexistente = 99;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:editar'))
             ->post("/admin/modelos/$modelo->id/atualizar", [
                 'nome' => $novoNome,
                 'marca_id' => $novaMarca->id,
@@ -280,7 +280,7 @@ class ModeloTest extends TestCase
     {
         $modelo = Modelo::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:excluir'))
             ->get("/admin/modelos/$modelo->id/excluir");
 
         $response->assertRedirectToRoute('admin.modelos');
@@ -310,7 +310,7 @@ class ModeloTest extends TestCase
             ['nome' => 'Modelo 4'],
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:ver'))
             ->get("/admin/modelos/pesquisar/$marca->id/?termo=Modelo");
 
         $response->assertStatus(200);
@@ -328,7 +328,7 @@ class ModeloTest extends TestCase
             ['nome' => 'Modelo 4'],
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:ver'))
             ->get('/admin/modelos/pesquisar/?termo=Modelo');
 
         $response->assertStatus(200);
@@ -358,11 +358,55 @@ class ModeloTest extends TestCase
         ]);
 
         $termo = Str::Random(250);
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.modelo:ver'))
             ->get("/admin/modelos/pesquisar/$marca->id?termo=$termo");
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has(0));
+    }
+
+    public function testNaoPodeVerSemPermissao(): void
+    {
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/modelos');
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeCriarSemPermissao(): void
+    {
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/modelos/criar');
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeEditarSemPermissao(): void
+    {
+        $modelo = Modelo::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/modelos/$modelo->id/editar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        $modelo = Modelo::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/modelos/$modelo->id/excluir");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodePesquisarSemPermissao(): void
+    {
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/modelos/pesquisar/1?termo=Modelo');
+
+        $response->assertStatus(403);
     }
 }
