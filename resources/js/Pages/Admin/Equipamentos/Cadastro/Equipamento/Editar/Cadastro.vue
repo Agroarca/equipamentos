@@ -81,8 +81,12 @@ function submit() {
                         </div>
                         <div class="mb-3">
                             <label for="categoria">Vendedor</label>
-                            <input id="ano" v-model="equipamento.usuario.nome" class="form-control" type="text" disabled>
-                            <Link></Link>
+                            <div class="d-flex">
+                                <input id="ano" v-model="equipamento.usuario.nome" class="form-control" type="text" disabled>
+                                <Link :href="`/admin/equipamentos/${equipamento.id}/transferir`" class="btn btn-primary ms-2">
+                                    Transferir
+                                </Link>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

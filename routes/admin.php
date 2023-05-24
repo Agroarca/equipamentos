@@ -60,6 +60,9 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('criar/', [EquipamentoController::class, 'criar'])->name('.criar');
         Route::post('salvar', [EquipamentoController::class, 'salvar'])->name('.salvar');
         Route::get('{id}/editar', [EquipamentoController::class, 'editar'])->name('.editar');
+        Route::get('{id}/transferir', [EquipamentoController::class, 'transferir'])->name('.transferir');
+        Route::post('{id}/transferir/salvar', [EquipamentoController::class, 'transferirSalvar'])->name('.transferirSalvar');
+        Route::get('usuarios/pesquisar', [EquipamentoController::class, 'pesquisarUsuarios'])->name('.usuarios.pesquisar');
         Route::post('{id}/atualizar', [EquipamentoController::class, 'atualizar'])->name('.atualizar');
         Route::get('{id}/editar/descricao', [EquipamentoController::class, 'editarDescricao'])->name('.editarDescricao');
         Route::post('{id}/atualizardescricao', [EquipamentoController::class, 'atualizarDescricao'])->name('.atualizarDescricao');

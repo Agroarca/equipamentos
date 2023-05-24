@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorReq
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Http\Request;
@@ -205,5 +206,32 @@ class EquipamentoController extends Controller
             ->get();
 
         return response()->json($equipamento);
+    }
+
+    public function transferir(int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Transferir', compact('equipamento'));
+    }
+
+    public function transferirSalvar(Request $request, int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        $equipamento->usuario_id = $request->input('usuario_id');
+        $equipamento->save();
+
+        return redirect()->route('admin.equipamentos.editar', $id);
+    }
+
+    public function pesquisarUsuarios(Request $request)
+    {
+        $usuarios = Usuario::select('id', 'nome as texto')
+            ->where('email', 'like', '%' . $request->input('termo') . '%')
+            ->orWhere('cpf', 'like', '%' . $request->input('termo') . '%')
+            ->orWhere('cnpj', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        return response()->json($usuarios);
     }
 }
