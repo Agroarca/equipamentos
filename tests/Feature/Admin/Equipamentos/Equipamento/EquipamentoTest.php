@@ -65,7 +65,10 @@ class EquipamentoTest extends TestCase
     public function testPodeCriarComMarcaModeloDinamico(): void
     {
         $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
-        $this->adicionarPermissoes($usuario, ['equipamentos.cadastro.marca:criar', 'equipamentos.cadastro.modelo:criar']);
+        $this->adicionarPermissoes($usuario, [
+            'equipamentos.cadastro.marca:criar',
+            'equipamentos.cadastro.modelo:criar'
+        ]);
 
         $equipamento = Equipamento::factory()->make();
 
