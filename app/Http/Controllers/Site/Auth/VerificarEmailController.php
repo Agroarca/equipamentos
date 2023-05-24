@@ -13,40 +13,52 @@ class VerificarEmailController extends Controller
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('site.perfil')
-                ->with('mensagem', 'Sua conta já foi verificada.')
-                ->with('tipo_mensagem', 'erro');
+                ->with('mensagem', [
+                    'class' => 'alert-warning',
+                    'texto' => 'Sua conta já foi verificada.'
+                ]);
         }
         $request->fulfill();
 
         if (!$request->hasValidSignature()) {
             return redirect()->route('site.perfil')
-                ->with('mensagem', 'Link de verificação inválido ou expirado')
-                ->with('tipo_mensagem', 'erro');
+                ->with('mensagem', [
+                    'class' => 'alert-warning',
+                    'texto' => 'Link de verificação inválido ou expirado.'
+                ]);
         }
         return redirect()->route('site.perfil')
-            ->with('mensagem', 'Email verificado com sucesso')
-            ->with('tipo_mensagem', 'sucesso');
+            ->with('mensagem', [
+                'class' => 'alert-success',
+                'texto' => 'Email verificado com sucesso'
+            ]);
     }
 
     public function reenviarEmail(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('site.perfil')
-                ->with('mensagem', 'Sua conta já foi verificada.')
-                ->with('tipo_mensagem', 'erro');
+                ->with('mensagem', [
+                    'class' => 'alert-warning',
+                    'texto' => 'Sua conta já foi verificada.'
+                ]);
         }
         if (RateLimiter::tooManyAttempts('verificar-email' . $request->user()->id, 1)) {
             $segundos = RateLimiter::availableIn('verificar-email' . $request->user()->id);
 
             return redirect()
                 ->route('site.perfil')
-                ->with('mensagem', "Muitas tentativas, tente novamente em $segundos seconds.")
-                ->with('tipo_mensagem', 'erro');
+                ->with('mensagem', [
+                    'class' => 'alert-warning',
+                    'texto' => "Muitas tentativas, tente novamente em $segundos seconds."
+                ]);
         }
         $request->user()->sendEmailVerificationNotification();
         RateLimiter::hit('verificar-email' . $request->user()->id);
         return redirect()->route('site.perfil')
-            ->with('mensagem', 'Email de verificação será enviado em instantes.')
-            ->with('tipo_mensagem', 'sucesso');
+            ->with('mensagem', [
+                'class' => 'alert-success',
+                'texto' => 'Email de verificação será enviado em instantes.'
+            ]);
     }
 }
