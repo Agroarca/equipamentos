@@ -89,6 +89,7 @@ class PermissoesService
     }
 
     // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength
+
     private function equipamentos(Grupo $grupo): GrupoPermissao
     {
         return GrupoPermissao::create('Equipamentos', 'equipamentos', $grupo)
@@ -108,6 +109,15 @@ class PermissoesService
                     $grupo->permissao('Criar', 'criar');
                     $grupo->permissao('Editar', 'editar');
                     $grupo->permissao('Excluir', 'excluir');
+                });
+                $grupo->grupo('Equipamento', 'equipamento', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Editar Descrição', 'editarDescricao');
+                    $grupo->permissao('Editar Caracteristicas', 'editarCaracteristicas');
+                    $grupo->permissao('Editar Imagens', 'editarImagens');
+                    $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
                 });
 
                 $grupo->grupo('Modelo', 'modelo', function (GrupoPermissao $grupo): void {

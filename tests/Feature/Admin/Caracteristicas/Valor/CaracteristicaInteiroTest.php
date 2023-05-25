@@ -18,6 +18,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiro(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -52,6 +53,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarDecimal(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -79,6 +81,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarString(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -106,6 +109,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMinMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -142,6 +146,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -177,6 +182,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -212,6 +218,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMenorMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -241,6 +248,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMenorMinSemMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -269,6 +277,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMaiorMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -298,6 +307,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMaiorMaxSemMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,

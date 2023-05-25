@@ -18,6 +18,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testPodeSalvarString(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -52,6 +53,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testPodeSalvarTextoLongoMinMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -88,6 +90,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testPodeSalvarTextoLongoMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -123,6 +126,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testPodeSalvarTextoLongoMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -158,6 +162,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testNaoPodeSalvarTextoLongoMenorMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -187,6 +192,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testNaoPodeSalvarTextoLongoMenorMinSemMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -215,6 +221,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testNaoPodeSalvarTextoLongoMaiorMax(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -244,6 +251,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testNaoPodeSalvarTextoLongoMaiorMaxSemMin(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,
@@ -272,6 +280,7 @@ class CaracteristicaTextoLongoTest extends TestCase
 
     public function testPodeSalvarTextoMuitoLongo(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = fake()->paragraph(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoLongo,

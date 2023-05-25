@@ -18,6 +18,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testPodeSalvarBoolTrue(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -52,6 +53,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testPodeSalvarBoolFalse(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -86,6 +88,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarInt(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -114,6 +117,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarDecimal(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -142,6 +146,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarString(): void
     {
+        $this->ignorarTodasPermissoes();
         $valor = Str::random(15);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
