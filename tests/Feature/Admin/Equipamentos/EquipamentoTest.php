@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin\Equipamentos;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Enums\Usuario\TipoPessoa;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\Marca;
@@ -11,6 +12,7 @@ use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaInteiro;
+use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
@@ -518,10 +520,89 @@ class EquipamentoTest extends TestCase
         $termo = Str::random(20);
 
         $response = $this->actingAs($this->getAdmin())
-            ->get("/admin/equipamentos/pesquisar?termo=$termo");
+            ->get("/admin/equipamentos/usuarios/pesquisar?termo=$termo");
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has(0));
+    }
+
+    public function testPodePesquisarUsuarioPorEmail(): void
+    {
+        $usuario = Usuario::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/usuarios/pesquisar?termo=$usuario->email");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(1)
+            ->where('0.id', $usuario->id));
+    }
+
+    public function testPodePesquisarUsuarioPodeCpf(): void
+    {
+        $usuario = Usuario::factory()->create([
+            'tipo_pessoa' => TipoPessoa::Fisica,
+            'cpf' => '31871717027',
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/usuarios/pesquisar?termo=$usuario->cpf");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(1)
+            ->where('0.id', $usuario->id));
+    }
+
+    public function testPodePesquisarUsuarioPodeCnpj()
+    {
+        $usuario = Usuario::factory()->pessoaJuridica()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/usuarios/pesquisar?termo=$usuario->cnpj");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(1)
+            ->where('0.id', $usuario->id));
+    }
+
+    public function testPodeAcessarTransferirEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/equipamentos/$equipamento->id/transferir");
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Transferir')
+            ->has('equipamento')
+            ->where('equipamento.id', $equipamento->id));
+    }
+
+    public function testPodeTransferirEquipamento(): void
+    {
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+        $novoUsuario = Usuario::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/equipamentos/$equipamento->id/transferir/salvar", [
+                'usuario_id' => $novoUsuario->id,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.equipamentos.editar', $equipamento->id);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'usuario_id' => $novoUsuario->id,
+        ]);
     }
 }
