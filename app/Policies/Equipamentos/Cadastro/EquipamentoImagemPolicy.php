@@ -11,6 +11,7 @@ class EquipamentoImagemPolicy
         private PermissoesService $permissoesService
     ) {
     }
+
     public function ver(Usuario $usuario): bool
     {
         return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:ver');
