@@ -1,0 +1,28 @@
+FROM php:8.2-cli-buster
+
+WORKDIR /app
+RUN apt update
+RUN apt install -y wget unzip libcurl4-openssl-dev
+
+RUN echo "deb http://deb.debian.org/debian unstable main" >> /etc/apt/sources.list
+RUN apt update
+
+RUN php8.2-opcache/unstable
+RUN php8.2-readline/unstable
+RUN php8.2-common/unstable
+RUN php8.2-cli/unstable
+RUN php8.2-dev/unstable
+
+RUN wget https://github.com/elastic/apm-agent-php/archive/refs/tags/v1.8.4.zip
+RUN unzip v1.8.4.zip
+
+WORKDIR /app/apm-agent-php-1.8.4/src/ext
+
+RUN phpize && \
+    CFLAGS="-std=gnu99" ./configure --enable-elastic_apm && \
+    make && \
+    make install
+
+WORKDIR /app/apm-agent-php-1.8.4/src
+
+RUN mkdir lib && cp -r /lib/aarch64-linux-gnu/* lib
