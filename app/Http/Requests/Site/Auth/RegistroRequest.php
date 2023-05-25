@@ -27,7 +27,7 @@ class RegistroRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'regex:/^(\w+(\s\w+)+)$/',
+                'regex:/^[\p{L}]+(?: [\p{L}]+)*$/u',
             ],
             'email' => [
                 'required',
@@ -126,7 +126,7 @@ class RegistroRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nome.regex' => 'O campo deve conter nome e sobrenome.',
+            'nome.regex' => 'O campo deve conter nome e sobrenome válidos.',
         ];
     }
 }
