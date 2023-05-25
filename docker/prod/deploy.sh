@@ -10,7 +10,7 @@ sudo chmod +x docker/prod/docker_entrypoint_queue.sh
 
 cd /var/www/equipamentos.projeto/docker/prod/elastic-apm
 
-sudo docker build -t elastic-apm . --progress plain
+sudo docker build -t elastic-apm:latest . --progress plain
 
 cd /var/www/equipamentos
 
