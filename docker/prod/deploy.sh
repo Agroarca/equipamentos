@@ -8,7 +8,7 @@ git pull
 sudo chmod +x docker/prod/docker_entrypoint_web.sh
 sudo chmod +x docker/prod/docker_entrypoint_queue.sh
 
-cd /var/www/equipamentos.projeto/docker/prod/elastic-apm
+cd /var/www/equipamentos/projeto/docker/prod/elastic-apm
 
 sudo docker build -t elastic-apm:latest . --progress plain
 
