@@ -18,7 +18,7 @@ Route::name('auth')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('sair', [EntrarController::class, 'sair'])->name('.sair');
-        Route::get('perfil/verificar/{id}/{hash}', [VerificarEmailController::class, 'verificar'])->middleware(['auth', 'signed'])->name('.verificar.email');
+        Route::get('perfil/verificar/{id}/{hash}', [VerificarEmailController::class, 'verificar'])->middleware(['auth'])->name('.verificar.email');
         Route::get('perfil/verificar/reenviar', [VerificarEmailController::class, 'reenviarEmail'])->name('.reenviar.email');
     });
 });
