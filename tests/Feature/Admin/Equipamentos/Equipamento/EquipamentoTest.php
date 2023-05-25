@@ -361,7 +361,7 @@ class EquipamentoTest extends TestCase
             ->where('0.id', $usuario->id));
     }
 
-    public function testPodePesquisarUsuarioPodeCpf(): void
+    public function testPodePesquisarUsuarioPodePorCpf(): void
     {
         $usuario = Usuario::factory()->create([
             'tipo_pessoa' => TipoPessoa::Fisica,
@@ -377,7 +377,7 @@ class EquipamentoTest extends TestCase
             ->where('0.id', $usuario->id));
     }
 
-    public function testPodePesquisarUsuarioPodeCnpj()
+    public function testPodePesquisarUsuarioPorCnpj(): void
     {
         $usuario = Usuario::factory()->pessoaJuridica()->create();
 

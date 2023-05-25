@@ -42,7 +42,7 @@ function escolherOpcao(e) {
         <div class="equipamento">
             <div class="card card-default">
                 <div class="card-body">
-                    <div class="mb-3 d-flex">
+                    <div class="d-flex">
                         <SelectAjax
                             v-model="form.usuario_id"
                             placeholder="Selecione um usuario"
