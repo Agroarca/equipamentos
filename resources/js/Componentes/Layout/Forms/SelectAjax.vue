@@ -16,7 +16,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
-    (e: 'criarNovaOpcao', value: string): void
+    (e: 'criarNovaOpcao', value: string): void,
+    (e: 'optionSelected', value: string): void
 }>()
 
 const options = ref([])
@@ -79,6 +80,7 @@ async function atualizarOpcoes(search, loading) {
 
 function updateModelValue() {
     emit('update:modelValue', selectedOption.value?.id)
+    emit('optionSelected', selectedOption.value)
 
     if (selectedOption.value?.id === null && props.criarDinamica) {
         let option = options.value.find((opcao) => opcao.id === null)

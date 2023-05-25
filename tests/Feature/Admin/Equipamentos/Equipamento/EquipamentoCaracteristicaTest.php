@@ -17,7 +17,7 @@ class EquipamentoCaracteristicaTest extends TestCase
 
     public function testPodeAcessarEditarCaracteristicas(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarCaracteristicas');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $this->ignorarTodasPermissoes();
         $equipamento = Equipamento::factory()->create();
         $caracteristicas = Caracteristica::factory()->count(6)->create([
@@ -38,7 +38,7 @@ class EquipamentoCaracteristicaTest extends TestCase
 
     public function testPodeAcessarEditarCaracteristicaValor(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarCaracteristicas');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $equipamento = Equipamento::factory()->create();
         $caracteristica = Caracteristica::factory()->create([
             'categoria_id' => $equipamento->categoria_id,

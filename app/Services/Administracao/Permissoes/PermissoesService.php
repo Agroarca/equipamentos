@@ -118,6 +118,13 @@ class PermissoesService
                     $grupo->permissao('Editar Caracteristicas', 'editarCaracteristicas');
                     $grupo->permissao('Editar Imagens', 'editarImagens');
                     $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
+                    $grupo->permissao('Transferir', 'transferir');
+                });
+
+                $grupo->grupo('Equipamento Imagem', 'equipamento.imagem', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Adicionar', 'adicionar');
+                    $grupo->permissao('deletar', 'deletar');
                 });
 
                 $grupo->grupo('Modelo', 'modelo', function (GrupoPermissao $grupo): void {

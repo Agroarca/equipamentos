@@ -24,6 +24,14 @@ class UsuarioFactory extends Factory
         ];
     }
 
+    public function pessoaJuridica(): mixed
+    {
+        return $this->state(fn (array $attributes) => [
+            'tipo_pessoa' => TipoPessoa::Juridica,
+            'cnpj' => '12345678901234',
+        ]);
+    }
+
     public function naoVerificado(): mixed
     {
         return $this->state(fn (array $attributes) => ['email_verified_at' => null]);

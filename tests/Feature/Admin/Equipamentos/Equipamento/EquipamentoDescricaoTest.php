@@ -13,7 +13,7 @@ class EquipamentoDescricaoTest extends TestCase
 
     public function testPodeAcessarEditarDescricao(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarDescricao');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarDescricao');
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
@@ -28,7 +28,7 @@ class EquipamentoDescricaoTest extends TestCase
 
     public function testAtualizarDescricao(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarDescricao');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarDescricao');
         $equipamento = Equipamento::factory()->create();
         $novaDescricao = fake()->paragraph(3);
 

@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorReq
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Usuario;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Http\Request;
@@ -62,6 +63,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::with([
             'categoria',
             'imagens',
+            'usuario',
             'modelo',
             'modelo.marca',
         ])->findOrFail($id);
@@ -106,7 +108,7 @@ class EquipamentoController extends Controller
 
     public function editarImagens(int $id)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
+        Gate::authorize('ver', EquipamentoImagem::class);
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
         return Inertia::render(
@@ -183,7 +185,7 @@ class EquipamentoController extends Controller
 
     public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
+        Gate::authorize('adicionar', EquipamentoImagem::class);
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
@@ -200,8 +202,8 @@ class EquipamentoController extends Controller
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
+        Gate::authorize('deletar', $imagem);
 
         Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
@@ -219,5 +221,34 @@ class EquipamentoController extends Controller
             ->get();
 
         return response()->json($equipamento);
+    }
+
+    public function transferir(int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('transferir', $equipamento);
+        return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Transferir', compact('equipamento'));
+    }
+
+    public function transferirSalvar(Request $request, int $id)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('transferir', $equipamento);
+        $equipamento->usuario_id = $request->input('usuario_id');
+        $equipamento->save();
+
+        return redirect()->route('admin.equipamentos.editar', $id);
+    }
+
+    public function pesquisarUsuarios(Request $request)
+    {
+        $usuarios = Usuario::select('id', 'nome as texto')
+            ->where('email', 'like', '%' . $request->input('termo') . '%')
+            ->orWhere('cpf', 'like', '%' . $request->input('termo') . '%')
+            ->orWhere('cnpj', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        return response()->json($usuarios);
     }
 }

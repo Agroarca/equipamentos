@@ -14,42 +14,47 @@ class EquipamentoPolicy
 
     public function ver(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:ver');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:ver');
     }
 
     public function criar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:criar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:criar');
     }
 
     public function editar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editar');
     }
 
     public function editarDescricao(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarDescricao');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editarDescricao');
     }
 
     public function editarCaracteristicas(Usuario $usuario): bool
     {
         return $this->permissoesService
-            ->temPermissao($usuario, 'administracao.permissoes.equipamento:editarCaracteristicas');
+            ->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editarCaracteristicas');
     }
 
     public function editarImagens(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:editarImagens');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editarImagens');
     }
 
     public function excluir(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:excluir');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:excluir');
     }
 
     public function aprovarReprovar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'administracao.permissoes.equipamento:aprovarReprovar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:aprovarReprovar');
+    }
+
+    public function transferir(Usuario $usuario): bool
+    {
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:transferir');
     }
 }
