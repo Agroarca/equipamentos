@@ -122,7 +122,8 @@ class EquipamentoController extends Controller
         Gate::authorize('aprovarReprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
-        if ($equipamento->status === StatusEquipamento::Aprovado
+        if (
+            $equipamento->status === StatusEquipamento::Aprovado
             || $equipamento->status === StatusEquipamento::Reprovado
         ) {
             return abort(403, 'Ação não permitida');
@@ -202,8 +203,8 @@ class EquipamentoController extends Controller
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
     {
-        Gate::authorize('deletar', EquipamentoImagem::class);
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
+        Gate::authorize('deletar', $imagem);
 
         Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
         $imagem->delete();
@@ -226,12 +227,14 @@ class EquipamentoController extends Controller
     public function transferir(int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('transferir', $equipamento);
         return Inertia::render('Admin/Equipamentos/Cadastro/Equipamento/Editar/Transferir', compact('equipamento'));
     }
 
     public function transferirSalvar(Request $request, int $id)
     {
         $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('transferir', $equipamento);
         $equipamento->usuario_id = $request->input('usuario_id');
         $equipamento->save();
 

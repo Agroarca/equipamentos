@@ -52,4 +52,9 @@ class EquipamentoPolicy
     {
         return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:aprovarReprovar');
     }
+
+    public function transferir(Usuario $usuario): bool
+    {
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:transferir');
+    }
 }

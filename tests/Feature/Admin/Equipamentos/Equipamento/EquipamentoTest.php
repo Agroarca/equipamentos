@@ -392,11 +392,12 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarTransferirEquipamento(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:transferir');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Aprovado,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamento->id/transferir");
 
         $response->assertStatus(200);
@@ -407,14 +408,28 @@ class EquipamentoTest extends TestCase
             ->where('equipamento.id', $equipamento->id));
     }
 
+    public function testNaoPodeAcessarTransferirEquipamentoSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/equipamentos/$equipamento->id/transferir");
+
+        $response->assertStatus(403);
+    }
+
     public function testPodeTransferirEquipamento(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:transferir');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Aprovado,
         ]);
         $novoUsuario = Usuario::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/transferir/salvar", [
                 'usuario_id' => $novoUsuario->id,
             ]);
@@ -425,5 +440,21 @@ class EquipamentoTest extends TestCase
             'id' => $equipamento->id,
             'usuario_id' => $novoUsuario->id,
         ]);
+    }
+
+    public function testNaoPodeTransferirEquipamentoSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create([
+            'status' => StatusEquipamento::Aprovado,
+        ]);
+        $novoUsuario = Usuario::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->post("/admin/equipamentos/$equipamento->id/transferir/salvar", [
+                'usuario_id' => $novoUsuario->id,
+            ]);
+
+        $response->assertStatus(403);
     }
 }
