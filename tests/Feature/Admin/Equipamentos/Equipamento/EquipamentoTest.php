@@ -24,7 +24,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessar(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:ver');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:ver');
         $response = $this->actingAs($usuario)
             ->get('/admin/equipamentos');
 
@@ -37,7 +37,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarComDados(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:ver');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:ver');
         $equipamentos = Equipamento::factory()->count(3)->create();
         $response = $this->actingAs($usuario)
             ->get('/admin/equipamentos');
@@ -52,7 +52,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarCriar(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
         $categorias = Categoria::factory()->count(4)->create();
 
         $response = $this->actingAs($usuario)
@@ -66,7 +66,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarComMarcaModeloDinamico(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
         $this->adicionarPermissoes($usuario, [
             'equipamentos.cadastro.marca:criar',
             'equipamentos.cadastro.modelo:criar',
@@ -125,7 +125,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeCriarNovo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
         $equipamento = Equipamento::factory()->make();
 
         $response = $this->actingAs($usuario)
@@ -152,7 +152,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeCriarMinimo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
         $equipamento = Equipamento::factory()->make();
         $equipamento->titulo = Str::random(9);
         $equipamento->ano = 1899;
@@ -172,7 +172,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeCriarMaximo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:criar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
         $equipamento = Equipamento::factory()->make();
         $equipamento->titulo = Str::random(150);
         $equipamento->ano = Carbon::now()->year + 2;
@@ -192,7 +192,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarCadastro(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editar');
         $equipamento = Equipamento::factory()->create();
         Caracteristica::factory()->count(6)->create([
             'categoria_id' => $equipamento->categoria_id,
@@ -214,7 +214,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarImagens(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editarImagens');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarImagens');
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
@@ -229,7 +229,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeEditar(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editar');
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(50);
         $novoAno = 2005;
@@ -256,7 +256,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeEditarMinimo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editar');
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(5);
         $novoAno = 1899;
@@ -275,7 +275,7 @@ class EquipamentoTest extends TestCase
 
     public function testNaoPodeEditarMaximo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:editar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editar');
         $equipamento = Equipamento::factory()->create();
         $novoTitulo = Str::random(150);
         $novoAno = Carbon::now()->year + 2;
@@ -294,7 +294,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeExcluir(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:excluir');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:excluir');
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
