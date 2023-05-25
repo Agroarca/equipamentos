@@ -14,7 +14,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testPodeAcessarEditarAprovacao(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
@@ -29,7 +29,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testNaoPodeAcessarEditarAprovacaoAposAprovarEquipamento(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Aprovado,
         ]);
@@ -42,7 +42,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testNaoPodeAcessarEditarAprovacaoAposReprovarEquipamento(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Reprovado,
         ]);
@@ -55,7 +55,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testPodeAprovarEquipamento(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -75,7 +75,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testNaoPodeAprovarEquipamentoComMotivo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -95,7 +95,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testPodeReprovarEquipamento(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
@@ -116,7 +116,7 @@ class EquipamentoAprovacaoTest extends TestCase
 
     public function testNaoPodeReprovarEquipamentoSemMotivo(): void
     {
-        $usuario = $this->getAdminComPermissao('administracao.permissoes.equipamento:aprovarReprovar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:aprovarReprovar');
         $equipamento = Equipamento::factory()->create([
             'status' => StatusEquipamento::Criado,
         ]);
