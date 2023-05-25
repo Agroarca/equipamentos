@@ -10,7 +10,7 @@ RUN npm install  && \
     rm -r node_modules
 
 # Runner
-FROM php:8.2-fpm
+FROM php:8.2-fpm-buster
 
 WORKDIR /app
 
