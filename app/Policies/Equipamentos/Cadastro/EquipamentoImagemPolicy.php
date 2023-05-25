@@ -3,21 +3,26 @@
 namespace App\Policies\Equipamentos\Cadastro;
 
 use App\Models\Usuario;
+use App\Services\Administracao\Permissoes\PermissoesService;
 
 class EquipamentoImagemPolicy
 {
+    public function __construct(
+        private PermissoesService $permissoesService
+    ) {
+    }
     public function ver(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:ver');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:ver');
     }
 
     public function adicionar(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:adicionar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:adicionar');
     }
 
     public function deletar(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:deletar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:deletar');
     }
 }

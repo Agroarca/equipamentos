@@ -108,7 +108,7 @@ class EquipamentoController extends Controller
 
     public function editarImagens(int $id)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
+        Gate::authorize('ver', EquipamentoImagem::class);
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
         return Inertia::render(
@@ -185,7 +185,7 @@ class EquipamentoController extends Controller
 
     public function adicionarImagem(EquipamentoImagemRequest $request, int $equipamentoId)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
+        Gate::authorize('adicionar', EquipamentoImagem::class);
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
@@ -202,7 +202,7 @@ class EquipamentoController extends Controller
 
     public function deletarImagem(int $equipamentoId, int $imagemId)
     {
-        Gate::authorize('editarImagens', Equipamento::class);
+        Gate::authorize('deletar', EquipamentoImagem::class);
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
 
         Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
