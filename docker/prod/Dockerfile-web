@@ -19,7 +19,7 @@ RUN apt update && \
     apt clean && \
     docker-php-ext-configure  zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip opcache xml && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY . ./
 COPY --from=node-build /app/public/build public/build
