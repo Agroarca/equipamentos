@@ -3,8 +3,6 @@ FROM php:8.2
 
 WORKDIR /app
 
-COPY . ./
-
 RUN apt update && \
     apt install -y ca-certificates cron curl tar unzip libpng-dev libxml2-dev libzip-dev wget && \
     apt clean && \
@@ -14,8 +12,5 @@ RUN apt update && \
     echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root && \
     composer install --optimize-autoloader --no-dev
 
-RUN wget https://github.com/elastic/apm-agent-php/releases/download/v1.8.4/apm-agent-php_1.8.4_all.deb && \
-    dpkg -i apm-agent-php_1.8.4_all.deb && \
-    rm apm-agent-php_1.8.4_all.deb
-
+COPY . ./
 RUN chmod +x docker/prod/docker_entrypoint_queue.sh
