@@ -9,7 +9,7 @@ RUN apt update && \
     docker-php-ext-configure zip && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root && \
+    echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
 COPY . ./
 RUN composer install --optimize-autoloader --no-dev
