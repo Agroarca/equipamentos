@@ -16,6 +16,7 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testPodeSalvarOpcao(): void
     {
+        $this->ignorarTodasPermissoes();
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
         $equipamento = Equipamento::factory()->create([
@@ -48,6 +49,7 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testNaoPodeSalvarOpcaoInvalida(): void
     {
+        $this->ignorarTodasPermissoes();
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
         $equipamento = Equipamento::factory()->create([

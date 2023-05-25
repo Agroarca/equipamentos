@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3'
+import { Link, useForm, usePage } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import Mask from '@/Componentes/Helper/InputMask'
@@ -44,19 +44,24 @@ function submit() {
             <div class="mb-3">
                 <h1>Meus Dados</h1>
             </div>
-
+            <div v-if="usePage().props.mensagem" class="alert" :class="usePage().props.mensagem?.class" role="alert">
+                {{ usePage().props.mensagem?.texto }}
+            </div>
+            <Link v-if="!user.email_verified_at" class="link-plain" href="/perfil/verificar/reenviar">
+                <div class="alert alert-warning" role="alert">
+                    Email Não verificado clique aqui para verificar
+                </div>
+            </Link>
             <div class="mb-3">
                 <label for="nome">Nome Completo</label>
                 <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome" required>
                 <FormError :error="form.errors.nome" />
             </div>
-
             <div class="mb-3">
                 <label for="email">E-mail</label>
                 <input id="email" v-model="form.email" class="form-control" type="email" autocomplete="email" required>
                 <FormError :error="form.errors.email" />
             </div>
-
             <div class="mb-3">
                 <label for="cpf_cnpj">CPF ou CNPJ</label>
                 <input id="cpf_cnpj" ref="elCpfCnpj" v-model="form.cpf_cnpj" class="form-control" type="text" autocomplete="cpf_cnpj" required>
@@ -64,32 +69,21 @@ function submit() {
                 <FormError :error="form.errors.cpf" />
                 <FormError :error="form.errors.cnpj" />
             </div>
-
             <div class="mb-3">
                 <label for="celular">Celular</label>
                 <input id="celular" ref="elCelular" v-model="form.celular" class="form-control" type="text" autocomplete="celular" required>
                 <FormError :error="form.errors.celular" />
             </div>
-
             <div class="mb-3">
                 <label for="password">Senha</label>
                 <Senha v-model="form.password" name="password" :error="form.errors.password" />
                 <FormError :error="form.errors.password" />
             </div>
-
             <div class="mb-3">
                 <button class="btn btn-primary" type="submit">
                     Atualizar
                 </button>
             </div>
         </form>
-        <div v-if="!user.email_verified_at" class="alert alert-warning" role="alert">
-            Email Não verificado
-            <div class="d-flex justify-content-end">
-                <Link href="/perfil/verificar/reenviar" class="btn btn-primary">
-                    Reenviar
-                </Link>
-            </div>
-        </div>
     </PerfilLayout>
 </template>
