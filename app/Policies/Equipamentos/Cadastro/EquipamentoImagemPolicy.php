@@ -8,16 +8,16 @@ class EquipamentoImagemPolicy
 {
     public function ver(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('administracao.permissoes.equipamento.imagens:ver');
+        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:ver');
     }
 
     public function adicionar(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('administracao.permissoes.equipamento.imagens:adicionar');
+        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:adicionar');
     }
 
     public function deletar(Usuario $usuario): bool
     {
-        return $usuario->hasPermissionTo('administracao.permissoes.equipamento.imagens:deletar');
+        return $usuario->hasPermissionTo('equipamentos.cadastro.equipamento.imagem:deletar');
     }
 }

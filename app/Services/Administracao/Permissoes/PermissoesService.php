@@ -120,6 +120,13 @@ class PermissoesService
                     $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
                 });
 
+                $grupo->grupo('Equipamento Imagem', 'equipamento.imagem', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
+                });
+
                 $grupo->grupo('Modelo', 'modelo', function (GrupoPermissao $grupo): void {
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Criar', 'criar');
