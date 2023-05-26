@@ -23,7 +23,7 @@ RUN apt update && \
 
 COPY . ./
 COPY --from=node-build /app/public/build public/build
-COPY --from=elastic-apm /app/apm-agent-php-1.8.4/src/* /elastic-apm
+COPY --from=elastic-apm /app/apm-agent-php-1.8.4/src /elastic-apm
 RUN chmod -R 777 /elastic-apm
 
 RUN composer install --optimize-autoloader --no-dev
