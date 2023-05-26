@@ -23,10 +23,11 @@ RUN apt update && \
 
 COPY . ./
 COPY --from=node-build /app/public/build public/build
+
 COPY --from=elastic-apm /app/apm-agent-php-1.8.4/src /elastic-apm
-RUN chmod -R 777 /elastic-apm
+RUN cp /app/docker/prod/elastic-apm/elastic-apm.ini /usr/local/etc/php/conf.d/elastic-apm.ini
 
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_web.sh
-RUN chmod -R 777 public/build
-RUN cp /app/docker/prod/config.ini /usr/local/etc/php/conf.d/config.ini
+RUN chmod -R 755 public/build
+RUN cp /app/docker/prod/config-web.ini /usr/local/etc/php/conf.d/config.ini
