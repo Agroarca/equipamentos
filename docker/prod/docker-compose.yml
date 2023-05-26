@@ -16,12 +16,10 @@ services:
         expose:
             - 9000
         networks:
+            - equipamentos
             - database
             - nginx
             - elastic
-        links:
-            - redis
-            - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
     equipamentos_queue:
@@ -34,6 +32,7 @@ services:
             - /var/www/equipamentos/storage:/app/storage
             - /var/www/equipamentos/elastic-apm-queue.ini:/usr/local/etc/php/conf.d/elastic-apm-queue.ini:ro
         networks:
+            - equipamentos
             - database
             - nginx
             - elastic
@@ -53,6 +52,7 @@ services:
             - 9601
         restart: always
         networks:
+            - equipamentos
             - nginx
         environment:
             DEBUG: false
@@ -72,6 +72,8 @@ services:
             - 6379:6379
         expose:
             - 6379
+        networks:
+            - equipamentos
         restart: always
         deploy:
             resources:
@@ -79,6 +81,8 @@ services:
                     memory: 200M
 
 networks:
+    equipamentos:
+        name: equipamentos
     database:
         name: database
         external: true
