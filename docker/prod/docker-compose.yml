@@ -17,17 +17,13 @@ services:
             - 9000
         networks:
             - database
-            - socketi
             - nginx
+            - elastic
+        links:
             - redis
+            - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
-        # healthcheck:
-        #     test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
-        #     interval: 30s
-        #     timeout: 10s
-        #     retries: 2
-        #     start_period: 2m
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -39,9 +35,11 @@ services:
             - /var/www/equipamentos/elastic-apm-queue.ini:/usr/local/etc/php/conf.d/elastic-apm-queue.ini:ro
         networks:
             - database
-            - socketi
             - nginx
+            - elastic
+        links:
             - redis
+            - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
     socketi:
@@ -55,7 +53,6 @@ services:
             - 9601
         restart: always
         networks:
-            - socketi
             - nginx
         environment:
             DEBUG: false
@@ -76,8 +73,6 @@ services:
         expose:
             - 6379
         restart: always
-        networks:
-            - redis
         deploy:
             resources:
                 limits:
@@ -86,12 +81,13 @@ services:
 networks:
     database:
         name: database
-    socketi:
-        name: socketi
+        external: true
     nginx:
         name: nginx
-    redis:
-        name: redis
+        external: true
+    elastic:
+        name: elastic
+        external: true
 
 volumes:
     equipamentos-public:
