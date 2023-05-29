@@ -38,11 +38,6 @@ class EquipamentoPolicy
             ->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editarCaracteristicas');
     }
 
-    public function editarImagens(Usuario $usuario): bool
-    {
-        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:editarImagens');
-    }
-
     public function excluir(Usuario $usuario): bool
     {
         return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento:excluir');
