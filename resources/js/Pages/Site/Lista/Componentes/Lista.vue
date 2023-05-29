@@ -22,7 +22,7 @@ const props = defineProps({
                     </h2>
                 </slot>
             </div>
-            <Filtro :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
+            <Filtro v-if="filtros.valor.maximo != null" :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
             <div v-if="equipamentos.data.length == 0">
                 <div class="alert alert-danger">
                     Nenhum equipamento encontrado
