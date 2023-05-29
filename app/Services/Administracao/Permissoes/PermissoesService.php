@@ -141,6 +141,13 @@ class PermissoesService
                     $grupo->permissao('Excluir', 'excluir');
                     $grupo->permissao('Mover', 'mover');
                 });
+            })
+            ->grupo('Caracteristicas', 'caracteristicas', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Caracteristica', 'caracteristica', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Excluir', 'excluir');
+                });
             });
     }
 }

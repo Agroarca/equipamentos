@@ -16,9 +16,10 @@ class CaracteristicasTest extends TestCase
 
     public function testPodeAcessar(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:ver');
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$categoria->id/caracteristicas");
 
         $response->assertStatus(200);
@@ -31,9 +32,10 @@ class CaracteristicasTest extends TestCase
 
     public function testPodeAcessarCriar(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$categoria->id/caracteristicas/criar");
 
         $response->assertStatus(200);
@@ -46,10 +48,11 @@ class CaracteristicasTest extends TestCase
 
     public function testNaoPodeCriarNomeMinimo(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(2);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
@@ -67,10 +70,11 @@ class CaracteristicasTest extends TestCase
 
     public function testNaoPodeCriarNomeMaximo(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(100);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
@@ -88,10 +92,11 @@ class CaracteristicasTest extends TestCase
 
     public function testNaoPodeCriarTipoInvalido(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => 150,
@@ -109,10 +114,11 @@ class CaracteristicasTest extends TestCase
 
     public function testNaoPodeCriarSemObrigatorio(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Booleano->value,
@@ -128,10 +134,11 @@ class CaracteristicasTest extends TestCase
 
     public function testNaoPodeCriarMaximoMenorMinimo(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Inteiro->value,
@@ -152,9 +159,10 @@ class CaracteristicasTest extends TestCase
 
     public function testPodeVisualizar(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:ver');
         $caracteristica = Caracteristica::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/visualizar");
 
         $response->assertStatus(200);
@@ -167,9 +175,10 @@ class CaracteristicasTest extends TestCase
 
     public function testPodeExcluir(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:excluir');
         $caracteristica = Caracteristica::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/excluir");
 
         $response->assertRedirectToRoute('admin.categorias.caracteristicas', $caracteristica->categoria_id);

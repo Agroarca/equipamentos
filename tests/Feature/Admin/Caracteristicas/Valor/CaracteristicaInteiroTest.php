@@ -18,7 +18,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiro(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -27,7 +27,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -53,7 +53,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarDecimal(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -62,7 +62,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -81,7 +81,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarString(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -90,7 +90,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -109,7 +109,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMinMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -120,7 +120,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -146,7 +146,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -156,7 +156,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -182,7 +182,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testPodeSalvarInteiroMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -192,7 +192,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -218,7 +218,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMenorMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -229,7 +229,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -248,7 +248,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMenorMinSemMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -258,7 +258,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -277,7 +277,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMaiorMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -288,7 +288,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -307,7 +307,7 @@ class CaracteristicaInteiroTest extends TestCase
 
     public function testNaoPodeSalvarInteiroMaiorMaxSemMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -317,7 +317,7 @@ class CaracteristicaInteiroTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]

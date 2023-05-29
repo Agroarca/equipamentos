@@ -18,7 +18,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarString(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -27,7 +27,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -53,7 +53,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMinMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -64,7 +64,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -90,7 +90,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -100,7 +100,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -126,7 +126,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeSalvarTextoCurtoMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(100);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -136,7 +136,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -162,7 +162,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMenorMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -173,7 +173,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -192,7 +192,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMenorMinSemMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(5);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -202,7 +202,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -221,7 +221,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMaiorMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -232,7 +232,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -251,7 +251,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeSalvarTextoCurtoMaiorMaxSemMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(5000);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::TextoCurto,
@@ -261,7 +261,7 @@ class CaracteristicaTextoCurtoTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
