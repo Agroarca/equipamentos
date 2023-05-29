@@ -10,6 +10,7 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -169,6 +170,7 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeAdicionarImagem(): void
     {
+        $equipService = app(EquipamentoService::class);
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(25);
@@ -180,7 +182,7 @@ class CadastrarEquipamentoTest extends TestCase
                 'imagem' => $imagem
             ]);
 
-        Storage::assertExists(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        Storage::assertExists($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertValid();
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
@@ -191,18 +193,21 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeExcluirImagem(): void
     {
+        $equipService = app(EquipamentoService::class);
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();
         $equipamentoImagem->nome_arquivo = $imagem->hashName();
         $equipamentoImagem->save();
 
-        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        $imagem->storeAs($equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName());
 
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/excluir");
 
-        Storage::assertMissing(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        Storage::assertMissing(
+            $equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName()
+        );
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'id' => $equipamentoImagem->id,
@@ -211,13 +216,14 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeContinuarComImagemCadastrada(): void
     {
+        $equipService = app(EquipamentoService::class);
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();
         $equipamentoImagem->nome_arquivo = $imagem->hashName();
         $equipamentoImagem->save();
 
-        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        $imagem->storeAs($equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName());
         $response = $this->actingAs($this->getUsuario())
             ->get("/equipamento/$equipamentoImagem->equipamento_id/imagens/continuar");
 
@@ -452,9 +458,9 @@ class CadastrarEquipamentoTest extends TestCase
         EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($this->getUsuario())
-        ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
-            "carac-$caracteristicaObrigatoria->id" => Str::random(200),
-        ]);
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaObrigatoria->id" => Str::random(200),
+            ]);
 
         $response->assertValid();
         $response->assertRedirectToRoute('site.equipamento.finalizar', $equipamento->id);
@@ -469,11 +475,11 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->getUsuario())
-        ->get("/equipamento/{$equipamento->id}/caracteristicas");
+            ->get("/equipamento/{$equipamento->id}/caracteristicas");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-        ->component('Site/Equipamento/Cadastrar/Caracteristicas'));
+            ->component('Site/Equipamento/Cadastrar/Caracteristicas'));
     }
 
     public function testMudarStatusParaCriadoAposSalvarCaracteristica(): void
@@ -495,9 +501,9 @@ class CadastrarEquipamentoTest extends TestCase
         EquipamentoImagem::factory()->create(['equipamento_id' => $equipamento->id]);
 
         $response = $this->actingAs($usuario)
-        ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
-            "carac-$caracteristicaObrigatoria->id" => Str::random(200),
-        ]);
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaObrigatoria->id" => Str::random(200),
+            ]);
 
         $response->assertStatus(302);
         $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [

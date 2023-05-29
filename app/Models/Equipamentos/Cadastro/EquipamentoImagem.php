@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Equipamentos\Cadastro\EquipamentoService;
 
 class EquipamentoImagem extends Model
 {
@@ -26,9 +27,10 @@ class EquipamentoImagem extends Model
 
     public function url(): Attribute
     {
+        $equipService = app(EquipamentoService::class);
         return Attribute::make(
             get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.imagens.equipamentos') . $attributes['nome_arquivo']
+                $equipService->getStoragePathImagem($attributes['equipamento_id']) . $attributes['nome_arquivo']
             )
         );
     }

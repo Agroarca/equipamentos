@@ -12,6 +12,7 @@ use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Usuario;
+use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ use Inertia\Inertia;
 class EquipamentoController extends Controller
 {
     public function __construct(
-        private EquipamentoCaracteristicaService $equipCaracService
+        private EquipamentoCaracteristicaService $equipCaracService,
+        private EquipamentoService $equipService
     ) {
     }
 
@@ -122,7 +124,8 @@ class EquipamentoController extends Controller
         Gate::authorize('aprovarReprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
-        if ($equipamento->status === StatusEquipamento::Aprovado
+        if (
+            $equipamento->status === StatusEquipamento::Aprovado
             || $equipamento->status === StatusEquipamento::Reprovado
         ) {
             return abort(403, 'Ação não permitida');
@@ -189,7 +192,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($equipamentoId);
 
         $file = $request->file('imagem');
-        $file->store(config('equipamentos.imagens.equipamentos'));
+        $file->store($this->equipService->getStoragePathImagem($equipamento->id));
 
         $imagem = new EquipamentoImagem();
         $imagem->descricao = $request->input('descricao');
@@ -205,7 +208,7 @@ class EquipamentoController extends Controller
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
         Gate::authorize('deletar', $imagem);
 
-        Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
+        Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);

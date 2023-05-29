@@ -56,4 +56,12 @@ class EquipamentoService
 
         return $caracteristicasFaltantesObrigatorias !== 0;
     }
+
+    /**
+     * Retorna o caminho da pasta de armazenamento das imagens do equipamento
+     */
+    public function getStoragePathImagem(int $equipamentoId): string
+    {
+        return config('equipamentos.imagens.equipamentos') . $equipamentoId . '/';
+    }
 }

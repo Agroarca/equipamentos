@@ -14,7 +14,7 @@ class UsuarioFactory extends Factory
     {
         return [
             'nome' => fake()->name(),
-            'email' => fake()->safeEmail(),
+            'email' => strtolower(Str::random(20)) . '@example.com',
             'cpf' => '22018399055',
             'celular' => '5491111112',
             'email_verified_at' => now(),
