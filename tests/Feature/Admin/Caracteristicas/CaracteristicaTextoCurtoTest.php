@@ -15,10 +15,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeCriarTextoCurto(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoCurto->value,
@@ -36,10 +37,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testPodeCriarTextoCurtoTamanhos(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoCurto->value,
@@ -61,10 +63,11 @@ class CaracteristicaTextoCurtoTest extends TestCase
 
     public function testNaoPodeCriarTextoCurtoQuantidade(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::TextoCurto->value,

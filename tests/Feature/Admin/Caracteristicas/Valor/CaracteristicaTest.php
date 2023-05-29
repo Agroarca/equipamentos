@@ -20,7 +20,7 @@ class CaracteristicaTest extends TestCase
 
     public function testRecebeCaracteristicaAcessarEquipamento(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $categoria = Categoria::factory()->create();
         $caracteristica = Caracteristica::factory()->create([
             'categoria_id' => $categoria->id,
@@ -29,7 +29,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
@@ -42,7 +42,7 @@ class CaracteristicaTest extends TestCase
 
     public function testRecebeTodasCaracteristicasAcessarEquipamento(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $categoria = Categoria::factory()->create();
         Caracteristica::factory()->count(3)->create([
             'categoria_id' => $categoria->id,
@@ -51,7 +51,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
@@ -62,13 +62,13 @@ class CaracteristicaTest extends TestCase
 
     public function testRecebeCaracteristicaOpcaoAcessarEquipamento(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristicaOpcao->caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
@@ -84,7 +84,7 @@ class CaracteristicaTest extends TestCase
 
     public function testPodeSalvarDiversasCarac(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -103,7 +103,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
                 "carac-$caracteristicaInteiro->id" => 10,
                 "carac-$caracteristicaDecimal->id" => 20.5,
@@ -128,7 +128,7 @@ class CaracteristicaTest extends TestCase
 
     public function testPodeEnviarSemNaoObrigatorias(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
@@ -146,7 +146,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristicaInteiro->id" => $valor]
@@ -166,7 +166,7 @@ class CaracteristicaTest extends TestCase
 
     public function testNaoPodeEnviarSemObrigatorias(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -183,7 +183,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristicaInteiro->id" => 10]
@@ -202,7 +202,7 @@ class CaracteristicaTest extends TestCase
 
     public function testPodeSalvarNovamente(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Inteiro,
@@ -211,7 +211,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -235,7 +235,7 @@ class CaracteristicaTest extends TestCase
         ]);
 
         $valor = 15;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -261,7 +261,7 @@ class CaracteristicaTest extends TestCase
 
     public function testRecebeCaracteristicaCategoriaMae(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $categoria = Categoria::factory()->comCategoriaMae()->create();
 
         Caracteristica::factory()->create([
@@ -276,7 +276,7 @@ class CaracteristicaTest extends TestCase
             'categoria_id' => $categoria->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamento->id/editar/caracteristicas");
 
         $response->assertStatus(200);
