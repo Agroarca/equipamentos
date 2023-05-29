@@ -39,6 +39,28 @@ class EquipamentoImagemTest extends TestCase
         ]);
     }
 
+    public function testNaoPodeEnviarImagemSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        Storage::fake();
+        $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
+        $descricao = Str::random(25);
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
+                'descricao' => $descricao,
+                'imagem' => $imagem
+            ]);
+
+        Storage::assertMissing(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
+            'descricao' => $descricao,
+            'equipamento_id' => $equipamento->id,
+        ]);
+    }
+
     public function testNaoPodeEnviarDescricaoMinimo(): void
     {
         $equipService = app(EquipamentoService::class);
@@ -151,6 +173,27 @@ class EquipamentoImagemTest extends TestCase
         );
         $response->assertRedirectToRoute('admin.equipamentos.editarImagens', $equipamentoImagem->equipamento_id);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
+            'id' => $equipamentoImagem->id,
+        ]);
+    }
+
+    public function testNaoPodeExcluirImagemSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        Storage::fake();
+        $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
+        $equipamentoImagem = EquipamentoImagem::factory()->make();
+        $equipamentoImagem->nome_arquivo = $imagem->hashName();
+        $equipamentoImagem->save();
+
+        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
+
+        Storage::assertExists(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
             'id' => $equipamentoImagem->id,
         ]);
     }
