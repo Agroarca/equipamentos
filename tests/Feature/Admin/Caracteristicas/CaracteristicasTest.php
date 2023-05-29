@@ -27,7 +27,18 @@ class CaracteristicasTest extends TestCase
             ->component('Admin/Equipamentos/Caracteristicas/Inicio')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
-        ->has('tipos', count(TipoCaracteristica::toArray())));
+            ->has('tipos', count(TipoCaracteristica::toArray())));
+    }
+
+    public function testNaoPodeAcessarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/categorias/$categoria->id/caracteristicas");
+
+        $response->assertStatus(403);
     }
 
     public function testPodeAcessarCriar(): void
@@ -43,7 +54,18 @@ class CaracteristicasTest extends TestCase
             ->component('Admin/Equipamentos/Caracteristicas/Criar')
             ->has('categoria')
             ->where('categoria.id', $categoria->id)
-        ->has('tipos', count(TipoCaracteristica::toArray())));
+            ->has('tipos', count(TipoCaracteristica::toArray())));
+    }
+
+    public function testNaoPodeAcessarCriarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/categorias/$categoria->id/caracteristicas/criar");
+
+        $response->assertStatus(403);
     }
 
     public function testNaoPodeCriarNomeMinimo(): void
@@ -170,7 +192,18 @@ class CaracteristicasTest extends TestCase
             ->component('Admin/Equipamentos/Caracteristicas/Visualizar')
             ->has('caracteristica')
             ->where('caracteristica.id', $caracteristica->id)
-        ->has('tipos', count(TipoCaracteristica::toArray())));
+            ->has('tipos', count(TipoCaracteristica::toArray())));
+    }
+
+    public function testNaoPodeVisualizarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $caracteristica = Caracteristica::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/visualizar");
+
+        $response->assertStatus(403);
     }
 
     public function testPodeExcluir(): void
@@ -185,5 +218,16 @@ class CaracteristicasTest extends TestCase
         $this->assertDatabaseMissing(app(Caracteristica::class)->getTable(), [
             'id' => $caracteristica->id,
         ]);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $caracteristica = Caracteristica::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/excluir");
+
+        $response->assertStatus(403);
     }
 }
