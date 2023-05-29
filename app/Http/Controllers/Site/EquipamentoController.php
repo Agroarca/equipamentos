@@ -23,7 +23,7 @@ class EquipamentoController extends Controller
 {
     public function __construct(
         private EquipamentoCaracteristicaService $equipCaracService,
-        private EquipamentoService $equipCadService
+        private EquipamentoService $equipService
     ) {
     }
 
@@ -97,7 +97,7 @@ class EquipamentoController extends Controller
         $equipamento = Equipamento::findOrFail($id);
 
         $file = $request->file('imagem');
-        $file->store(config('equipamentos.imagens.equipamentos'));
+        $file->store($this->equipService->getStoragePathImagem($equipamento->id));
 
         $imagem = new EquipamentoImagem();
         $imagem->descricao = $request->input('descricao');
@@ -112,7 +112,7 @@ class EquipamentoController extends Controller
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $id)->findOrFail($imagemId);
 
-        Storage::delete(config('equipamentos.imagens.equipamentos') . '/' . $imagem->nome_arquivo);
+        Storage::delete($this->equipService->getStoragePathImagem($id) . $imagem->nome_arquivo);
         $imagem->delete();
 
         return redirect()->route('site.equipamento.imagens', $id);
@@ -121,7 +121,7 @@ class EquipamentoController extends Controller
     public function imagensContinuar($id)
     {
         $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
-        if (!$this->equipCadService->temImagem($equipamento)) {
+        if (!$this->equipService->temImagem($equipamento)) {
             throw ValidationException::withMessages(['imagem' => 'É necessário cadastrar pelo menos uma imagem.']);
         }
         if ($equipamento->passo_cadastro < 2) {
@@ -136,7 +136,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if (!$this->equipCadService->temImagem($equipamento)) {
+        if (!$this->equipService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
@@ -159,11 +159,11 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if (!$this->equipCadService->temImagem($equipamento)) {
+        if (!$this->equipService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
-        if (!$this->equipCadService->temDescricao($equipamento)) {
+        if (!$this->equipService->temDescricao($equipamento)) {
             return abort(403, 'Descrição não cadastrada');
         }
 
@@ -199,15 +199,15 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::with('imagens')->findOrFail($id);
 
-        if (!$this->equipCadService->temImagem($equipamento)) {
+        if (!$this->equipService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
 
-        if (!$this->equipCadService->temDescricao($equipamento)) {
+        if (!$this->equipService->temDescricao($equipamento)) {
             return abort(403, 'Descrição não cadastrada');
         }
 
-        if ($this->equipCadService->faltamCaracteristicasObrigatorias($equipamento)) {
+        if ($this->equipService->faltamCaracteristicasObrigatorias($equipamento)) {
             return abort(403, 'Características não cadastradas');
         }
 

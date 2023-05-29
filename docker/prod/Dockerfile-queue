@@ -12,5 +12,10 @@ RUN apt update && \
     echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
 COPY . ./
+
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_queue.sh
+
+#elastic APM
+COPY --from=elastic-apm /app/apm-agent-php-1.8.4/src /elastic-apm
+RUN cp /app/docker/prod/elastic-apm/elastic-apm.ini /usr/local/etc/php/conf.d/elastic-apm.ini

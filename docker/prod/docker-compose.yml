@@ -10,7 +10,7 @@ services:
         volumes:
             - /var/www/equipamentos/storage:/app/storage
             - equipamentos-public:/app/public
-            - /var/www/equipamentos/elastic-apm-web.ini:/usr/local/etc/php/conf.d/elastic-apm-web.ini:ro
+            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         ports:
             - 9000:9000
         expose:
@@ -22,6 +22,8 @@ services:
             - elastic
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
+        environment:
+            - ELASTIC_APM_SERVICE_NODE_NAME=web
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -30,7 +32,7 @@ services:
             dockerfile: docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/storage:/app/storage
-            - /var/www/equipamentos/elastic-apm-queue.ini:/usr/local/etc/php/conf.d/elastic-apm-queue.ini:ro
+            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         networks:
             - equipamentos
             - database
@@ -41,6 +43,8 @@ services:
             - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
+        environment:
+            - ELASTIC_APM_SERVICE_NODE_NAME=queue
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
