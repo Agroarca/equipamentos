@@ -35,6 +35,15 @@ class EquipamentoTest extends TestCase
             ->has('equipamentos.data', 0));
     }
 
+    public function testNaoPodeAcessarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $response = $this->actingAs($usuario)
+            ->get('/admin/equipamentos');
+
+        $response->assertStatus(403);
+    }
+
     public function testPodeAcessarComDados(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:ver');
@@ -50,6 +59,15 @@ class EquipamentoTest extends TestCase
             ->has('equipamentos.data', count($equipamentos)));
     }
 
+    public function testNaoPodeAcessarComDadosSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        Equipamento::factory()->count(3)->create();
+        $response = $this->actingAs($usuario)
+            ->get('/admin/equipamentos');
+        $response->assertStatus(403);
+    }
+
     public function testPodeAcessarCriar(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
@@ -62,6 +80,15 @@ class EquipamentoTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Admin/Equipamentos/Cadastro/Equipamento/Criar')
             ->has('categorias', count($categorias)));
+    }
+
+    public function testNaoPodeAcessarCriarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $response = $this->actingAs($usuario)
+            ->get('/admin/equipamentos/criar');
+
+        $response->assertStatus(403);
     }
 
     public function testPodeCriarComMarcaModeloDinamico(): void
@@ -150,6 +177,24 @@ class EquipamentoTest extends TestCase
         ]);
     }
 
+    public function testNaoPodeCriarNovoSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->make();
+
+        $response = $this->actingAs($usuario)
+            ->post('/admin/equipamentos/salvar', [
+                'titulo' => $equipamento->titulo,
+                'valor' => $equipamento->valor,
+                'ano' => $equipamento->ano,
+                'descricao' => $equipamento->descricao,
+                'modelo_id' => $equipamento->modelo_id,
+                'categoria_id' => $equipamento->categoria_id,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
     public function testNaoPodeCriarMinimo(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:criar');
@@ -212,6 +257,17 @@ class EquipamentoTest extends TestCase
             ->has('equipamento.modelo.marca'));
     }
 
+    public function testNaoPodeAcessarEditarCadastroSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/equipamentos/$equipamento->id/editar");
+
+        $response->assertStatus(403);
+    }
+
     public function testPodeAcessarEditarImagens(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:ver');
@@ -225,6 +281,17 @@ class EquipamentoTest extends TestCase
             ->component('Admin/Equipamentos/Cadastro/Equipamento/Editar/Imagens')
             ->has('equipamento')
             ->where('equipamento.id', $equipamento->id));
+    }
+
+    public function testNaoPodeAcessarEditarImagensSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/equipamentos/$equipamento->id/editar/imagens");
+
+        $response->assertStatus(403);
     }
 
     public function testPodeEditar(): void
@@ -252,6 +319,25 @@ class EquipamentoTest extends TestCase
             'ano' => $novoAno,
             'descricao' => $equipamento->descricao,
         ]);
+    }
+
+    public function testNaoPodeEditarSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create();
+        $novoTitulo = Str::random(50);
+        $novoAno = 2005;
+
+        $response = $this->actingAs($usuario)
+            ->post("/admin/equipamentos/$equipamento->id/atualizar", [
+                'titulo' => $novoTitulo,
+                'ano' => $novoAno,
+                'id' => $equipamento->id,
+                'valor' => $equipamento->valor,
+                'descricao' => $equipamento->descricao,
+            ]);
+
+        $response->assertStatus(403);
     }
 
     public function testNaoPodeEditarMinimo(): void
@@ -304,6 +390,17 @@ class EquipamentoTest extends TestCase
         $this->assertDatabaseMissing(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id,
         ]);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        $usuario = $this->getAdmin();
+        $equipamento = Equipamento::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->get("/admin/equipamentos/$equipamento->id/excluir");
+
+        $response->assertStatus(403);
     }
 
     public function testPodePesquisar(): void
