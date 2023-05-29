@@ -16,11 +16,39 @@ class RegistroTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testPodeRegistrarNomeComAssento(): void
+    {
+        $response = $this->post('/registrar', [
+            'nome' => 'Usuário Teste',
+            'email' => 'test@example.com',
+            'cpf_cnpj' => '243.287.440-46',
+            'celular' => '(54) 9111-1111',
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    public function testPodeRegistrarNomeSemSobrenomeSeForPessoaJuridica(): void
+    {
+        $response = $this->post('/registrar', [
+            'nome' => 'Usuario',
+            'email' => 'test566@example.com',
+            'cpf_cnpj' => '52.385.899/0001-01',
+            'celular' => '(54) 9111-11111',
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
     public function testPodeRegistrarCpfFormatado(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
-            'email' => 'test@example.com',
+            'email' => 'test90@example.com',
             'cpf_cnpj' => '243.287.440-46',
             'celular' => '(54) 9111-1111',
             'password' => 'Password123',
@@ -70,6 +98,19 @@ class RegistroTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    public function testNaoPodeRegistrarNomeSemSobrenomeSeForPessoaFisica(): void
+    {
+        $response = $this->post('/registrar', [
+            'nome' => 'Usuario',
+            'email' => 'test10@example.com',
+            'cpf_cnpj' => '243.287.440-46',
+            'celular' => '54 3111 1111',
+            'password' => 'Password123',
+        ]);
+
+        $response->assertInvalid(['nome']);
     }
 
     public function testNaoPodeRegistrarCpfInvalido(): void
@@ -176,7 +217,7 @@ class RegistroTest extends TestCase
         $response->assertInvalid(['password']);
     }
 
-    public function testNaoPodeRegistrarSemMinimoDe8CaracteresNaSenha(): void
+    public function testNaoPodeRegistrarSemMinimoDeOitoCaracteresNaSenha(): void
     {
         $response = $this->post('/registrar', [
             'nome' => 'Usuario Teste',
