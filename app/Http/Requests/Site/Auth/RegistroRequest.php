@@ -6,6 +6,7 @@ use App\Enums\Usuario\TipoPessoa;
 use App\Rules\Usuario\CNPJ;
 use App\Rules\Usuario\CPF;
 use App\Rules\Usuario\CpfOuCnpj;
+use App\Rules\Usuario\Nome;
 use App\Rules\Usuario\Telefone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,6 @@ class RegistroRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'regex:/^[\p{L}]+(?: [\p{L}]+)*$/u',
             ],
             'email' => [
                 'required',
@@ -76,7 +76,14 @@ class RegistroRequest extends FormRequest
                 Password::min(8)->mixedCase()->numbers(),
             ];
         }
-
+        if ($this->has('cpf')) {
+            $rules['nome'] = [
+                'required',
+                'string',
+                'max:255',
+                new Nome(),
+            ];
+        }
         return $rules;
     }
 
