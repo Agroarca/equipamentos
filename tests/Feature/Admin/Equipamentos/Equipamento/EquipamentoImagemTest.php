@@ -41,6 +41,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeEnviarImagemSemPermissao(): void
     {
+        $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdmin();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
@@ -53,7 +54,7 @@ class EquipamentoImagemTest extends TestCase
                 'imagem' => $imagem
             ]);
 
-        Storage::assertMissing(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertStatus(403);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'descricao' => $descricao,
@@ -179,6 +180,7 @@ class EquipamentoImagemTest extends TestCase
 
     public function testNaoPodeExcluirImagemSemPermissao(): void
     {
+        $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdmin();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
@@ -186,12 +188,14 @@ class EquipamentoImagemTest extends TestCase
         $equipamentoImagem->nome_arquivo = $imagem->hashName();
         $equipamentoImagem->save();
 
-        $imagem->storeAs(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        $imagem->storeAs($equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName());
 
         $response = $this->actingAs($usuario)
             ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
 
-        Storage::assertExists(config('equipamentos.imagens.equipamentos') . '/' . $imagem->hashName());
+        Storage::assertExists(
+            $equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName()
+        );
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
             'id' => $equipamentoImagem->id,
