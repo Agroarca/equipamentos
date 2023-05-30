@@ -16,14 +16,14 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testPodeSalvarOpcao(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
                 "carac-$caracteristica->id" => $caracteristicaOpcao->id,
             ]);
@@ -49,14 +49,14 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testNaoPodeSalvarOpcaoInvalida(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
         $equipamento = Equipamento::factory()->create([
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/caracteristicas/salvar", [
                 "carac-$caracteristica->id" => ($caracteristicaOpcao->id + 1),
             ]);

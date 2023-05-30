@@ -20,6 +20,10 @@ services:
             - redis
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_web.sh'
+        deploy:
+            resources:
+                limits:
+                    memory: 2G
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
