@@ -30,6 +30,34 @@ class RegistroTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
+    public function testPodeCadastrarNomeGrande(): void
+    {
+        $response = $this->post('/registrar', [
+            'nome' => 'Usuário Teste com nome muito grande para testar o limite de caracteres',
+            'email' => 'test@example.com',
+            'cpf_cnpj' => '243.287.440-46',
+            'celular' => '(54) 9111-1111',
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    public function testPodeRegistrarNomeComHifen(): void
+    {
+        $response = $this->post('/registrar', [
+            'nome' => 'Usuário Teste-Teste',
+            'email' => 'test@example.com',
+            'cpf_cnpj' => '243.287.440-46',
+            'celular' => '(54) 9111-1111',
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
     public function testPodeRegistrarNomeSemSobrenomeSeForPessoaJuridica(): void
     {
         $response = $this->post('/registrar', [
