@@ -5,9 +5,10 @@ WORKDIR /app
 
 COPY . ./
 
+RUN cat .env
+
 RUN npm install  && \
-    npm run build && \
-    rm -r node_modules
+    npm run build
 
 # Runner
 FROM php:8.2-fpm
