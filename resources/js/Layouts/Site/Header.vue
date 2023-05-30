@@ -9,6 +9,16 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
 
 let pesquisa = ref('')
 
+let pagina = window.location.pathname.split('/')[1]
+
+let paginasListagem = [
+    'categoria',
+    'marca',
+    'anunciante',
+]
+
+let paginaListagem = paginasListagem.includes(pagina)
+
 function pesquisar() {
     if (pesquisa.value.trim()) {
         router.visit(`/pesquisa/${pesquisa.value}`)
@@ -39,8 +49,17 @@ function pesquisar() {
                 </div>
                 <div class="header-item search-container input-group order-5 order-md-2">
                     <form class="d-flex w-100" @submit.prevent="pesquisar()">
-                        <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                        <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
+                        <div class="input-group form-check">
+                            <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
+                            <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
+                            <span class="input-group-text">
+
+                                <input id="CheckPesquisa" class="form-check-input check-pesquisa" type="checkbox" value="" checked>
+                                <label class="form-check-label" for="CheckPesquisa">
+                                    Pesquisar apenas em {{ pagina }}
+                                </label>
+                            </span>
+                        </div>
                         <button type="submit">
                             <i class="fa fa-search" />
                         </button>
