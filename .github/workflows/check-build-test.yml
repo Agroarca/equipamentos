@@ -60,7 +60,7 @@ jobs:
             php artisan key:generate
 
       - name: Run Testsuite
-        run: php artisan test --coverage
+        run: php artisan test
 
       - name: Check composer vulnerabilities
         run: composer audit --locked
