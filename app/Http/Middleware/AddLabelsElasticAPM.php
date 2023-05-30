@@ -14,7 +14,7 @@ class AddLabelsElasticAPM
     public function handle(Request $request, Closure $next): Response
     {
         Log::info('AddLabelsElasticAPM -> elastic_apm.enabled: ' . ini_get('elastic_apm.enabled') . ' - Auth::check(): ' .
-        Auth::check() . ' - Result: ' . (ini_get('elastic_apm.enabled') && Auth::check()));
+        Auth::check() . ' - Result: ' . (ini_get('elastic_apm.enabled') && Auth::check()) . ' - user: ' . print_r(Auth::user(), true)));
         if (ini_get('elastic_apm.enabled') && Auth::check()) {
             $usuario = Auth::user();
             Log::info('AddLabelsElasticAPM -> userId: ' . $usuario->id);
