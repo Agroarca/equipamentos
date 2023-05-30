@@ -403,7 +403,7 @@ class ListaTest extends TestCase
     {
         $anunciante = Usuario::factory()->create();
 
-        $equipamentos = Equipamento::factory()->statusAprovado()->count(4)->create([
+        Equipamento::factory()->statusAprovado()->count(4)->create([
             'usuario_id' => $anunciante->id,
         ]);
 
