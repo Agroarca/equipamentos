@@ -14,7 +14,7 @@ class AddLabelsElasticAPM
     public function handle(Request $request, Closure $next): Response
     {
         Log::info('AddLabelsElasticAPM -> elastic_apm.enabled: ' . ini_get('elastic_apm.enabled'));
-        if (ini_get('elastic_apm.enabled')) {
+        if (ini_get('elastic_apm.enabled') && Auth::check()) {
             $usuario = Auth::user();
             Log::info('AddLabelsElasticAPM -> userId: ' . $usuario->id);
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.id', $usuario->id);
