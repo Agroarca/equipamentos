@@ -386,7 +386,7 @@ class ListaTest extends TestCase
             ->has('equipamentos.data', 1));
     }
 
-    public function testPodeAcessarPaginaAnunciante()
+    public function testPodeAcessarPaginaAnunciante(): void
     {
         $anunciante = Usuario::factory()->create();
 
@@ -399,7 +399,7 @@ class ListaTest extends TestCase
             ->has('anunciante'));
     }
 
-    public function testPodeAcessarPaginAnuncianteComDados()
+    public function testPodeAcessarPaginAnuncianteComDados(): void
     {
         $anunciante = Usuario::factory()->create();
 
