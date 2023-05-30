@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
 import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
@@ -10,6 +11,14 @@ const props = defineProps({
     filtros: Object,
     filtrosSelecionados: Object,
 })
+
+let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
+    || props.equipamentos.data.length > 0
+    || props.filtros.valor.minimo != null
+    || props.filtros.valor.maximo != null
+    || props.filtros.ano.minimo != null
+    || props.filtros.ano.maximo != null)
+
 </script>
 
 <template>
@@ -22,7 +31,7 @@ const props = defineProps({
                     </h2>
                 </slot>
             </div>
-            <Filtro v-if="filtros.valor.maximo != null" :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
+            <Filtro v-if="mostrarFiltros" :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
             <div v-if="equipamentos.data.length == 0">
                 <div class="alert alert-danger">
                     Nenhum equipamento encontrado
