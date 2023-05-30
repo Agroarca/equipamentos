@@ -10,6 +10,7 @@ RUN cat .env
 RUN npm install  && \
     npm run build
 
+RUN ls -la public/build
 # Runner
 FROM php:8.2-fpm
 
@@ -24,6 +25,7 @@ RUN apt update && \
 
 COPY . ./
 COPY --from=node-build /app/public/build public/build
+RUN ls -la public/build
 
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_web.sh
