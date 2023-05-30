@@ -10,7 +10,7 @@ RUN cat .env
 RUN npm install  && \
     npm run build
 
-RUN ls -la public/builda/assets
+RUN ls -la public/build/assets
 # Runner
 FROM php:8.2-fpm
 
