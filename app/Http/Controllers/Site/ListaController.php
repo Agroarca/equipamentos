@@ -64,6 +64,10 @@ class ListaController extends Controller
     {
         $anunciante = Usuario::findOrFail($id);
 
+        if ($this->listaService->queryQuantidadeAnunciante($id) === 0) {
+            return abort(404);
+        }
+
         $filtros = $this->filtroService->filtros(
             $this->listaService->queryListaAnunciante($id)
         );

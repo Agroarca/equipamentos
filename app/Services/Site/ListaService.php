@@ -2,6 +2,7 @@
 
 namespace App\Services\Site;
 
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -126,5 +127,19 @@ class ListaService
                 ->from('usuarios')
                 ->where('usuario_id', $id);
         });
+    }
+
+    /**
+     * Retorna a query com a quantidade de produtos de um anunciante.
+     */
+    public function queryQuantidadeAnunciante(int $id): int
+    {
+        $quantidade = DB::table('equipamentos')
+            ->selectRaw('count(*) as quantidade')
+            ->where('usuario_id', $id)
+            ->where('status', StatusEquipamento::Aprovado->value)
+            ->first();
+
+        return $quantidade->quantidade;
     }
 }
