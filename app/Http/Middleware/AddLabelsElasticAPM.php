@@ -18,7 +18,7 @@ class AddLabelsElasticAPM
         if (ini_get('elastic_apm.enabled') && Auth::check()) {
             $usuario = Auth::user();
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.id', $usuario->id);
-            ElasticApm::getCurrentTransaction()->context()->setLabel('user.name', $usuario->name);
+            ElasticApm::getCurrentTransaction()->context()->setLabel('user.name', $usuario->nome);
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.email', $usuario->email);
         }
 
