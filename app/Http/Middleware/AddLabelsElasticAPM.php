@@ -20,6 +20,10 @@ class AddLabelsElasticAPM
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.id', $usuario->id);
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.name', $usuario->nome);
             ElasticApm::getCurrentTransaction()->context()->setLabel('user.email', $usuario->email);
+
+            ElasticApm::getCurrentTransaction()->context()->user()->setId($usuario->id);
+            ElasticApm::getCurrentTransaction()->context()->user()->setUsername($usuario->nome);
+            ElasticApm::getCurrentTransaction()->context()->user()->setEmail($usuario->email);
         }
 
         return $response;
