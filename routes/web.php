@@ -34,7 +34,7 @@ Route::name('site')->group(function () {
 
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
-    Route::get('pesquisa/{pesquisa}', [SiteController::class, 'pesquisa'])->name('.pesquisa');
+    Route::get('pesquisa/{pesquisa}', [ListaController::class, 'pesquisa'])->name('.pesquisa');
 
     Route::middleware(['auth'])->group(function () {
         Route::name('.equipamento')->prefix('equipamento')->group(function () {

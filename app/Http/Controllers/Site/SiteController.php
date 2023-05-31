@@ -96,10 +96,4 @@ class SiteController extends Controller
 
         return Redirect::route('site.perfil');
     }
-
-    public function pesquisa(string $pesquisa)
-    {
-        $equipamentos = $this->listaservice->queryPesquisa($pesquisa)->paginate(24);
-        return Inertia::render('Site/Equipamento/Pesquisa', compact('equipamentos', 'pesquisa'));
-    }
 }
