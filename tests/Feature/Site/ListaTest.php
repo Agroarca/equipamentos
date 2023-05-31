@@ -8,6 +8,7 @@ use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Lista\Lista;
 use App\Models\Equipamentos\Lista\ProdutoLista;
+use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
@@ -383,5 +384,36 @@ class ListaTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Lista')
             ->has('equipamentos.data', 1));
+    }
+
+    public function testPodeAcessarPaginaAnunciante(): void
+    {
+        $anunciante = Usuario::factory()->create();
+
+        $response = $this->get("/anunciante/$anunciante->id");
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Anunciante/Produtos')
+            ->has('anunciante'));
+    }
+
+    public function testPodeAcessarPaginAnuncianteComDados(): void
+    {
+        $anunciante = Usuario::factory()->create();
+
+        Equipamento::factory()->statusAprovado()->count(4)->create([
+            'usuario_id' => $anunciante->id,
+        ]);
+
+        $response = $this->get("/anunciante/$anunciante->id");
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Anunciante/Produtos')
+            ->has('anunciante')
+            ->has('equipamentos.data', 4));
     }
 }
