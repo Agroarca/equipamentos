@@ -37,11 +37,6 @@ class MenuController extends Controller
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 
-    public function visualizar(Versao $versao, MenuLink $menuLink): mixed
-    {
-        return Inertia::render('Admin/Marketing/PaginaInicial/Menu/Visualizar', compact('menuLink'));
-    }
-
     public function editar(Versao $versao, MenuLink $menuLink): mixed
     {
         if ($versao->status !== StatusVersao::Criado) {
