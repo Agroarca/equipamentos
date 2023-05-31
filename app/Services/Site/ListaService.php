@@ -3,6 +3,7 @@
 namespace App\Services\Site;
 
 use App\Models\Equipamentos\Cadastro\Equipamento;
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -126,5 +127,13 @@ class ListaService
                 ->from('usuarios')
                 ->where('usuario_id', $id);
         });
+    }
+
+    /**
+     * Retorna a query com a quantidade de produtos de um anunciante.
+     */
+    public function queryQuantidadeAnunciante(Usuario $anunciante): int
+    {
+        return $anunciante->equipamentos()->aprovado()->count();
     }
 }
