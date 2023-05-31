@@ -30,7 +30,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->has('filtros')
             ->has('filtrosSelecionados')
@@ -45,7 +45,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 0)
             ->has('filtros')
             ->has('filtrosSelecionados'));
@@ -59,7 +59,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->has('filtros')
             ->has('filtrosSelecionados')
@@ -74,7 +74,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->has('filtros')
             ->has('filtrosSelecionados')
@@ -90,7 +90,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->has('filtros')
             ->has('filtrosSelecionados')

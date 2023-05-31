@@ -75,4 +75,16 @@ class ListaController extends Controller
             ...$filtros
         ]);
     }
+
+    public function pesquisa(string $pesquisa)
+    {
+        $filtros = $this->filtroService->filtros(
+            $this->listaService->queryPesquisa($pesquisa)
+        );
+
+        return Inertia::render('Site/Lista/Pesquisa', [
+            'pesquisa' => $pesquisa,
+            ...$filtros
+        ]);
+    }
 }
