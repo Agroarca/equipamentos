@@ -8,6 +8,7 @@ use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
+use App\Models\Marketing\PaginaInicial\Menu\MenuLink;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
@@ -24,6 +25,9 @@ class PaginaInicialTestBase extends TestCase
         $this->criarLista($versao);
         $grid = $this->criarGrid($versao);
         $this->criarGridImagem($grid, 3);
+        MenuLink::factory()->count(1)->create([
+            'versao_id' => $versao->id,
+        ]);
 
         return $versao;
     }
