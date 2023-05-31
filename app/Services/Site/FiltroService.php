@@ -90,8 +90,8 @@ class FiltroService
     {
         return Marca::select('marcas.id', 'marcas.nome')
             ->whereIn('id', fn ($q) => $q->select('marca_id')
-            ->from('modelos')
-            ->whereIn('id', fn ($q) => $q->select('modelo_id')->from($query)))
+                ->from('modelos')
+                ->whereIn('id', fn ($q) => $q->select('modelo_id')->from($query)))
             ->addSelect([
                 'quantidade' => fn ($q) => $q->selectRaw('count(*)')
                     ->from($query)
@@ -138,6 +138,10 @@ class FiltroService
 
         if (request()->query('ano_minimo') || request()->query('ano_maximo')) {
             $query = $this->filtrarAno($query);
+        }
+
+        if (request()->query('pesquisa')) {
+            $query = $this->filtrarPesquisa($query);
         }
 
         return $query;
@@ -234,6 +238,36 @@ class FiltroService
             $query = $query->where('ano', '<=', request()->query('ano_maximo'));
         }
 
+        return $query;
+    }
+
+    /**
+     * Retorna a query filtrada por pesquisa.
+     */
+    private function filtrarPesquisa(Builder $query): Builder
+    {
+        $pesquisa = request()->query('pesquisa');
+        $query = $query->where(function ($query) use ($pesquisa): void {
+            $query->whereFullText('equipamentos.titulo', $pesquisa)
+                ->orWhere('equipamentos.titulo', 'like', "%$pesquisa%")
+
+                ->orWhereFullText('equipamentos.descricao', $pesquisa)
+                ->orWhere('equipamentos.descricao', 'like', "%$pesquisa%")
+
+                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($pesquisa): void {
+                    $query->select('id')
+                        ->from('modelos')
+                        ->whereFullText('modelos.nome', $pesquisa)
+                        ->orWhere('modelos.nome', 'like', "%$pesquisa%")
+                        ->orWhereIn('marca_id', function ($query) use ($pesquisa): void {
+                            $query->select('id')
+                                ->from('marcas')
+                                ->whereFullText('marcas.nome', $pesquisa)
+                                ->orWhere('marcas.nome', 'like', "%$pesquisa%");
+                        });
+                });
+        });
+        
         return $query;
     }
 

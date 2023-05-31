@@ -22,7 +22,7 @@ let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
 </script>
 
 <template>
-    <SiteLayout :titulo="title">
+    <SiteLayout :titulo="title" lista>
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">

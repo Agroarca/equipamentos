@@ -1,29 +1,12 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-restricted-html-elements */
-import { Link, router, usePage } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
 import Menu from './Menu.vue'
+import Pesquisa from './Pesquisa.vue'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
 
-let pesquisa = ref('')
-
-let pagina = window.location.pathname.split('/')[1]
-
-let paginasListagem = [
-    'categoria',
-    'marca',
-    'anunciante',
-]
-
-let paginaListagem = paginasListagem.includes(pagina)
-
-function pesquisar() {
-    if (pesquisa.value.trim()) {
-        router.visit(`/pesquisa/${pesquisa.value}`)
-    }
-}
 </script>
 
 <template>
@@ -47,24 +30,7 @@ function pesquisar() {
                         <img class="logo" src="/img/logo.png" alt="Página Inicial">
                     </Link>
                 </div>
-                <div class="header-item search-container input-group order-5 order-md-2">
-                    <form class="d-flex w-100" @submit.prevent="pesquisar()">
-                        <div class="input-group form-check">
-                            <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                            <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
-                            <span class="input-group-text">
-
-                                <input id="CheckPesquisa" class="form-check-input check-pesquisa" type="checkbox" value="" checked>
-                                <label class="form-check-label" for="CheckPesquisa">
-                                    Pesquisar apenas em {{ pagina }}
-                                </label>
-                            </span>
-                        </div>
-                        <button type="submit">
-                            <i class="fa fa-search" />
-                        </button>
-                    </form>
-                </div>
+                <Pesquisa />
                 <Link class="header-item profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />
                     <span class="d-none d-xl-block">Minha Conta</span>
