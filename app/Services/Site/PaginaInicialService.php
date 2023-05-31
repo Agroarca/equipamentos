@@ -47,28 +47,51 @@ class PaginaInicialService
     }
 
     /**
+     * Retorna o Menu da Versão Atual da Página Inicial
+     */
+    public function getMenu(): array
+    {
+        $versao = $this->getVersaoAtual();
+        return Cache::tags('pagina-inicial')->remember(
+            "menu-$versao->id",
+            600,
+            fn () => $versao->menuLinks()->orderBy('ordem')->get()->toArray()
+        );
+    }
+
+    /**
      * Retorna a Versão com todos os modelos carregados
      */
     public function carregarVersao(Versao $versao): Versao
     {
-        $versao = Cache::tags('pagina-inicial')->remember(
+        return Cache::tags('pagina-inicial')->remember(
             "versao_$versao->id",
             600,
-            fn () => $versao->load([
-                'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
-                'componentes' => fn ($query) => $query->orderBy('ordem'),
-                'componentes.tipo' => function (MorphTo $morphTo): void {
-                    $morphTo->morphWith([
-                        Grid::class => ['imagens'],
-                        Lista::class => [
-                            'listaProdutos',
-                        ],
-                    ]);
-                },
-            ])
+            fn () => $this->carregarVersaoSemCache($versao)
         );
+    }
+
+    /**
+     * Retorna a Versão com todos os modelos carregados ignorando a cache da pagina inicial
+     */
+    public function carregarVersaoSemCache(Versao $versao): Versao
+    {
+        $versao->load([
+            'menuLinks' => fn ($query) => $query->orderBy('ordem'),
+            'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
+            'componentes' => fn ($query) => $query->orderBy('ordem'),
+            'componentes.tipo' => function (MorphTo $morphTo): void {
+                $morphTo->morphWith([
+                    Grid::class => ['imagens'],
+                    Lista::class => [
+                        'listaProdutos',
+                    ],
+                ]);
+            },
+        ]);
 
         $this->carregarEquipamentosListas($versao);
+
         return $versao;
     }
 
@@ -197,6 +220,12 @@ class PaginaInicialService
      */
     public function validarVersao(Versao $versao): void
     {
+        if ($versao->menuLinks->count() == 0) {
+            throw ValidationException::withMessages([
+                'carrossel' => 'O Menu deve ter pelo menos um item',
+            ]);
+        }
+
         if ($versao->carrosselItens->count() == 0) {
             throw ValidationException::withMessages([
                 'carrossel' => 'O Carrossel Principal deve ter pelo menos um item',

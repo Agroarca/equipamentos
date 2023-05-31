@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Marketing\PaginaInicial\MenuController;
 use App\Http\Controllers\Admin\Marketing\PaginaInicial\BannerController;
 use App\Http\Controllers\Admin\Marketing\PaginaInicial\CarrosselController;
 use App\Http\Controllers\Admin\Marketing\PaginaInicial\GridController;
@@ -37,6 +38,16 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name
             Route::get('componente/{componente}/ordem/acima', [LayoutController::class, 'ordemAcima'])->name('.componente.ordem.acima');
             Route::get('componente/{componente}/ordem/abaixo', [LayoutController::class, 'ordemAbaixo'])->name('.componente.ordem.abaixo');
 
+            Route::prefix('menu')->name('.menu')->group(function () {
+                Route::get('adicionar', [MenuController::class, 'adicionar'])->name('.adicionar');
+                Route::post('salvar', [MenuController::class, 'salvar'])->name('.salvar');
+                Route::get('{menuLink}/editar', [MenuController::class, 'editar'])->name('.editar');
+                Route::post('{menuLink}/atualizar', [MenuController::class, 'atualizar'])->name('.atualizar');
+                Route::get('{menuLink}/visualizar', [MenuController::class, 'visualizar'])->name('.visualizar');
+                Route::get('{menuLink}/excluir', [MenuController::class, 'excluir'])->name('.excluir');
+                Route::get('{menuLink}/ordem/acima', [MenuController::class, 'ordemAcima'])->name('.ordem.acima');
+                Route::get('{menuLink}/ordem/abaixo', [MenuController::class, 'ordemAbaixo'])->name('.ordem.abaixo');
+            });
 
             Route::prefix('carrossel')->name('.carrossel')->group(function () {
                 Route::get('visualizar', [CarrosselController::class, 'visualizar'])->name('.visualizar');

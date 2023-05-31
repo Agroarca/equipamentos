@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
+import { fromPairs, map } from 'lodash'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
@@ -10,10 +11,10 @@ const props = defineProps({
     equipamento: Object,
 })
 
-const valores = []
-props.caracteristicas.forEach((caracteristica) => {
-    valores[`carac-${caracteristica.id}`] = caracteristica.valor
-})
+const valores = fromPairs(map(props.caracteristicas, (caracteristica) => [
+    `carac-${caracteristica.id}`, caracteristica.valor,
+]))
+
 const form = useForm(valores)
 
 function submit() {

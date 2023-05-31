@@ -30,9 +30,9 @@ function pesquisar() {
     <div class="header">
         <div class="header-contact py-2">
             <div class="container contact-container d-flex flex-nowrap">
-                <a :href="usePage().props.dados.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
+                <a :href="usePage().props.site.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
-                    {{ usePage().props.dados.contato.telefone }}
+                    {{ usePage().props.site.contato.telefone }}
                 </a>
                 <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />

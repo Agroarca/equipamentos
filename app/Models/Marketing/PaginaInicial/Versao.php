@@ -4,6 +4,7 @@ namespace App\Models\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
+use App\Models\Marketing\PaginaInicial\Menu\MenuLink;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,5 +37,10 @@ class Versao extends Model
     public function componentes(): HasMany
     {
         return $this->hasMany(Componente::class);
+    }
+
+    public function menuLinks(): HasMany
+    {
+        return $this->hasMany(MenuLink::class);
     }
 }
