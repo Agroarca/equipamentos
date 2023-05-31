@@ -386,20 +386,7 @@ class ListaTest extends TestCase
             ->has('equipamentos.data', 1));
     }
 
-    public function testPodeAcessarPaginaAnunciante(): void
-    {
-        $anunciante = Usuario::factory()->create();
-
-        $response = $this->get("/anunciante/$anunciante->id");
-
-        $response->assertStatus(200);
-
-        $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Anunciante/Produtos')
-            ->has('anunciante'));
-    }
-
-    public function testPodeAcessarPaginAnuncianteComDados(): void
+    public function testPodeAcessarPaginaDeUmAnunciante(): void
     {
         $anunciante = Usuario::factory()->create();
 
@@ -407,13 +394,21 @@ class ListaTest extends TestCase
             'usuario_id' => $anunciante->id,
         ]);
 
-        $response = $this->get("/anunciante/$anunciante->id");
+        $response = $this->get("/anunciante/{$anunciante->id}");
 
         $response->assertStatus(200);
 
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Anunciante/Produtos')
-            ->has('anunciante')
             ->has('equipamentos.data', 4));
+    }
+
+    public function testNaoPodeAcessarPaginaDeUmAnuncianteSemProdutosAnunciados(): void
+    {
+        $anunciante = Usuario::factory()->create();
+
+        $response = $this->get("/anunciante/{$anunciante->id}");
+
+        $response->assertStatus(404);
     }
 }
