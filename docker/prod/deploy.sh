@@ -1,8 +1,12 @@
 #!/bin/bash
 
-cd /var/www/equipamentos/projeto
+
+# permissão para executar o deploy
+cd /var/www/equipamentos
+sudo chmod +x deploy.sh
 
 # atualizar git
+cd /var/www/equipamentos/projeto
 git reset --hard
 git pull
 
@@ -34,6 +38,3 @@ sudo docker compose up -d
 # iniciar nginx
 cd /var/www/nginx
 sudo docker compose up -d
-
-# permissão para executar o deploy
-sudo chmod +x deploy.sh
