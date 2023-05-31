@@ -1,10 +1,5 @@
 #!/bin/bash
 
-
-# permissão para executar o deploy
-cd /var/www/equipamentos
-sudo chmod +x deploy.sh
-
 # atualizar git
 cd /var/www/equipamentos/projeto
 git reset --hard
@@ -12,6 +7,10 @@ git pull
 
 sudo chmod +x docker/prod/docker_entrypoint_web.sh
 sudo chmod +x docker/prod/docker_entrypoint_queue.sh
+
+# permissão para executar o deploy
+cd /var/www/equipamentos
+sudo chmod +x deploy.sh
 
 # build elastic-apm
 cd /var/www/equipamentos/projeto/docker/prod/elastic-apm
