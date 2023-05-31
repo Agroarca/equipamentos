@@ -15,10 +15,11 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testPodeCriarSelecao(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,
@@ -36,10 +37,11 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testNaoPodeCriarSelecaoTamanhos(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,
@@ -60,10 +62,11 @@ class CaracteristicaSelecaoTest extends TestCase
 
     public function testNaoPodeCriarSelecaoQuantidade(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Selecao->value,

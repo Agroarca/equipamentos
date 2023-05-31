@@ -15,11 +15,11 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimal(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,
@@ -37,11 +37,11 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimalTamanhos(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,
@@ -63,11 +63,11 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeCriarDecimalQuantidade(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $categoria = Categoria::factory()->create();
         $nome = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post("/admin/categorias/$categoria->id/caracteristicas/salvar", [
                 'nome' => $nome,
                 'tipo' => TipoCaracteristica::Decimal->value,

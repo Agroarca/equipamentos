@@ -16,10 +16,11 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testPodeVisualizarOpcoes(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:ver');
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/visualizar");
 
         $response->assertStatus(200);
@@ -32,11 +33,12 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testPodeAcessarCriar(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Selecao,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/criar");
 
         $response->assertStatus(200);
@@ -48,12 +50,13 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testPodeCriarOpcao(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $nome = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Selecao,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/salvar",
                 ['nome' => $nome]
@@ -75,12 +78,13 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testNaoPodeCriarOpcaoTamanhoMaximo(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $nome = Str::random(256);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Selecao,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/salvar",
                 ['nome' => $nome]
@@ -95,12 +99,13 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testNaoPodeCriarOpcaoTamanhoMinimo(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:criar');
         $nome = Str::random(2);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Selecao,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/salvar",
                 ['nome' => $nome]
@@ -115,10 +120,11 @@ class CaracteristicaSelecaoOpcaoTest extends TestCase
 
     public function testPodeExcluirOpcao(): void
     {
+        $usuario = $this->getAdminComPermissao('equipamentos.caracteristicas.caracteristica:excluir');
         $caracteristicaOpcao = CaracteristicaOpcao::factory()->create();
         $caracteristica = $caracteristicaOpcao->caracteristica;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             // phpcs:ignore Generic.Files.LineLength.MaxExceeded
             ->get("/admin/categorias/$caracteristica->categoria_id/caracteristicas/$caracteristica->id/opcoes/$caracteristicaOpcao->id/excluir");
 

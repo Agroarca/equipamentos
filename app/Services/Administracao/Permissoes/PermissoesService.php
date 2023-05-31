@@ -116,7 +116,6 @@ class PermissoesService
                     $grupo->permissao('Editar', 'editar');
                     $grupo->permissao('Editar Descrição', 'editarDescricao');
                     $grupo->permissao('Editar Caracteristicas', 'editarCaracteristicas');
-                    $grupo->permissao('Editar Imagens', 'editarImagens');
                     $grupo->permissao('Aprovar ou Reprovar', 'aprovarReprovar');
                     $grupo->permissao('Transferir', 'transferir');
                 });
@@ -140,6 +139,13 @@ class PermissoesService
                     $grupo->permissao('Editar', 'editar');
                     $grupo->permissao('Excluir', 'excluir');
                     $grupo->permissao('Mover', 'mover');
+                });
+            })
+            ->grupo('Caracteristicas', 'caracteristicas', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Caracteristica', 'caracteristica', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Excluir', 'excluir');
                 });
             });
     }

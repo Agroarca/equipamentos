@@ -20,6 +20,10 @@ services:
             - redis
         restart: always
         entrypoint: './docker/dev/docker_entrypoint_web.sh'
+        deploy:
+            resources:
+                limits:
+                    memory: 2G
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -43,10 +47,10 @@ services:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
         ports:
-            - 10010:6001
+            - 2053:6001
             - 10011:9601
         expose:
-            - 10010
+            - 2053
             - 10011
         restart: always
         networks:

@@ -3,7 +3,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AddSecurityHeaders;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -16,7 +15,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        AddSecurityHeaders::class,
+        \App\Http\Middleware\AddSecurityHeaders::class,
+        \App\Http\Middleware\AddDataElasticAPM::class,
     ];
 
     protected $middlewareGroups = [

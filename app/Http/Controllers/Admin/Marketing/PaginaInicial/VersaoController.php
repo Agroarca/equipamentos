@@ -58,7 +58,6 @@ class VersaoController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
         $versao->update($request->all());
-        Cache::tags('pagina-inicial')->flush();
         return redirect()->route('admin.marketing.paginaInicial');
     }
 
@@ -69,7 +68,6 @@ class VersaoController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
         $versao->delete();
-        Cache::tags('pagina-inicial')->flush();
         return redirect()->route('admin.marketing.paginaInicial');
     }
 
@@ -83,7 +81,6 @@ class VersaoController extends Controller
         $this->paginaInicialService->validarVersao($versao);
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
-        Cache::tags('pagina-inicial')->flush();
     }
 
     public function reprovar(Versao $versao)
@@ -95,7 +92,6 @@ class VersaoController extends Controller
         }
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
-        Cache::tags('pagina-inicial')->flush();
     }
 
     public function publicar(Versao $versao)

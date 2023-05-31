@@ -10,24 +10,20 @@ services:
         volumes:
             - /var/www/equipamentos/storage:/app/storage
             - equipamentos-public:/app/public
-            - /var/www/equipamentos/elastic-apm-web.ini:/usr/local/etc/php/conf.d/elastic-apm-web.ini:ro
+            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         ports:
             - 9000:9000
         expose:
             - 9000
         networks:
+            - equipamentos
             - database
-            - socketi
             - nginx
-            - redis
+            - elastic
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
-        # healthcheck:
-        #     test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
-        #     interval: 30s
-        #     timeout: 10s
-        #     retries: 2
-        #     start_period: 2m
+        environment:
+            - ELASTIC_APM_SERVICE_NODE_NAME=web
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -36,14 +32,19 @@ services:
             dockerfile: docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/storage:/app/storage
-            - /var/www/equipamentos/elastic-apm-queue.ini:/usr/local/etc/php/conf.d/elastic-apm-queue.ini:ro
+            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         networks:
+            - equipamentos
             - database
-            - socketi
             - nginx
+            - elastic
+        links:
             - redis
+            - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
+        environment:
+            - ELASTIC_APM_SERVICE_NODE_NAME=queue
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
@@ -55,7 +56,7 @@ services:
             - 9601
         restart: always
         networks:
-            - socketi
+            - equipamentos
             - nginx
         environment:
             DEBUG: false
@@ -75,23 +76,26 @@ services:
             - 6379:6379
         expose:
             - 6379
-        restart: always
         networks:
-            - redis
+            - equipamentos
+        restart: always
         deploy:
             resources:
                 limits:
                     memory: 200M
 
 networks:
+    equipamentos:
+        name: equipamentos
     database:
         name: database
-    socketi:
-        name: socketi
+        external: true
     nginx:
         name: nginx
-    redis:
-        name: redis
+        external: true
+    elastic:
+        name: elastic
+        external: true
 
 volumes:
     equipamentos-public:

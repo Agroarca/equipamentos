@@ -18,7 +18,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimal(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -27,7 +27,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -53,7 +53,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarInteiro(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -62,7 +62,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -88,7 +88,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarString(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(10);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -97,7 +97,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -116,7 +116,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimalMinMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -127,7 +127,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -153,7 +153,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimalMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -163,7 +163,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -189,7 +189,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimalMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 100.3;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -199,7 +199,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -225,7 +225,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarDecimalMenorMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -236,7 +236,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -255,7 +255,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarDecimalMenorMinSemMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5.5;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -265,7 +265,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -284,7 +284,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarDecimalMaiorMax(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 1000.4;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -295,7 +295,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -314,7 +314,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarDecimalMaiorMaxSemMin(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 5000;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -324,7 +324,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -343,7 +343,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimalQuantidade(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.22;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -353,7 +353,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -379,7 +379,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarDecimalMenorQuantidade(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -389,7 +389,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -415,7 +415,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testPodeSalvarInteiroQuantidade(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -425,7 +425,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -451,7 +451,7 @@ class CaracteristicaDecimalTest extends TestCase
 
     public function testNaoPodeSalvarDecimalMaiorQuantidade(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 500.999;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Decimal,
@@ -461,7 +461,7 @@ class CaracteristicaDecimalTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]

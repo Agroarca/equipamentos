@@ -18,7 +18,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testPodeSalvarBoolTrue(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -27,7 +27,7 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -53,7 +53,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testPodeSalvarBoolFalse(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = true;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -62,7 +62,7 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -88,7 +88,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarInt(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -97,7 +97,7 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -117,7 +117,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarDecimal(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = 10.2;
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -126,7 +126,7 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
@@ -146,7 +146,7 @@ class CaracteristicaBoolTest extends TestCase
 
     public function testNaoPodeSalvarString(): void
     {
-        $this->ignorarTodasPermissoes();
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento:editarCaracteristicas');
         $valor = Str::random(15);
         $caracteristica = Caracteristica::factory()->create([
             'tipo' => TipoCaracteristica::Booleano,
@@ -155,7 +155,7 @@ class CaracteristicaBoolTest extends TestCase
             'categoria_id' => $caracteristica->categoria_id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($usuario)
             ->post(
                 "/admin/equipamentos/$equipamento->id/caracteristicas/salvar",
                 ["carac-$caracteristica->id" => $valor]
