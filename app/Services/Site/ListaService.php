@@ -2,7 +2,6 @@
 
 namespace App\Services\Site;
 
-use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Builder;
