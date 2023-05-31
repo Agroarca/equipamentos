@@ -60,16 +60,14 @@ class ListaController extends Controller
         ]);
     }
 
-    public function anunciante(int $id)
+    public function anunciante(Usuario $anunciante)
     {
-        $anunciante = Usuario::findOrFail($id);
-
-        if ($this->listaService->queryQuantidadeAnunciante($id) === 0) {
+        if ($this->listaService->queryQuantidadeAnunciante($anunciante) === 0) {
             return abort(404);
         }
 
         $filtros = $this->filtroService->filtros(
-            $this->listaService->queryListaAnunciante($id)
+            $this->listaService->queryListaAnunciante($anunciante->id)
         );
 
         return Inertia::render('Site/Anunciante/Produtos', [
