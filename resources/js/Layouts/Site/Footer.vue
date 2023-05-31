@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/vue3'
 
 <template>
     <div class="footer mt-4">
-        <a :href="usePage().props.dados.contato.link"
+        <a :href="usePage().props.site.contato.link"
            target="_blank"
            rel="noopener noreferrer"
            aria-label="Clique para falar conosco no Whatsapp"
@@ -15,7 +15,7 @@ import { usePage } from '@inertiajs/vue3'
             </span>
             <span class="contato-numero">
                 <i class="fa-brands fa-whatsapp mx-1 fa-lg" />
-                {{ usePage().props.dados.contato.telefone }}
+                {{ usePage().props.site.contato.telefone }}
             </span>
         </a>
         <div class="legal d-flex flex-column flex-md-row">

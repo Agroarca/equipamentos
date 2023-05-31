@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { isEmpty } from 'lodash'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+import Menu from '@/Pages/Admin/Marketing/PaginaInicial/Menu/Inicio.vue'
 
 const props = defineProps({
     versao: Object,
@@ -27,7 +28,12 @@ const STATUS_VERSAO_APROVADO = 1
             </span>
         </div>
 
-        <div class="card card-default">
+        <Menu :versao="versao" />
+
+        <div class="card card-default mt-4">
+            <div class="card-header">
+                <span class="card-title">Componentes</span>
+            </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
                     <thead>

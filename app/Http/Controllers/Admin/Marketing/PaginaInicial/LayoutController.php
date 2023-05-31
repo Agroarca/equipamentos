@@ -18,7 +18,7 @@ class LayoutController extends Controller
 
     public function inicio(Versao $versao): mixed
     {
-        $this->paginaInicialService->carregarVersao($versao);
+        $this->paginaInicialService->carregarVersaoSemCache($versao);
         return Inertia::Render('Admin/Marketing/PaginaInicial/Layout/Inicio', compact('versao'));
     }
 

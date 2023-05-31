@@ -10,6 +10,7 @@ use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
+use App\Models\Marketing\PaginaInicial\Menu\MenuLink;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -501,6 +502,9 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versao = Versao::factory()->create();
         $this->criarCarrosselItem($versao);
+        MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -532,6 +536,9 @@ class VersaoTest extends PaginaInicialTestBase
         $this->criarCarrosselItem($versao);
         $grid = $this->criarGrid($versao);
         $this->criarGridImagem($grid, 1);
+        MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
@@ -549,6 +556,9 @@ class VersaoTest extends PaginaInicialTestBase
         $this->criarCarrosselItem($versao);
         $grid = $this->criarGrid($versao);
         $this->criarGridImagem($grid, 5);
+        MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
 
         $response = $this->actingAs($this->getAdmin())
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");

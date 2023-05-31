@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\Admin\MenuService;
+use App\Services\Site\PaginaInicialService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -13,6 +14,7 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        $paginaInicialService = app(PaginaInicialService::class);
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -20,13 +22,14 @@ class HandleInertiaRequests extends Middleware
             'admin' => [
                 'menus' => MenuService::getAuthMenus(),
             ],
-            'dados' => [
+            'mensagem' => session()->get('mensagem'),
+            'site' => [
+                'menu' => $paginaInicialService->getMenu(),
                 'contato' => [
                     'telefone' => config('equipamentos.contato.telefone'),
                     'link' => config('equipamentos.contato.link'),
                 ],
             ],
-            'mensagem' => session()->get('mensagem'),
         ]);
     }
 }
