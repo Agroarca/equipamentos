@@ -25,6 +25,9 @@ sudo docker compose down
 cd /var/www/nginx
 sudo docker compose down
 
+#excluir volume de estáticos
+sudo docker volume rm equipamentos-public
+
 # iniciar equipametnos
 cd /var/www/equipamentos
 sudo docker compose up -d
