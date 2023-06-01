@@ -29,8 +29,8 @@ function submit() {
                         <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="nome">Categoria Mãe: </label>
-                        <input id="nome" class="form-control" type="text" :value="categoriaMae?.nome" disabled>
+                        <label for="categoria_mae">Categoria Mãe: </label>
+                        <input id="categoria_mae" class="form-control" type="text" :value="categoriaMae?.nome" disabled>
                     </div>
                 </div>
                 <div class="card-footer">

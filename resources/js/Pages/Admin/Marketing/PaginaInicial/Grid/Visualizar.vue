@@ -18,15 +18,15 @@ const STATUS_VERSAO_CRIADO = 0
             <div class="card-body">
                 <div class="mb-3">
                     <label for="titulo">Título</label>
-                    <input type="text" class="form-control" name="titulo" :value="grid.componente.titulo" disabled />
+                    <input id="titulo" type="text" class="form-control" name="titulo" :value="grid.componente.titulo" disabled />
                 </div>
                 <div class="mb-3">
                     <label for="subtitulo">Subtítulo</label>
-                    <input type="text" class="form-control" name="subtitulo" :value="grid.componente.subtitulo" disabled />
+                    <input id="subtitulo" type="text" class="form-control" name="subtitulo" :value="grid.componente.subtitulo" disabled />
                 </div>
                 <div class="mb-3 form-check">
                     <label for="tela_cheia">Tela Cheia</label>
-                    <input type="checkbox" class="form-check-input" name="tela_cheia" :checked="grid.componente.tela_cheia" disabled />
+                    <input id="tela_cheia" type="checkbox" class="form-check-input" name="tela_cheia" :checked="grid.componente.tela_cheia" disabled />
                 </div>
                 <div class="mb-3">
                     <label for="titulo">Formato</label>

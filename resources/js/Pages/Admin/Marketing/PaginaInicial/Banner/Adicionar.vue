@@ -39,7 +39,7 @@ function submit() {
                     </div>
                     <div class="mb-3 form-check">
                         <label for="tela_cheia">Tela cheia</label>
-                        <input v-model="form.tela_cheia" name="tela_cheia" :checked="form.tela_cheia" class="form-check-input" type="checkbox">
+                        <input id="tela_cheia" v-model="form.tela_cheia" name="tela_cheia" :checked="form.tela_cheia" class="form-check-input" type="checkbox">
                         <FormError :error="form.errors.tela_cheia" />
                     </div>
                     <div class="mb-3">

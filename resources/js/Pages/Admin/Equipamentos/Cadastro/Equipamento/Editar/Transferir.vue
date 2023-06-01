@@ -45,7 +45,7 @@ function escolherOpcao(e) {
                     <div class="d-flex">
                         <SelectAjax
                             v-model="form.usuario_id"
-                            placeholder="Selecione um usuario"
+                            placeholder="Selecione um anunciante"
                             href="/admin/equipamentos/usuarios/pesquisar"
                             class="w-100"
                             @optionSelected="escolherOpcao" />
@@ -56,7 +56,7 @@ function escolherOpcao(e) {
                 </div>
             </div>
             <Modal ref="modal">
-                <p>Você confirma transferir o equipamento {{ equipamento.titulo }} para o usuário {{ nome }}?</p>
+                <p>Você confirma transferir o equipamento {{ equipamento.titulo }} para o anunciante {{ nome }}?</p>
                 <template #footer>
                     <button type="submit" class="btn btn-primary" @click="transferirEquipamento">
                         <i class="fa-solid fa-circle-check pe-1" /> Confirmar

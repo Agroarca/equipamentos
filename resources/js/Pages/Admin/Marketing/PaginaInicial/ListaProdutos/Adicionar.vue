@@ -37,7 +37,7 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <label for="lista_produtos_id">Lista de Produtos: </label>
-                        <select v-model="form.lista_produtos_id" name="lista_produtos_id" class="form-select" required>
+                        <select id="lista_produtos_id" v-model="form.lista_produtos_id" name="lista_produtos_id" class="form-select" required>
                             <option v-for="lista in listasProdutos" :key="lista.id" :value="lista.id">
                                 {{ lista.nome }}
                             </option>

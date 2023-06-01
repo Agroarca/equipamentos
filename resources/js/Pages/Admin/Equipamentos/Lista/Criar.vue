@@ -25,8 +25,8 @@ function submit() {
                         <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="Slug">Slug</label>
-                        <input id="Slug" v-model="form.slug" class="form-control" type="text">
+                        <label for="slug">Slug</label>
+                        <input id="slug" v-model="form.slug" class="form-control" type="text">
                         <FormError :error="form.errors.slug" />
                     </div>
                 </div>

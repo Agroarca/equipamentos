@@ -18,7 +18,7 @@ function alterarPermissao(chave: String, value: Boolean) {
 
 <template>
     <div class="permissao">
-        <input :id="`${permissao.chave}`" :checked="permissao.valor" type="checkbox" @change="e => alterarPermissao(permissao.chave, e.target.checked)">
+        <input :id="permissao.chave" :checked="permissao.valor" type="checkbox" @change="e => alterarPermissao(permissao.chave, e.target.checked)">
         <label :for="permissao.chave" class="ms-1">{{ permissao.nome }}</label>
     </div>
 </template>
