@@ -26,6 +26,8 @@ class ListaTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
             ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->has('categoria'));
     }
 
@@ -42,6 +44,8 @@ class ListaTest extends TestCase
             ->component('Site/Lista/Categoria')
             ->has('equipamentos.data', 4)
             ->has('categoria')
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('categoria.id', $categoria->id));
     }
 
@@ -67,6 +71,8 @@ class ListaTest extends TestCase
             ->component('Site/Lista/Categoria')
             ->has('equipamentos.data', 6)
             ->has('categoria')
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('categoria.id', $categoria->id));
     }
 
@@ -89,6 +95,8 @@ class ListaTest extends TestCase
             ->component('Site/Lista/Marca')
             ->has('equipamentos.data', 4)
             ->has('marca')
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('marca.id', $modelo1->marca_id));
     }
 
@@ -123,6 +131,8 @@ class ListaTest extends TestCase
             ->component('Site/Lista/Lista')
             ->has('equipamentos.data', 4)
             ->has('lista')
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('lista.id', $lista1->id));
     }
 
@@ -145,6 +155,8 @@ class ListaTest extends TestCase
             ->component('Site/Lista/Lista')
             ->has('equipamentos.data')
             ->has('lista')
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('lista.id', $lista1->id));
     }
 
@@ -168,7 +180,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 3));
+            ->has('equipamentos.data', 3)
+            ->has('filtros')
+            ->has('filtrosSelecionados', 1));
     }
 
     public function testPodeFiltrarPorMarca(): void
@@ -196,7 +210,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados', 1));
     }
 
     public function testPodeFiltrarPorModelo(): void
@@ -224,7 +240,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados', 1));
     }
 
     public function testPodeFiltrarPorValorMaximo(): void
@@ -241,7 +259,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarPorValorMinimo(): void
@@ -258,7 +278,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarPorValorMaximoEValorMinimo(): void
@@ -279,7 +301,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarPorAnoMaximo(): void
@@ -296,7 +320,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarPorAnoMinimo(): void
@@ -313,7 +339,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarPorAnoMaximoEAnoMinimo(): void
@@ -334,7 +362,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodeFiltrarEmUmaMarca(): void
@@ -361,7 +391,9 @@ class ListaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Marca')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados', 1));
     }
 
     public function testPodeFiltrarEmUmaLista(): void
@@ -383,7 +415,9 @@ class ListaTest extends TestCase
 
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Lista')
-            ->has('equipamentos.data', 1));
+            ->has('equipamentos.data', 1)
+            ->has('filtros')
+            ->has('filtrosSelecionados', 1));
     }
 
     public function testPodeAcessarPaginaDeUmAnunciante(): void
@@ -400,7 +434,9 @@ class ListaTest extends TestCase
 
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Anunciante/Produtos')
-            ->has('equipamentos.data', 4));
+            ->has('equipamentos.data', 4)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testNaoPodeAcessarPaginaDeUmAnuncianteSemProdutosAnunciados(): void

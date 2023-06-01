@@ -32,6 +32,8 @@ class PesquisaTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('equipamentos.data.0.id', $equipamento->id));
     }
 
@@ -44,7 +46,9 @@ class PesquisaTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Pesquisa')
-            ->has('equipamentos.data', 0));
+            ->has('equipamentos.data', 0)
+            ->has('filtros')
+            ->has('filtrosSelecionados'));
     }
 
     public function testPodePesquisarPeloModelo(): void
@@ -57,6 +61,8 @@ class PesquisaTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('equipamentos.data.0.id', $equipamento->id));
     }
 
@@ -70,6 +76,24 @@ class PesquisaTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
+            ->has('filtros')
+            ->has('filtrosSelecionados')
+            ->where('equipamentos.data.0.id', $equipamento->id));
+    }
+
+    //phpcs:disable Generic.Files.LineLength.MaxExceeded
+    public function testPodeFiltrarNaPesquisa(): void
+    {
+        $equipamento = Equipamento::factory()->statusAprovado()->create();
+
+        $response = $this->get('/pesquisa/' . $equipamento->modelo->marca->nome . `?categoria_id=$equipamento->categoria_id`);
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Lista/Pesquisa')
+            ->has('equipamentos.data', 1)
+            ->has('filtros')
+            ->has('filtrosSelecionados')
             ->where('equipamentos.data.0.id', $equipamento->id));
     }
 }
