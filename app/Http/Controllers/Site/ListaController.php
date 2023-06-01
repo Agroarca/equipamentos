@@ -60,16 +60,30 @@ class ListaController extends Controller
         ]);
     }
 
-    public function anunciante(int $id)
+    public function anunciante(Usuario $anunciante)
     {
-        $anunciante = Usuario::findOrFail($id);
+        if ($this->listaService->queryQuantidadeAnunciante($anunciante) === 0) {
+            return abort(404);
+        }
 
         $filtros = $this->filtroService->filtros(
-            $this->listaService->queryListaAnunciante($id)
+            $this->listaService->queryListaAnunciante($anunciante->id)
         );
 
         return Inertia::render('Site/Anunciante/Produtos', [
             'anunciante' => $anunciante,
+            ...$filtros
+        ]);
+    }
+
+    public function pesquisa(string $pesquisa)
+    {
+        $filtros = $this->filtroService->filtros(
+            $this->listaService->queryPesquisa($pesquisa)
+        );
+
+        return Inertia::render('Site/Lista/Pesquisa', [
+            'pesquisa' => $pesquisa,
             ...$filtros
         ]);
     }

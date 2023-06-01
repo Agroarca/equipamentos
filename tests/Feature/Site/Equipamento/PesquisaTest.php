@@ -30,7 +30,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->where('equipamentos.data.0.id', $equipamento->id));
     }
@@ -43,7 +43,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 0));
     }
 
@@ -55,7 +55,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->where('equipamentos.data.0.id', $equipamento->id));
     }
@@ -68,7 +68,7 @@ class PesquisaTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('Site/Equipamento/Pesquisa')
+            ->component('Site/Lista/Pesquisa')
             ->has('equipamentos.data', 1)
             ->where('equipamentos.data.0.id', $equipamento->id));
     }

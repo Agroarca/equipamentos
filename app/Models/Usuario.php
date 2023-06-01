@@ -6,6 +6,7 @@ use App\Enums\Usuario\TipoPessoa;
 use App\Enums\Usuario\TipoUsuario;
 use App\Models\Administracao\Permissoes\Grupo;
 use App\Models\Notificacoes\Notificacao;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Notificacoes\UsuarioTokenFCM;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,6 +46,11 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'tipo_pessoa' => TipoPessoa::class,
         'tipo_usuario' => TipoUsuario::class
     ];
+
+    public function equipamentos(): HasMany
+    {
+        return $this->hasMany(Equipamento::class);
+    }
 
     public function tokens(): HasMany
     {
