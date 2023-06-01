@@ -26,20 +26,19 @@ function pesquisar() {
 <template>
     <div class="header-item search-container input-group order-5 order-md-2">
         <form class="d-flex w-100" @submit.prevent="pesquisar()">
-            <div class="input-group form-check">
+            <div class="input-group">
                 <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
                 <input v-model="termo" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
                 <span v-if="isLista" class="input-group-text">
-
                     <input id="CheckPesquisa" ref="checkTipoPesquisa" class="form-check-input check-pesquisa" type="checkbox" value="">
-                    <label class="form-check-label" for="CheckPesquisa">
+                    <label class="form-check-label ms-2" for="CheckPesquisa">
                         Apenas nessa pagina
                     </label>
                 </span>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search" />
+                </button>
             </div>
-            <button type="submit">
-                <i class="fa fa-search" />
-            </button>
         </form>
     </div>
 </template>
