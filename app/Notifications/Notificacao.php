@@ -8,6 +8,7 @@ use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Notificacoes\Notificacao as NotificacaoModel;
 use App\Notifications\Channel\NotificacaoPushChannel;
 use App\Notifications\Channel\NotificacaoWebSocketChannel;
+use App\Services\Notificacoes\NotificacaoService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -16,10 +17,14 @@ class Notificacao extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public int $qtdNotificacoesUsuario;
+
     public function __construct(
         public NotificacaoModel $notificacao
     ) {
         $this->afterCommit();
+        $this->qtdNotificacoesUsuario = app(NotificacaoService::class)
+            ->getCountNotificacoesNaoLidasUsuario($notificacao->usuario_id);
     }
 
     public function via(mixed $notifiable): array

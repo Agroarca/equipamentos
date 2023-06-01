@@ -123,7 +123,7 @@
             }
         }
 
-        .profile-container {
+        .header-btn {
             background-color: $profile-button-background;
             font-size: 1.125rem;
             padding: 1.3rem 2.8rem;
@@ -191,6 +191,13 @@
 
             i {
                 font-size: 1.5rem;
+            }
+        }
+
+        .notificacao-container {
+            .badge {
+                padding: .25rem .45rem;
+                font-size: .75rem;
             }
         }
     }

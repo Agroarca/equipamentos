@@ -3,6 +3,7 @@
 namespace App\Models\Notificacoes;
 
 use App\Enums\Notificacoes\StatusNotificacao;
+use App\Events\Notificacoes\NotificacaoSaved;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,10 @@ class Notificacao extends Model
 
     protected $casts = [
         'status' => StatusNotificacao::class,
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => NotificacaoSaved::class,
     ];
 
     public function tipo(): MorphTo

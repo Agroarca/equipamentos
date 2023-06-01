@@ -134,13 +134,13 @@ export default function conversaLib(conversa: Conversa, propsUsuarioId) {
             if (e.mensagem_id > (last(mensagens.value)?.id ?? 0)) {
                 atualizarMensagens()
             }
-        }, 1))
+        }, 'site.equipamento.conversa.conversaLib', 1))
     }
 
     function mensagemExcluidaListener(): void {
         MensagemExcluida.addListener(new Listener((e) => {
             mensagens.value = filter(mensagens.value, (m) => e.mensagem_id !== m.id)
-        }, 1))
+        }, 'site.equipamento.conversa.conversaLib', 1))
     }
 
     async function enviarMensagem(texto: string): Promise<void> {

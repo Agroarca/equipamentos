@@ -11,6 +11,10 @@ export default class NovaMensagem implements Evento {
     static listeners: Array<Listener> = []
 
     static addListener = function addListener(listener: Listener): void {
+        if (listener.key) {
+            NovaMensagem.removerListenerKey(listener.key)
+        }
+
         NovaMensagem.listeners.push(listener)
         NovaMensagem.listeners.sort((a: Listener, b: Listener) => a.priority - b.priority)
     }
@@ -21,5 +25,9 @@ export default class NovaMensagem implements Evento {
                 listener.callback(this)
             }
         })
+    }
+
+    static removerListenerKey = function (key: string): void {
+        this.listeners = this.listeners.filter((l) => l.key !== key)
     }
 }

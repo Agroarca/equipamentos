@@ -10,7 +10,7 @@ setupNotificacoes()
 
 const notificacoes = ref([])
 
-EventoNotificacaoWS.addListener(new Listener(eventoNotificacao))
+EventoNotificacaoWS.addListener(new Listener(eventoNotificacao, 'componentes.notificacao.notificacoes'))
 function eventoNotificacao(e: EventoNotificacaoWS) {
     notificacoes.value.push(e.notificacao)
 
