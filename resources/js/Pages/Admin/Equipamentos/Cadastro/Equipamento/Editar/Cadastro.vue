@@ -80,9 +80,9 @@ function submit() {
                             <FormError :error="form.errors.categoria" />
                         </div>
                         <div class="mb-3">
-                            <label for="vendedor">Vendedor</label>
+                            <label for="anunciante">Anunciante</label>
                             <div class="d-flex">
-                                <input id="vendedor" v-value="equipamento.usuario.nome" class="form-control" type="text" disabled>
+                                <input id="anunciante" v-value="equipamento.usuario.nome" class="form-control" type="text" disabled>
                                 <Link :href="`/admin/equipamentos/${equipamento.id}/transferir`" class="btn btn-primary ms-2">
                                     Transferir
                                 </Link>
