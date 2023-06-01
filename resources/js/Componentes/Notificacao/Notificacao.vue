@@ -4,7 +4,6 @@ import { Toast } from 'bootstrap'
 import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
-    id: Number,
     titulo: String,
     texto: String,
 })
