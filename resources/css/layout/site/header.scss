@@ -72,7 +72,7 @@
 
         .search-container {
             min-width: 20rem;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
 
             @mixin breakpoint-down xxl {
                 font-size: 1rem;
@@ -126,16 +126,18 @@
         .header-btn {
             background-color: $profile-button-background;
             font-size: 1.125rem;
-            padding: 1.3rem 2.8rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
             font-weight: bold;
             text-decoration: none;
             text-transform: uppercase;
             white-space: nowrap;
+            height: 4rem;
+            padding: 0 1.5rem;
 
             @mixin breakpoint-down xxl {
-                padding: 1rem 1.5rem;
+                height: 3rem;
+                padding: 0 1rem;
             }
 
             &:hover {
@@ -143,7 +145,7 @@
             }
 
             i {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
 
             span {
@@ -190,7 +192,7 @@
             }
 
             i {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
         }
 
