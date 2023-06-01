@@ -11,7 +11,7 @@ class MenuService
     /**
      * Retorna os menus do admin
      */
-    public static function getAuthMenus(): array
+    public function getAuthMenus(): array
     {
         if (!Auth::check()) {
             return [];

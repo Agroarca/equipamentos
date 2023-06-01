@@ -47,7 +47,7 @@ const STATUS_REPROVADO = 5
                 <Link v-if="equipamento.status === STATUS_APROVADO"
                       :href="`/conversa/equipamento/${equipamento.id}`"
                       class="btn btn-primary">
-                    Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens">
+                    Conversas <span v-if="equipamento.mensagens_nao_visualizadas > 0" class="badge mensagens ms-2">
                         {{ (equipamento.mensagens_nao_visualizadas) }}
                     </span>
                 </Link>

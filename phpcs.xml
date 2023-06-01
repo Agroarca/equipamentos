@@ -43,6 +43,7 @@
         <exclude name="SlevomatCodingStandard.Functions.StrictCall" />
         <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
         <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed" />
+        <exclude name="Squiz.ControlStructures.SwitchDeclaration" />
     </rule>
 
     <file>app</file>

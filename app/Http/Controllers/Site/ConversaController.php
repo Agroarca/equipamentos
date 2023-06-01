@@ -8,6 +8,7 @@ use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Mensagem;
 use App\Services\Equipamentos\Conversa\ConversaService;
+use App\Services\Notificacoes\NotificacaoConversaService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -19,7 +20,8 @@ class ConversaController extends Controller
     private int $mensagensTempoExcluirSecs;
 
     public function __construct(
-        public ConversaService $conversaService
+        public ConversaService $conversaService,
+        public NotificacaoConversaService $notificacaoConversaService
     ) {
         $this->mensagensPorPagina = config('equipamentos.mensagens_por_pagina');
         $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
@@ -28,6 +30,7 @@ class ConversaController extends Controller
     public function conversaEquipamento(int $equipamentoId)
     {
         $equipamento = Equipamento::findOrFail($equipamentoId);
+        $this->notificacaoConversaService->visualizarNotificacaoEquipamento($equipamento);
 
         if ($equipamento->usuario_id === Auth::id()) {
             $conversas = $equipamento->conversas()->with([

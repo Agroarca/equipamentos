@@ -58,7 +58,7 @@ export class Push {
     }
 
     salvarToken(token): void {
-        axios.post('/notificacao/token', {
+        axios.post('/notificacoes/token', {
             token,
         }).then(() => {
             localStorage.ultimaRenovacaoToken = new Date()

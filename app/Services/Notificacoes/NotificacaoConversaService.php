@@ -2,6 +2,7 @@
 
 namespace App\Services\Notificacoes;
 
+use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Visualizacao;
@@ -10,6 +11,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use App\Models\Notificacoes\Notificacao;
 use App\Notifications\Notificacao as NotificationsNotificacao;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
@@ -131,6 +133,20 @@ class NotificacaoConversaService
     {
         $notificacao->texto = $this->getMensagemNotificacao($equipamento, $usuario);
         $notificacao->titulo = "Nova mensagem em $equipamento->titulo!";
+        $notificacao->status = StatusNotificacao::Criado;
         $notificacao->save();
+    }
+
+    /**
+     * Marca a notificação do equipamento como visualizada.
+     */
+    public function visualizarNotificacaoEquipamento(Equipamento $equipamento): void
+    {
+        $notificacao = $this->retornarNotificacao($equipamento, Auth::user());
+
+        if ($notificacao !== null) {
+            $notificacao->notificacao->status = StatusNotificacao::Visualizado;
+            $notificacao->notificacao->save();
+        }
     }
 }
