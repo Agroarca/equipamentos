@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Usuario\TipoPessoa;
 use App\Enums\Usuario\TipoUsuario;
 use App\Models\Administracao\Permissoes\Grupo;
+use App\Models\Notificacoes\Notificacao;
 use App\Models\Notificacoes\UsuarioTokenFCM;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,5 +54,10 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     public function grupos(): BelongsToMany
     {
         return $this->belongsToMany(Grupo::class, 'administracao_grupo_usuario', 'usuario_id', 'grupo_id');
+    }
+
+    public function notificacoes(): HasMany
+    {
+        return $this->hasMany(Notificacao::class);
     }
 }

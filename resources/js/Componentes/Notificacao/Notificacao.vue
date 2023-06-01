@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 function onClick() {
-    router.visit(`/notificacao/${props.id}`)
+    router.visit('/notificacoes')
 }
 </script>
 

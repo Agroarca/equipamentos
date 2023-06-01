@@ -88,6 +88,7 @@ function notificacaoWebSocket(e) {
     evento.notificacao.usuario_id = e.notification.notificacao.usuario_id
     evento.notificacao.titulo = e.notification.notificacao.titulo
     evento.notificacao.texto = e.notification.notificacao.texto
+    evento.qtdNotificacoesUsuario = e.notification.qtdNotificacoesUsuario
     evento.notify()
 }
 

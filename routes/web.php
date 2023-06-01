@@ -72,8 +72,9 @@ Route::name('site')->group(function () {
             Route::get('{id_conversa}/mensagem/excluir/{id}', [ConversaController::class, 'excluirMensagem'])->name('.mensagem.excluir');
         });
 
-        Route::prefix('notificacao')->name('.notificacao')->group(function () {
-            Route::get('{id}', [NotificacaoController::class, 'notificacao'])->name('');
+        Route::prefix('notificacoes')->name('.notificacoes')->group(function () {
+            Route::get('', [NotificacaoController::class, 'inicio'])->name('');
+            Route::get('{notificacao}', [NotificacaoController::class, 'notificacao'])->name('.notificacao');
             Route::post('token', [NotificacaoController::class, 'salvarToken'])->name('.salvarToken');
         });
     });
