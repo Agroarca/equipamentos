@@ -3,6 +3,7 @@ import { router } from '@inertiajs/vue3'
 import { inject, ref } from 'vue'
 
 const isLista = inject('isLista')
+const textoCheckLista = inject('textoCheckLista')
 
 const termo = ref('')
 const checkTipoPesquisa = ref(false)
@@ -30,9 +31,9 @@ function pesquisar() {
                 <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
                 <input v-model="termo" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
                 <span v-if="isLista" class="input-group-text">
-                    <input id="CheckPesquisa" ref="checkTipoPesquisa" class="form-check-input check-pesquisa" type="checkbox" value="">
-                    <label class="form-check-label ms-2" for="CheckPesquisa">
-                        Apenas nessa pagina
+                    <input id="checkPesquisa" ref="checkTipoPesquisa" class="form-check-input check-pesquisa" type="checkbox" value="">
+                    <label class="form-check-label ms-2" for="checkPesquisa">
+                        {{ textoCheckLista }}
                     </label>
                 </span>
                 <button type="submit" class="btn btn-primary">

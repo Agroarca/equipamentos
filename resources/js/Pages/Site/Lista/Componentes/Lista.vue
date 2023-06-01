@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Equipamento from './Equipamento.vue'
 import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
@@ -10,8 +10,10 @@ const props = defineProps({
     title: String,
     filtros: Object,
     filtrosSelecionados: Object,
+    nomeLista: String,
 })
-
+provide('isLista', true)
+provide('listaNome', props.listaNome)
 let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
     || props.equipamentos.data.length > 0
     || props.filtros.valor.minimo != null
@@ -22,7 +24,7 @@ let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
 </script>
 
 <template>
-    <SiteLayout :titulo="title" lista>
+    <SiteLayout :titulo="title">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">

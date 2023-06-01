@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { provide } from 'vue'
 import Lista from '@/Pages/Site/Lista/Componentes/Lista.vue'
 
 const props = defineProps({
@@ -7,6 +8,7 @@ const props = defineProps({
     filtrosSelecionados: Object,
     anunciante: Object,
 })
+provide('textoCheckLista', 'Apenas nesse anunciante')
 </script>
 
 <template>
