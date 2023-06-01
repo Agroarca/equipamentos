@@ -38,7 +38,7 @@ class VersaoController extends Controller
 
     public function visualizar(Versao $versao): mixed
     {
-        $this->paginaInicialService->carregarVersao($versao);
+        $this->paginaInicialService->carregarVersaoSemCache($versao);
         return Inertia::render('Admin/Marketing/PaginaInicial/Versao/Visualizar', compact('versao'));
     }
 
