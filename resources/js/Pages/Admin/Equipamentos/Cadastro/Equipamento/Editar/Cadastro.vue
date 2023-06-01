@@ -57,21 +57,21 @@ function submit() {
                         </div>
                         <div class="mb-3">
                             <label for="marca_id">Marca</label>
-                            <input id="ano" v-model="form.marca" class="form-control" type="text" disabled>
+                            <input id="marca_id" v-model="form.marca" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.marca" />
                         </div>
                         <div class="mb-3">
-                            <label for="marca_id">Modelo</label>
-                            <input id="ano" v-model="form.modelo" class="form-control" type="text" disabled>
+                            <label for="modelo_id">Modelo</label>
+                            <input id="modelo_id" v-model="form.modelo" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.modelo" />
                         </div>
                         <div class="mb-3">
                             <label for="categoria">Categoria</label>
-                            <input id="ano" v-model="form.categoria" class="form-control" type="text" disabled>
+                            <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.categoria" />
                         </div>
                         <div class="mb-3">
-                            <label for="categoria">Status</label>
+                            <label for="status">Status</label>
                             <select id="status" v-model="form.status" class="form-select" required>
                                 <option v-for="(status, index) in statusEquipamentos" :key="index" :value="index">
                                     {{ status }}
@@ -80,9 +80,9 @@ function submit() {
                             <FormError :error="form.errors.categoria" />
                         </div>
                         <div class="mb-3">
-                            <label for="categoria">Vendedor</label>
+                            <label for="vendedor">Vendedor</label>
                             <div class="d-flex">
-                                <input id="ano" v-value="equipamento.usuario.nome" class="form-control" type="text" disabled>
+                                <input id="vendedor" v-value="equipamento.usuario.nome" class="form-control" type="text" disabled>
                                 <Link :href="`/admin/equipamentos/${equipamento.id}/transferir`" class="btn btn-primary ms-2">
                                     Transferir
                                 </Link>

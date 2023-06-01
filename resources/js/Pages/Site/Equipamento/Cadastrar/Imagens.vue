@@ -153,12 +153,12 @@ function inputImagem(e) {
             <Modal :id="'modal_' + equipamento.id" ref="modal" modalSizeClass="modal-lg modal-fullscreen-sm-down" title="Adicionar Imagem">
                 <div class="mb-3">
                     <label for="descricao">Descrição</label>
-                    <input v-model="form.descricao" type="text" name="descricao" class="form-control">
+                    <input id="descricao" v-model="form.descricao" type="text" name="descricao" class="form-control">
                     <FormError :error="form.errors.descricao" />
                 </div>
                 <div class="mb-3">
                     <label for="imagem" />
-                    <input type="file" name="imagem" accept="image/*" class="form-control form-control-file" @change="inputImagem">
+                    <input id="imagem" type="file" name="imagem" accept="image/*" class="form-control form-control-file" @change="inputImagem">
                     <FormError :error="form.errors.imagem" />
                 </div>
                 <div v-if="mostrarEditor" class="mb-3">

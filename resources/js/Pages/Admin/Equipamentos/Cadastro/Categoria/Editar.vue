@@ -40,10 +40,10 @@ function moverCategoria(categoriaId) {
                         <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="nome">Categoria Mãe</label>
+                        <label for="categoria_mae">Categoria Mãe</label>
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <input id="nome" class="form-control" type="text" :value="categoria.categoria_mae?.nome" disabled>
+                                <input id="categoria_mae" class="form-control" type="text" :value="categoria.categoria_mae?.nome" disabled>
                             </div>
                             <div class="ms-2">
                                 <button type="button" class="btn btn-primary" @click.prevent="openModal()">

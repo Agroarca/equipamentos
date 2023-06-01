@@ -76,7 +76,7 @@ function submit() {
             </div>
             <div class="mb-3">
                 <label for="password">Senha</label>
-                <Senha v-model="form.password" name="password" :error="form.errors.password" />
+                <Senha v-model="form.password" inputName="password" inputId="password" :error="form.errors.password" />
                 <FormError :error="form.errors.password" />
             </div>
             <div class="mb-3">

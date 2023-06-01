@@ -54,15 +54,15 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Marca</label>
-                    <input id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
+                    <input id="marca_id" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="marca_id">Modelo</label>
-                    <input id="ano" :value="equipamento.modelo.nome" class="form-control" type="text" disabled>
+                    <label for="modelo_id">Modelo</label>
+                    <input id="modelo_id" :value="equipamento.modelo.nome" class="form-control" type="text" disabled>
                 </div>
                 <div class="mb-3">
                     <label for="categoria_id">Categoria</label>
-                    <input id="ano" :value="equipamento.categoria.nome" class="form-control" type="text" disabled>
+                    <input id="categoria_id" :value="equipamento.categoria.nome" class="form-control" type="text" disabled>
                 </div>
                 <button type="submit" class="btn btn-primary">
                     Continuar
