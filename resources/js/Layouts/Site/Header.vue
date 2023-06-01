@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-restricted-html-elements */
 import { Link, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Menu from './Menu.vue'
 import Pesquisa from './Pesquisa.vue'
 import EventoNotificacaoWS from '@/Componentes/Eventos/EventoNotificacaoWS'
@@ -9,14 +10,7 @@ import Listener from '@/Componentes/Eventos/Listener'
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
 
-let pesquisa = ref('')
 let qtdNotificacoesUsuario = ref(usePage().props.auth.notificacoes)
-
-function pesquisar() {
-    if (pesquisa.value.trim()) {
-        router.visit(`/pesquisa/${pesquisa.value}`)
-    }
-}
 
 EventoNotificacaoWS.addListener(new Listener(eventoNotificacao, 'layouts.site.header'))
 function eventoNotificacao(e: EventoNotificacaoWS) {
@@ -57,7 +51,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                             <span class="visually-hidden">Não Lidas</span>
                         </span>
                     </i>
-                    <span class="d-none d-xxl-block">Notificações</span>
+                    <span class="visually-hidden">Notificações</span>
                 </Link>
                 <button class="header-item menu-container menu-button navbar-toggler collapsed order-4 d-block d-md-none"
                         type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu"
