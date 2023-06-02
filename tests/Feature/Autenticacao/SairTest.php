@@ -14,7 +14,7 @@ class SairTest extends TestCase
     {
         $usuario = $this->getUsuario();
         Auth::login($usuario);
-        $this->actingAs($this->getUsuario());
+        $this->actingAs($usuario);
 
         $response = $this->get('/sair');
 
