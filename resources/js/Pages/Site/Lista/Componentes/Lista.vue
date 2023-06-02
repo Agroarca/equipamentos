@@ -10,10 +10,8 @@ const props = defineProps({
     title: String,
     filtros: Object,
     filtrosSelecionados: Object,
-    nomeLista: String,
 })
 provide('isLista', true)
-provide('listaNome', props.listaNome)
 let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
     || props.equipamentos.data.length > 0
     || props.filtros.valor.minimo != null

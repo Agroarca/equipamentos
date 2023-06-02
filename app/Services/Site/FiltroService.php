@@ -267,7 +267,6 @@ class FiltroService
                         });
                 });
         });
-        
         return $query;
     }
 
