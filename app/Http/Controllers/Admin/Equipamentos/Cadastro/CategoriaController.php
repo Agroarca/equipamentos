@@ -17,7 +17,7 @@ class CategoriaController extends Controller
         $categorias = Categoria::where('categoria_mae_id', $categoriaId)
             ->orderBy('nome')
             ->with(['categoriaMae'])
-            ->paginate(15);
+            ->paginate();
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Categoria/Inicio', compact('categorias', 'categoria'));
     }

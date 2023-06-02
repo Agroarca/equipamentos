@@ -32,7 +32,7 @@ class EquipamentoController extends Controller
     public function inicio()
     {
         Gate::authorize('ver', Equipamento::class);
-        $equipamentos = Equipamento::with('categoria')->paginate(10);
+        $equipamentos = Equipamento::with('categoria')->paginate();
         $statusEquipamentos = StatusEquipamento::toArray();
 
         return Inertia::render(

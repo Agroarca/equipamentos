@@ -58,7 +58,7 @@ class SiteController extends Controller
         ])
             ->with('modelo', 'modelo.marca', 'imagens')
             ->where('usuario_id', Auth::user()->id)
-            ->paginate(10);
+            ->paginate();
 
 
         $status = StatusEquipamento::toArray();

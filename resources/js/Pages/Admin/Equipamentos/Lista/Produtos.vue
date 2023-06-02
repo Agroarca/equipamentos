@@ -4,6 +4,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
 import ListaProdutos from './Componentes/ListaProdutos.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
 
 const props = defineProps({
     lista: Object,
@@ -38,5 +39,6 @@ function submit() {
             </div>
         </form>
         <ListaProdutos :produtos="produtos" />
+        <Paginacao class="mt-4" :links="produtos.links" />
     </AdminLayout>
 </template>

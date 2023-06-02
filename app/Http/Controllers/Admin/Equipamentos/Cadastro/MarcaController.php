@@ -15,7 +15,7 @@ class MarcaController extends Controller
     public function inicio()
     {
         Gate::authorize('ver', Marca::class);
-        $marcas = Marca::paginate(10);
+        $marcas = Marca::paginate();
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Marca/Inicio', compact('marcas', 'statusCadastro'));
