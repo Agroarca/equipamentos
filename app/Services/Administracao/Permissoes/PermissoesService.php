@@ -123,7 +123,7 @@ class PermissoesService
                 $grupo->grupo('Equipamento Imagem', 'equipamento.imagem', function (GrupoPermissao $grupo): void {
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Adicionar', 'adicionar');
-                    $grupo->permissao('deletar', 'deletar');
+                    $grupo->permissao('excluir', 'excluir');
                 });
 
                 $grupo->grupo('Modelo', 'modelo', function (GrupoPermissao $grupo): void {

@@ -74,7 +74,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.caracteristicas.salvar');
         Route::get('{id}/editar/imagens', [EquipamentoController::class, 'editarImagens'])->name('.editarImagens');
         Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
-        Route::get('{id}/imagens/{imagemId}/deletar', [EquipamentoController::class, 'deletarImagem'])->name('.imagens.delete');
+        Route::get('{id}/imagens/{imagemId}/excluir', [EquipamentoController::class, 'excluirImagem'])->name('.imagens.excluir');
     });
 
     Route::prefix('lista')->name('.lista')->group(function () {

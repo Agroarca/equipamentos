@@ -22,8 +22,8 @@ class EquipamentoImagemPolicy
         return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:adicionar');
     }
 
-    public function deletar(Usuario $usuario): bool
+    public function excluir(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:deletar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:excluir');
     }
 }
