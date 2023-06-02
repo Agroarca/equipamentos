@@ -29,7 +29,6 @@ class PaginationUrlWindow
             ];
         }
 
-
         $currentPage = $this->paginator->currentPage();
         $lastPage = $this->paginator->lastPage();
         $onEachSide = $this->paginator->onEachSide;
