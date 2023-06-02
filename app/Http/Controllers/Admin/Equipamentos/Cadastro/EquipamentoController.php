@@ -202,10 +202,10 @@ class EquipamentoController extends Controller
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }
 
-    public function deletarImagem(int $equipamentoId, int $imagemId)
+    public function excluirImagem(int $equipamentoId, int $imagemId)
     {
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
-        Gate::authorize('deletar', $imagem);
+        Gate::authorize('excluir', $imagem);
 
         Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo);
         $imagem->delete();

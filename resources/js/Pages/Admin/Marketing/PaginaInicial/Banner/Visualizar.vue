@@ -36,7 +36,7 @@ const props = defineProps({
                 </div>
                 <div class="mb-3">
                     <label for="img_mobile">Imagem Mobile</label>
-                    <img id="img_mobile" v-if="banner.url_mobile" :src="banner.url_mobile" alt="" class="d-block mw-100" />
+                    <img v-if="banner.url_mobile" id="img_mobile" :src="banner.url_mobile" alt="" class="d-block mw-100" />
                     <div v-else class="alert alert-info">
                         Imagem Mobile não cadastrada
                     </div>

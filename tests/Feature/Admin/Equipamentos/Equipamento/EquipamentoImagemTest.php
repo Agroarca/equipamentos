@@ -157,7 +157,7 @@ class EquipamentoImagemTest extends TestCase
     public function testPodeExcluirImagem(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:deletar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:excluir');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();
@@ -167,7 +167,7 @@ class EquipamentoImagemTest extends TestCase
         $imagem->storeAs($equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName());
 
         $response = $this->actingAs($usuario)
-            ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
+            ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/excluir");
 
         Storage::assertMissing(
             $equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName()
@@ -191,7 +191,7 @@ class EquipamentoImagemTest extends TestCase
         $imagem->storeAs($equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName());
 
         $response = $this->actingAs($usuario)
-            ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/deletar");
+            ->get("/admin/equipamentos/$equipamentoImagem->equipamento_id/imagens/$equipamentoImagem->id/excluir");
 
         Storage::assertExists(
             $equipService->getStoragePathImagem($equipamentoImagem->equipamento_id) . $imagem->hashName()
