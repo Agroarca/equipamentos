@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
+import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
 
 const props = defineProps({
     equipamento: Object,
@@ -40,6 +41,7 @@ function getNomeNaoLidas(conversa) {
                         </Link>
                     </div>
                 </div>
+                <Paginacao class="mt-4" :links="conversas.links" />
                 <div v-if="conversas.data.length == 0">
                     <div class="alert alert-danger">
                         Nenhuma Conversa encontrada

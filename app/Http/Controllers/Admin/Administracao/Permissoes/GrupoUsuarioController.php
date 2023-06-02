@@ -21,7 +21,7 @@ class GrupoUsuarioController extends Controller
     public function inicio(Grupo $grupo): mixed
     {
         Gate::authorize('ver', GrupoUsuario::class);
-        $usuarios = $grupo->usuarios()->paginate(10);
+        $usuarios = $grupo->usuarios()->paginate();
         return Inertia::render('Admin/Administracao/Permissoes/GrupoUsuario/Inicio', compact('grupo', 'usuarios'));
     }
 

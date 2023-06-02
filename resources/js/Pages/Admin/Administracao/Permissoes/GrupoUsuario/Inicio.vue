@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Modal from '@/Componentes/Layout/Bootstrap/Modal.vue'
 import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
+import Paginacao from '@/Componentes/Layout/Listas/Paginacao.vue'
 
 const props = defineProps({
     grupo: Object,
@@ -61,6 +62,7 @@ function adicionarUsuario() {
                 </table>
             </div>
         </div>
+        <Paginacao class="mt-4" :links="usuarios.links" />
         <form @submit.prevent="adicionarUsuario">
             <Modal ref="modal" title="Adicionar Usuário">
                 <SelectAjax

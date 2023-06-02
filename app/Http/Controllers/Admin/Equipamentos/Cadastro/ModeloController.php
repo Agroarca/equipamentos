@@ -15,7 +15,7 @@ class ModeloController extends Controller
     public function inicio()
     {
         Gate::authorize('ver', Modelo::class);
-        $modelos = Modelo::with(['marca'])->paginate(10);
+        $modelos = Modelo::with(['marca'])->paginate();
 
         $statusCadastro = StatusCadastro::toArray();
 
