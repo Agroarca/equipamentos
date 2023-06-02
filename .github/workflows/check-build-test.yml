@@ -20,7 +20,7 @@ jobs:
           MYSQL_DATABASE: testing
         ports:
           - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=6
 
     steps:
       - uses: actions/checkout@v3
@@ -43,12 +43,6 @@ jobs:
       - name: Run Build
         run: npm run build
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          coverage: xdebug
-
       - name: Install composer dependencies
         run: |
           composer install --no-scripts --optimize-autoloader
@@ -66,7 +60,7 @@ jobs:
             php artisan key:generate
 
       - name: Run Testsuite
-        run: php artisan test --coverage
+        run: php artisan test
 
       - name: Check composer vulnerabilities
         run: composer audit --locked
