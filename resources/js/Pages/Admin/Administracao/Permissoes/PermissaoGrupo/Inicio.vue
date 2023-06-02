@@ -79,6 +79,11 @@ async function salvarPermissoes() {
                             <td>{{ alteracao.valor ? "Sim" : "Não" }}</td>
                             <td>{{ alteracao.chave }}</td>
                         </tr>
+                        <tr v-if="alteracoes.length === 0">
+                            <td colspan="2" class="text-center">
+                                Nenhuma alteração
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
