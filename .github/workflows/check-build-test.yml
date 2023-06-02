@@ -43,9 +43,15 @@ jobs:
       - name: Run Build
         run: npm run build
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug
+
       - name: Install composer dependencies
         run: |
-          composer install --no-scripts
+          composer install --no-scripts --optimize-autoloader
 
       - name: Run PHP Code Sniffer
         run: |
@@ -60,7 +66,7 @@ jobs:
             php artisan key:generate
 
       - name: Run Testsuite
-        run: php artisan test
+        run: php artisan test --coverage
 
       - name: Check composer vulnerabilities
         run: composer audit --locked
