@@ -61,13 +61,23 @@ function submit() {
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Marca</label>
-                    <SelectAjax v-if="!equipamento?.modelo?.marca" v-model="form.marca_id" placeholder="Selecione uma marca" href="/admin/marcas/pesquisar" />
+                    <SelectAjax
+                        v-if="!equipamento?.modelo?.marca"
+                        v-model="form.marca_id"
+                        placeholder="Selecione uma marca"
+                        href="/admin/marcas/pesquisar"
+                        :preBusca="true" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Modelo</label>
-                    <SelectAjax v-if="!equipamento?.modelo" v-model="form.modelo_id" :disabled="!form.marca_id" :placeholder="placeholderModelo" :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                    <SelectAjax
+                        v-if="!equipamento?.modelo"
+                        v-model="form.modelo_id"
+                        :disabled="!form.marca_id"
+                        :placeholder="placeholderModelo"
+                        :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
