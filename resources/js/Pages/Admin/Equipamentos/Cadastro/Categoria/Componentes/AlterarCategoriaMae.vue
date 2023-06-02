@@ -57,7 +57,7 @@ defineExpose({ show })
                         <td>
                             <div class="grade-botoes">
                                 <button v-if="cat.id != categoria.id" type="button" class="btn btn-primary" @click="atualizarCategorias(cat.id)">
-                                    Acessar <i class="fas fa-arrow-right" />
+                                    Acessar <i class="fas fa-arrow-right ms-1" />
                                 </button>
                             </div>
                         </td>
