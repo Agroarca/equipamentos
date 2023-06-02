@@ -11,6 +11,7 @@ const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMI
 
 let pesquisa = ref('')
 let qtdNotificacoesUsuario = ref(usePage().props.auth.notificacoes)
+let usuarioLogado = ref(usePage().props.auth.user)
 
 function pesquisar() {
     if (pesquisa.value.trim()) {
@@ -58,7 +59,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                     <i class="fas fa-user-circle" />
                     <span class="d-none d-xxl-block">Minha Conta</span>
                 </Link>
-                <Link class="header-item header-btn notificacao-container order-4" href="/notificacoes">
+                <Link v-if="usuarioLogado" class="header-item header-btn notificacao-container order-4" href="/notificacoes">
                     <i class="far fa-bell position-relative">
                         <span v-if="qtdNotificacoesUsuario > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                             {{ qtdNotificacoesUsuario }}
