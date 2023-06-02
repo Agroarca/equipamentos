@@ -47,7 +47,7 @@ function moverCategoria(categoriaId) {
                             </div>
                             <div class="ms-2">
                                 <button type="button" class="btn btn-primary" @click.prevent="openModal()">
-                                    <i class="fas fa-rotate" />
+                                    <i class="fas fa-rotate me-1" />
                                     Mover
                                 </button>
                             </div>
