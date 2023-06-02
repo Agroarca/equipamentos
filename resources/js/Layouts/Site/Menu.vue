@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+let linksMenu = ref(usePage().props.site.menu)
+
+if (linksMenu.value.length === 0) {
+    linksMenu.value = [
+        { id: 1, nome: 'Todos os Equipamentos', link: '/categoria' },
+        { id: 2, nome: 'Anunciar um Equipamento', link: '/equipamento/cadastrar' },
+    ]
+}
 
 </script>
 
@@ -9,7 +19,7 @@ import { Link, usePage } from '@inertiajs/vue3'
             <div id="navbarmenu" class="row menu-content collapse navbar-collapse">
                 <ul class="menu navbar-nav">
                     <li class="nav-item" />
-                    <li v-for="menuLink in usePage().props.site.menu" :key="menuLink.id" class="nav-item">
+                    <li v-for="menuLink in linksMenu" :key="menuLink.id" class="nav-item">
                         <Link class="menu-item" :href="menuLink.link">
                             {{ menuLink.nome }}
                         </Link>
