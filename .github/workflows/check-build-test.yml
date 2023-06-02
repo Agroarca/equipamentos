@@ -43,8 +43,9 @@ jobs:
       - name: Run Build
         run: npm run build
 
-      - name: Install composer and dependencies
-        uses: php-actions/composer@v6
+      - name: Install composer dependencies
+        run: |
+          composer install --no-scripts
 
       - name: Run PHP Code Sniffer
         run: |
