@@ -25,6 +25,9 @@ const props = defineProps({
                     <Link class="btn mb-3 btn-secondary" href="/equipamento/cadastrar">
                         Anunciar Equipamento
                     </Link>
+                    <Link class="btn mb-3 btn-danger" href="/sair">
+                        Sair
+                    </Link>
                 </nav>
                 <div class="d-flex flex-fill flex-column">
                     <slot />

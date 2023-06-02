@@ -17,12 +17,14 @@ const props = defineProps({
                     <thead>
                         <th>Nome</th>
                         <th>Tipo</th>
+                        <th>Obrigatorio</th>
                         <th>Ações</th>
                     </thead>
                     <tbody>
                         <tr v-for="caracteristica in categoria.caracteristicas" :key="caracteristica.id">
                             <td>{{ caracteristica.nome }}</td>
                             <td>{{ tipos[caracteristica.tipo] }}</td>
+                            <td>{{ caracteristica.obrigatorio === 1 ? 'Sim' : 'Não' }}</td>
                             <td>
                                 <div class="grade-botoes">
                                     <Link class="btn btn-primary me-2" :href="`/admin/categorias/${categoria.id}/caracteristicas/${caracteristica.id}/visualizar`">

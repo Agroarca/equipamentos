@@ -22,6 +22,9 @@ const STATUS_NOTIFICACAO_CRIADO = 0
                     <p>{{ notificacao.texto }}</p>
                     <span class="btn-link">Clique para Acessar</span>
                 </Link>
+                <div v-if="notificacoes.data.length === 0" class="alert alert-danger" role="alert">
+                    Nenhuma notificação encontrada
+                </div>
             </div>
         </div>
     </SiteLayout>
