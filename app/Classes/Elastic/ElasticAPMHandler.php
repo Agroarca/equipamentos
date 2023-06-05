@@ -11,6 +11,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Elastic\Apm\Impl\Util\ElasticApmExtensionUtil;
 
 class ElasticAPMHandler extends RotatingFileHandler implements FormattableHandlerInterface
 {
