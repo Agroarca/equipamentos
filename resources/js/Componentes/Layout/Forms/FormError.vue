@@ -6,7 +6,7 @@ defineProps({
 
 <template>
     <div v-if="error">
-        <p class="erro">
+        <p class="cor-erro">
             {{ error }}
         </p>
     </div>
