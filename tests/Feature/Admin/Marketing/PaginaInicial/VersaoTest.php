@@ -25,7 +25,7 @@ class VersaoTest extends PaginaInicialTestBase
 
     public function testPodeAcessar(): void
     {
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get('/admin/marketing/pagina/inicial');
 
         $response->assertStatus(200);
@@ -41,7 +41,7 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versoes = Versao::factory()->count(4)->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get('/admin/marketing/pagina/inicial');
 
         $response->assertStatus(200);
@@ -55,7 +55,7 @@ class VersaoTest extends PaginaInicialTestBase
 
     public function testPodeAcessarCriar(): void
     {
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->get('/admin/marketing/pagina/inicial/criar');
 
         $response->assertStatus(200);
@@ -69,7 +69,7 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versao = Versao::factory()->make();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -93,7 +93,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -120,7 +120,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -145,7 +145,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -171,7 +171,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -198,7 +198,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -224,7 +224,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -246,7 +246,7 @@ class VersaoTest extends PaginaInicialTestBase
             ]
         );
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:criar'))
             ->post('/admin/marketing/pagina/inicial/salvar', [
                 'nome' => $versao->nome,
                 'prioridade' => $versao->prioridade,
@@ -263,7 +263,7 @@ class VersaoTest extends PaginaInicialTestBase
     public function testPodeAcessarEditar(): void
     {
         $versao = Versao::factory()->create();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/editar");
 
         $response->assertStatus(200);
@@ -281,7 +281,7 @@ class VersaoTest extends PaginaInicialTestBase
             'status' => StatusVersao::Aprovado,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/editar");
 
         $response->assertStatus(403);
@@ -293,7 +293,7 @@ class VersaoTest extends PaginaInicialTestBase
             'status' => StatusVersao::Reprovado,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/editar");
 
         $response->assertStatus(403);
@@ -305,7 +305,7 @@ class VersaoTest extends PaginaInicialTestBase
             'status' => StatusVersao::Publicado,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/editar");
 
         $response->assertStatus(403);
@@ -317,7 +317,7 @@ class VersaoTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $prioridade = 10;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
                 'nome' => $nome,
                 'prioridade' => $prioridade,
@@ -342,7 +342,7 @@ class VersaoTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $prioridade = 10;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
                 'nome' => $nome,
                 'prioridade' => $prioridade,
@@ -365,7 +365,7 @@ class VersaoTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $prioridade = 10;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
                 'nome' => $nome,
                 'prioridade' => $prioridade,
@@ -388,7 +388,7 @@ class VersaoTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $prioridade = 10;
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
                 'nome' => $nome,
                 'prioridade' => $prioridade,
@@ -405,7 +405,7 @@ class VersaoTest extends PaginaInicialTestBase
     public function testPodeAcessarVisualizar(): void
     {
         $versao = Versao::factory()->create();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/visualizar");
 
         $response->assertStatus(200);
@@ -421,7 +421,7 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoCompleto();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/visualizar");
 
         $response->assertStatus(200);
@@ -443,7 +443,7 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versao = Versao::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
 
         $response->assertValid();
@@ -459,7 +459,7 @@ class VersaoTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
 
         $response->assertStatus(403);
@@ -474,7 +474,7 @@ class VersaoTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
 
         $response->assertStatus(403);
@@ -489,7 +489,7 @@ class VersaoTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
 
         $response->assertStatus(403);
@@ -506,7 +506,7 @@ class VersaoTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertStatus(200);
@@ -520,7 +520,7 @@ class VersaoTest extends PaginaInicialTestBase
     {
         $versao = Versao::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertInvalid();
@@ -540,7 +540,7 @@ class VersaoTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertInvalid(['grid']);
@@ -560,7 +560,7 @@ class VersaoTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertInvalid(['grid']);
@@ -575,7 +575,7 @@ class VersaoTest extends PaginaInicialTestBase
         $versao = Versao::factory()->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:reprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
 
         $response->assertStatus(200);
@@ -592,7 +592,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:publicar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
 
         $response->assertStatus(200);
@@ -609,7 +609,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:voltar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
 
         $response->assertStatus(200);
@@ -626,7 +626,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:voltar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
 
         $response->assertStatus(200);
@@ -643,7 +643,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertInvalid('status');
@@ -656,7 +656,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:aprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
 
         $response->assertInvalid('status');
@@ -669,7 +669,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:publicar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
 
         $response->assertInvalid('status');
@@ -682,7 +682,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:publicar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
 
         $response->assertInvalid('status');
@@ -695,7 +695,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:reprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
 
         $response->assertInvalid('status');
@@ -708,7 +708,7 @@ class VersaoTest extends PaginaInicialTestBase
         ])->create();
         $this->criarCarrosselItem($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:reprovar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
 
         $response->assertInvalid('status');
@@ -723,7 +723,8 @@ class VersaoTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => '/link',
                 'descricao' => 'descrição da imagem',
@@ -745,7 +746,7 @@ class VersaoTest extends PaginaInicialTestBase
         // Criar Banner
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => '/link',
                 'descricao' => 'descricao da imagem',
@@ -772,7 +773,7 @@ class VersaoTest extends PaginaInicialTestBase
         // Criar Lista de Produtos
         $lista = Lista::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
                 'lista_produtos_id' => $lista->lista_produtos_id,
                 'titulo' => $lista->titulo,
@@ -792,7 +793,7 @@ class VersaoTest extends PaginaInicialTestBase
         ]);
 
         // Criar Grid
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
                 'tela_cheia' => true,
                 'formato' => Formato::Banner_3x1_1x3->value,
@@ -812,7 +813,7 @@ class VersaoTest extends PaginaInicialTestBase
         $descricao = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -829,6 +830,176 @@ class VersaoTest extends PaginaInicialTestBase
             'link' => $link,
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeAcessarSemPermissao(): void
+    {
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/marketing/pagina/inicial');
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarCriarSemPermissao(): void
+    {
+        $response = $this->actingAs($this->getAdmin())
+            ->get('/admin/marketing/pagina/inicial/criar');
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeCriarNovoSemPermissao(): void
+    {
+        $versao = Versao::factory()->make();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post('/admin/marketing/pagina/inicial/salvar', [
+                'nome' => $versao->nome,
+                'prioridade' => $versao->prioridade,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'status' => StatusVersao::Criado,
+            'nome' => $versao->nome,
+            'prioridade' => $versao->prioridade,
+        ]);
+    }
+
+    public function testNaoPodeAcessarEditarSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/editar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeEditarSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+        $nome = Str::random(10);
+        $prioridade = 10;
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/atualizar", [
+                'nome' => $nome,
+                'prioridade' => $prioridade,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Criado,
+            'nome' => $nome,
+            'prioridade' => $prioridade,
+        ]);
+    }
+
+    public function testNaoPodeAcessarVisualizarSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/visualizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+        ]);
+    }
+
+    public function testNaoPodeAprovarSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+        $this->criarCarrosselItem($versao);
+        MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/aprovar");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Aprovado,
+        ]);
+    }
+
+    public function testNaoPodeReprovarSemPermissao(): void
+    {
+        $versao = Versao::factory()->create();
+        $this->criarCarrosselItem($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/reprovar");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Reprovado,
+        ]);
+    }
+
+    public function testNaoPodePublicarSemPermissao(): void
+    {
+        $versao = Versao::factory([
+            'status' => StatusVersao::Aprovado,
+        ])->create();
+        $this->criarCarrosselItem($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/publicar");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Publicado,
+        ]);
+    }
+
+    public function testNaoPodeVoltarPublicadoSemPermissao(): void
+    {
+        $versao = Versao::factory([
+            'status' => StatusVersao::Publicado,
+        ])->create();
+        $this->criarCarrosselItem($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Criado,
+        ]);
+    }
+
+    public function testNaoPodeVoltarReprovadoSemPermissao(): void
+    {
+        $versao = Versao::factory([
+            'status' => StatusVersao::Reprovado,
+        ])->create();
+        $this->criarCarrosselItem($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/voltar");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Versao::class)->getTable(), [
+            'id' => $versao->id,
+            'status' => StatusVersao::Criado,
         ]);
     }
 }

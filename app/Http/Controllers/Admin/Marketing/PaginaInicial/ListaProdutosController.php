@@ -10,6 +10,7 @@ use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ListaProdutosController extends Controller
@@ -21,6 +22,7 @@ class ListaProdutosController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        Gate::authorize('criar', Lista::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -34,6 +36,7 @@ class ListaProdutosController extends Controller
 
     public function salvar(AdicionarListaRequest $request, Versao $versao): mixed
     {
+        Gate::authorize('criar', Lista::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -56,6 +59,7 @@ class ListaProdutosController extends Controller
 
     public function visualizar(Versao $versao, Lista $lista): mixed
     {
+        Gate::authorize('ver', $lista);
         $lista->load(['listaProdutos', 'componente']);
         return Inertia::render('Admin/Marketing/PaginaInicial/ListaProdutos/Visualizar', compact('versao', 'lista'));
     }

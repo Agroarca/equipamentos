@@ -16,7 +16,7 @@ class MenuTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/adicionar");
 
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class MenuTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $link = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", [
                 'link' => $link,
                 'nome' => $nome,
@@ -50,7 +50,7 @@ class MenuTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", []);
 
         $response->assertInvalid(['nome', 'link']);
@@ -63,7 +63,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/editar");
 
         $response->assertStatus(200);
@@ -84,7 +84,7 @@ class MenuTest extends PaginaInicialTestBase
         $nome = Str::random(10);
         $link = Str::random(10);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/atualizar", [
                 'link' => $link,
                 'nome' => $nome,
@@ -109,7 +109,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item->id/excluir");
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
@@ -134,7 +134,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/abaixo");
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
@@ -164,7 +164,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/acima");
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
@@ -194,7 +194,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/abaixo");
 
         $response->assertInvalid('ordem');
@@ -224,7 +224,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/acima");
 
         $response->assertInvalid('ordem');
@@ -244,7 +244,7 @@ class MenuTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/adicionar");
 
         $response->assertStatus(403);
@@ -256,7 +256,7 @@ class MenuTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -274,7 +274,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/editar");
 
         $response->assertStatus(403);
@@ -289,7 +289,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/atualizar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -307,7 +307,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/excluir");
 
         $response->assertStatus(403);
@@ -331,7 +331,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/acima");
 
         $response->assertStatus(403);
@@ -363,7 +363,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/abaixo");
 
         $response->assertStatus(403);
@@ -383,7 +383,7 @@ class MenuTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -401,7 +401,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/editar");
 
         $response->assertStatus(403);
@@ -416,7 +416,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/atualizar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -434,7 +434,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/excluir");
 
         $response->assertStatus(403);
@@ -458,7 +458,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/acima");
 
         $response->assertStatus(403);
@@ -490,7 +490,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/abaixo");
 
         $response->assertStatus(403);
@@ -510,7 +510,7 @@ class MenuTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -528,7 +528,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/editar");
 
         $response->assertStatus(403);
@@ -543,7 +543,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:editar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/atualizar", [
                 'link' => Str::random(10),
                 'nome' => Str::random(10),
@@ -561,7 +561,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/excluir");
 
         $response->assertStatus(403);
@@ -585,7 +585,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/acima");
 
         $response->assertStatus(403);
@@ -617,7 +617,7 @@ class MenuTest extends PaginaInicialTestBase
             'versao_id' => $versao->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:ordem'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/abaixo");
 
         $response->assertStatus(403);
@@ -629,5 +629,121 @@ class MenuTest extends PaginaInicialTestBase
             'id' => $item2->id,
             'ordem' => 2,
         ]);
+    }
+
+    public function testNaoPodeAcessarAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $nome = Str::random(10);
+        $link = Str::random(10);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/salvar", [
+                'link' => $link,
+                'nome' => $nome,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(MenuLink::class)->getTable(), [
+            'link' => $link,
+            'nome' => $nome,
+        ]);
+    }
+
+    public function testNaoPodeAcessarEditarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $menuLink = MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/editar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeEditarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $menuLink = MenuLink::factory()->create([
+            'versao_id' => $versao->id,
+        ]);
+        $nome = Str::random(10);
+        $link = Str::random(10);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$menuLink->id/atualizar", [
+                'link' => $link,
+                'nome' => $nome,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(MenuLink::class)->getTable(), [
+            'id' => $menuLink->id,
+            'link' => $link,
+            'nome' => $nome,
+        ]);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $item = MenuLink::create([
+            'ordem' => 1,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(MenuLink::class)->getTable(), [
+            'id' => $item->id,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $item1 = MenuLink::create([
+            'ordem' => 1,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item1->id/ordem/abaixo");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $item2 = MenuLink::create([
+            'ordem' => 2,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/ordem/acima");
+
+        $response->assertStatus(403);
     }
 }

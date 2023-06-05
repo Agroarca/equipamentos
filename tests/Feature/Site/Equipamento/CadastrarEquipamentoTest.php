@@ -512,7 +512,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvaEquipametoEditado(): void
+    public function testPodeSalvarEquipametoEditado(): void
     {
         $usuario = Usuario::factory()->create();
         $equipamento = Equipamento::factory()->create([
@@ -556,7 +556,7 @@ class CadastrarEquipamentoTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function testNaoPodeSalvaEquipamentoEditadoAprovado(): void
+    public function testNaoPodeSalvarEquipamentoEditadoAprovado(): void
     {
         $usuario = Usuario::factory()->create();
         $equipamento = Equipamento::factory()->statusAprovado()->create([

@@ -12,6 +12,7 @@ use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -25,6 +26,7 @@ class GridController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        Gate::authorize('criar', Grid::class);
         $formatos = Formato::arrayNomes();
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
@@ -35,6 +37,7 @@ class GridController extends Controller
 
     public function salvar(AdicionarGridRequest $request, Versao $versao): mixed
     {
+        Gate::authorize('criar', Grid::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -57,6 +60,7 @@ class GridController extends Controller
 
     public function visualizar(Versao $versao, Grid $grid): mixed
     {
+        Gate::authorize('ver', $grid);
         $formato = Formato::arrayNomes()[$grid->formato->value];
 
         $grid->load([
@@ -78,6 +82,7 @@ class GridController extends Controller
 
     public function adicionarImagem(Versao $versao, Grid $grid): mixed
     {
+        Gate::authorize('criar', GridImagem::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -87,6 +92,7 @@ class GridController extends Controller
 
     public function salvarImagem(AdicionarImagemRequest $request, Versao $versao, Grid $grid): mixed
     {
+        Gate::authorize('criar', GridImagem::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -112,6 +118,7 @@ class GridController extends Controller
 
     public function visualizarImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
     {
+        Gate::authorize('ver', $gridImagem);
         return Inertia::render(
             'Admin/Marketing/PaginaInicial/Grid/VisualizarImagem',
             compact('versao', 'grid', 'gridImagem')
@@ -120,6 +127,7 @@ class GridController extends Controller
 
     public function excluirImagem(Versao $versao, Grid $grid, GridImagem $gridImagem): mixed
     {
+        Gate::authorize('excluir', $gridImagem);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -134,6 +142,7 @@ class GridController extends Controller
 
     public function ordemAcima(Versao $versao, Grid $grid, GridImagem $gridImagem)
     {
+        Gate::authorize('ordem', $grid);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -156,6 +165,7 @@ class GridController extends Controller
 
     public function ordemAbaixo(Versao $versao, Grid $grid, GridImagem $gridImagem)
     {
+        Gate::authorize('ordem', $grid);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");

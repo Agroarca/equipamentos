@@ -16,7 +16,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
     public function testPodeAcessarAdicionar(): void
     {
         $versao = $this->getVersaoBase();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
 
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
         ListaEquipamentos::factory()->count(4)->create();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
 
         $response->assertStatus(200);
@@ -47,9 +47,9 @@ class ListaProdutosTest extends PaginaInicialTestBase
     public function testPodeSalvar(): void
     {
         $versao = $this->getVersaoBase();
-        $lista = Lista::factory()->create();
+        $lista = Lista::factory()->make();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
                 'lista_produtos_id' => $lista->lista_produtos_id,
                 'titulo' => $lista->titulo,
@@ -74,7 +74,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $lista = Lista::factory()->create();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/$lista->id/visualizar");
 
         $response->assertStatus(200);
@@ -92,7 +92,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
 
         $response->assertStatus(403);
@@ -104,7 +104,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
 
         $response->assertStatus(403);
@@ -116,7 +116,7 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
 
         $response->assertStatus(403);
@@ -128,9 +128,9 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $lista = Lista::factory()->create();
+        $lista = Lista::factory()->make();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
                 'lista_produtos_id' => $lista->lista_produtos_id,
                 'titulo' => $lista->titulo,
@@ -147,9 +147,9 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $lista = Lista::factory()->create();
+        $lista = Lista::factory()->make();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
                 'lista_produtos_id' => $lista->lista_produtos_id,
                 'titulo' => $lista->titulo,
@@ -166,7 +166,32 @@ class ListaProdutosTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $lista = Lista::factory()->create();
+        $lista = Lista::factory()->make();
+
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.lista-produtos.lista:criar'))
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
+                'lista_produtos_id' => $lista->lista_produtos_id,
+                'titulo' => $lista->titulo,
+                'subtitulo' => $lista->subtitulo,
+                'tela_cheia' => false,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeSalvarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $lista = Lista::factory()->make();
 
         $response = $this->actingAs($this->getAdmin())
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/salvar", [
@@ -175,6 +200,25 @@ class ListaProdutosTest extends PaginaInicialTestBase
                 'subtitulo' => $lista->subtitulo,
                 'tela_cheia' => false,
             ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'lista_produtos_id' => $lista->lista_produtos_id,
+        ]);
+        $this->assertDatabaseMissing(app(Componente::class)->getTable(), [
+            'titulo' => $lista->titulo,
+            'subtitulo' => $lista->subtitulo,
+            'tela_cheia' => false,
+        ]);
+    }
+
+    public function testNaoPodeVisualizarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $lista = Lista::factory()->create();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/lista/produtos/$lista->id/visualizar");
 
         $response->assertStatus(403);
     }
