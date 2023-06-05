@@ -1,5 +1,10 @@
 $verde-primario: #009934;
 $texto-secundario: #fff;
+$cor-erro: #ff0018;
 
 $notificacao-background: $verde-primario;
 $notificacao-texto: $texto-secundario;
+
+.cor-erro {
+    color: $cor-erro;
+}
