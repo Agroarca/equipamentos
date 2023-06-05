@@ -23,6 +23,7 @@ class PHPMailerTransport extends AbstractTransport
                 $recipient->getName()
             );
         }
+
         $converted = MessageConverter::toEmail($message->getOriginalMessage());
         $mailer->Subject = $converted->getSubject();
         $mailer->Body = $converted->getHtmlBody();
