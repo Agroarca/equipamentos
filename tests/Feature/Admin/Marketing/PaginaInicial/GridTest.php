@@ -20,7 +20,7 @@ class GridTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar");
 
         $response->assertStatus(200);
@@ -35,7 +35,7 @@ class GridTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
                 'tela_cheia' => true,
                 'formato' => Formato::Banner_3x1_1x3->value,
@@ -48,12 +48,12 @@ class GridTest extends PaginaInicialTestBase
         ]);
     }
 
-    public function testPodeCriarVisualizar(): void
+    public function testPodeVisualizar(): void
     {
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/visualizar");
 
 
@@ -67,13 +67,13 @@ class GridTest extends PaginaInicialTestBase
         );
     }
 
-    public function testPodeCriarVisualizarComDados(): void
+    public function testPodeVisualizarComDados(): void
     {
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
         $this->criarGridImagem($grid, 3);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/visualizar");
 
 
@@ -93,7 +93,7 @@ class GridTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
 
         $response->assertStatus(200);
@@ -112,7 +112,7 @@ class GridTest extends PaginaInicialTestBase
         $descricao = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -142,7 +142,7 @@ class GridTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -171,7 +171,7 @@ class GridTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", []);
 
         $response->assertInvalid(['link', 'descricao', 'imagem_desktop']);
@@ -184,7 +184,7 @@ class GridTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
         $imagem = $this->criarGridImagem($grid)[0];
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/visualizar");
 
         $response->assertStatus(200);
@@ -214,7 +214,7 @@ class GridTest extends PaginaInicialTestBase
             'grid_id' => $grid->id,
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$gridImagem->id/excluir");
 
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
@@ -246,7 +246,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem3->ordem = 3;
         $imagem3->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
         );
 
@@ -283,7 +283,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem1->id/ordem/acima"
         );
 
@@ -317,7 +317,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem3->ordem = 3;
         $imagem3->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
         );
 
@@ -354,7 +354,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
         );
 
@@ -376,7 +376,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
 
         $response->assertStatus(403);
@@ -389,7 +389,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
 
         $response->assertStatus(403);
@@ -402,7 +402,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar", []);
 
         $response->assertStatus(403);
@@ -414,7 +414,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
                 'tela_cheia' => true,
                 'formato' => Formato::Banner_3x1_1x3->value,
@@ -429,7 +429,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
                 'tela_cheia' => true,
                 'formato' => Formato::Banner_3x1_1x3->value,
@@ -444,7 +444,7 @@ class GridTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
                 'tela_cheia' => true,
                 'formato' => Formato::Banner_3x1_1x3->value,
@@ -461,7 +461,7 @@ class GridTest extends PaginaInicialTestBase
 
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
 
         $response->assertStatus(403);
@@ -475,7 +475,7 @@ class GridTest extends PaginaInicialTestBase
 
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
 
         $response->assertStatus(403);
@@ -489,7 +489,7 @@ class GridTest extends PaginaInicialTestBase
 
         $grid = $this->criarGrid($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
 
         $response->assertStatus(403);
@@ -507,7 +507,7 @@ class GridTest extends PaginaInicialTestBase
         $descricao = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -535,7 +535,7 @@ class GridTest extends PaginaInicialTestBase
         $descricao = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -563,7 +563,7 @@ class GridTest extends PaginaInicialTestBase
         $descricao = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -588,7 +588,7 @@ class GridTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
         $imagem = $this->criarGridImagem($grid)[0];
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
 
         $response->assertStatus(403);
@@ -606,7 +606,7 @@ class GridTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
         $imagem = $this->criarGridImagem($grid)[0];
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
 
         $response->assertStatus(403);
@@ -624,7 +624,7 @@ class GridTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
         $imagem = $this->criarGridImagem($grid)[0];
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/excluir");
 
         $response->assertStatus(403);
@@ -650,7 +650,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
         );
 
@@ -682,7 +682,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
         );
 
@@ -714,7 +714,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
         );
 
@@ -746,7 +746,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
         );
 
@@ -778,7 +778,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
         );
 
@@ -810,7 +810,7 @@ class GridTest extends PaginaInicialTestBase
         $imagem2->ordem = 2;
         $imagem2->save();
 
-        $response = $this->actingAs($this->getAdmin())->get(
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid:ordem'))->get(
             "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
         );
 
@@ -823,5 +823,165 @@ class GridTest extends PaginaInicialTestBase
             'id' => $imagem2->id,
             'ordem' => 2,
         ]);
+    }
+
+    public function testNaoPodeAcessarAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/adicionar");
+
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeCriarNovoSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/salvar", [
+                'tela_cheia' => true,
+                'formato' => Formato::Banner_3x1_1x3->value,
+            ]);
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeVisualizarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/visualizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarImagemSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarImagemSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+        ]);
+    }
+
+    public function testNaoPodeVisualizarImagemSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagem = $this->criarGridImagem($grid)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem->id/visualizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $name = $imagemDesktop->hashName();
+
+        $gridImagem = GridImagem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'nome_desktop' => $name,
+            'grid_id' => $grid->id,
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$gridImagem->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $gridImagem->id,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 3);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $imagem3 = $imagens[2];
+        $imagem3->ordem = 3;
+        $imagem3->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/acima"
+        );
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 3);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $imagem3 = $imagens[2];
+        $imagem3->ordem = 3;
+        $imagem3->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/ordem/abaixo"
+        );
+
+        $response->assertStatus(403);
     }
 }

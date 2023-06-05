@@ -19,7 +19,7 @@ class BannerTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar");
 
         $response->assertStatus(200);
@@ -40,7 +40,7 @@ class BannerTest extends PaginaInicialTestBase
         $subtitulo = Str::random(10);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -50,19 +50,19 @@ class BannerTest extends PaginaInicialTestBase
                 'imagem_desktop' => $imagemDesktop,
             ]);
 
-            $response->assertValid();
-            Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
-            $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
-            $this->assertDatabaseHas(app(Banner::class)->getTable(), [
-                'link' => $link,
-                'descricao' => $descricao,
-                'nome_desktop' => $imagemDesktop->hashName(),
-            ]);
-            $this->assertDatabaseHas(app(Componente::class)->getTable(), [
-                'titulo' => $titulo,
-                'subtitulo' => $subtitulo,
-                'tela_cheia' => $telaCheia,
-            ]);
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Banner::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'titulo' => $titulo,
+            'subtitulo' => $subtitulo,
+            'tela_cheia' => $telaCheia,
+        ]);
     }
 
     public function testPodeAdicionarComMobile(): void
@@ -77,7 +77,7 @@ class BannerTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 400);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -88,21 +88,21 @@ class BannerTest extends PaginaInicialTestBase
                 'imagem_mobile' => $imagemMobile,
             ]);
 
-            $response->assertValid();
-            Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
-            Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
-            $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
-            $this->assertDatabaseHas(app(Banner::class)->getTable(), [
-                'link' => $link,
-                'descricao' => $descricao,
-                'nome_desktop' => $imagemDesktop->hashName(),
-                'nome_mobile' => $imagemMobile->hashName(),
-            ]);
-            $this->assertDatabaseHas(app(Componente::class)->getTable(), [
-                'titulo' => $titulo,
-                'subtitulo' => $subtitulo,
-                'tela_cheia' => $telaCheia,
-            ]);
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
+        $this->assertDatabaseHas(app(Banner::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+            'nome_mobile' => $imagemMobile->hashName(),
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'titulo' => $titulo,
+            'subtitulo' => $subtitulo,
+            'tela_cheia' => $telaCheia,
+        ]);
     }
 
     public function testNaoPodeAdicionarSemCampos(): void
@@ -110,7 +110,7 @@ class BannerTest extends PaginaInicialTestBase
         Storage::fake();
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", []);
 
         $response->assertInvalid(['tela_cheia', 'link', 'descricao', 'imagem_desktop']);
@@ -128,7 +128,7 @@ class BannerTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 300, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 300, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -161,7 +161,7 @@ class BannerTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $banner = $this->criarBanner($versao);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/$banner->id/visualizar");
 
         $response->assertStatus(200);
@@ -180,7 +180,7 @@ class BannerTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
 
         $response->assertStatus(403);
@@ -193,7 +193,7 @@ class BannerTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
 
         $response->assertStatus(403);
@@ -206,7 +206,7 @@ class BannerTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar", []);
 
         $response->assertStatus(403);
@@ -222,7 +222,7 @@ class BannerTest extends PaginaInicialTestBase
         $banner = $this->criarBanner($versao);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => $banner->link,
                 'descricao' => $banner->descricao,
@@ -244,7 +244,7 @@ class BannerTest extends PaginaInicialTestBase
         $banner = $this->criarBanner($versao);
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1500, 500);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.banners.banner:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
                 'link' => $banner->link,
                 'descricao' => $banner->descricao,
@@ -276,5 +276,61 @@ class BannerTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+    }
+
+    public function testNaoPodeAcessarAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $telaCheia = true;
+        $titulo = Str::random(10);
+        $subtitulo = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/banner/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'titulo' => $titulo,
+                'subtitulo' => $subtitulo,
+                'tela_cheia' => $telaCheia,
+                'imagem_desktop' => $imagemDesktop,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(Banner::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+        $this->assertDatabaseMissing(app(Componente::class)->getTable(), [
+            'titulo' => $titulo,
+            'subtitulo' => $subtitulo,
+            'tela_cheia' => $telaCheia,
+        ]);
+    }
+
+    public function testNaoPodeVisualizarSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $banner = $this->criarBanner($versao);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/banner/$banner->id/visualizar");
+
+        $response->assertStatus(403);
     }
 }

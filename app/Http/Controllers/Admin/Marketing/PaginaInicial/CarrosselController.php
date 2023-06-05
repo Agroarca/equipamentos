@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Carrossel\AdicionarImagemRequest;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use App\Models\Marketing\PaginaInicial\Versao;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -14,6 +15,7 @@ class CarrosselController extends Controller
 {
     public function visualizar(Versao $versao)
     {
+        Gate::authorize('ver', CarrosselItem::class);
         $versao->load([
             'carrosselItens' => fn ($query) => $query->orderBy('ordem'),
         ]);
@@ -22,6 +24,7 @@ class CarrosselController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        Gate::authorize('criar', CarrosselItem::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -31,6 +34,7 @@ class CarrosselController extends Controller
 
     public function salvar(AdicionarImagemRequest $request, Versao $versao): mixed
     {
+        Gate::authorize('criar', CarrosselItem::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -53,6 +57,7 @@ class CarrosselController extends Controller
 
     public function excluir(Versao $versao, CarrosselItem $item): mixed
     {
+        Gate::authorize('excluir', $item);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -66,6 +71,7 @@ class CarrosselController extends Controller
 
     public function visualizarItem(Versao $versao, CarrosselItem $item): mixed
     {
+        Gate::authorize('ver', $item);
         return Inertia::Render(
             'Admin/Marketing/PaginaInicial/CarrosselPrincipal/VisualizarItem',
             compact('versao', 'item')

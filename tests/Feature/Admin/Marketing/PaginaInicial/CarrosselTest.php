@@ -18,7 +18,8 @@ class CarrosselTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/visualizar");
 
         $response->assertStatus(200);
@@ -36,7 +37,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $this->criarCarrosselItem($versao, 2);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/visualizar");
 
         $response->assertStatus(200);
@@ -53,7 +55,8 @@ class CarrosselTest extends PaginaInicialTestBase
     {
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar");
 
         $response->assertStatus(200);
@@ -72,7 +75,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -80,16 +84,16 @@ class CarrosselTest extends PaginaInicialTestBase
                 'imagem_mobile' => $imagemMobile,
             ]);
 
-            $response->assertValid();
-            Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
-            Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
-            $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
-            $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
-                'link' => $link,
-                'descricao' => $descricao,
-                'nome_arquivo_desktop' => $imagemDesktop->hashName(),
-                'nome_arquivo_mobile' => $imagemMobile->hashName(),
-            ]);
+        $response->assertValid();
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Storage::assertExists(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
     }
 
     public function testNaoPodeAdicionarSemCampos(): void
@@ -97,7 +101,8 @@ class CarrosselTest extends PaginaInicialTestBase
         Storage::fake();
         $versao = $this->getVersaoBase();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", []);
 
         $response->assertInvalid(['link', 'descricao', 'imagem_desktop', 'imagem_mobile']);
@@ -112,7 +117,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 300, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 300, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => $link,
                 'descricao' => $descricao,
@@ -137,7 +143,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $versao = $this->getVersaoBase();
         $item = $this->criarCarrosselItem($versao)[0];
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/visualizar");
 
         $response->assertStatus(200);
@@ -166,8 +173,9 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
-        ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:excluir'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
 
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
@@ -184,7 +192,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
 
         $response->assertStatus(403);
@@ -197,7 +206,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
 
         $response->assertStatus(403);
@@ -210,7 +220,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $versao->status = StatusVersao::Publicado;
         $versao->save();
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar", []);
 
         $response->assertStatus(403);
@@ -227,7 +238,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => $carrossel->link,
                 'descricao' => $carrossel->descricao,
@@ -251,7 +263,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => $carrossel->link,
                 'descricao' => $carrossel->descricao,
@@ -275,7 +288,8 @@ class CarrosselTest extends PaginaInicialTestBase
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
         $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:criar'))
             ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
                 'link' => $carrossel->link,
                 'descricao' => $carrossel->descricao,
@@ -308,7 +322,8 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
 
 
@@ -335,7 +350,8 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
 
 
@@ -362,10 +378,95 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
 
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarVisualizarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/visualizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAcessarAdicionarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/adicionar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAdicionarSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $link = Str::random(10);
+        $descricao = Str::random(10);
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->post("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/salvar", [
+                'link' => $link,
+                'descricao' => $descricao,
+                'imagem_desktop' => $imagemDesktop,
+                'imagem_mobile' => $imagemMobile,
+            ]);
 
 
         $response->assertStatus(403);
+        $this->assertDatabaseMissing(app(CarrosselItem::class)->getTable(), [
+            'link' => $link,
+            'descricao' => $descricao,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+    }
+
+    public function testNaoPodeVisualizarItemSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $item = $this->criarCarrosselItem($versao)[0];
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/visualizar");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 640);
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 800, 640);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+        $item = CarrosselItem::create([
+            'ordem' => 1,
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+            'versao_id' => $versao->id,
+            'nome_arquivo_desktop' => $imagemDesktop->hashName(),
+            'nome_arquivo_mobile' => $imagemMobile->hashName(),
+        ]);
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item->id/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item->id,
+        ]);
     }
 }

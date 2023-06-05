@@ -11,6 +11,7 @@ use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BannerController extends Controller
@@ -22,6 +23,7 @@ class BannerController extends Controller
 
     public function adicionar(Versao $versao): mixed
     {
+        Gate::authorize('criar', Banner::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -31,6 +33,7 @@ class BannerController extends Controller
 
     public function salvar(AdicionarBannerRequest $request, Versao $versao): mixed
     {
+        Gate::authorize('criar', Banner::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -66,6 +69,7 @@ class BannerController extends Controller
 
     public function visualizar(Versao $versao, Banner $banner): mixed
     {
+        Gate::authorize('ver', $banner);
         $banner->load('componente');
         return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Visualizar', compact('versao', 'banner'));
     }

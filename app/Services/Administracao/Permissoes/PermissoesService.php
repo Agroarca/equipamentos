@@ -61,6 +61,7 @@ class PermissoesService
         return [
             $this->administracao($grupo),
             $this->equipamentos($grupo),
+            $this->marketing($grupo),
         ];
     }
 
@@ -145,6 +146,67 @@ class PermissoesService
                 $grupo->grupo('Caracteristica', 'caracteristica', function (GrupoPermissao $grupo): void {
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Excluir', 'excluir');
+                });
+            });
+    }
+
+    private function marketing(Grupo $grupo): GrupoPermissao
+    {
+        return GrupoPermissao::create('Marketing', 'marketing', $grupo)
+            ->grupo('Página Inicial', 'pagina-inicial', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Banners', 'banners', function (GrupoPermissao $grupo): void {
+                    $grupo->grupo('Banner', 'banner', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Ver', 'ver');
+                        $grupo->permissao('Criar', 'criar');
+                    });
+                });
+                $grupo->grupo('Carrossel', 'carrossel', function (GrupoPermissao $grupo): void {
+                    $grupo->grupo('CarrosselItem', 'carrossel-item', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Ver', 'ver');
+                        $grupo->permissao('Criar', 'criar');
+                        $grupo->permissao('Excluir', 'excluir');
+                        $grupo->permissao('Alterar Ordem', 'ordem');
+                    });
+                });
+                $grupo->grupo('Grid', 'grid', function (GrupoPermissao $grupo): void {
+                    $grupo->grupo('Grid', 'grid', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Ver', 'ver');
+                        $grupo->permissao('Criar', 'criar');
+                    });
+                    $grupo->grupo('Imagem do Grid', 'grid-imagem', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Ver', 'ver');
+                        $grupo->permissao('Criar', 'criar');
+                        $grupo->permissao('Excluir', 'excluir');
+                    });
+                });
+                $grupo->grupo('Lista de Produtos', 'lista-produtos', function (GrupoPermissao $grupo): void {
+                    $grupo->grupo('Lista', 'lista', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Ver', 'ver');
+                        $grupo->permissao('Criar', 'criar');
+                    });
+                });
+                $grupo->grupo('Menu', 'menu', function (GrupoPermissao $grupo): void {
+                    $grupo->grupo('Link do Menu', 'menu-link', function (GrupoPermissao $grupo): void {
+                        $grupo->permissao('Criar', 'criar');
+                        $grupo->permissao('Editar', 'editar');
+                        $grupo->permissao('Excluir', 'excluir');
+                        $grupo->permissao('Alterar Ordem', 'ordem');
+                    });
+                });
+
+                $grupo->grupo('Versao', 'versao', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Ver', 'ver');
+                    $grupo->permissao('Criar', 'criar');
+                    $grupo->permissao('Editar', 'editar');
+                    $grupo->permissao('Excluir', 'excluir');
+                    $grupo->permissao('Aprovar', 'aprovar');
+                    $grupo->permissao('Reprovar', 'reprovar');
+                    $grupo->permissao('Publicar', 'publicar');
+                    $grupo->permissao('Voltar', 'voltar');
+                });
+                $grupo->grupo('Componente', 'componente', function (GrupoPermissao $grupo): void {
+                    $grupo->permissao('Alterar Ordem', 'ordem');
                     $grupo->permissao('Excluir', 'excluir');
                 });
             });
