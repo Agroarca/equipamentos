@@ -12,12 +12,15 @@ const props = defineProps({
     filtrosSelecionados: Object,
 })
 
+let url = new URL(window.location.href)
+
 let temFiltroSelecionado = computed(
     () => props.filtrosSelecionados.length > 0
-    || props.filtros.valor.minimo != null
-    || props.filtros.valor.maximo != null
-    || props.filtros.ano.minimo != null
-    || props.filtros.ano.maximo != null,
+    || url.searchParams.get('ano_minimo') != null
+    || url.searchParams.get('ano_maximo') != null
+    || url.searchParams.get('valor_minimo') != null
+    || url.searchParams.get('valor_maximo') != null
+    || url.searchParams.get('pesquisa') != null,
 )
 
 let mostrarFiltros = computed(
