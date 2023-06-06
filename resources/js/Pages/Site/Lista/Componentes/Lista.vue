@@ -11,7 +11,6 @@ const props = defineProps({
     filtros: Object,
     filtrosSelecionados: Object,
 })
-
 let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
     || props.equipamentos.data.length > 0
     || props.filtros.valor.minimo != null

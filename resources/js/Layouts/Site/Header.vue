@@ -1,23 +1,17 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-restricted-html-elements */
-import { Link, router, usePage } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Menu from './Menu.vue'
+import Pesquisa from './Pesquisa.vue'
 import EventoNotificacaoWS from '@/Componentes/Eventos/EventoNotificacaoWS'
 import Listener from '@/Componentes/Eventos/Listener'
 
 const TIPO_USUARIO_ADMIN = 1
 const isAdmin = usePage()?.props?.auth?.user?.tipo_usuario === TIPO_USUARIO_ADMIN
 
-let pesquisa = ref('')
 let qtdNotificacoesUsuario = ref(usePage().props.auth.notificacoes)
 let usuarioLogado = ref(usePage().props.auth.user)
-
-function pesquisar() {
-    if (pesquisa.value.trim()) {
-        router.visit(`/pesquisa/${pesquisa.value}`)
-    }
-}
 
 EventoNotificacaoWS.addListener(new Listener(eventoNotificacao, 'layouts.site.header'))
 function eventoNotificacao(e: EventoNotificacaoWS) {
@@ -46,15 +40,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                         <img class="logo" src="/img/logo.png" alt="Página Inicial">
                     </Link>
                 </div>
-                <div class="header-item search-container input-group order-5 order-md-2">
-                    <form class="d-flex w-100" @submit.prevent="pesquisar()">
-                        <!-- eslint-disable-next-line vuejs-accessibility/form-control-has-label -->
-                        <input v-model="pesquisa" required placeholder="Pesquisar produtos..." type="text" class="search form-control">
-                        <button type="submit">
-                            <i class="fa fa-search" />
-                        </button>
-                    </form>
-                </div>
+                <Pesquisa />
                 <Link class="header-item header-btn profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />
                     <span class="d-none d-xxl-block">Minha Conta</span>
@@ -66,7 +52,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                             <span class="visually-hidden">Não Lidas</span>
                         </span>
                     </i>
-                    <span class="d-none d-xxl-block">Notificações</span>
+                    <span class="visually-hidden">Notificações</span>
                 </Link>
                 <button class="header-item menu-container menu-button navbar-toggler collapsed order-4 d-block d-md-none"
                         type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu"

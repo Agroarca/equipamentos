@@ -9,6 +9,7 @@ import Footer from './Site/Footer.vue'
 const props = defineProps({
     titulo: String,
 })
+
 </script>
 
 <template>
