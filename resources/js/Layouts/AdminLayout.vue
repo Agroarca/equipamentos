@@ -30,6 +30,9 @@ onUnmounted(() => {
 
 <template>
     <div class="admin-layout">
+        <Head :title="titulo">
+            <meta name="robots" head-key="meta-robots" content="noindex, nofollow" />
+        </Head>
         <BaseLayout>
             <Loader />
             <header class="main-header navbar sticky-top bg-light flex-md-nowrap p-0 shadow">
@@ -73,7 +76,6 @@ onUnmounted(() => {
                 <main class="container pt-3">
                     <slot name="header" />
                     <template v-if="titulo">
-                        <Head :title="titulo" />
                         <header class="row pb-4">
                             <div class="col-md-8">
                                 <h1>{{ titulo }}</h1>
