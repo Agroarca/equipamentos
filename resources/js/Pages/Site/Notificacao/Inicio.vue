@@ -10,7 +10,7 @@ const STATUS_NOTIFICACAO_CRIADO = 0
 </script>
 
 <template>
-    <SiteLayout titulo="Notificações">
+    <SiteLayout titulo="Notificações" noindex>
         <div class="container notificacoes">
             <div class="titulo">
                 <h1>Notificações</h1>

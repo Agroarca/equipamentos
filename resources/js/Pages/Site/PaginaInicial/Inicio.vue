@@ -38,7 +38,7 @@ function resolveComponent(componente: Componente) {
 </script>
 
 <template>
-    <SiteLayout titulo="Início">
+    <SiteLayout>
         <div class="pagina-inicial">
             <Carrossel :carrosselItens="versao.carrossel_itens" />
 

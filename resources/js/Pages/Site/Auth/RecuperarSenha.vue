@@ -17,7 +17,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Recuperar Senha">
+    <SiteLayout titulo="Recuperar Senha" noindex>
         <div class="container-600 auth">
             <div v-if="status" class="alert alert-success">
                 O e-mail de recuperação foi enviado com sucesso!

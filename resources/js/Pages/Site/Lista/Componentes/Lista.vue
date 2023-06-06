@@ -12,17 +12,21 @@ const props = defineProps({
     filtrosSelecionados: Object,
 })
 
-let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
-    || props.equipamentos.data.length > 0
+let temFiltroSelecionado = computed(
+    () => props.filtrosSelecionados.length > 0
     || props.filtros.valor.minimo != null
     || props.filtros.valor.maximo != null
     || props.filtros.ano.minimo != null
-    || props.filtros.ano.maximo != null)
+    || props.filtros.ano.maximo != null,
+)
 
+let mostrarFiltros = computed(
+    () => temFiltroSelecionado || props.equipamentos.data.length > 0,
+)
 </script>
 
 <template>
-    <SiteLayout :titulo="title">
+    <SiteLayout :titulo="title" :noindex="temFiltroSelecionado">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">
