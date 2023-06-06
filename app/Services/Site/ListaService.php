@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\DB;
 class ListaService
 {
     /**
+     * Contrutor do service
+     */
+    public function __construct(
+        private FiltroService $filtroService
+    ) {
+    }
+
+    /**
      * Retorna a query base para as listagens.
      */
     private function queryBase(): Builder
@@ -77,26 +85,9 @@ class ListaService
      */
     public function queryPesquisa($pesquisa): Builder
     {
-        return self::queryBase()->where(function ($query) use ($pesquisa): void {
-            $query->whereFullText('equipamentos.titulo', $pesquisa)
-                ->orWhere('equipamentos.titulo', 'like', "%$pesquisa%")
-
-                ->orWhereFullText('equipamentos.descricao', $pesquisa)
-                ->orWhere('equipamentos.descricao', 'like', "%$pesquisa%")
-
-                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($pesquisa): void {
-                    $query->select('id')
-                        ->from('modelos')
-                        ->whereFullText('modelos.nome', $pesquisa)
-                        ->orWhere('modelos.nome', 'like', "%$pesquisa%")
-                        ->orWhereIn('marca_id', function ($query) use ($pesquisa): void {
-                            $query->select('id')
-                                ->from('marcas')
-                                ->whereFullText('marcas.nome', $pesquisa)
-                                ->orWhere('marcas.nome', 'like', "%$pesquisa%");
-                        });
-                });
-        });
+        return self::queryBase()->where(
+            fn ($query) => $this->filtroService->queryPesquisa($query, $pesquisa)
+        );
     }
 
     /**

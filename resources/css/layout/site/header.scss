@@ -49,11 +49,11 @@
             gap: 30px;
             padding: 0 6rem;
 
-            @mixin breakpoint-down xl {
+            @mixin breakpoint-down xxl {
                 margin: 1rem 0;
             }
 
-            @mixin breakpoint-down md {
+            @mixin breakpoint-down lg {
                 margin: .5rem 0;
                 padding: 0 .5rem;
                 gap: .5rem;
@@ -64,7 +64,7 @@
             width: 325px;
             height: 100px;
 
-            @mixin breakpoint-down xl {
+            @mixin breakpoint-down xxl {
                 width: 130px;
                 height: 40px;
             }
@@ -72,50 +72,53 @@
 
         .search-container {
             min-width: 20rem;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
 
-            button {
-                width: 64px;
-                padding-right: 1rem;
+            @mixin breakpoint-down xxl {
+                font-size: 1rem;
+            }
+
+            .input-group {
+                border-radius: 1rem;
                 height: 4rem;
-                border: unset;
-                border-top-right-radius: 1rem;
-                border-bottom-right-radius: 1rem;
+                flex-wrap: nowrap;
 
-                @mixin breakpoint-down xl {
+                @mixin breakpoint-down xxl {
+                    border-radius: .6rem;
                     height: 3rem;
-                }
-
-                i {
-                    color: $search-button-color;
                 }
             }
 
-            input {
+            button {
+                border: unset;
+                padding: 0 1.6rem;
+                font-size: inherit;
+                border-radius: inherit;
+
+                @mixin breakpoint-down xxl {
+                    height: 3rem;
+                    padding: 0 1rem;
+                }
+            }
+
+            input.search {
                 background-color: $search-input-background;
                 color: $search-input-color;
-                border: none;
                 outline: none;
-                height: 4rem;
-                font-size: 1.5rem;
+                font-size: inherit;
                 padding: 0 1.5rem;
-                border-radius: 1rem;
-                border-top-right-radius: unset;
-                border-bottom-right-radius: unset;
-
-                @mixin breakpoint-down xl {
-                    font-size: 1.125rem;
-                    height: 3rem;
-                }
+                border-radius: inherit;
 
                 &::placeholder {
-                    font-size: 1.5rem;
-                    padding-bottom: 2rem;
                     color: $search-input-color;
+                }
+            }
 
-                    @mixin breakpoint-down xl {
-                        font-size: 1.125rem;
-                    }
+            .form-check-label {
+                font-size: 1.25rem;
+
+                @mixin breakpoint-down xxl {
+                    font-size: 1rem;
                 }
             }
         }
@@ -123,16 +126,18 @@
         .header-btn {
             background-color: $profile-button-background;
             font-size: 1.125rem;
-            padding: 1.3rem 2.8rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
             font-weight: bold;
             text-decoration: none;
             text-transform: uppercase;
             white-space: nowrap;
+            height: 4rem;
+            padding: 0 1.5rem;
 
-            @mixin breakpoint-down xl {
-                padding: 1rem 1.5rem;
+            @mixin breakpoint-down xxl {
+                height: 3rem;
+                padding: 0 1rem;
             }
 
             &:hover {
@@ -140,7 +145,7 @@
             }
 
             i {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
 
             span {
@@ -178,7 +183,7 @@
             border-radius: 0.8rem;
             color: $profile-button-color;
 
-            @mixin breakpoint-down xl {
+            @mixin breakpoint-down xxl {
                 padding: 1rem 1.5rem;
             }
 
@@ -187,7 +192,7 @@
             }
 
             i {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
         }
 

@@ -17,7 +17,7 @@ class LayoutTest extends PaginaInicialTestBase
     public function testPodeAcessar(): void
     {
         $versao = $this->getVersaoBase();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout");
 
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class LayoutTest extends PaginaInicialTestBase
     public function testPodeAcessarComDados(): void
     {
         $versao = $this->getVersaoCompleto();
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.versao:ver'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout");
 
         $response->assertStatus(200);
@@ -57,7 +57,7 @@ class LayoutTest extends PaginaInicialTestBase
         $banner = $this->criarBannerComImagem($versao);
 
         $componenteId = $banner->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
 
@@ -77,7 +77,7 @@ class LayoutTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
 
         $componenteId = $grid->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
 
@@ -96,7 +96,7 @@ class LayoutTest extends PaginaInicialTestBase
         $lista = $this->criarLista($versao);
 
         $componenteId = $lista->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
@@ -124,8 +124,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima"
+        );
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -158,8 +159,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente1->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente1->id/ordem/acima"
+        );
 
         $response->assertInvalid(['ordem']);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -192,8 +194,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo"
+        );
 
         $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout', $versao->id);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -226,8 +229,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente3->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente3->id/ordem/abaixo"
+        );
 
         $response->assertInvalid(['ordem']);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -253,7 +257,7 @@ class LayoutTest extends PaginaInicialTestBase
         $banner = $this->criarBanner($versao);
 
         $componenteId = $banner->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -274,7 +278,7 @@ class LayoutTest extends PaginaInicialTestBase
         $banner = $this->criarBanner($versao);
 
         $componenteId = $banner->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -295,7 +299,7 @@ class LayoutTest extends PaginaInicialTestBase
         $banner = $this->criarBanner($versao);
 
         $componenteId = $banner->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -316,7 +320,7 @@ class LayoutTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
 
         $componenteId = $grid->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -337,7 +341,7 @@ class LayoutTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
 
         $componenteId = $grid->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -358,7 +362,7 @@ class LayoutTest extends PaginaInicialTestBase
         $grid = $this->criarGrid($versao);
 
         $componenteId = $grid->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -379,7 +383,7 @@ class LayoutTest extends PaginaInicialTestBase
         $lista = $this->criarLista($versao);
 
         $componenteId = $lista->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -400,7 +404,7 @@ class LayoutTest extends PaginaInicialTestBase
         $lista = $this->criarLista($versao);
 
         $componenteId = $lista->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -421,7 +425,7 @@ class LayoutTest extends PaginaInicialTestBase
         $lista = $this->criarLista($versao);
 
         $componenteId = $lista->componente->id;
-        $response = $this->actingAs($this->getAdmin())
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
             ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
 
         $response->assertStatus(403);
@@ -451,8 +455,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -487,8 +492,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -523,8 +529,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -559,8 +566,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -595,8 +603,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -631,8 +640,9 @@ class LayoutTest extends PaginaInicialTestBase
         $componente3->ordem = 4;
         $componente3->save();
 
-        $url = "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo";
-        $response = $this->actingAs($this->getAdmin())->get($url);
+        $response = $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:ordem'))->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo"
+        );
 
         $response->assertStatus(403);
         $this->assertDatabaseHas(app(Componente::class)->getTable(), [
@@ -647,5 +657,116 @@ class LayoutTest extends PaginaInicialTestBase
             'id' => $componente3->id,
             'ordem' => 4,
         ]);
+    }
+
+    public function testNaoPodeAcessarSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeExcluirBannerSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $banner = $this->criarBannerComImagem($versao);
+
+        $componenteId = $banner->componente->id;
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
+
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Banner::class)->getTable(), [
+            'id' => $banner->id,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'id' => $componenteId,
+        ]);
+    }
+
+    public function testNaoPodeExcluirGridSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+
+        $componenteId = $grid->componente->id;
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Grid::class)->getTable(), [
+            'id' => $grid->id,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'id' => $componenteId,
+        ]);
+    }
+
+    public function testNaoPodeExcluirListaProdutosSemPermissao(): void
+    {
+        $versao = $this->getVersaoBase();
+        $lista = $this->criarLista($versao);
+
+        $componenteId = $lista->componente->id;
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componenteId/excluir");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(Lista::class)->getTable(), [
+            'id' => $lista->id,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'id' => $componenteId,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaSemPermissao(): void
+    {
+        $versao = $this->getVersaoCompleto();
+
+        $componente1 = $versao->componentes[0];
+        $componente1->ordem = 2;
+        $componente1->save();
+
+        $componente2 = $versao->componentes[1];
+        $componente2->ordem = 3;
+        $componente2->save();
+
+        $componente3 = $versao->componentes[2];
+        $componente3->ordem = 4;
+        $componente3->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/acima"
+        );
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoSemPermissao(): void
+    {
+        $versao = $this->getVersaoCompleto();
+
+        $componente1 = $versao->componentes[0];
+        $componente1->ordem = 2;
+        $componente1->save();
+
+        $componente2 = $versao->componentes[1];
+        $componente2->ordem = 3;
+        $componente2->save();
+
+        $componente3 = $versao->componentes[2];
+        $componente3->ordem = 4;
+        $componente3->save();
+
+        $response = $this->actingAs($this->getAdmin())->get(
+            "/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/ordem/abaixo"
+        );
+
+        $response->assertStatus(403);
     }
 }

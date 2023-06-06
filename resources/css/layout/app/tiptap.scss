@@ -4,8 +4,9 @@
         grid-column: 10;
         padding: 5px;
         gap: 5px;
-        border-bottom: 1px solid #d4d4d4;
         flex-wrap: wrap;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
 
         .separator {
             width: 15px;
@@ -34,5 +35,7 @@
 
     .ProseMirror.editor {
         min-height: 200px;
+        outline: none;
+        border: 1px solid #d4d4d4;
     }
 }

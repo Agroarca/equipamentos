@@ -10,6 +10,7 @@ const props = defineProps({
     titulo: String,
     noindex: Boolean,
 })
+
 </script>
 
 <template>

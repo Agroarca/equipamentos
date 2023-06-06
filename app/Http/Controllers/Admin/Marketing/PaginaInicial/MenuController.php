@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Menu\MenuLinkRequest;
 use App\Models\Marketing\PaginaInicial\Menu\MenuLink;
 use App\Models\Marketing\PaginaInicial\Versao;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -14,6 +15,7 @@ class MenuController extends Controller
 {
     public function adicionar(Versao $versao): mixed
     {
+        Gate::authorize('criar', MenuLink::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -24,6 +26,7 @@ class MenuController extends Controller
 
     public function salvar(MenuLinkRequest $request, Versao $versao): mixed
     {
+        Gate::authorize('criar', MenuLink::class);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -39,6 +42,7 @@ class MenuController extends Controller
 
     public function editar(Versao $versao, MenuLink $menuLink): mixed
     {
+        Gate::authorize('editar', $menuLink);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -49,6 +53,7 @@ class MenuController extends Controller
 
     public function atualizar(MenuLinkRequest $request, Versao $versao, MenuLink $menuLink): mixed
     {
+        Gate::authorize('editar', $menuLink);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -60,6 +65,7 @@ class MenuController extends Controller
 
     public function excluir(Versao $versao, MenuLink $menuLink): mixed
     {
+        Gate::authorize('excluir', $menuLink);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -71,6 +77,7 @@ class MenuController extends Controller
 
     public function ordemAcima(Versao $versao, MenuLink $menuLink)
     {
+        Gate::authorize('ordem', $menuLink);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
@@ -94,6 +101,7 @@ class MenuController extends Controller
 
     public function ordemAbaixo(Versao $versao, MenuLink $menuLink)
     {
+        Gate::authorize('ordem', $menuLink);
         if ($versao->status !== StatusVersao::Criado) {
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
