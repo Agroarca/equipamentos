@@ -247,26 +247,10 @@ class FiltroService
     private function filtrarPesquisa(Builder $query): Builder
     {
         $pesquisa = request()->query('pesquisa');
-        $query = $query->where(function ($query) use ($pesquisa): void {
-            $query->whereFullText('equipamentos.titulo', $pesquisa)
-                ->orWhere('equipamentos.titulo', 'like', "%$pesquisa%")
+        $query = $query->where(
+            fn ($query) => $this->queryPesquisa($query, $pesquisa)
+        );
 
-                ->orWhereFullText('equipamentos.descricao', $pesquisa)
-                ->orWhere('equipamentos.descricao', 'like', "%$pesquisa%")
-
-                ->orWhereIn('equipamentos.modelo_id', function ($query) use ($pesquisa): void {
-                    $query->select('id')
-                        ->from('modelos')
-                        ->whereFullText('modelos.nome', $pesquisa)
-                        ->orWhere('modelos.nome', 'like', "%$pesquisa%")
-                        ->orWhereIn('marca_id', function ($query) use ($pesquisa): void {
-                            $query->select('id')
-                                ->from('marcas')
-                                ->whereFullText('marcas.nome', $pesquisa)
-                                ->orWhere('marcas.nome', 'like', "%$pesquisa%");
-                        });
-                });
-        });
         return $query;
     }
 
@@ -301,5 +285,32 @@ class FiltroService
             'tipo' => 'modelo_id',
             'nome' => Modelo::select('nome')->where('id', request()->query('modelo_id'))->first()->nome,
         ];
+    }
+
+    /**
+     * Retorna query filtrada pela $pesquisa
+     */
+    public function queryPesquisa($query, $pesquisa): Builder
+    {
+        $query->whereFullText('equipamentos.titulo', $pesquisa)
+            ->orWhere('equipamentos.titulo', 'like', "%$pesquisa%")
+
+            ->orWhereFullText('equipamentos.descricao', $pesquisa)
+            ->orWhere('equipamentos.descricao', 'like', "%$pesquisa%")
+
+            ->orWhereIn('equipamentos.modelo_id', function ($query) use ($pesquisa): void {
+                $query->select('id')
+                    ->from('modelos')
+                    ->whereFullText('modelos.nome', $pesquisa)
+                    ->orWhere('modelos.nome', 'like', "%$pesquisa%")
+                    ->orWhereIn('marca_id', function ($query) use ($pesquisa): void {
+                        $query->select('id')
+                            ->from('marcas')
+                            ->whereFullText('marcas.nome', $pesquisa)
+                            ->orWhere('marcas.nome', 'like', "%$pesquisa%");
+                    });
+            });
+
+        return $query;
     }
 }
