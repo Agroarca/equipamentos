@@ -12,5 +12,8 @@ provide('textoCheckLista', 'Apenas nesse anunciante')
 </script>
 
 <template>
-    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="`Anúncios de ${anunciante.nome}`" />
+    <Lista :filtros="filtros"
+           :filtrosSelecionados="filtrosSelecionados"
+           :equipamentos="equipamentos"
+           :title="`Anúncios de ${anunciante.nome}`" />
 </template>

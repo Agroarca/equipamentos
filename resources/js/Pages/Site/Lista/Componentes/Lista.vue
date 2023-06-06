@@ -11,17 +11,25 @@ const props = defineProps({
     filtros: Object,
     filtrosSelecionados: Object,
 })
-let mostrarFiltros = computed(() => props.filtrosSelecionados.length > 0
-    || props.equipamentos.data.length > 0
-    || props.filtros.valor.minimo != null
-    || props.filtros.valor.maximo != null
-    || props.filtros.ano.minimo != null
-    || props.filtros.ano.maximo != null)
 
+let url = new URL(window.location.href)
+
+let temFiltroSelecionado = computed(
+    () => props.filtrosSelecionados.length > 0
+    || url.searchParams.get('ano_minimo') != null
+    || url.searchParams.get('ano_maximo') != null
+    || url.searchParams.get('valor_minimo') != null
+    || url.searchParams.get('valor_maximo') != null
+    || url.searchParams.get('pesquisa') != null,
+)
+
+let mostrarFiltros = computed(
+    () => temFiltroSelecionado || props.equipamentos.data.length > 0,
+)
 </script>
 
 <template>
-    <SiteLayout :titulo="title">
+    <SiteLayout :titulo="title" :noindex="temFiltroSelecionado">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">

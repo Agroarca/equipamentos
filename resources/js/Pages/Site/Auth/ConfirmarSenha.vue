@@ -16,12 +16,11 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Recuperar Senha">
+    <SiteLayout titulo="Recuperar Senha" noindex>
         <div class="alert alert-warn">
             Essa é uma área restrita!
             Confirme sua senha antes de acessar
         </div>
-
         <form @submit.prevent="submit">
             <label for="password">Senha</label>
             <Senha v-model="form.password" inputId="password" inputName="password" :error="form.errors.password" />

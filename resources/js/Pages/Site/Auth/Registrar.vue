@@ -31,7 +31,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Register">
+    <SiteLayout titulo="Register" noindex>
         <div class="container-600 auth">
             <form @submit.prevent="submit">
                 <div class="mb-3">

@@ -13,5 +13,8 @@ provide('textoCheckLista', 'Apenas nessa categoria')
 </script>
 
 <template>
-    <Lista :filtros="filtros" :filtrosSelecionados="filtrosSelecionados" :equipamentos="equipamentos" :title="categoria?.nome" />
+    <Lista :filtros="filtros"
+           :filtrosSelecionados="filtrosSelecionados"
+           :equipamentos="equipamentos"
+           :title="categoria?.nome" />
 </template>

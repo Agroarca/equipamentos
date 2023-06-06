@@ -29,7 +29,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Atualizar Senha">
+    <SiteLayout titulo="Atualizar Senha" noindex>
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="email">E-mail</label>

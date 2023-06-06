@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <SiteLayout :titulo="titulo">
+    <SiteLayout :titulo="titulo" noindex>
         <div class="container">
             <h2 class="text-center">
                 Olá {{ usePage().props.auth.user.nome }}
