@@ -12,7 +12,6 @@ const props = defineProps({
 })
 
 const form = useForm({
-    descricao: '',
     imagem: {},
 })
 
@@ -46,8 +45,7 @@ function upload() {
                 </div>
                 <div class="row">
                     <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
-                        <img class="card-img-top" :src="imagem.url" :alt="imagem.descricao">
-                        <p>{{ imagem.descricao }}</p>
+                        <img class="card-img-top" :src="imagem.url" alt="Imagem do Equipamento">
                         <Link :href="`/admin/equipamentos/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
                             Excluir
                         </Link>
@@ -58,11 +56,6 @@ function upload() {
                 </div>
             </div>
             <Modal :id="'modal_' + equipamento.id" ref="modal" title="Adicionar Imagem">
-                <div class="mb-3">
-                    <label for="descricao" />
-                    <input id="descricao" v-model="form.descricao" type="text" name="descricao" class="form-control" required>
-                    <FormError :error="form.errors.descricao" />
-                </div>
                 <div class="mb-3">
                     <label for="imagem" />
                     <input id="imagem" type="file" name="imagem" class="form-control-file" required @input="form.imagem = $event.target.files [0]">

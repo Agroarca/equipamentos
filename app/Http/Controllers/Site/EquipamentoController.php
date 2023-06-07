@@ -100,7 +100,6 @@ class EquipamentoController extends Controller
         $file->store($this->equipService->getStoragePathImagem($equipamento->id));
 
         $imagem = new EquipamentoImagem();
-        $imagem->descricao = $request->input('descricao');
         $imagem->nome_arquivo = $file->hashName();
         $imagem->equipamento_id = $equipamento->id;
         $imagem->save();

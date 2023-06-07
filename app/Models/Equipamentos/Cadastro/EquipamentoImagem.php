@@ -18,7 +18,6 @@ class EquipamentoImagem extends Model
     protected $table = 'equipamento_imagens';
 
     protected $fillable = [
-        'descricao',
         'nome_arquivo',
         'equipamento_id',
     ];
