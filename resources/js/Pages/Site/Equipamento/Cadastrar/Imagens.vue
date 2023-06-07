@@ -76,7 +76,10 @@ function startCropper() {
 }
 
 async function saveCrop() {
-    const canvas = cropper.obj.getCroppedCanvas()
+    const canvas = cropper.obj.getCroppedCanvas({
+        width: 800,
+        height: 600,
+    })
 
     const blobImg = await new Promise((resolve) => {
         canvas.toBlob((blob) => {
