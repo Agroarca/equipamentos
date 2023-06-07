@@ -6,6 +6,7 @@ use App\Http\Controllers\Site\EquipamentoController;
 use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
 use App\Http\Controllers\Site\SiteController;
+use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,9 @@ Route::name('site')->group(function () {
     Route::get('categoria/{id?}', [ListaController::class, 'categoria'])->name('.categoria');
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
+
+    Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
+    Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
 
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
