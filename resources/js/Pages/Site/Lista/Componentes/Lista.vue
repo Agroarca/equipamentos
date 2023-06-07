@@ -24,7 +24,7 @@ let temFiltroSelecionado = computed(
 )
 
 let mostrarFiltros = computed(
-    () => temFiltroSelecionado || props.equipamentos.data.length > 0,
+    () => temFiltroSelecionado.value || props.equipamentos.data.length > 0,
 )
 </script>
 
@@ -38,12 +38,15 @@ let mostrarFiltros = computed(
                     </h2>
                 </slot>
             </div>
+
             <Filtro v-if="mostrarFiltros" :filtrosListagem="filtros" :filtrosSelecionados="filtrosSelecionados" />
+
             <div v-if="equipamentos.data.length == 0">
                 <div class="alert alert-danger">
                     Nenhum equipamento encontrado
                 </div>
             </div>
+
             <slot>
                 <div class="produtos">
                     <template v-for="equipamento in equipamentos.data" :key="equipamento.id">
