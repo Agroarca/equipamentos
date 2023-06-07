@@ -11,9 +11,12 @@ use App\Http\Requests\Site\Equipamento\Cadastro\EquipamentoImagemRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -100,7 +103,6 @@ class EquipamentoController extends Controller
         $file->store($this->equipService->getStoragePathImagem($equipamento->id));
 
         $imagem = new EquipamentoImagem();
-        $imagem->descricao = $request->input('descricao');
         $imagem->nome_arquivo = $file->hashName();
         $imagem->equipamento_id = $equipamento->id;
         $imagem->save();
@@ -212,5 +214,47 @@ class EquipamentoController extends Controller
         }
 
         return Inertia::render('Site/Equipamento/Cadastrar/Finalizar', compact('equipamento'));
+    }
+
+    public function pesquisarMarca(Request $request)
+    {
+        $marcas = Marca::select('id', 'nome as texto')
+            ->whereFullText('nome', $request->input('termo'))
+            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        return response()->json($marcas);
+    }
+
+    public function pesquisarModelo(Request $request, ?int $marcaId = null)
+    {
+        $modelos = Modelo::select('id', 'nome as texto')
+            ->where(function ($query) use ($request) {
+                $query
+                    ->whereFullText('nome', $request->input('termo'))
+                    ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
+            })
+            ->when($marcaId, function ($query) use ($marcaId) {
+                $query->where('marca_id', $marcaId);
+            })
+            ->take(10)
+            ->get();
+
+        return response()->json($modelos);
+    }
+
+    public function salvarMarcaAjax(Request $request)
+    {
+        $marca = Marca::create($request->all());
+
+        return response()->json($marca);
+    }
+
+    public function salvarModeloAjax(Request $request)
+    {
+        $modelo = Modelo::create($request->all());
+
+        return response()->json($modelo);
     }
 }

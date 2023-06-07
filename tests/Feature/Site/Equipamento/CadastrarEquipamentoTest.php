@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
@@ -15,6 +17,7 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -173,20 +176,17 @@ class CadastrarEquipamentoTest extends TestCase
         $equipService = app(EquipamentoService::class);
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/$equipamento->id/imagens/salvar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertExists($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertValid();
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }
@@ -578,6 +578,127 @@ class CadastrarEquipamentoTest extends TestCase
             'titulo' => 'Nome editado',
             'valor' => 100,
             'ano' => 2000,
+        ]);
+    }
+
+    public function testPodePesquisarMarca(): void
+    {
+        Marca::factory()->statusAprovado()->count(5)->create();
+        Marca::factory()->statusAprovado()->createMany([
+            ['nome' => 'Marca 1'],
+            ['nome' => 'Marca 2'],
+            ['nome' => 'Marca 3'],
+            ['nome' => 'Marca 4'],
+        ]);
+
+        $response = $this->get('/pesquisar/marcas?termo=Marca');
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(4));
+    }
+
+    public function testPodePesquisarModelo(): void
+    {
+        $marca = Marca::factory()->create();
+
+        Modelo::factory()->count(5)->create();
+        Modelo::factory()->createMany([
+            [
+                'nome' => 'Modelo 1',
+                'marca_id' => $marca->id,
+            ],
+            [
+                'nome' => 'Modelo 2',
+                'marca_id' => $marca->id,
+            ],
+            [
+                'nome' => 'Modelo 3',
+                'marca_id' => $marca->id,
+            ],
+            ['nome' => 'Modelo 4'],
+        ]);
+
+        $response = $this->get("/pesquisar/$marca->id/modelos/?termo=Modelo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(3));
+    }
+
+    public function testNaoPodePesquisarModeloSemMarcaId(): void
+    {
+        $response = $this->get('/pesquisar//modelos/?termo=Modelo');
+
+        $response->assertStatus(404);
+    }
+
+    public function testNaoPodePesquisarMarcaSemTermo(): void
+    {
+        $response = $this->get('/pesquisar/marcas?termo=');
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
+    }
+
+    public function testNaoPodePesquisarModeloSemTermo(): void
+    {
+        $response = $this->get('/pesquisar/1/modelos/?termo=');
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
+    }
+
+    public function testPodeCriarComMarcaModeloDinamico(): void
+    {
+        $usuario = $this->getUsuario();
+
+        $equipamento = Equipamento::factory()->make();
+
+        $marcaResponse = $this->actingAs($usuario)
+            ->post('/marca/salva/ajax', [
+                'nome' => Str::random(25),
+            ]);
+
+        $marcaResponse->assertValid();
+        $marcaResponse->assertJsonStructure(['id', 'nome']);
+
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marcaResponse->json('nome'),
+        ]);
+
+        $modeloResponse = $this->actingAs($usuario)
+            ->post('/modelo/salva/ajax', [
+                'nome' => Str::random(25),
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
+            'nome' => $modeloResponse->json('nome'),
+            'marca_id' => $marcaResponse->json('id'),
+        ]);
+
+        $modeloResponse->assertValid();
+        $modeloResponse->assertJsonStructure(['id', 'nome', 'marca_id']);
+
+        $response = $this->actingAs($usuario)
+            ->post('/equipamento/salvar', [
+                'titulo' => $equipamento->titulo,
+                'valor' => $equipamento->valor,
+                'ano' => $equipamento->ano,
+                'descricao' => $equipamento->descricao,
+                'modelo_id' => $modeloResponse->json('id'),
+                'categoria_id' => $equipamento->categoria_id,
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'titulo' => $equipamento->titulo,
+            'valor' => $equipamento->valor,
+            'ano' => $equipamento->ano,
+            'descricao' => $equipamento->descricao,
+            'modelo_id' => $modeloResponse->json('id'),
+            'categoria_id' => $equipamento->categoria_id,
         ]);
     }
 }

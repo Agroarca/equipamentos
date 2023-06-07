@@ -14,7 +14,6 @@ class EquipamentoImagemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'descricao' => 'string|required|min:10|max:255',
             'imagem' => 'file|required|image|dimensions:min_width=800,ratio=4/3',
         ];
     }
