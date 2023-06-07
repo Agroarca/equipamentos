@@ -137,6 +137,8 @@ class GridController extends Controller
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_mobile);
         $gridImagem->delete();
 
+        $grid->imagens()->where('ordem', '>', $gridImagem->ordem)->decrement('ordem');
+
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }
 

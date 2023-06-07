@@ -746,4 +746,43 @@ class MenuTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
     }
+
+    public function testDeveTerOrdemSequencial(): void
+    {
+        $versao = $this->getVersaoBase();
+
+        $item1 = MenuLink::create([
+            'ordem' => 1,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+        $item2 = MenuLink::create([
+            'ordem' => 2,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+        $item3 = MenuLink::create([
+            'ordem' => 3,
+            'nome' => Str::random(10),
+            'link' => Str::random(10),
+            'versao_id' => $versao->id,
+        ]);
+
+        $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.menu.menu-link:excluir'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/menu/$item2->id/excluir");
+
+        $this->assertDatabaseMissing(app(MenuLink::class)->getTable(), [
+            'id' => $item2->id,
+        ]);
+        $this->assertDatabaseHas(app(MenuLink::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(MenuLink::class)->getTable(), [
+            'id' => $item3->id,
+            'ordem' => 2,
+        ]);
+    }
 }
