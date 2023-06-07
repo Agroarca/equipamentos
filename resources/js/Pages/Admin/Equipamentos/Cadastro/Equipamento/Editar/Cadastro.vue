@@ -82,7 +82,7 @@ function submit() {
                         <div class="mb-3">
                             <label for="anunciante">Anunciante</label>
                             <div class="d-flex">
-                                <input id="anunciante" v-value="equipamento.usuario.nome" class="form-control" type="text" disabled>
+                                <input id="anunciante" :svalue="equipamento.usuario.nome" class="form-control" type="text" disabled>
                                 <Link :href="`/admin/equipamentos/${equipamento.id}/transferir`" class="btn btn-primary ms-2">
                                     Transferir
                                 </Link>
