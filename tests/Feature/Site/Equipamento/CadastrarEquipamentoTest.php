@@ -656,7 +656,7 @@ class CadastrarEquipamentoTest extends TestCase
         $equipamento = Equipamento::factory()->make();
 
         $marcaResponse = $this->actingAs($usuario)
-            ->post('/marca/salva/ajax', [
+            ->post('/marca/salvar/ajax', [
                 'nome' => Str::random(25),
             ]);
 
@@ -668,7 +668,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
 
         $modeloResponse = $this->actingAs($usuario)
-            ->post('/modelo/salva/ajax', [
+            ->post('/modelo/salvar/ajax', [
                 'nome' => Str::random(25),
                 'marca_id' => $marcaResponse->json('id'),
             ]);

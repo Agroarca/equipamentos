@@ -61,7 +61,7 @@ function criarNovoModelo(search) {
 }
 
 async function salvarMarca() {
-    let response = await axios.post('/marca/salva/ajax', {
+    let response = await axios.post('/marca/salvar/ajax', {
         nome: marca,
     })
 
@@ -69,7 +69,7 @@ async function salvarMarca() {
 }
 
 async function salvarModelo() {
-    let response = await axios.post('/modelo/salva/ajax', {
+    let response = await axios.post('/modelo/salvar/ajax', {
         nome: modelo,
         marca_id: form.marca_id,
     })
