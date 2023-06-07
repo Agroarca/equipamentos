@@ -20,14 +20,14 @@ const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
     (e: 'optionSelected', value: string): void
 }>()
 
-const options = ref([])
+const selectOptions = ref([])
 const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
 
-options.value = props.options ?? []
+selectOptions.value = props.options ?? []
 
 onMounted(() => {
-    if (props.preBusca && options.value.length === 0) {
+    if (props.preBusca && selectOptions.value.length === 0) {
         atualizarOpcoes('', () => {
             // não tem loading em pré busca
         })
@@ -54,15 +54,15 @@ async function onSearchDebounced(search, loading) {
         return
     }
 
-    let opcoesEncontradas = options.value.filter((opcao) => opcao.texto.localeCompare(search) === 0).length
+    let opcoesEncontradas = selectOptions.value.filter((opcao) => opcao.texto.localeCompare(search) === 0).length
     if (opcoesEncontradas === 0) {
-        options.value.push({ id: null, texto: `Criar nova opção "${search}"` })
+        selectOptions.value.push({ id: null, texto: `Criar nova opção "${search}"` })
     }
 }
 
 async function atualizarOpcoes(search, loading) {
     if (!props.href) {
-        options.value = []
+        selectOptions.value = []
         return
     }
 
@@ -73,7 +73,7 @@ async function atualizarOpcoes(search, loading) {
             termo: search,
         },
     })
-    options.value = response.data
+    selectOptions.value = response.data
 
     loading(false)
 }
@@ -83,7 +83,7 @@ function updateModelValue() {
     emit('optionSelected', selectedOption.value)
 
     if (selectedOption.value?.id === null && props.criarDinamica) {
-        let option = options.value.find((opcao) => opcao.id === null)
+        let option = selectOptions.value.find((opcao) => opcao.id === null)
 
         if (!option) {
             return
@@ -96,7 +96,7 @@ function updateModelValue() {
 
 function getOpcaoSelecionada() {
     if (props.modelValue) {
-        return options.value.find((opcao) => opcao.id === props.modelValue)
+        return selectOptions.value.find((opcao) => opcao.id === props.modelValue)
     }
     return null
 }
@@ -108,7 +108,7 @@ function getOpcaoSelecionada() {
         v-model="selectedOption"
         :disabled="disabled"
         :placeholder="placeholder ?? 'Selecione uma Opção'"
-        :options="options"
+        :options="selectOptions"
         label="texto"
         searchable
         :filterable="false"
