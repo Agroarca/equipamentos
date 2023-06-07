@@ -228,7 +228,7 @@ class EquipamentoController extends Controller
         return response()->json($marcas);
     }
 
-    public function pesquisarModelo(Request $request, int $marcaId = null)
+    public function pesquisarModelo(Request $request, ?int $marcaId = null)
     {
         $modelos = Modelo::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {

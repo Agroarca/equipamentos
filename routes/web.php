@@ -6,7 +6,6 @@ use App\Http\Controllers\Site\EquipamentoController;
 use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
 use App\Http\Controllers\Site\SiteController;
-use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Support\Facades\Route;
 
 /*

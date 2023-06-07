@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
@@ -15,6 +17,7 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -579,5 +582,73 @@ class CadastrarEquipamentoTest extends TestCase
             'valor' => 100,
             'ano' => 2000,
         ]);
+    }
+
+    public function testPodePesquisarMarca(): void
+    {
+        Marca::factory()->statusAprovado()->count(5)->create();
+        Marca::factory()->statusAprovado()->createMany([
+            ['nome' => 'Marca 1'],
+            ['nome' => 'Marca 2'],
+            ['nome' => 'Marca 3'],
+            ['nome' => 'Marca 4'],
+        ]);
+
+        $response = $this->get('/pesquisar/marcas?termo=Marca');
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(4));
+    }
+
+    public function testPodePesquisar(): void
+    {
+        $marca = Marca::factory()->create();
+
+        Modelo::factory()->count(5)->create();
+        Modelo::factory()->createMany([
+            [
+                'nome' => 'Modelo 1',
+                'marca_id' => $marca->id,
+            ],
+            [
+                'nome' => 'Modelo 2',
+                'marca_id' => $marca->id,
+            ],
+            [
+                'nome' => 'Modelo 3',
+                'marca_id' => $marca->id,
+            ],
+            ['nome' => 'Modelo 4'],
+        ]);
+
+        $response = $this->get("/pesquisar/$marca->id/modelos/?termo=Modelo");
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(3));
+    }
+
+    public function testNaoPodePesquisarModeloSemMarcaId(): void
+    {
+        $response = $this->get('/pesquisar//modelos/?termo=Modelo');
+
+        $response->assertStatus(404);
+    }
+
+    public function testNaoPodePesquisarMarcaSemTermo(): void
+    {
+        $response = $this->get('/pesquisar/marcas?termo=');
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
+    }
+
+    public function testNaoPodePesquisarModeloSemTermo(): void
+    {
+        $response = $this->get('/pesquisar/1/modelos/?termo=');
+
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has(0));
     }
 }
