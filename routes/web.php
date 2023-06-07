@@ -32,6 +32,9 @@ Route::name('site')->group(function () {
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
+    Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
+    Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
+
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
     Route::get('pesquisa/{pesquisa}', [ListaController::class, 'pesquisa'])->name('.pesquisa');
