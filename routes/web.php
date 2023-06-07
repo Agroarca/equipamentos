@@ -34,6 +34,8 @@ Route::name('site')->group(function () {
 
     Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
     Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
+    Route::post('marca/salvar/ajax', [EquipamentoController::class, 'salvarMarcaAjax'])->name('.cadastrar.marca.salvarajax');
+    Route::post('modelo/salvar/ajax', [EquipamentoController::class, 'salvarModeloAjax'])->name('.cadastrar.modelo.salvarajax');
 
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
