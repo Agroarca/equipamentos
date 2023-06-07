@@ -245,4 +245,18 @@ class EquipamentoController extends Controller
 
         return response()->json($modelos);
     }
+
+    public function salvarMarcaAjax(Request $request)
+    {
+        $marca = Marca::create($request->all());
+
+        return response()->json($marca);
+    }
+
+    public function salvarModeloAjax(Request $request)
+    {
+        $modelo = Modelo::create($request->all());
+
+        return response()->json($modelo);
+    }
 }

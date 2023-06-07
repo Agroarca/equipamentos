@@ -648,4 +648,57 @@ class CadastrarEquipamentoTest extends TestCase
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has(0));
     }
+
+    public function testPodeCriarComMarcaModeloDinamico(): void
+    {
+        $usuario = $this->getUsuario();
+
+        $equipamento = Equipamento::factory()->make();
+
+        $marcaResponse = $this->actingAs($usuario)
+            ->post('/marca/salvar/ajax', [
+                'nome' => Str::random(25),
+            ]);
+
+        $marcaResponse->assertValid();
+        $marcaResponse->assertJsonStructure(['id', 'nome']);
+
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marcaResponse->json('nome'),
+        ]);
+
+        $modeloResponse = $this->actingAs($usuario)
+            ->post('/modelo/salvar/ajax', [
+                'nome' => Str::random(25),
+                'marca_id' => $marcaResponse->json('id'),
+            ]);
+
+        $this->assertDatabaseHas(app(Modelo::class)->getTable(), [
+            'nome' => $modeloResponse->json('nome'),
+            'marca_id' => $marcaResponse->json('id'),
+        ]);
+
+        $modeloResponse->assertValid();
+        $modeloResponse->assertJsonStructure(['id', 'nome', 'marca_id']);
+
+        $response = $this->actingAs($usuario)
+            ->post('/equipamento/salvar', [
+                'titulo' => $equipamento->titulo,
+                'valor' => $equipamento->valor,
+                'ano' => $equipamento->ano,
+                'descricao' => $equipamento->descricao,
+                'modelo_id' => $modeloResponse->json('id'),
+                'categoria_id' => $equipamento->categoria_id,
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'titulo' => $equipamento->titulo,
+            'valor' => $equipamento->valor,
+            'ano' => $equipamento->ano,
+            'descricao' => $equipamento->descricao,
+            'modelo_id' => $modeloResponse->json('id'),
+            'categoria_id' => $equipamento->categoria_id,
+        ]);
+    }
 }
