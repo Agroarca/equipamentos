@@ -67,6 +67,8 @@ class CarrosselController extends Controller
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_mobile);
         $item->delete();
 
+        $versao->carrosselItens()->where('ordem', '>', $item->ordem)->decrement('ordem');
+
         return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
     }
 

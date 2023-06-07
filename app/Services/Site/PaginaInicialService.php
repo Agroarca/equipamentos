@@ -135,6 +135,8 @@ class PaginaInicialService
 
         $componente->tipo()->delete();
         $componente->delete();
+
+        $componente->versao->componentes()->where('ordem', '>', $componente->ordem)->decrement('ordem');
     }
 
     /**

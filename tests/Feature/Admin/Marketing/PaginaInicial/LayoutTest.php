@@ -769,4 +769,36 @@ class LayoutTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
     }
+
+    public function testDeveTerOrdemSequencial(): void
+    {
+        $versao = $this->getVersaoCompleto();
+
+        $componente1 = $versao->componentes[0];
+        $componente1->ordem = 2;
+        $componente1->save();
+
+        $componente2 = $versao->componentes[1];
+        $componente2->ordem = 3;
+        $componente2->save();
+
+        $componente3 = $versao->componentes[2];
+        $componente3->ordem = 4;
+        $componente3->save();
+
+        $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.componente:excluir'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/componente/$componente2->id/excluir");
+
+        $this->assertDatabaseMissing(app(Componente::class)->getTable(), [
+            'id' => $componente2->id,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'id' => $componente1->id,
+            'ordem' => 2,
+        ]);
+        $this->assertDatabaseHas(app(Componente::class)->getTable(), [
+            'id' => $componente3->id,
+            'ordem' => 3,
+        ]);
+    }
 }

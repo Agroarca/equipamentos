@@ -984,4 +984,39 @@ class GridTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
     }
+
+    public function testDeveTerOrdemSequencial(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $grid = $this->criarGrid($versao);
+        $imagens = $this->criarGridImagem($grid, 3);
+
+        $imagem1 = $imagens[0];
+        $imagem1->ordem = 1;
+        $imagem1->save();
+
+        $imagem2 = $imagens[1];
+        $imagem2->ordem = 2;
+        $imagem2->save();
+
+        $imagem3 = $imagens[2];
+        $imagem3->ordem = 3;
+        $imagem3->save();
+
+        $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.grid.grid-imagem:excluir'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/grid/$grid->id/imagem/$imagem2->id/excluir");
+
+        $this->assertDatabaseMissing(app(GridImagem::class)->getTable(), [
+            'id' => $imagem2->id,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(GridImagem::class)->getTable(), [
+            'id' => $imagem3->id,
+            'ordem' => 2,
+        ]);
+    }
 }
