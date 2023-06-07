@@ -12,6 +12,9 @@ const props = defineProps({
     categoria: Object,
 })
 
+let marca
+let modelo
+
 const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma Marca'))
 
 const form = useForm({
@@ -32,6 +35,14 @@ onMounted(() => {
 
 function submit() {
     form.post('/equipamento/salvar')
+}
+
+function criarNovaMarca(search) {
+    marca = search
+}
+
+function criarNovoModelo(search) {
+    modelo = search
 }
 
 </script>
@@ -77,7 +88,10 @@ function submit() {
                         v-model="form.modelo_id"
                         :disabled="!form.marca_id"
                         :placeholder="placeholderModelo"
-                        :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                        :href="`/admin/modelos/pesquisar/${form.marca_id}`"
+                        :preBusca="true"
+                        :criarDinamica="true"
+                        @criarNovaOpcao="criarNovoModelo" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
