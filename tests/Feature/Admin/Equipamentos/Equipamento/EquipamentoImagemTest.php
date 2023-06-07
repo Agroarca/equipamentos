@@ -9,7 +9,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use Tests\TestCase;
-use Illuminate\Support\Str;
 
 class EquipamentoImagemTest extends TestCase
 {
@@ -21,20 +20,17 @@ class EquipamentoImagemTest extends TestCase
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertExists($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertValid();
         $response->assertRedirectToRoute('admin.equipamentos.editarImagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }
@@ -45,65 +41,16 @@ class EquipamentoImagemTest extends TestCase
         $usuario = $this->getAdmin();
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertStatus(403);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
-            'equipamento_id' => $equipamento->id,
-        ]);
-    }
-
-    public function testNaoPodeEnviarDescricaoMinimo(): void
-    {
-        $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
-        Storage::fake();
-        $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(5);
-        $equipamento = Equipamento::factory()->create();
-
-        $response = $this->actingAs($usuario)
-            ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
-            ]);
-
-        Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
-        $response->assertInvalid(['descricao']);
-        $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
-            'equipamento_id' => $equipamento->id,
-        ]);
-    }
-
-    public function testNaoPodeEnviarDescricaoMaximo(): void
-    {
-        $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
-        Storage::fake();
-        $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(500);
-        $equipamento = Equipamento::factory()->create();
-
-        $response = $this->actingAs($usuario)
-            ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
-            ]);
-
-        Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
-        $response->assertInvalid(['descricao']);
-        $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }
@@ -114,19 +61,16 @@ class EquipamentoImagemTest extends TestCase
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
-        $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertInvalid(['imagem']);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }
@@ -137,19 +81,16 @@ class EquipamentoImagemTest extends TestCase
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
-        $descricao = Str::random(50);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post("/admin/equipamentos/$equipamento->id/imagens/adicionar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertMissing($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertInvalid(['imagem']);
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }

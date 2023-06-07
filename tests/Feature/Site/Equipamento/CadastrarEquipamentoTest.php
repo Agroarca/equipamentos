@@ -176,20 +176,17 @@ class CadastrarEquipamentoTest extends TestCase
         $equipService = app(EquipamentoService::class);
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
-        $descricao = Str::random(25);
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($this->getUsuario())
             ->post("/equipamento/$equipamento->id/imagens/salvar", [
-                'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
             ]);
 
         Storage::assertExists($equipService->getStoragePathImagem($equipamento->id) . $imagem->hashName());
         $response->assertValid();
         $response->assertRedirectToRoute('site.equipamento.imagens', $equipamento->id);
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
-            'descricao' => $descricao,
             'equipamento_id' => $equipamento->id,
         ]);
     }
