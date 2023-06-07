@@ -18,7 +18,7 @@ class EquipamentoImagemTest extends TestCase
     public function testPodeEnviarImagem(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(25);
@@ -65,7 +65,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarDescricaoMinimo(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(5);
@@ -88,7 +88,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarDescricaoMaximo(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $descricao = Str::random(500);
@@ -111,7 +111,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarTamanhoMinimo(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
         $descricao = Str::random(50);
@@ -134,7 +134,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarTamanhoInvalido(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
         $descricao = Str::random(50);
@@ -157,7 +157,7 @@ class EquipamentoImagemTest extends TestCase
     public function testPodeExcluirImagem(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:excluir');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:excluir');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();

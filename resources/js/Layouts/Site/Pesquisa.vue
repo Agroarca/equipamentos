@@ -2,7 +2,7 @@
 import { router } from '@inertiajs/vue3'
 import { inject, ref } from 'vue'
 
-const textoCheckLista = inject('textoCheckLista')
+const textoCheckLista = inject('textoCheckLista', null)
 
 const termo = ref('')
 const checkTipoPesquisa = ref(false)

@@ -14,16 +14,16 @@ class EquipamentoImagemPolicy
 
     public function ver(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:ver');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento-imagem:ver');
     }
 
     public function adicionar(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:adicionar');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento-imagem:adicionar');
     }
 
     public function excluir(Usuario $usuario): bool
     {
-        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento.imagem:excluir');
+        return $this->permissoesService->temPermissao($usuario, 'equipamentos.cadastro.equipamento-imagem:excluir');
     }
 }
