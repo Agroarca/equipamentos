@@ -72,6 +72,9 @@ class MenuController extends Controller
         }
 
         $menuLink->delete();
+
+        $versao->menuLinks()->where('ordem', '>', $menuLink->ordem)->decrement('ordem');
+
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 

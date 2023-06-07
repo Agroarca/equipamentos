@@ -847,4 +847,38 @@ class CarrosselTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
     }
+
+    public function testDeveTerOrdemSequencial(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $item3 = $carrossel[2];
+        $item3->ordem = 3;
+        $item3->save();
+
+        $this->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:excluir'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/excluir");
+
+        $this->assertDatabaseMissing(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item3->id,
+            'ordem' => 2,
+        ]);
+    }
 }
