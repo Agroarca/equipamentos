@@ -25,7 +25,8 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
             <div class="container contact-container d-flex flex-nowrap">
                 <a :href="usePage().props.site.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
-                    {{ usePage().props.site.contato.telefone }}
+                    <strong>{{ usePage().props.site.contato.telefone }}</strong>
+                    <span class="ps-2">Fale Conosco! </span>
                 </a>
                 <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />
