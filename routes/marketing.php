@@ -55,6 +55,8 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/marketing')->name
                 Route::post('salvar', [CarrosselController::class, 'salvar'])->name('.salvar');
                 Route::get('{item}/visualizar', [CarrosselController::class, 'visualizarItem'])->name('.item.visualizar');
                 Route::get('{item}/excluir', [CarrosselController::class, 'excluir'])->name('.excluir');
+                Route::get('{item}/ordem/acima', [CarrosselController::class, 'ordemAcima'])->name('.ordem.acima');
+                Route::get('{item}/ordem/abaixo', [CarrosselController::class, 'ordemAbaixo'])->name('.ordem.abaixo');
             });
 
             Route::prefix('banner')->name('.banner')->group(function () {

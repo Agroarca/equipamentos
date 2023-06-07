@@ -9,6 +9,7 @@ use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class CarrosselController extends Controller
@@ -76,5 +77,51 @@ class CarrosselController extends Controller
             'Admin/Marketing/PaginaInicial/CarrosselPrincipal/VisualizarItem',
             compact('versao', 'item')
         );
+    }
+
+    public function ordemAcima(Versao $versao, CarrosselItem $item): mixed
+    {
+        Gate::authorize('ordem', $item);
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
+
+        $ordem = $item->ordem;
+        if ($ordem <= 1) {
+            throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
+        }
+
+        $itemPosterior = $versao->carrosselItens()->where('ordem', $ordem - 1)->first();
+        $itemPosterior->ordem = $ordem;
+        $itemPosterior->save();
+
+        $item->ordem = $ordem - 1;
+        $item->save();
+
+        return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', [$versao]);
+    }
+
+    public function ordemAbaixo(Versao $versao, CarrosselItem $item)
+    {
+        Gate::authorize('ordem', $item);
+        if ($versao->status !== StatusVersao::Criado) {
+            $nome = $versao->status->name;
+            abort(403, "Não é possivel editar uma versao com status $nome");
+        }
+
+        $ordem = $item->ordem;
+        if ($ordem >= $versao->carrosselItens()->max('ordem')) {
+            throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
+        }
+
+        $itemPosterior = $versao->carrosselItens()->where('ordem', $ordem + 1)->first();
+        $itemPosterior->ordem = $ordem;
+        $itemPosterior->save();
+
+        $item->ordem = $ordem + 1;
+        $item->save();
+
+        return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', [$versao]);
     }
 }

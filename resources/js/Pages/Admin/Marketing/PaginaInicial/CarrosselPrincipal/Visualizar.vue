@@ -16,12 +16,29 @@ const STATUS_VERSAO_CRIADO = 0
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped table-hover">
                         <thead>
+                            <th v-if="versao.status === STATUS_VERSAO_CRIADO" />
                             <th>Link</th>
                             <th>Descrição</th>
                             <th>Ações</th>
                         </thead>
                         <tbody>
-                            <tr v-for="item in versao.carrossel_itens" :key="item.id">
+                            <tr v-for="(item, index) in versao.carrossel_itens" :key="item.id">
+                                <td v-if="versao.status === STATUS_VERSAO_CRIADO">
+                                    <div class="grade-botoes">
+                                        <Link
+                                            :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/ordem/acima`"
+                                            class="btn btn-primary me-2"
+                                            :class="{ disabled: index === 0 }">
+                                            <i class="fa-solid fa-circle-up" />
+                                        </Link>
+                                        <Link
+                                            :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/${item.id}/ordem/abaixo`"
+                                            class="btn btn-primary me-2"
+                                            :class="{ disabled: index === versao.carrossel_itens.length - 1 }">
+                                            <i class="fa-solid fa-circle-down" />
+                                        </Link>
+                                    </div>
+                                </td>
                                 <td>{{ item.link }}</td>
                                 <td>{{ item.descricao }}</td>
                                 <td>
