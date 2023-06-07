@@ -601,7 +601,7 @@ class CadastrarEquipamentoTest extends TestCase
             ->has(4));
     }
 
-    public function testPodePesquisar(): void
+    public function testPodePesquisarModelo(): void
     {
         $marca = Marca::factory()->create();
 
