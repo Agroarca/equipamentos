@@ -121,7 +121,7 @@ class PermissoesService
                     $grupo->permissao('Transferir', 'transferir');
                 });
 
-                $grupo->grupo('Equipamento Imagem', 'equipamento.imagem', function (GrupoPermissao $grupo): void {
+                $grupo->grupo('Equipamento Imagem', 'equipamento-imagem', function (GrupoPermissao $grupo): void {
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Adicionar', 'adicionar');
                     $grupo->permissao('excluir', 'excluir');

@@ -17,7 +17,7 @@ class EquipamentoImagemTest extends TestCase
     public function testPodeEnviarImagem(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamento = Equipamento::factory()->create();
@@ -58,7 +58,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarTamanhoMinimo(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
         $equipamento = Equipamento::factory()->create();
@@ -78,7 +78,7 @@ class EquipamentoImagemTest extends TestCase
     public function testNaoPodeEnviarTamanhoInvalido(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:adicionar');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
         $equipamento = Equipamento::factory()->create();
@@ -98,7 +98,7 @@ class EquipamentoImagemTest extends TestCase
     public function testPodeExcluirImagem(): void
     {
         $equipService = app(EquipamentoService::class);
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:excluir');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:excluir');
         Storage::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamentoImagem = EquipamentoImagem::factory()->make();
