@@ -469,4 +469,382 @@ class CarrosselTest extends PaginaInicialTestBase
             'id' => $item->id,
         ]);
     }
+
+    public function testPodeAlterarOrdemAcima(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $item3 = $carrossel[2];
+        $item3->ordem = 3;
+        $item3->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/acima");
+
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.carrossel.visualizar', [
+            $versao->id,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 2,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 1,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item3->id,
+            'ordem' => 3,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaPrimeiraPosicao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item1->id/ordem/acima");
+
+        $response->assertInvalid('ordem');
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testPodeAlterarOrdemAbaixo(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $item3 = $carrossel[2];
+        $item3->ordem = 3;
+        $item3->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertRedirectToRoute('admin.marketing.paginaInicial.layout.carrossel.visualizar', [
+            $versao->id,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 3,
+        ]);
+
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item3->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoUltimaPos(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertInvalid('ordem');
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/acima");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/acima");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/acima");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoAprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Aprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoReprovada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Reprovado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoVersaoPublicada(): void
+    {
+        $versao = $this->getVersaoBase();
+        $versao->status = StatusVersao::Publicado;
+        $versao->save();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $response = $this
+            ->actingAs($this->getAdminComPermissao('marketing.pagina-inicial.carrossel.carrossel-item:ordem'))
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item1->id,
+            'ordem' => 1,
+        ]);
+        $this->assertDatabaseHas(app(CarrosselItem::class)->getTable(), [
+            'id' => $item2->id,
+            'ordem' => 2,
+        ]);
+    }
+
+    public function testNaoPodeAlterarOrdemAcimaSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $item3 = $carrossel[2];
+        $item3->ordem = 3;
+        $item3->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/acima");
+
+        $response->assertStatus(403);
+    }
+
+    public function testNaoPodeAlterarOrdemAbaixoSemPermissao(): void
+    {
+        Storage::fake();
+        $versao = $this->getVersaoBase();
+
+        $carrossel = $this->criarCarrosselItem($versao, 3);
+
+        $item1 = $carrossel[0];
+        $item1->ordem = 1;
+        $item1->save();
+
+        $item2 = $carrossel[1];
+        $item2->ordem = 2;
+        $item2->save();
+
+        $item3 = $carrossel[2];
+        $item3->ordem = 3;
+        $item3->save();
+
+        $response = $this->actingAs($this->getAdmin())
+            ->get("/admin/marketing/pagina/inicial/$versao->id/layout/carrossel/$item2->id/ordem/abaixo");
+
+        $response->assertStatus(403);
+    }
 }
