@@ -107,6 +107,11 @@ class EquipamentoController extends Controller
         $imagem->equipamento_id = $equipamento->id;
         $imagem->save();
 
+        if ($equipamento->passo_cadastro < 2) {
+            $equipamento->passo_cadastro = 2;
+        }
+        $equipamento->save();
+
         return redirect()->route('site.equipamento.imagens', $equipamento->id);
     }
 
@@ -126,10 +131,7 @@ class EquipamentoController extends Controller
         if (!$this->equipService->temImagem($equipamento)) {
             throw ValidationException::withMessages(['imagem' => 'É necessário cadastrar pelo menos uma imagem.']);
         }
-        if ($equipamento->passo_cadastro < 2) {
-            $equipamento->passo_cadastro = 2;
-        }
-        $equipamento->save();
+
 
         return redirect()->route('site.equipamento.descricao', $equipamento->id);
     }
