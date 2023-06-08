@@ -40,7 +40,7 @@ function submit() {
 
 <template>
     <PerfilLayout titulo="Meus Dados" pagina="perfil">
-        <form class="perfil" @submit.prevent="submit">
+        <form class="perfil d-flex flex-fill flex-column" @submit.prevent="submit">
             <div class="mb-3">
                 <h1>Meus Dados</h1>
             </div>
@@ -49,7 +49,7 @@ function submit() {
             </div>
             <Link v-if="!user.email_verified_at" class="link-plain" href="/perfil/verificar/reenviar">
                 <div class="alert alert-warning" role="alert">
-                    Email Não verificado clique aqui para verificar
+                    Email Não verificado <u>clique aqui</u> para verificar
                 </div>
             </Link>
             <div class="mb-3">
