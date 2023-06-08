@@ -34,11 +34,16 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                 </Link>
             </div>
         </div>
-        <header class="py-0 py-md-3 mb-4 navbar navbar-expand-md d-block pb-1 pb-md-0">
+        <header class="mb-4 navbar navbar-expand-md d-block">
             <div class="container-fluid main flex-wrap flex-md-nowrap">
                 <div class="header-item text-decoration-none logo-container order-1">
-                    <Link href="/">
-                        <img class="logo" src="/img/logo.png" alt="Página Inicial">
+                    <Link class="logo-container" href="/">
+                        <picture>
+                            <source srcset="/img/logo_325x100.webp" type="image/webp" media="(min-width: 1399.98px)">
+                            <source srcset="/img/logo_325x100.png" type="image/png" media="(min-width: 1399.98px)">
+                            <source srcset="/img/logo_130x40.webp" type="image/webp">
+                            <img class="logo" src="/img/logo_130x40.png" alt="Página Inicial">
+                        </picture>
                     </Link>
                 </div>
                 <Pesquisa />
