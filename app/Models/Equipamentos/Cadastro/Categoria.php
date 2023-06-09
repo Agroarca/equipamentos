@@ -3,6 +3,8 @@
 namespace App\Models\Equipamentos\Cadastro;
 
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +20,15 @@ class Categoria extends Model
         'nome',
         'categoria_mae_id',
     ];
+
+    public function temCaracteristicas(): Attribute
+    {
+        $equipCaracService = app(EquipamentoCaracteristicaService::class);
+
+        return Attribute::make(
+            get: fn ($value, $attributes) => $equipCaracService->getCaracteristicasCategoria($attributes['id'])->count() > 0
+        );
+    }
 
     public function categoriaMae(): BelongsTo
     {

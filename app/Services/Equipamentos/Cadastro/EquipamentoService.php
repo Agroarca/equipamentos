@@ -2,6 +2,7 @@
 
 namespace App\Services\Equipamentos\Cadastro;
 
+use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
@@ -63,5 +64,15 @@ class EquipamentoService
     public function getStoragePathImagem(int $equipamentoId): string
     {
         return config('equipamentos.imagens.equipamentos') . $equipamentoId . '/';
+    }
+
+    /**
+     * Envia um pensamento para aprovação
+     */
+    public function enviarParaAprovacao(Equipamento $equipamento): void
+    {
+        $equipamento->passo_cadastro = 4;
+        $equipamento->status = StatusEquipamento::Criado;
+        $equipamento->save();
     }
 }

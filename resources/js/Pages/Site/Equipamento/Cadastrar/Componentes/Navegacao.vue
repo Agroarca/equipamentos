@@ -6,6 +6,7 @@ const props = defineProps({
     passoCadastro: Number,
     passoAtual: Number,
     equipamento: Object,
+    mostrarCaracteriscas: Boolean,
 })
 
 </script>
@@ -32,7 +33,7 @@ const props = defineProps({
                 Descrição
             </Link>
         </li>
-        <li class="nav-item">
+        <li v-if="mostrarCaracteriscas" class="nav-item">
             <Link class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 3 }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">
                 Caracteristicas
             </Link>

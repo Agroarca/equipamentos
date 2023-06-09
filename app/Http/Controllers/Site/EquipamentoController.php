@@ -59,6 +59,8 @@ class EquipamentoController extends Controller
     public function cadastro(int $id)
     {
         $categoria = Categoria::findOrFail($id);
+        $categoria->append('tem_caracteristicas');
+
         return Inertia::render('Site/Equipamento/Cadastrar/Novo', compact('categoria'));
     }
 
@@ -90,7 +92,8 @@ class EquipamentoController extends Controller
 
     public function imagens($id)
     {
-        $equipamento = Equipamento::with(['imagens'])->findOrFail($id);
+        $equipamento = Equipamento::with(['imagens', 'categoria'])->findOrFail($id);
+        $equipamento->categoria->append('tem_caracteristicas');
 
         return Inertia::render('Site/Equipamento/Cadastrar/Imagens', compact('equipamento'));
     }
@@ -143,6 +146,7 @@ class EquipamentoController extends Controller
         if (!$this->equipService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
         }
+        $equipamento->categoria->append('tem_caracteristicas');
 
         return Inertia::render('Site/Equipamento/Cadastrar/Descricao', compact('equipamento'));
     }
@@ -156,12 +160,17 @@ class EquipamentoController extends Controller
         }
         $equipamento->save();
 
+        if (!$equipamento->categoria->tem_caracteristicas) {
+            $this->equipService->enviarParaAprovacao($equipamento);
+            return redirect()->route('site.equipamento.finalizar', $equipamento->id);
+        }
+
         return redirect()->route('site.equipamento.caracteristicas', $equipamento->id);
     }
 
     public function caracteristicas($id)
     {
-        $equipamento = Equipamento::with('imagens')->findOrFail($id);
+        $equipamento = Equipamento::with('imagens', 'categoria')->findOrFail($id);
 
         if (!$this->equipService->temImagem($equipamento)) {
             return abort(403, 'Imagens não cadastradas');
@@ -169,6 +178,10 @@ class EquipamentoController extends Controller
 
         if (!$this->equipService->temDescricao($equipamento)) {
             return abort(403, 'Descrição não cadastrada');
+        }
+
+        if (!$equipamento->categoria->tem_caracteristicas) {
+            return redirect()->route('site.equipamento.editar', $equipamento->id);
         }
 
         $caracteristicas = $this->equipCaracService->getCaracteristicasCategoria($equipamento->categoria_id);
@@ -188,13 +201,7 @@ class EquipamentoController extends Controller
     {
         $equipamento = Equipamento::findOrFail($id);
         $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
-        if ($equipamento->passo_cadastro < 4) {
-            $equipamento->passo_cadastro = 4;
-        }
-        if ($equipamento->status == StatusEquipamento::Cadastrando) {
-            $equipamento->status = StatusEquipamento::Criado;
-        }
-        $equipamento->save();
+        $this->equipService->enviarParaAprovacao($equipamento);
 
         return redirect()->route('site.equipamento.finalizar', $equipamento->id);
     }
