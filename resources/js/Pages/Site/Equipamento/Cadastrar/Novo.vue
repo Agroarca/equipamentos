@@ -85,9 +85,11 @@ function submit() {
                     <label for="categoria_id">Categoria</label>
                     <input id="ano" :value="categoria?.nome ?? equipamento.categoria.nome" class="form-control" type="text" disabled>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    Continuar
-                </button>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        Continuar
+                    </button>
+                </div>
             </form>
         </div>
     </SiteLayout>
