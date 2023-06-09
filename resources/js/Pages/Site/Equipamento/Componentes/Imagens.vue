@@ -20,11 +20,11 @@ const props = defineProps({
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carrosselImagens" data-bs-slide="prev">
-            <i class="fa-solid fa-angle-left fa-2xl btn-control-carousel" />
+            <span class="carousel-control-prev-icon" aria-hidden="true" />
             <span class="visually-hidden">Voltar</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carrosselImagens" data-bs-slide="next">
-            <i class="fa-solid fa-angle-right fa-2xl btn-control-carousel" />
+            <span class="carousel-control-next-icon" aria-hidden="true" />
             <span class="visually-hidden">Proxima</span>
         </button>
     </div>
