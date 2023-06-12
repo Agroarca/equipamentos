@@ -25,9 +25,14 @@ const value = computed({
 <template>
     <div class="input-group">
         <input :id="inputId" v-model="value" :name="inputName" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
-        <span id="basic-addon2" class="input-group-text" @click="mostrarSenha = !mostrarSenha">
-            <input id="mostrar_senha" v-model="mostrarSenha" class="form-check-input" type="checkbox">
-            <label class="form-check-label ps-2" for="mostrar_senha">Mostrar senha</label>
-        </span>
+        <div class="mostrar-senha input-group-text d-block cursor-pointer" @click.prevent="mostrarSenha = !mostrarSenha">
+            <input id="mostrar_senha" v-model="mostrarSenha" class="form-check-input d-none" type="checkbox" />
+            <label class="form-check-label cursor-pointer user-select-none" for="mostrar_senha">
+                <i class="far pe-1" :class="mostrarSenha ? 'fa-eye' : 'fa-eye-slash'" />
+                {{
+                    mostrarSenha ? 'Esconder senha' : 'Mostrar senha'
+                }}
+            </label>
+        </div>
     </div>
 </template>
