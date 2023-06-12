@@ -28,8 +28,8 @@ class EquipamentoRequest extends FormRequest
                 'min:1900',
                 "max:{$ano}",
             ],
-            'modelo_id' => 'integer|required_without:id|exists:modelos,id',
-            'categoria_id' => 'integer|required_without:id|exists:categorias,id',
+            'modelo_id' => 'required_without:id|exists:modelos,id',
+            'categoria_id' => 'required_without:id|exists:categorias,id',
             'status' => [
                 'integer',
                 'nullable',

@@ -42,10 +42,10 @@ onMounted(() => {
 
 async function submit() {
     loader.show()
-    if (!form.marca_id) {
+    if (!form.marca_id && marca) {
         await salvarMarca()
     }
-    if (!form.modelo_id) {
+    if (!form.modelo_id && modelo) {
         await salvarModelo()
     }
 
@@ -61,20 +61,30 @@ function criarNovoModelo(search) {
 }
 
 async function salvarMarca() {
-    let response = await axios.post('/marca/salvar/ajax', {
-        nome: marca,
-    })
+    try {
+        let response = await axios.post('/marca/salvar/ajax', {
+            nome: marca,
+        })
 
-    form.marca_id = response.data.id
+        form.marca_id = response.data.id
+    } catch (error) {
+        loader.hide()
+        throw error
+    }
 }
 
 async function salvarModelo() {
-    let response = await axios.post('/modelo/salvar/ajax', {
-        nome: modelo,
-        marca_id: form.marca_id,
-    })
+    try {
+        let response = await axios.post('/modelo/salvar/ajax', {
+            nome: modelo,
+            marca_id: form.marca_id,
+        })
 
-    form.modelo_id = response.data.id
+        form.modelo_id = response.data.id
+    } catch (error) {
+        loader.hide()
+        throw error
+    }
 }
 
 </script>
