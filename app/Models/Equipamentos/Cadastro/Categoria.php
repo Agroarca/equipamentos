@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+
 namespace App\Models\Equipamentos\Cadastro;
 
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
@@ -26,7 +28,8 @@ class Categoria extends Model
         $equipCaracService = app(EquipamentoCaracteristicaService::class);
 
         return Attribute::make(
-            get: fn ($value, $attributes) => $equipCaracService->getCaracteristicasCategoria($attributes['id'])->count() > 0
+            get: fn ($value, $attributes) =>
+                $equipCaracService->getCaracteristicasCategoria($attributes['id'])->count() > 0
         );
     }
 
