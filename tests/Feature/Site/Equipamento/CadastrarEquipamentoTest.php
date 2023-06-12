@@ -278,7 +278,7 @@ class CadastrarEquipamentoTest extends TestCase
         ]);
     }
 
-    public function testPodeSalvarDescricaoDeCategoriaSemCaracteristica()
+    public function testPodeSalvarDescricaoDeCategoriaSemCaracteristica(): void
     {
         $categoria = Categoria::factory()->create();
 
