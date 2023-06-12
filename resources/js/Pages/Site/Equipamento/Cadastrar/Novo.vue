@@ -66,9 +66,10 @@ function submit() {
                         v-model="form.marca_id"
                         placeholder="Selecione uma marca"
                         href="/admin/marcas/pesquisar"
-                        :preBusca="true" />
+                        :preBusca="true"
+                        required />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
-                    <FormError :error="form.errors.modelo_id" />
+                    <FormError :error="form.errors.marca_id" />
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Modelo</label>
@@ -77,7 +78,8 @@ function submit() {
                         v-model="form.modelo_id"
                         :disabled="!form.marca_id"
                         :placeholder="placeholderModelo"
-                        :href="`/admin/modelos/pesquisar/${form.marca_id}`" />
+                        :href="`/admin/modelos/pesquisar/${form.marca_id}`"
+                        required />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>

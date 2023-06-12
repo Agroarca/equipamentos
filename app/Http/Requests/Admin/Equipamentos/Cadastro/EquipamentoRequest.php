@@ -49,4 +49,11 @@ class EquipamentoRequest extends FormRequest
             'status' => 'Status',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'modelo_id.required_without' => 'O campo modelo e marca são obrigatórios',
+        ];
+    }
 }
