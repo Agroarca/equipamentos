@@ -85,7 +85,11 @@ async function salvarModelo() {
             <h2 class="titulo text-center mb-3">
                 Cadastrar Novo Equipamento
             </h2>
-            <Navegacao class="mb-3 d-flex justify-content-center" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" :equipamento="equipamento" />
+            <Navegacao class="mb-3 d-flex justify-content-center"
+                       :passoAtual="1"
+                       :passoCadastro="equipamento?.passo_cadastro ?? 1"
+                       :equipamento="equipamento"
+                       :mostrarCaracteriscas="categoria.tem_caracteristicas" />
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <label for="titulo">Título</label>

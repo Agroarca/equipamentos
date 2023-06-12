@@ -7,6 +7,7 @@ use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaValor;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class EquipamentoCaracteristicaService
@@ -15,6 +16,18 @@ class EquipamentoCaracteristicaService
      * Retorna todas as caracteristicas ordenadas pela ordem
      */
     public function getCaracteristicasCategoria(int $categoriaId): Collection
+    {
+        return Cache::tags('caracteristicas')->remember(
+            "categoria-$categoriaId",
+            3600,
+            fn () => $this->getCaracteristicasCategoriaSemCache($categoriaId)
+        );
+    }
+
+    /**
+     * Retorna todas as caracteristicas ordenadas pela ordem sem cache
+     */
+    public function getCaracteristicasCategoriaSemCache(int $categoriaId): Collection
     {
         return Caracteristica::whereRaw(
             'categoria_id in (

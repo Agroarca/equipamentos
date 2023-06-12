@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicaRequest;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -37,6 +38,7 @@ class CaracteristicaController extends Controller
         $caracteristica->categoria_id = $categoriaId;
         $caracteristica->ordem = Caracteristica::where('categoria_id', $categoriaId)->max('ordem') + 1;
         $caracteristica->save();
+        Cache::tags('caracteristicas')->flush();
 
         return redirect()->route('admin.categorias.caracteristicas', $categoriaId);
     }
@@ -57,6 +59,7 @@ class CaracteristicaController extends Controller
     {
         Gate::authorize('excluir', Caracteristica::class);
         Caracteristica::where('categoria_id', $categoriaId)->findOrFail($id)->delete();
+        Cache::tags('caracteristicas')->flush();
 
         return redirect()->route('admin.categorias.caracteristicas', $categoriaId);
     }

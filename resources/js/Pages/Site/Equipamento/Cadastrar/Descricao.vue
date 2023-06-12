@@ -23,14 +23,18 @@ function salvarDescricao() {
             <h2 class="titulo text-center mb-3">
                 Descrição do Equipamento
             </h2>
-            <Navegacao class="mb-3" :passoAtual="3" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
+            <Navegacao class="mb-3"
+                       :passoAtual="3"
+                       :passoCadastro="equipamento.passo_cadastro"
+                       :equipamento="equipamento"
+                       :mostrarCaracteriscas="equipamento.categoria.tem_caracteristicas" />
             <div class="my-4">
                 <Editor v-model="form.descricao" class="descricao" />
                 <FormError :error="form.errors.descricao" />
             </div>
             <div>
                 <button type="button" class="btn btn-primary" @click="salvarDescricao">
-                    Atualizar Descrição
+                    Continuar
                 </button>
             </div>
         </div>

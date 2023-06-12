@@ -126,7 +126,11 @@ function inputImagem(e) {
             <h2 class="titulo text-center mb-3">
                 Imagens do Equipamento
             </h2>
-            <Navegacao class="mb-3" :passoAtual="2" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
+            <Navegacao class="mb-3"
+                       :passoAtual="2"
+                       :passoCadastro="equipamento.passo_cadastro"
+                       :equipamento="equipamento"
+                       :mostrarCaracteriscas="equipamento.categoria.tem_caracteristicas" />
             <div v-if="errors.imagem" class="row mb-3">
                 <div class="alert alert-warning">
                     <label for="erro" class="imagem">{{ errors.imagem }}</label>
