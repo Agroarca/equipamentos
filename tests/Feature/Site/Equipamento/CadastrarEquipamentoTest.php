@@ -257,7 +257,13 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeSalvarDescricao(): void
     {
-        $equipamento = Equipamento::factory()->create();
+        $categoria = Categoria::factory()->create();
+        Caracteristica::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
         $descricao = Str::random(25);
 
         $response = $this->actingAs($this->getUsuario())
@@ -266,6 +272,27 @@ class CadastrarEquipamentoTest extends TestCase
             ]);
 
         $response->assertRedirectToRoute('site.equipamento.caracteristicas', $equipamento->id);
+        $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
+            'id' => $equipamento->id,
+            'descricao' => $descricao,
+        ]);
+    }
+
+    public function testPodeSalvarDescricaoDeCategoriaSemCaracteristica()
+    {
+        $categoria = Categoria::factory()->create();
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+        $descricao = Str::random(25);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/{$equipamento->id}/descricao/salvar", [
+                'descricao' => $descricao,
+            ]);
+
+        $response->assertRedirectToRoute('site.equipamento.finalizar', $equipamento->id);
         $this->assertDatabaseHas(app(Equipamento::class)->getTable(), [
             'id' => $equipamento->id,
             'descricao' => $descricao,
@@ -290,7 +317,14 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodeAcessarCaracteristica(): void
     {
-        $equipamento = Equipamento::factory()->create();
+        $categoria = Categoria::factory()->create();
+        Caracteristica::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+
         EquipamentoImagem::factory()->create([
             'equipamento_id' => $equipamento->id,
         ]);
@@ -301,6 +335,23 @@ class CadastrarEquipamentoTest extends TestCase
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Equipamento/Cadastrar/Caracteristicas'));
+    }
+
+    public function testNaoPodeAcessarCaracteristicaSemCaracteristicasNaCategoria(): void
+    {
+        $categoria = Categoria::factory()->create();
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+
+        EquipamentoImagem::factory()->create([
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->get("/equipamento/{$equipamento->id}/caracteristicas");
+
+        $response->assertRedirectToRoute('site.equipamento.editar', $equipamento->id);
     }
 
     public function testPodeSalvarCaracteristicaTipoInt(): void
