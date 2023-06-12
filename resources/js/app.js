@@ -14,7 +14,7 @@ const appName = 'Agroarca Equipamentos'
 createInertiaApp({
     title: (title) => (title?.length > 0 ? `${title} - ${appName}` : appName),
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
-    progress: { color: '#4B5563' },
+    progress: { color: '#0061b8' },
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
