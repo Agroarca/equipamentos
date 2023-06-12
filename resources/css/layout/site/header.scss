@@ -44,17 +44,13 @@
         .main {
             display: flex;
             align-items: center;
-            margin: 1.7rem 0;
+            margin-top: 1rem;
             justify-content: space-between;
             gap: 30px;
             padding: 0 6rem;
 
-            @mixin breakpoint-down xxl {
-                margin: 1rem 0;
-            }
-
             @mixin breakpoint-down lg {
-                margin: .5rem 0;
+                margin-top: .5rem;
                 padding: 0 .5rem;
                 gap: .5rem;
             }
@@ -121,6 +117,15 @@
                     font-size: 1rem;
                 }
             }
+
+            input:focus {
+                box-shadow: none;
+            }
+
+            .input-group:has(input:focus) {
+                box-shadow: $box-shadow-input;
+                transition: box-shadow 0.15s ease-in-out;
+            }
         }
 
         .header-btn {
@@ -156,7 +161,7 @@
         .menu {
             display: flex;
             align-items: center;
-            padding: 1.7rem 6rem;
+            padding: 1rem 6rem;
             justify-content: space-between;
 
             @mixin breakpoint-down md {

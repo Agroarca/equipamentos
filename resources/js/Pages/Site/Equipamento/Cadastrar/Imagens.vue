@@ -24,7 +24,6 @@ let cropper = {
 }
 
 const form = useForm({
-    descricao: '',
     imagem: {},
 })
 
@@ -77,7 +76,10 @@ function startCropper() {
 }
 
 async function saveCrop() {
-    const canvas = cropper.obj.getCroppedCanvas()
+    const canvas = cropper.obj.getCroppedCanvas({
+        width: 800,
+        height: 600,
+    })
 
     const blobImg = await new Promise((resolve) => {
         canvas.toBlob((blob) => {
@@ -132,8 +134,7 @@ function inputImagem(e) {
             </div>
             <div class="my-3">
                 <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="imagem">
-                    <img :id="'img-' + imagem.id" :src="imagem.url" :alt="imagem.descricao">
-                    <p> {{ imagem.descricao }} </p>
+                    <img :id="'img-' + imagem.id" :src="imagem.url" alt="Imagem do Equipamento">
                     <Link :href="`/equipamento/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
                         Excluir
                     </Link>
@@ -151,11 +152,6 @@ function inputImagem(e) {
                 </div>
             </div>
             <Modal :id="'modal_' + equipamento.id" ref="modal" modalSizeClass="modal-lg modal-fullscreen-sm-down" title="Adicionar Imagem">
-                <div class="mb-3">
-                    <label for="descricao">Descrição</label>
-                    <input id="descricao" v-model="form.descricao" type="text" name="descricao" class="form-control">
-                    <FormError :error="form.errors.descricao" />
-                </div>
                 <div class="mb-3">
                     <label for="imagem" />
                     <input id="imagem" type="file" name="imagem" accept="image/*" class="form-control form-control-file" @change="inputImagem">

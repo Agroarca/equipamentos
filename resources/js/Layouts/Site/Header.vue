@@ -25,7 +25,8 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
             <div class="container contact-container d-flex flex-nowrap">
                 <a :href="usePage().props.site.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
-                    {{ usePage().props.site.contato.telefone }}
+                    <strong>{{ usePage().props.site.contato.telefone }}</strong>
+                    <span class="ps-2">Fale Conosco! </span>
                 </a>
                 <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />
@@ -33,11 +34,16 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                 </Link>
             </div>
         </div>
-        <header class="py-0 py-md-3 mb-4 navbar navbar-expand-md d-block pb-1 pb-md-0">
+        <header class="mb-4 navbar navbar-expand-md d-block">
             <div class="container-fluid main flex-wrap flex-md-nowrap">
                 <div class="header-item text-decoration-none logo-container order-1">
-                    <Link href="/">
-                        <img class="logo" src="/img/logo.png" alt="Página Inicial">
+                    <Link class="logo-container" href="/">
+                        <picture>
+                            <source srcset="/img/logo_325x100.webp" type="image/webp" media="(min-width: 1399.98px)">
+                            <source srcset="/img/logo_325x100.png" type="image/png" media="(min-width: 1399.98px)">
+                            <source srcset="/img/logo_130x40.webp" type="image/webp">
+                            <img class="logo" src="/img/logo_130x40.png" alt="Página Inicial">
+                        </picture>
                     </Link>
                 </div>
                 <Pesquisa />

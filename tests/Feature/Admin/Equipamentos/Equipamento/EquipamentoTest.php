@@ -270,7 +270,7 @@ class EquipamentoTest extends TestCase
 
     public function testPodeAcessarEditarImagens(): void
     {
-        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento.imagem:ver');
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:ver');
         $equipamento = Equipamento::factory()->create();
 
         $response = $this->actingAs($usuario)

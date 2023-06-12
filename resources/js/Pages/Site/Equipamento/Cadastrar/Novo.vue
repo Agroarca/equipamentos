@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, ref, onMounted } from 'vue'
+import { watch, computed, ref, onMounted } from 'vue'
+import axios from 'axios'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
@@ -11,6 +12,9 @@ const props = defineProps({
     equipamento: Object,
     categoria: Object,
 })
+
+let marca
+let modelo
 
 const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma Marca'))
 
@@ -24,14 +28,53 @@ const form = useForm({
     categoria_id: props.equipamento?.categoria_id ?? props.categoria?.id,
 })
 
+watch(() => form.marca_id, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        form.modelo_id = ''
+    }
+})
+
 const elValor = ref(null)
 
 onMounted(() => {
     Mask.preco(elValor.value)
 })
 
-function submit() {
-    form.post('/equipamento/salvar')
+async function submit() {
+    loader.show()
+    if (!form.marca_id) {
+        await salvarMarca()
+    }
+    if (!form.modelo_id) {
+        await salvarModelo()
+    }
+
+    form.post('/equipamento/salvar', { onFinish: () => loader.hide() })
+}
+
+function criarNovaMarca(search) {
+    marca = search
+}
+
+function criarNovoModelo(search) {
+    modelo = search
+}
+
+async function salvarMarca() {
+    let response = await axios.post('/marca/salvar/ajax', {
+        nome: marca,
+    })
+
+    form.marca_id = response.data.id
+}
+
+async function salvarModelo() {
+    let response = await axios.post('/modelo/salvar/ajax', {
+        nome: modelo,
+        marca_id: form.marca_id,
+    })
+
+    form.modelo_id = response.data.id
 }
 
 </script>
@@ -64,10 +107,12 @@ function submit() {
                     <SelectAjax
                         v-if="!equipamento?.modelo?.marca"
                         v-model="form.marca_id"
-                        placeholder="Selecione uma marca"
-                        href="/admin/marcas/pesquisar"
+                        placeholder="Selecione uma Marca"
+                        href="/pesquisar/marcas"
                         :preBusca="true"
-                        required />
+                        :criarDinamica="true"
+                        required
+                        @criarNovaOpcao="criarNovaMarca" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.marca_id" />
                 </div>
@@ -76,10 +121,12 @@ function submit() {
                     <SelectAjax
                         v-if="!equipamento?.modelo"
                         v-model="form.modelo_id"
-                        :disabled="!form.marca_id"
+                        :disabled="!form.marca_id && !marca"
                         :placeholder="placeholderModelo"
-                        :href="`/admin/modelos/pesquisar/${form.marca_id}`"
-                        required />
+                        :href="form.marca_id ? `/pesquisar/${form.marca_id}/modelos` : null"
+                        :criarDinamica="true"
+                        required
+                        @criarNovaOpcao="criarNovoModelo" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
                 </div>
