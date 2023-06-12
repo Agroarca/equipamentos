@@ -32,7 +32,7 @@ function salvarDescricao() {
                 <Editor v-model="form.descricao" class="descricao" />
                 <FormError :error="form.errors.descricao" />
             </div>
-            <div>
+            <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" @click="salvarDescricao">
                     Continuar
                 </button>

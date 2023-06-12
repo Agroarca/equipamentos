@@ -146,7 +146,7 @@ function inputImagem(e) {
                         <span>Nenhuma imagem adicionada</span>
                     </div>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 d-flex justify-content-end">
                     <button type="button" class="btn btn-primary me-3" @click="adicionar()">
                         Adicionar Imagem
                     </button>
