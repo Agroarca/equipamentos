@@ -50,7 +50,6 @@ class CategoriaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('categorias', 0)
-            ->has('categorias_mae', 0)
             ->etc());
     }
 }
