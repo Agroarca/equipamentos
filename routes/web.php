@@ -32,13 +32,10 @@ Route::name('site')->group(function () {
     Route::get('marca/{id}', [ListaController::class, 'marca'])->name('.marca');
     Route::get('lista/{idOuSlug}', [ListaController::class, 'lista'])->name('.lista');
 
-    Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
-    Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
-    Route::post('marca/salvar/ajax', [EquipamentoController::class, 'salvarMarcaAjax'])->name('.cadastrar.marca.salvarajax');
-    Route::post('modelo/salvar/ajax', [EquipamentoController::class, 'salvarModeloAjax'])->name('.cadastrar.modelo.salvarajax');
-
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
+    Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
+    Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
     Route::get('pesquisa/{pesquisa}', [ListaController::class, 'pesquisa'])->name('.pesquisa');
 
     Route::middleware(['auth'])->group(function () {
@@ -57,6 +54,10 @@ Route::name('site')->group(function () {
             Route::post('{id}/caracteristicas/salvar', [EquipamentoController::class, 'salvarCaracteristicas'])->name('.salvarCaracteristicas');
             Route::get('{id}/finalizar', [EquipamentoController::class, 'finalizar'])->name('.finalizar');
         });
+
+
+        Route::post('marca/salvar/ajax', [EquipamentoController::class, 'salvarMarcaAjax'])->name('.cadastrar.marca.salvarajax');
+        Route::post('modelo/salvar/ajax', [EquipamentoController::class, 'salvarModeloAjax'])->name('.cadastrar.modelo.salvarajax');
 
         Route::get('categorias/pesquisar/{id?}', [CategoriaController::class, 'pesquisar'])->name('.categorias.pesquisar');
 

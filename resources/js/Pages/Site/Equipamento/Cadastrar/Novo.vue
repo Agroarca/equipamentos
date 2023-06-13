@@ -42,10 +42,10 @@ onMounted(() => {
 
 async function submit() {
     loader.show()
-    if (!form.marca_id) {
+    if (!form.marca_id && marca) {
         await salvarMarca()
     }
-    if (!form.modelo_id) {
+    if (!form.modelo_id && modelo) {
         await salvarModelo()
     }
 
@@ -61,20 +61,30 @@ function criarNovoModelo(search) {
 }
 
 async function salvarMarca() {
-    let response = await axios.post('/marca/salvar/ajax', {
-        nome: marca,
-    })
+    try {
+        let response = await axios.post('/marca/salvar/ajax', {
+            nome: marca,
+        })
 
-    form.marca_id = response.data.id
+        form.marca_id = response.data.id
+    } catch (error) {
+        loader.hide()
+        throw error
+    }
 }
 
 async function salvarModelo() {
-    let response = await axios.post('/modelo/salvar/ajax', {
-        nome: modelo,
-        marca_id: form.marca_id,
-    })
+    try {
+        let response = await axios.post('/modelo/salvar/ajax', {
+            nome: modelo,
+            marca_id: form.marca_id,
+        })
 
-    form.modelo_id = response.data.id
+        form.modelo_id = response.data.id
+    } catch (error) {
+        loader.hide()
+        throw error
+    }
 }
 
 </script>
@@ -115,9 +125,10 @@ async function salvarModelo() {
                         href="/pesquisar/marcas"
                         :preBusca="true"
                         :criarDinamica="true"
+                        required
                         @criarNovaOpcao="criarNovaMarca" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
-                    <FormError :error="form.errors.modelo_id" />
+                    <FormError :error="form.errors.marca_id" />
                 </div>
                 <div class="mb-3">
                     <label for="marca_id">Modelo</label>
@@ -128,6 +139,7 @@ async function salvarModelo() {
                         :placeholder="placeholderModelo"
                         :href="form.marca_id ? `/pesquisar/${form.marca_id}/modelos` : null"
                         :criarDinamica="true"
+                        required
                         @criarNovaOpcao="criarNovoModelo" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
