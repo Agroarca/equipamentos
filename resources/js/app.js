@@ -9,7 +9,7 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 
-const appName = 'Agroarca Equipamentos'
+const appName = 'Agroarca'
 
 createInertiaApp({
     title: (title) => (title?.length > 0 ? `${title} - ${appName}` : appName),
