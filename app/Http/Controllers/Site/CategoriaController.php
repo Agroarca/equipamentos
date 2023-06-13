@@ -14,18 +14,9 @@ class CategoriaController extends Controller
 
     public function pesquisar(?int $categoriaId = null)
     {
-        $categoria = Categoria::with(['categoriaMae'])->find($categoriaId);
-
+        $categoria = Categoria::find($categoriaId);
+        $categorias = Categoria::where('categoria_mae_id', $categoriaId)->get();
         $categoriasMae = $this->listaService->categoriasMae($categoriaId);
-
-        $categorias = Categoria::select('categorias.*')->selectRaw(
-            'case when exists (
-                select * from categorias c2
-                where c2.categoria_mae_id = categorias.id
-            ) then true else false
-            end as possui_filhos'
-        )->where('categoria_mae_id', $categoriaId)->get();
-
 
         return response()->json([
             'categoria' => $categoria,
