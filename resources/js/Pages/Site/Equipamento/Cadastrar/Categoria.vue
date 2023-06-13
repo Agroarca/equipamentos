@@ -15,7 +15,7 @@ const props = defineProps({
 const data = ref({
     categoria: {},
     categorias: props.categorias,
-    categoriasMae: [],
+    categorias_mae: [],
 })
 
 function atualizarCategorias(categoriaId?) {
@@ -25,7 +25,7 @@ function atualizarCategorias(categoriaId?) {
     axios.get(url).then((response) => {
         data.value.categoria = response.data.categoria
         data.value.categorias = response.data.categorias
-        data.value.categoriasMae = response.data.categoriasMae
+        data.value.categorias_mae = response.data.categorias_mae
     }).finally(() => {
         window.loader.hide()
     })
@@ -44,10 +44,10 @@ function atualizarCategorias(categoriaId?) {
                     </h3>
                 </div>
 
-                <div v-if="data.categoriasMae.length > 0" class="mb-3">
+                <div v-if="data.categorias_mae.length > 0" class="mb-3">
                     <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                            <li v-for="categoria in data.categoriasMae" :key="categoria.id" class="breadcrumb-item">
+                            <li v-for="categoria in data.categorias_mae" :key="categoria.id" class="breadcrumb-item">
                                 <button type="button" class="breadcrumb-item btn btn-link" @click="atualizarCategorias(categoria.id)">
                                     {{ categoria.nome }}
                                 </button>

@@ -21,7 +21,7 @@ class CategoriaController extends Controller
         return response()->json([
             'categoria' => $categoria,
             'categorias' => $categorias,
-            'categoriasMae' => $categoriasMae,
+            'categorias_mae' => $categoriasMae,
         ]);
     }
 }
