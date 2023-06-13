@@ -7,7 +7,10 @@ import Header from './Site/Header.vue'
 import Footer from './Site/Footer.vue'
 
 const props = defineProps({
-    titulo: String,
+    titulo: {
+        type: String,
+        default: 'Compra e venda de equipamentos agrícolas',
+    },
     noindex: Boolean,
 })
 
