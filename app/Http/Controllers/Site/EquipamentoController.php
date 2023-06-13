@@ -32,7 +32,8 @@ class EquipamentoController extends Controller
 
     public function cadastrar()
     {
-        return Inertia::render('Site/Equipamento/Cadastrar/Categoria');
+        $categorias = Categoria::where('categoria_mae_id', null)->get();
+        return Inertia::render('Site/Equipamento/Cadastrar/Categoria', compact('categorias'));
     }
 
     public function editar(int $id)
