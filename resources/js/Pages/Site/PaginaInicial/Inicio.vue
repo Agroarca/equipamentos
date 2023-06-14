@@ -11,6 +11,18 @@ const props = defineProps({
     versaoPaginaInicial: Object,
 })
 
+let dadosEstruturados = {
+    potentialAction: [{
+        '@type': 'SearchAction',
+        target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://agroarca.com.br/pesquisa/{search_term}',
+        },
+        'query-input': 'required name=search_term',
+    }],
+    url: 'https://agroarca.com.br',
+}
+
 const versao = new Versao(
     props.versaoPaginaInicial.id,
     props.versaoPaginaInicial.status,
@@ -38,7 +50,7 @@ function resolveComponent(componente: Componente) {
 </script>
 
 <template>
-    <SiteLayout>
+    <SiteLayout :dadosEstruturados="dadosEstruturados">
         <div class="pagina-inicial">
             <Carrossel :carrosselItens="versao.carrossel_itens" />
 
