@@ -69,7 +69,7 @@ return [
      */
 
     'maintenance' => [
-        'driver' => 'redis',
+        'driver' => 'file',
     ],
 
     /*
