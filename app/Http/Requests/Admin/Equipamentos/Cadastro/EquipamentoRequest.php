@@ -28,8 +28,8 @@ class EquipamentoRequest extends FormRequest
                 'min:1900',
                 "max:{$ano}",
             ],
-            'modelo_id' => 'integer|required_without:id|exists:modelos,id',
-            'categoria_id' => 'integer|required_without:id|exists:categorias,id',
+            'modelo_id' => 'required_without:id|exists:modelos,id',
+            'categoria_id' => 'required_without:id|exists:categorias,id',
             'status' => [
                 'integer',
                 'nullable',
@@ -47,6 +47,13 @@ class EquipamentoRequest extends FormRequest
             'modelo_id' => 'Modelo',
             'categoria_id' => 'Categoria',
             'status' => 'Status',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'modelo_id.required_without' => 'O campo modelo e marca são obrigatórios',
         ];
     }
 }
