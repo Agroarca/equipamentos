@@ -62,4 +62,29 @@ class EntrarTest extends TestCase
         $response->assertInvalid(['email' => 'Muitas tentativas de login.']);
         $response->assertSessionHas('errors');
     }
+
+    /**
+     * Testa se o usuário é redirecionado para a rota anterior após o login.
+     * Issue #402
+     */
+    public function testRedirecionarRotaAnteriorAposLogin(): void
+    {
+        $usuario = Usuario::factory()->create();
+
+        $response = $this->get('/equipamento/cadastrar');
+
+        $this->assertGuest();
+        $response->assertRedirectToRoute('auth.entrar');
+        $response->assertSessionHas('url.intended', url('/equipamento/cadastrar'));
+
+        $response = $this->withSession([
+            'url.intended' => url('/equipamento/cadastrar'),
+        ])->post('/entrar', [
+            'email' => $usuario->email,
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect('/equipamento/cadastrar');
+    }
 }

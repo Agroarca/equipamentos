@@ -21,6 +21,10 @@ class EntrarController extends Controller
 
         $request->session()->regenerate();
 
+        if (session()->has('url.intended')) {
+            return redirect()->to(session('url.intended'));
+        }
+
         return redirect()->route('site.perfil');
     }
 
