@@ -59,22 +59,22 @@ function selecionarModelo(id) {
 
 function selecionarValor(values) {
     let valor = {}
-    if (filtros.valor.minimo !== values[0] || url.searchParams.get('valor_minimo')) {
-        valor = { valor_minimo: values[0] }
-    }
-    if (filtros.valor.maximo !== values[1] || url.searchParams.get('valor_maximo')) {
-        valor = { ...valor, valor_maximo: values[1] }
+    if (filtros.valor.minimo !== values[0]
+    || filtros.valor.maximo !== values[1]
+    || url.searchParams.get('valor_minimo')
+    || url.searchParams.get('valor_maximo')) {
+        valor = { valor_minimo: values[0], valor_maximo: values[1] }
     }
     adicionarFiltros(valor)
 }
 
 function selecionarAno(values) {
     let ano = {}
-    if (filtros.ano.minimo !== values[0] || url.searchParams.get('ano_minimo')) {
-        ano = { ano_minimo: values[0] }
-    }
-    if (filtros.ano.maximo !== values[1] || url.searchParams.get('ano_maximo')) {
-        ano = { ...ano, ano_maximo: values[1] }
+    if (filtros.ano.minimo !== values[0]
+    || filtros.ano.maximo !== values[1]
+    || url.searchParams.get('ano_minimo')
+    || url.searchParams.get('ano_maximo')) {
+        ano = { ano_minimo: values[0], ano_maximo: values[1] }
     }
     adicionarFiltros(ano)
 }
@@ -88,6 +88,14 @@ function temUmaMarcaSelecionada() {
 
 function removerFiltro(filtro) {
     url.searchParams.delete(filtro.tipo)
+    if (filtro.tipo === 'valor') {
+        url.searchParams.delete('valor_minimo')
+        url.searchParams.delete('valor_maximo')
+    }
+    if (filtro.tipo === 'ano') {
+        url.searchParams.delete('ano_minimo')
+        url.searchParams.delete('ano_maximo')
+    }
     if (filtro.tipo === 'marca_id') {
         url.searchParams.delete('modelo_id')
     }
