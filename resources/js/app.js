@@ -17,7 +17,7 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     progress: { color: '#0061b8' },
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        window.app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ApmVuePlugin, {
                 serviceName: 'equipamentos',
@@ -25,5 +25,6 @@ createInertiaApp({
                 active: import.meta.env.VITE_APM_HABILITADO,
             })
             .mount(el)
+        return window.app
     },
 })
