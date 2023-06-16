@@ -12,6 +12,7 @@ const props = defineProps({
         default: 'Compra e venda de equipamentos agrícolas',
     },
     noindex: Boolean,
+    dadosEstruturados: Object,
 })
 
 </script>
@@ -23,6 +24,12 @@ const props = defineProps({
             <meta v-if="noindex" name="robots" head-key="meta-robots" content="noindex, nofollow" />
             <meta v-else name="robots" head-key="meta-robots" content="index, follow" />
         </Head>
+        <Teleport to="head">
+            <component :is="'script' + ''" type="application/ld+json">
+                <!-- `Solução Alternativa` pra carregar isso dinamicamente -->
+                {{ JSON.stringify(dadosEstruturados) }}
+            </component>
+        </Teleport>
         <BaseLayout>
             <Loader />
             <Header />

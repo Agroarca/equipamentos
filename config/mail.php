@@ -28,6 +28,10 @@ return [
             'transport' => 'ses',
         ],
 
+        'array' => [ // Testing
+            'transport' => 'array',
+        ],
+
         'phpmailer' => [
             'transport' => 'phpmailer',
         ],
