@@ -7,6 +7,7 @@
         "eslint": "eslint resources/js/**"
     },
     "dependencies": {
+        "@elastic/apm-rum-vue": "^2.1.2",
         "@fortawesome/fontawesome-free": "^6.4.0",
         "@inertiajs/vue3": "^1.0.0",
         "@tiptap/extension-text-align": "^2.0.0-beta.202",
