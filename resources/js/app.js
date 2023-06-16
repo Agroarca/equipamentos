@@ -20,9 +20,11 @@ createInertiaApp({
         window.app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ApmVuePlugin, {
-                serviceName: 'equipamentos',
-                serverUrl: 'https://agroarca.com.br:2083',
-                active: import.meta.env.VITE_APM_HABILITADO,
+                config: {
+                    serviceName: 'equipamentos',
+                    serverUrl: 'https://agroarca.com.br:2083',
+                    active: import.meta.env.VITE_APM_HABILITADO,
+                },
             })
             .mount(el)
         return window.app
