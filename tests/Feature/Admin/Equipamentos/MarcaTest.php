@@ -50,32 +50,35 @@ class MarcaTest extends TestCase
 
     public function testPodeCriarAprovado(): void
     {
-        $nome = Str::random(25);
+        $marca = Marca::factory()->make();
         $status = StatusCadastro::Aprovado->value;
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
             ->post('/admin/marcas/salvar', [
-                'nome' => $nome,
+                'nome' => $marca->nome,
                 'status' => $status,
             ]);
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.marcas');
         $this->assertDatabaseHas(app(Marca::class)->getTable(), [
-            'nome' => $nome,
+            'nome' => $marca->nome,
             'status' => $status,
         ]);
     }
 
     public function testPodeCriarSemStatus(): void
     {
-        $nome = Str::random(25);
-
+        $marca = Marca::factory()->make();
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
-            ->post('/admin/marcas/salvar', ['nome' => $nome]);
+            ->post('/admin/marcas/salvar', [
+                'nome' => $marca->nome,
+            ]);
 
         $response->assertValid();
-        $this->assertDatabaseHas(app(Marca::class)->getTable(), ['nome' => $nome]);
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marca->nome,
+        ]);
     }
 
     public function testPodeCriarComMetaDescription(): void
@@ -100,7 +103,9 @@ class MarcaTest extends TestCase
         $nome = 'aa';
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
-            ->post('/admin/marcas/salvar', ['nome' => $nome]);
+            ->post('/admin/marcas/salvar', [
+                'nome' => $nome,
+            ]);
 
         $response->assertInvalid('nome');
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), ['nome' => $nome]);
@@ -111,7 +116,9 @@ class MarcaTest extends TestCase
         $nome = Str::random(150);
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
-            ->post('/admin/marcas/salvar', ['nome' => $nome]);
+            ->post('/admin/marcas/salvar', [
+                'nome' => $nome
+            ]);
 
         $response->assertInvalid('nome');
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), ['nome' => $nome]);
@@ -137,18 +144,18 @@ class MarcaTest extends TestCase
 
     public function testNaoPodeCriarStatusInexistente(): void
     {
-        $nome = Str::random(25);
+        $marca = Marca::factory()->make();
         $statusInexistente = 99;
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
             ->post('/admin/marcas/salvar', [
-                'nome' => $nome,
+                'nome' => $marca->nome,
                 'status' => $statusInexistente,
             ]);
 
         $response->assertInvalid('status');
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
-            'nome' => $nome,
+            'nome' => $marca->nome,
             'status' => $statusInexistente,
         ]);
     }
