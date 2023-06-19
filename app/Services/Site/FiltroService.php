@@ -166,6 +166,14 @@ class FiltroService
             $filtrosSelecionados[] = $this->getFiltroSelecionadoModelo();
         }
 
+        if (request()->query('valor_minimo') || request()->query('valor_maximo')) {
+            $filtrosSelecionados[] = $this->getFiltroSelecionadoValor();
+        }
+
+        if (request()->query('ano_minimo') || request()->query('ano_maximo')) {
+            $filtrosSelecionados[] = $this->getFiltroSelecionadoAno();
+        }
+
         return $filtrosSelecionados;
     }
 
@@ -284,6 +292,34 @@ class FiltroService
         return [
             'tipo' => 'modelo_id',
             'nome' => Modelo::select('nome')->where('id', request()->query('modelo_id'))->first()->nome,
+        ];
+    }
+
+    /**
+     * Retorna qual valor foi selecionado como filtro.
+     */
+    private function getFiltroSelecionadoValor(): array
+    {
+        $valorMinimo = number_format(request()->query('valor_minimo'), 2, ',', '.');
+        $valorMaximo = number_format(request()->query('valor_maximo'), 2, ',', '.');
+
+        return [
+            'tipo' => 'valor',
+            'nome' => "R$ $valorMinimo - R$ $valorMaximo",
+        ];
+    }
+
+    /**
+     * Retorna qual ano foi selecionado como filtro.
+     */
+    private function getFiltroSelecionadoAno(): array
+    {
+        $anoMinimo = request()->query('ano_minimo');
+        $anoMaximo = request()->query('ano_maximo');
+
+        return [
+            'tipo' => 'ano',
+            'nome' => "$anoMinimo - $anoMaximo",
         ];
     }
 
