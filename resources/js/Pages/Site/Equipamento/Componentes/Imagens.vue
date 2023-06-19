@@ -6,9 +6,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <div id="carrosselImagens" class="carousel slide imagem">
+    <div id="carrossel-imagens" class="carousel slide imagem">
         <div class="carousel-indicators">
-            <button v-for="(imagem, index) in imagens" :key="imagem.id" type="button" data-bs-target="#carrosselImagens"
+            <button v-for="(imagem, index) in imagens" :key="imagem.id" type="button" data-bs-target="#carrossel-imagens"
                     :data-bs-slide-to="index"
                     :class="{ active: +index == 0 }"
                     :aria-current="+index == 0 ? 'true' : 'false'"
@@ -19,11 +19,11 @@ const props = defineProps({
                 <img :src="imagem.url" :alt="`Imagem ${index} do Equipamento cadastrada pelo anunciante.`">
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carrosselImagens" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-imagens" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true" />
             <span class="visually-hidden">Voltar</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carrosselImagens" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carrossel-imagens" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true" />
             <span class="visually-hidden">Proxima</span>
         </button>
