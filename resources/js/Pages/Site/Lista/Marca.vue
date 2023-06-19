@@ -18,6 +18,6 @@ let metaDescriptionPadrao = `Aqui você encontra os melhores equipamentos usados
         :equipamentos="equipamentos"
         :filtros="filtros"
         :filtrosSelecionados="filtrosSelecionados"
-        :title="marca?.nome"
+        :titulo="marca?.nome"
         :metaDescription="marca?.meta_description ?? metaDescriptionPadrao" />
 </template>

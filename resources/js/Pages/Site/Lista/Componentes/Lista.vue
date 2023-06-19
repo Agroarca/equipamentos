@@ -7,7 +7,7 @@ import Filtro from './Filtro.vue'
 
 const props = defineProps({
     equipamentos: Object,
-    title: String,
+    titulo: String,
     filtros: Object,
     filtrosSelecionados: Object,
     metaDescription: String,
@@ -31,12 +31,12 @@ let mostrarFiltros = computed(
 </script>
 
 <template>
-    <SiteLayout :titulo="title" :noindex="temFiltroSelecionado" :metaDescription="metaDescription">
+    <SiteLayout :titulo="titulo" :noindex="temFiltroSelecionado" :metaDescription="metaDescription">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">
-                    <h2 v-if="title" class="section-title">
-                        {{ title }}
+                    <h2 v-if="titulo" class="section-title">
+                        {{ titulo }}
                     </h2>
                 </slot>
             </div>
