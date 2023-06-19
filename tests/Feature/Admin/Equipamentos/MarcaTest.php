@@ -78,7 +78,24 @@ class MarcaTest extends TestCase
         $this->assertDatabaseHas(app(Marca::class)->getTable(), ['nome' => $nome]);
     }
 
-    public function testNaoPodeCriarMinimoCaracteres(): void
+    public function testPodeCriarComMetaDescription(): void
+    {
+        $marca = Marca::factory()->make();
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
+            ->post('/admin/marcas/salvar', [
+                'nome' => $marca->nome,
+                'meta_description' => $marca->meta_description,
+            ]);
+
+        $response->assertValid();
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'nome' => $marca->nome,
+            'meta_description' => $marca->meta_description,
+        ]);
+    }
+
+    public function testNaoPodeCriarNomeMinimoCaracteres(): void
     {
         $nome = 'aa';
 
@@ -89,7 +106,7 @@ class MarcaTest extends TestCase
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), ['nome' => $nome]);
     }
 
-    public function testNaoPodeCriarMaximoCaracteres(): void
+    public function testNaoPodeCriarNomeMaximoCaracteres(): void
     {
         $nome = Str::random(150);
 
@@ -98,6 +115,24 @@ class MarcaTest extends TestCase
 
         $response->assertInvalid('nome');
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), ['nome' => $nome]);
+    }
+
+    public function testNaoPodeCriarMetaDescriptionMaximoCaracteres(): void
+    {
+        $marca = Marca::factory()->make();
+        $metaDescription = Str::random(550);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
+            ->post('/admin/marcas/salvar', [
+                'nome' => $marca->nome,
+                'meta_description' => $metaDescription,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
+            'nome' => $marca->nome,
+            'meta_description' => $metaDescription,
+        ]);
     }
 
     public function testNaoPodeCriarStatusInexistente(): void
@@ -153,6 +188,27 @@ class MarcaTest extends TestCase
         ]);
     }
 
+    public function testPodeEditarMetaDescription(): void
+    {
+        $marca = Marca::factory()->create();
+        $novoNome = Str::random(25);
+        $novaMetaDescription = Str::random(150);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:editar'))
+            ->post("/admin/marcas/$marca->id/atualizar", [
+                'nome' => $novoNome,
+                'meta_description' => $novaMetaDescription,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('admin.marcas');
+        $this->assertDatabaseHas(app(Marca::class)->getTable(), [
+            'id' => $marca->id,
+            'nome' => $novoNome,
+            'meta_description' => $novaMetaDescription,
+        ]);
+    }
+
     public function testPodeEditarSemStatus(): void
     {
         $marca = Marca::factory()->create();
@@ -168,7 +224,7 @@ class MarcaTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeEditarMinimoCaracteres(): void
+    public function testNaoPodeEditarNomeMinimoCaracteres(): void
     {
         $marca = Marca::factory()->create();
         $novoNome = 'aa';
@@ -183,7 +239,7 @@ class MarcaTest extends TestCase
         ]);
     }
 
-    public function testNaoPodeEditarMaximoCaracteres(): void
+    public function testNaoPodeEditarNomeMaximoCaracteres(): void
     {
         $marca = Marca::factory()->create();
         $novoNome = Str::random(150);
@@ -195,6 +251,24 @@ class MarcaTest extends TestCase
         $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
             'id' => $marca->id,
             'nome' => $novoNome,
+        ]);
+    }
+
+    public function testNaoPodeEditarMetaDescriptionMaximoCaracteres(): void
+    {
+        $marca = Marca::factory()->create();
+        $novaMetaDescription = Str::random(550);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:editar'))
+            ->post("/admin/marcas/$marca->id/atualizar", [
+                'nome' => $marca->nome,
+                'meta_description' => $novaMetaDescription,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Marca::class)->getTable(), [
+            'nome' => $marca->nome,
+            'meta_description' => $novaMetaDescription,
         ]);
     }
 

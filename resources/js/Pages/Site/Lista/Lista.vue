@@ -16,5 +16,6 @@ provide('textoCheckLista', 'Apenas nessa lista')
         :equipamentos="equipamentos"
         :title="lista?.nome"
         :filtros="filtros"
-        :filtrosSelecionados="filtrosSelecionados" />
+        :filtrosSelecionados="filtrosSelecionados"
+        :metaDescription="lista?.meta_description" />
 </template>
