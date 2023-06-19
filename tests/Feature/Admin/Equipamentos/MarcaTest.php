@@ -117,7 +117,7 @@ class MarcaTest extends TestCase
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.cadastro.marca:criar'))
             ->post('/admin/marcas/salvar', [
-                'nome' => $nome
+                'nome' => $nome,
             ]);
 
         $response->assertInvalid('nome');
