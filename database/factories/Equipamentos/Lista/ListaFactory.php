@@ -12,6 +12,7 @@ class ListaFactory extends Factory
         return [
             'nome' => Str::random(25),
             'slug' => 's' . Str::slug(Str::random(25)),
+            'meta_description' => Str::random(250),
         ];
     }
 }
