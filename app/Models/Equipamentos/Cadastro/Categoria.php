@@ -21,6 +21,7 @@ class Categoria extends Model
     protected $fillable = [
         'nome',
         'categoria_mae_id',
+        'meta_description',
     ];
 
     public function temCaracteristicas(): Attribute
@@ -29,7 +30,7 @@ class Categoria extends Model
 
         return Attribute::make(
             get: fn ($value, $attributes) =>
-                $equipCaracService->getCaracteristicasCategoria($attributes['id'])->count() > 0
+            $equipCaracService->getCaracteristicasCategoria($attributes['id'])->count() > 0
         );
     }
 

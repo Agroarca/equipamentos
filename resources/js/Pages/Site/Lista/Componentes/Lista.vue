@@ -10,6 +10,7 @@ const props = defineProps({
     title: String,
     filtros: Object,
     filtrosSelecionados: Object,
+    metaDescription: String,
 })
 
 let url = new URL(window.location.href)
@@ -26,10 +27,11 @@ let temFiltroSelecionado = computed(
 let mostrarFiltros = computed(
     () => temFiltroSelecionado.value || props.equipamentos.data.length > 0,
 )
+
 </script>
 
 <template>
-    <SiteLayout :titulo="title" :noindex="temFiltroSelecionado">
+    <SiteLayout :titulo="title" :noindex="temFiltroSelecionado" :metaDescription="metaDescription">
         <section class="container container-md lista">
             <div class="section-meta">
                 <slot name="title">
