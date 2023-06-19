@@ -28,7 +28,7 @@ class CategoriaRequest extends FormRequest
                 new CategoriaCircular(),
                 new CategoriaPropria(),
             ],
-            'meta_description' => 'string|nullable|max:500',
+            'meta_description' => 'string|required|max:500',
         ];
     }
 

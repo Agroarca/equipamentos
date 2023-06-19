@@ -23,6 +23,7 @@ class ListaRequest extends FormRequest
                 'unique:listas,slug',
                 'regex:/^[a-z]+[a-z0-9-]*$/',
             ],
+            'meta_description' => 'string|required|max:500',
         ];
     }
 
@@ -31,6 +32,7 @@ class ListaRequest extends FormRequest
         return [
             'nome' => 'Nome',
             'slug' => 'Slug',
+            'meta_description' => 'Meta Description',
         ];
     }
 }

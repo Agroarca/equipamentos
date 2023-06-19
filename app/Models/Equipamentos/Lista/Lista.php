@@ -15,6 +15,7 @@ class Lista extends Model
     protected $fillable = [
         'nome',
         'slug',
+        'meta_description',
     ];
 
     public function produtoLista(): HasMany
