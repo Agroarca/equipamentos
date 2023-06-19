@@ -17,6 +17,7 @@ class Marca extends Model
     protected $fillable = [
         'nome',
         'status',
+        'meta_description',
     ];
 
     protected $casts = [

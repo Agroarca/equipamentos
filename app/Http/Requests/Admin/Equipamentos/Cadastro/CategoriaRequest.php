@@ -28,6 +28,7 @@ class CategoriaRequest extends FormRequest
                 new CategoriaCircular(),
                 new CategoriaPropria(),
             ],
+            'meta_description' => 'string|nullable|max:500',
         ];
     }
 
@@ -36,6 +37,7 @@ class CategoriaRequest extends FormRequest
         return [
             'nome' => 'Nome',
             'categoria_mae_id' => 'Categoria Mãe',
+            'meta_description' => 'Meta Description',
         ];
     }
 

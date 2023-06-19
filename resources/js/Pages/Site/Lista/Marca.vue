@@ -9,6 +9,8 @@ const props = defineProps({
     filtrosSelecionados: Object,
 })
 provide('textoCheckLista', 'Apenas nessa marca')
+
+let metaDescriptionPadrao = `Aqui você encontra os melhores equipamentos usados da marca ${props.marca?.nome} para expandir seu negócio.`
 </script>
 
 <template>
@@ -16,5 +18,6 @@ provide('textoCheckLista', 'Apenas nessa marca')
         :equipamentos="equipamentos"
         :filtros="filtros"
         :filtrosSelecionados="filtrosSelecionados"
-        :title="marca?.nome" />
+        :title="marca?.nome"
+        :metaDescription="marca?.meta_description ?? metaDescriptionPadrao" />
 </template>

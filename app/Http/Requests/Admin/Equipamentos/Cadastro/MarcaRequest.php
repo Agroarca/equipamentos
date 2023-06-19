@@ -22,6 +22,7 @@ class MarcaRequest extends FormRequest
                 'nullable',
                 Rule::in(StatusCadastro::values()),
             ],
+            'meta_description' => 'string|nullable|max:500',
         ];
     }
 
@@ -30,6 +31,7 @@ class MarcaRequest extends FormRequest
         return [
             'nome' => 'Nome',
             'status' => 'Status',
+            'meta_description' => 'Meta Description',
         ];
     }
 }
