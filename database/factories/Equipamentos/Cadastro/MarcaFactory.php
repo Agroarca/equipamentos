@@ -13,6 +13,7 @@ class MarcaFactory extends Factory
         return [
             'nome' => Str::random(25),
             'status' => StatusCadastro::Criado,
+            'meta_description' => Str::random(250),
         ];
     }
 

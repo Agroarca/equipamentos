@@ -62,6 +62,7 @@ class ListaTest extends TestCase
             ->post('/admin/lista/salvar', [
                 'nome' => $lista->nome,
                 'slug' => $lista->slug,
+                'meta_description' => $lista->meta_description,
             ]);
 
         $response->assertValid();
@@ -69,6 +70,7 @@ class ListaTest extends TestCase
         $this->assertDatabaseHas(app(Lista::class)->getTable(), [
             'nome' => $lista->nome,
             'slug' => $lista->slug,
+            'meta_description' => $lista->meta_description,
         ]);
     }
 
@@ -93,11 +95,13 @@ class ListaTest extends TestCase
         $lista = Lista::factory()->create();
         $novoNome = Str::random(25);
         $novoSlug = 's' . Str::slug(Str::random(25));
+        $novaMetaDescription = Str::random(250);
 
         $response = $this->actingAs($this->getAdminComPermissao('equipamentos.lista.lista:editar'))
             ->post("/admin/lista/$lista->id/atualizar", [
                 'nome' => $novoNome,
                 'slug' => $novoSlug,
+                'meta_description' => $novaMetaDescription,
             ]);
 
         $response->assertValid();
@@ -106,6 +110,7 @@ class ListaTest extends TestCase
             'id' => $lista->id,
             'nome' => $novoNome,
             'slug' => $novoSlug,
+            'meta_description' => $novaMetaDescription,
         ]);
     }
 
@@ -213,12 +218,14 @@ class ListaTest extends TestCase
             ->post('/admin/lista/salvar', [
                 'nome' => $lista->nome,
                 'slug' => $slugInvalido,
+                'meta_description' => $lista->meta_description,
             ]);
 
-        $response->assertInvalid();
+        $response->assertInvalid('slug');
         $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
             'nome' => $lista->nome,
             'slug' => $slugInvalido,
+            'meta_description' => $lista->meta_description,
         ]);
     }
 
@@ -232,13 +239,91 @@ class ListaTest extends TestCase
             ->post("/admin/lista/$lista->id/atualizar", [
                 'nome' => $novoNome,
                 'slug' => $slugInvalido,
+                'meta_description' => $lista->meta_description,
             ]);
 
-        $response->assertInvalid();
+        $response->assertInvalid('slug');
         $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
             'id' => $lista->id,
             'nome' => $novoNome,
             'slug' => $slugInvalido,
+            'meta_description' => $lista->meta_description,
+        ]);
+    }
+
+    public function testNaoPodeCriarListaSemMetaDescription(): void
+    {
+        $lista = Lista::factory()->make();
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.lista.lista:criar'))
+            ->post('/admin/lista/salvar', [
+                'nome' => $lista->nome,
+                'slug' => $lista->slug,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'nome' => $lista->nome,
+            'slug' => $lista->slug,
+        ]);
+    }
+
+    public function testNaoPodeEditarListaSemMetaDescription(): void
+    {
+        $lista = Lista::factory()->create();
+        $novoNome = Str::random(25);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.lista.lista:editar'))
+            ->post("/admin/lista/$lista->id/atualizar", [
+                'nome' => $novoNome,
+                'slug' => $lista->slug,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'id' => $lista->id,
+            'nome' => $novoNome,
+            'slug' => $lista->slug,
+        ]);
+    }
+
+    public function testNaoPodeCriarListaMetaDescriptionTamanhoInvalido(): void
+    {
+        $lista = Lista::factory()->make();
+        $metaDescriptionInvalido = Str::random(550);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.lista.lista:criar'))
+            ->post('/admin/lista/salvar', [
+                'nome' => $lista->nome,
+                'slug' => $lista->slug,
+                'meta_description' => $metaDescriptionInvalido,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'nome' => $lista->nome,
+            'slug' => $lista->slug,
+            'meta_description' => $metaDescriptionInvalido,
+        ]);
+    }
+
+    public function testNaoPodeEditarListaMetaDescriptionTamanhoInvalido(): void
+    {
+        $lista = Lista::factory()->create();
+        $metaDescriptionInvalido = Str::random(550);
+
+        $response = $this->actingAs($this->getAdminComPermissao('equipamentos.lista.lista:editar'))
+            ->post("/admin/lista/$lista->id/atualizar", [
+                'nome' => $lista->nome,
+                'slug' => $lista->slug,
+                'meta_description' => $metaDescriptionInvalido,
+            ]);
+
+        $response->assertInvalid('meta_description');
+        $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
+            'nome' => $lista->nome,
+            'slug' => $lista->slug,
+            'meta_description' => $metaDescriptionInvalido,
         ]);
     }
 
@@ -251,7 +336,7 @@ class ListaTest extends TestCase
                 'equipamento_id' => 999,
             ]);
 
-        $response->assertInvalid();
+        $response->assertInvalid('equipamento_id');
         $this->assertDatabaseMissing(app(ProdutoLista::class)->getTable(), [
             'lista_id' => $lista->id,
             'equipamento_id' => 999,
@@ -286,12 +371,14 @@ class ListaTest extends TestCase
             ->post('/admin/lista/salvar', [
                 'nome' => $lista->nome,
                 'slug' => $lista->slug,
+                'meta_description' => $lista->meta_description,
             ]);
 
         $response->assertStatus(403);
         $this->assertDatabaseMissing(app(Lista::class)->getTable(), [
             'nome' => $lista->nome,
             'slug' => $lista->slug,
+            'meta_description' => $lista->meta_description,
         ]);
     }
 
@@ -300,11 +387,13 @@ class ListaTest extends TestCase
         $lista = Lista::factory()->create();
         $novoNome = Str::random(25);
         $novoSlug = 's' . Str::slug(Str::random(25));
+        $novaMetaDescription = Str::random(250);
 
         $response = $this->actingAs($this->getAdmin())
             ->post("/admin/lista/$lista->id/atualizar", [
                 'nome' => $novoNome,
                 'slug' => $novoSlug,
+                'meta_description' => $novaMetaDescription,
             ]);
 
         $response->assertStatus(403);
@@ -312,6 +401,7 @@ class ListaTest extends TestCase
             'id' => $lista->id,
             'nome' => $novoNome,
             'slug' => $lista->slug,
+            'meta_description' => $novaMetaDescription,
         ]);
     }
 

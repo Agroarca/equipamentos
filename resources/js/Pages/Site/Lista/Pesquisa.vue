@@ -15,7 +15,7 @@ const props = defineProps({
         <Lista :equipamentos="equipamentos"
                :filtros="filtros"
                :filtrosSelecionados="filtrosSelecionados"
-               :title="`${equipamentos.data.length} resultados para ${pesquisa}`" />
+               :titulo="`${equipamentos.data.length} resultados para ${pesquisa}`" />
         <Head>
             <meta name="description" head-key="meta-description" :content="`Resultados da pesquisa para ${pesquisa}`" />
             <meta name="robots" head-key="meta-robots" content="noindex, nofollow" />

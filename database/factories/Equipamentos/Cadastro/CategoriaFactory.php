@@ -12,6 +12,7 @@ class CategoriaFactory extends Factory
     {
         return [
             'nome' => Str::random(25),
+            'meta_description' => Str::random(150),
         ];
     }
 

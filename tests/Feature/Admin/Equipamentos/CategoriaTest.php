@@ -150,44 +150,58 @@ class CategoriaTest extends TestCase
     public function testPodeCriarNova(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
-        $nome = Str::random(25);
+        $categoria = Categoria::factory()->make();
 
         $response = $this->actingAs($usuario)
-            ->post('/admin/categorias/salvar', ['nome' => $nome]);
+            ->post('/admin/categorias/salvar', [
+                'nome' => $categoria->nome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.categorias');
-        $this->assertDatabaseHas(app(Categoria::class)->getTable(), ['nome' => $nome]);
+        $this->assertDatabaseHas(app(Categoria::class)->getTable(), [
+            'nome' => $categoria->nome,
+            'meta_description' => $categoria->meta_description,
+        ]);
     }
 
     public function testNaoPodeCriarNovaSemPermissao(): void
     {
         $usuario = $this->getAdmin();
-        $nome = Str::random(25);
+        $categoria = Categoria::factory()->make();
 
         $response = $this->actingAs($usuario)
-            ->post('/admin/categorias/salvar', ['nome' => $nome]);
+            ->post('/admin/categorias/salvar', [
+                'nome' => $categoria->nome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertStatus(403);
-        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), ['nome' => $nome]);
+        $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
+            'nome' => $categoria->nome,
+            'meta_description' => $categoria->meta_description,
+        ]);
     }
 
     public function testPodeCriarNovaFilha(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
-        $nome = Str::random(25);
+        $categoria = Categoria::factory()->make();
         $categoriaMae = Categoria::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post('/admin/categorias/salvar', [
-                'nome' => $nome,
+                'nome' => $categoria->nome,
+                'meta_description' => $categoria->meta_description,
                 'categoria_mae_id' => $categoriaMae->id,
             ]);
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.categorias', [$categoriaMae->id]);
         $this->assertDatabaseHas(app(Categoria::class)->getTable(), [
-            'nome' => $nome,
+            'nome' => $categoria->nome,
+            'meta_description' => $categoria->meta_description,
             'categoria_mae_id' => $categoriaMae->id,
         ]);
     }
@@ -195,42 +209,80 @@ class CategoriaTest extends TestCase
     public function testNaoPodeCriarNovaFilhaSemPermissao(): void
     {
         $usuario = $this->getAdmin();
-        $nome = Str::random(25);
+        $categoria = Categoria::factory()->make();
         $categoriaMae = Categoria::factory()->create();
 
         $response = $this->actingAs($usuario)
             ->post('/admin/categorias/salvar', [
-                'nome' => $nome,
+                'nome' => $categoria->nome,
+                'meta_description' => $categoria->meta_description,
                 'categoria_mae_id' => $categoriaMae->id,
             ]);
 
         $response->assertStatus(403);
         $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
-            'nome' => $nome,
+            'nome' => $categoria->nome,
+            'meta_description' => $categoria->meta_description,
             'categoria_mae_id' => $categoriaMae->id,
         ]);
     }
 
-    public function testNaoPodeCriarMinimoCaracteres(): void
+    public function testNaoPodeCriarNomeMinimoCaracteres(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
+        $categoria = Categoria::factory()->make();
         $nome = 'aa';
 
         $response = $this->actingAs($usuario)
-            ->post('/admin/categorias/salvar', ['nome' => $nome]);
+            ->post('/admin/categorias/salvar', [
+                'nome' => $nome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertInvalid('nome');
     }
 
-    public function testNaoPodeCriarMaximoCaracteres(): void
+    public function testNaoPodeCriarNomeMaximoCaracteres(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
+        $categoria = Categoria::factory()->make();
         $nome = Str::random(150);
 
         $response = $this->actingAs($usuario)
-            ->post('/admin/categorias/salvar', ['nome' => $nome]);
+            ->post('/admin/categorias/salvar', [
+                'nome' => $nome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertInvalid('nome');
+    }
+
+    public function testNaoPodeCriarMetaDescriptionMaximoCaracteres(): void
+    {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
+        $categoria = Categoria::factory()->make();
+        $metaDescription = Str::random(1000);
+
+        $response = $this->actingAs($usuario)
+            ->post('/admin/categorias/salvar', [
+                'nome' => $categoria->nome,
+                'meta_description' => $metaDescription,
+            ]);
+
+        $response->assertInvalid('meta_description');
+    }
+
+    public function testNaoPodeCriarSemMetaDescription(): void
+    {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:criar');
+        $categoria = Categoria::factory()->make();
+
+        $response = $this->actingAs($usuario)
+            ->post('/admin/categorias/salvar', [
+                'nome' => $categoria->nome,
+            ]);
+
+        $response->assertInvalid('meta_description');
     }
 
     public function testPodeAcessarEditar(): void
@@ -240,6 +292,7 @@ class CategoriaTest extends TestCase
 
         $response = $this->actingAs($usuario)
             ->get("/admin/categorias/$categoria->id/editar");
+
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Admin/Equipamentos/Cadastro/Categoria/Editar')
@@ -263,15 +316,20 @@ class CategoriaTest extends TestCase
         $categoria = Categoria::factory()->create();
         Categoria::factory()->create();
         $novoNome = Str::random(25);
+        $novaMetaDescription = Str::random(250);
 
         $response = $this->actingAs($usuario)
-            ->post("/admin/categorias/$categoria->id/atualizar", ['nome' => $novoNome]);
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $novoNome,
+                'meta_description' => $novaMetaDescription,
+            ]);
 
         $response->assertValid();
         $response->assertRedirectToRoute('admin.categorias');
         $this->assertDatabaseHas(app(Categoria::class)->getTable(), [
             'id' => $categoria->id,
             'nome' => $novoNome,
+            'meta_description' => $novaMetaDescription,
         ]);
     }
 
@@ -282,12 +340,16 @@ class CategoriaTest extends TestCase
         $novoNome = Str::random(25);
 
         $response = $this->actingAs($usuario)
-            ->post("/admin/categorias/$categoria->id/atualizar", ['nome' => $novoNome]);
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $novoNome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertStatus(403);
         $this->assertDatabaseMissing(app(Categoria::class)->getTable(), [
             'id' => $categoria->id,
             'nome' => $novoNome,
+            'meta_description' => $categoria->meta_description,
         ]);
     }
 
@@ -303,6 +365,7 @@ class CategoriaTest extends TestCase
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome,
                 'categoria_mae_id' => $categoriaMae->id,
+                'meta_description' => $categoria->meta_description,
             ]);
 
         $response->assertValid();
@@ -311,6 +374,7 @@ class CategoriaTest extends TestCase
             'id' => $categoria->id,
             'nome' => $novoNome,
             'categoria_mae_id' => $categoriaMae->id,
+            'meta_description' => $categoria->meta_description,
         ]);
     }
 
@@ -325,6 +389,7 @@ class CategoriaTest extends TestCase
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $novoNome,
                 'categoria_mae_id' => $categoriaMae->id,
+                'meta_description' => $categoria->meta_description,
             ]);
 
         $response->assertStatus(403);
@@ -332,31 +397,66 @@ class CategoriaTest extends TestCase
             'id' => $categoria->id,
             'nome' => $novoNome,
             'categoria_mae_id' => $categoriaMae->id,
+            'meta_description' => $categoria->meta_description,
         ]);
     }
 
-    public function testNaoPodeEditarMinimoCaracteres(): void
+    public function testNaoPodeEditarNomeMinimoCaracteres(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:editar');
         $categoria = Categoria::factory()->create();
         $novoNome = 'aa';
 
         $response = $this->actingAs($usuario)
-            ->post("/admin/categorias/$categoria->id/atualizar", ['nome' => $novoNome]);
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $novoNome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertInvalid('nome');
     }
 
-    public function testNaoPodeEditarMaximoCaracteres(): void
+    public function testNaoPodeEditarNomeMaximoCaracteres(): void
     {
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:editar');
         $categoria = Categoria::factory()->create();
         $novoNome = Str::random(150);
 
         $response = $this->actingAs($usuario)
-            ->post("/admin/categorias/$categoria->id/atualizar", ['nome' => $novoNome]);
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $novoNome,
+                'meta_description' => $categoria->meta_description,
+            ]);
 
         $response->assertInvalid('nome');
+    }
+
+    public function testNaoPodeEditarMetaDescriptionMaximoCaracteres(): void
+    {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:editar');
+        $categoria = Categoria::factory()->create();
+        $novaMetaDescription = Str::random(1000);
+
+        $response = $this->actingAs($usuario)
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $categoria->nome,
+                'meta_description' => $novaMetaDescription,
+            ]);
+
+        $response->assertInvalid('meta_description');
+    }
+
+    public function testNaoPodeEditarSemMetaDescription(): void
+    {
+        $usuario = $this->getAdminComPermissao('equipamentos.cadastro.categoria:editar');
+        $categoria = Categoria::factory()->create();
+
+        $response = $this->actingAs($usuario)
+            ->post("/admin/categorias/$categoria->id/atualizar", [
+                'nome' => $categoria->nome,
+            ]);
+
+        $response->assertInvalid('meta_description');
     }
 
     public function testPodeExcluir(): void
@@ -474,6 +574,7 @@ class CategoriaTest extends TestCase
             ->post("/admin/categorias/$categoria->id/atualizar", [
                 'nome' => $categoria->nome,
                 'categoria_mae_id' => null,
+                'meta_description' => $categoria->meta_description,
             ]);
 
         $response->assertValid();

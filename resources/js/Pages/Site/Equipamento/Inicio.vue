@@ -11,7 +11,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <SiteLayout :titulo="equipamento.titulo">
+    <SiteLayout :titulo="equipamento.titulo"
+                :metaDescription="`Encontre ${equipamento.titulo} no nosso site. Faça negócios seguros e vantajosos. Não perca a chance, encontre seu equipamento ideal!`">
         <div class="container equipamento">
             <div class="d-flex flex-column flex-md-row align-items-md-start">
                 <Imagens :imagens="equipamento.imagens" class="col-md-8" />

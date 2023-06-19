@@ -10,6 +10,7 @@ const props = defineProps({
 const form = useForm({
     nome: '',
     categoria_mae_id: props.categoriaMae?.id,
+    meta_description: '',
 })
 
 function submit() {
@@ -31,6 +32,16 @@ function submit() {
                     <div class="mb-3">
                         <label for="categoria_mae">Categoria Mãe: </label>
                         <input id="categoria_mae" class="form-control" type="text" :value="categoriaMae?.nome" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <div class="alert alert-info">
+                            <i class="fa-solid fa-info-circle me-1" />
+                            <span>A meta description é o texto que descreve o que o usuário vai encontrar na página e aparece na descrição da página no Google.</span><br />
+                            <span>Exemplo: "Aqui você encontra os melhores tratores para expandir seu negócio".</span>
+                        </div>
+                        <label for="meta_description">Meta Description</label>
+                        <input id="meta_description" v-model="form.meta_description" class="form-control" type="text">
+                        <FormError :error="form.errors.meta_description" />
                     </div>
                 </div>
                 <div class="card-footer">

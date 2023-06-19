@@ -52,6 +52,7 @@ class ListaController extends Controller
         Gate::authorize('editar', Lista::class);
         $lista->nome = $request->nome;
         $lista->slug = $request->slug ?? Str::kebab($request->nome);
+        $lista->meta_description = $request->meta_description;
         $lista->save();
 
         return redirect()->route('admin.lista');
