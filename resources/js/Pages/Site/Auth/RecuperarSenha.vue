@@ -17,7 +17,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Recuperar Senha" noindex>
+    <SiteLayout titulo="Recuperar senha" noindex>
         <div class="container-600 auth">
             <div v-if="status" class="alert alert-success">
                 O e-mail de recuperação foi enviado com sucesso!
@@ -44,7 +44,7 @@ function submit() {
             </div>
             <div class="mb-2">
                 <Link class="btn btn-link" href="/entrar">
-                    Entrar na Conta
+                    Entrar na conta
                 </Link>
             </div>
         </div>

@@ -31,7 +31,7 @@ function moverCategoria(categoriaId) {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Categoria">
+    <AdminLayout titulo="Editar categoria">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
@@ -41,7 +41,7 @@ function moverCategoria(categoriaId) {
                         <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="categoria_mae">Categoria Mãe</label>
+                        <label for="categoria_mae">Categoria mãe</label>
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <input id="categoria_mae" class="form-control" type="text" :value="categoria.categoria_mae?.nome" disabled>

@@ -36,7 +36,7 @@ function upload() {
         <div class="card-body">
             <div class="row mb-3">
                 <button type="button" class="btn btn-primary" @click="adicionar()">
-                    Adicionar Imagem
+                    Adicionar imagem
                 </button>
             </div>
             <div class="row">

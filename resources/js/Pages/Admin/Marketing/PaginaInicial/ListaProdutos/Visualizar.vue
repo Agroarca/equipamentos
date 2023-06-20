@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout titulo="Visualizar Item">
+    <AdminLayout titulo="Visualizar item">
         <div class="card card-default">
             <div class="card-body">
                 <div class="mb-3">
@@ -19,7 +19,7 @@ const props = defineProps({
                     <input id="subtitulo" type="text" class="form-control" name="subtitulo" :value="lista.componente.subtitulo" disabled />
                 </div>
                 <div class="mb-3">
-                    <label for="lista_produtos">Lista de Produtos</label>
+                    <label for="lista_produtos">Lista de produtos</label>
                     <input id="lista_produtos" type="text" class="form-control" name="lista_produtos" :value="lista.lista_produtos.nome" disabled />
                 </div>
             </div>

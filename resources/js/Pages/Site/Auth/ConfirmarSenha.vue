@@ -16,7 +16,7 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Recuperar Senha" noindex>
+    <SiteLayout titulo="Recuperar senha" noindex>
         <div class="alert alert-warn">
             Essa é uma área restrita!
             Confirme sua senha antes de acessar

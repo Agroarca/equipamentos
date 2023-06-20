@@ -34,7 +34,7 @@ function atualizarCategorias(categoriaId?) {
 </script>
 
 <template>
-    <SiteLayout titulo="Cadastrar Equipamento">
+    <SiteLayout titulo="Cadastrar equipamento">
         <div class="container-600 cadastrar-equipamento">
             <div>
                 <div class="titulo text-center mb-4">

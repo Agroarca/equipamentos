@@ -64,7 +64,7 @@ const STATUS_VERSAO_CRIADO = 0
         </div>
         <div class="card-footer">
             <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/menu/adicionar`" class="btn btn-primary">
-                <i class="fas fa-plus-circle pe-1" /> Adicionar Link
+                <i class="fas fa-plus-circle pe-1" /> Adicionar link
             </Link>
         </div>
     </div>

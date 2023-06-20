@@ -13,7 +13,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Novo Grupo">
+    <AdminLayout titulo="Novo grupo">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

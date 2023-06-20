@@ -16,7 +16,7 @@ const props = defineProps({
                 <div class="col-sm-4 pt-3 pt-sm-0">
                     <Link :href="`/admin/categorias/${caracteristica.categoria_id}/caracteristicas/${caracteristica.id}/opcoes/criar`"
                           class="btn btn-primary float-sm-end">
-                        <i class="fas fa-plus-circle me-1" /> Criar Opção
+                        <i class="fas fa-plus-circle me-1" /> Criar opção
                     </Link>
                 </div>
             </div>

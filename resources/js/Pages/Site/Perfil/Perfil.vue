@@ -39,21 +39,21 @@ function submit() {
 </script>
 
 <template>
-    <PerfilLayout titulo="Meus Dados" pagina="perfil">
+    <PerfilLayout titulo="Meus dados" pagina="perfil">
         <form class="perfil d-flex flex-fill flex-column" @submit.prevent="submit">
             <div class="mb-3">
-                <h1>Meus Dados</h1>
+                <h1>Meus dados</h1>
             </div>
             <div v-if="usePage().props.mensagem" class="alert" :class="usePage().props.mensagem?.class" role="alert">
                 {{ usePage().props.mensagem?.texto }}
             </div>
             <Link v-if="!user.email_verified_at" class="link-plain" href="/perfil/verificar/reenviar">
                 <div class="alert alert-warning" role="alert">
-                    Email Não verificado <u>clique aqui</u> para verificar
+                    Email não verificado <u>clique aqui</u> para verificar
                 </div>
             </Link>
             <div class="mb-3">
-                <label for="nome">Nome Completo</label>
+                <label for="nome">Nome completo</label>
                 <input id="nome" v-model="form.nome" class="form-control" type="text" autocomplete="nome" required>
                 <FormError :error="form.errors.nome" />
             </div>

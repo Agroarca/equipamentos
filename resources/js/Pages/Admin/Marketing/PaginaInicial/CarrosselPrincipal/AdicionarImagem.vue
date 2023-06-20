@@ -21,13 +21,13 @@ const submit = () => {
 </script>
 
 <template>
-    <AdminLayout titulo="Adicionar Imagem">
+    <AdminLayout titulo="Adicionar imagem">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="alert alert-info mb-0">
-                            <span>A descrição da imagem é usada por Leitores de Tela para informar a Deficientes Visuais o conteúdo da imagem</span>
+                            <span>A descrição da imagem é usada por leitores de tela para informar a <strong>Deficientes Visuais</strong> o conteúdo da imagem</span>
                         </div>
                         <label for="descricao">Descrição</label>
                         <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
@@ -41,26 +41,26 @@ const submit = () => {
                     <div class="mb-3">
                         <div class="alert alert-info mb-0">
                             <p class="m-0">
-                                A Imagem Desktop deve ter uma proporção de 3/1 e largura mínima de 1500px
+                                A imagem desktop deve ter uma proporção de 3/1 e largura mínima de 1500px
                             </p>
                             <p class="m-0">
                                 Exemplo: 1920px x 640px
                             </p>
                         </div>
-                        <label for="imagem_desktop">Imagem Desktop</label>
+                        <label for="imagem_desktop">Imagem desktop</label>
                         <input id="imagem_desktop" class="form-control" type="file" required @input="form.imagem_desktop = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_desktop" />
                     </div>
                     <div class="mb-3">
                         <div class="alert alert-info mb-0">
                             <p class="m-0">
-                                A Imagem Mobile deve ter uma proporção de 5/4 e largura mínima de 500px
+                                A imagem mobile deve ter uma proporção de 5/4 e largura mínima de 500px
                             </p>
                             <p class="m-0">
                                 Exemplo: 800px x 640px
                             </p>
                         </div>
-                        <label for="imagem_mobile">Imagem Mobile</label>
+                        <label for="imagem_mobile">Imagem mobile</label>
                         <input id="imagem_mobile" class="form-control" type="file" required @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>

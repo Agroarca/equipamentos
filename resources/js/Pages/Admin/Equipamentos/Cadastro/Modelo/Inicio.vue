@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout titulo="Modelos" link="/admin/modelos/criar/" buttonText="Novo Modelo">
+    <AdminLayout titulo="Modelos" link="/admin/modelos/criar/" buttonText="Novo modelo">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">

@@ -37,7 +37,7 @@ const STATUS_REPROVADO = 5
                 <Link v-if="equipamento.status == STATUS_REPROVADO"
                       :href="`/equipamento/reprovado/${equipamento.id}`"
                       class="btn btn-primary">
-                    <span>Motivo da Reprovação</span>
+                    <span>Motivo da reprovação</span>
                 </Link>
 
                 <Link v-if="equipamento.status !== STATUS_APROVADO"

@@ -57,7 +57,7 @@ async function salvarPermissoes() {
 </script>
 
 <template>
-    <AdminLayout :titulo="`Permissoes de ${grupo.nome}`">
+    <AdminLayout :titulo="`Permissões de ${grupo.nome}`">
         <div class="card card-default">
             <div class="card-header d-flex flex-row justify-content-between" @click="collapse('alteracoes')">
                 <div class="title">
@@ -71,8 +71,8 @@ async function salvarPermissoes() {
             <div id="alteracoes" class="card-body p-0 collapse">
                 <table class="table table-stripped table-hover table-sm">
                     <thead>
-                        <th>Novo Valor</th>
-                        <th>Permissao</th>
+                        <th>Novo valor</th>
+                        <th>Permissão</th>
                     </thead>
                     <tbody>
                         <tr v-for="alteracao in alteracoes" :key="alteracao.chave">
@@ -89,7 +89,7 @@ async function salvarPermissoes() {
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-primary me-2 d-flex flex-nowrap align-items-center" @click="salvarPermissoes">
-                    <i class="fas fa-floppy-disk pe-1" /> Salvar Permissoes
+                    <i class="fas fa-floppy-disk pe-1" /> Salvar permissões
                 </button>
             </div>
         </div>

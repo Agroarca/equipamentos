@@ -10,7 +10,7 @@ const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
-    <AdminLayout titulo="Carrossel Principal" buttonText="Adicionar Imagem">
+    <AdminLayout titulo="Carrossel principal" buttonText="Adicionar Imagem">
         <div class="card card-default">
             <div class="card-body p-0">
                 <div class="card-body table-responsive p-0">
@@ -67,7 +67,7 @@ const STATUS_VERSAO_CRIADO = 0
             </div>
             <div v-if="versao.status === STATUS_VERSAO_CRIADO" class="card-footer">
                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/adicionar`" class="btn btn-primary me-2">
-                    <i class="fas fa-plus-circle pe-1" /> Adicionar Imagem
+                    <i class="fas fa-plus-circle pe-1" /> Adicionar imagem
                 </Link>
             </div>
         </div>

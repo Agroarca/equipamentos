@@ -121,10 +121,10 @@ function inputImagem(e) {
 </script>
 
 <template>
-    <SiteLayout titulo="Cadastrar Imagem">
+    <SiteLayout titulo="Cadastrar imagem">
         <div class="container-600 cadastrar-equipamento imagens">
             <h2 class="titulo text-center mb-3">
-                Imagens do Equipamento
+                Imagens do equipamento
             </h2>
             <Navegacao class="mb-3"
                        :passoAtual="2"
@@ -138,7 +138,7 @@ function inputImagem(e) {
             </div>
             <div class="my-3">
                 <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="imagem">
-                    <img :id="'img-' + imagem.id" :src="imagem.url" alt="Imagem do Equipamento">
+                    <img :id="'img-' + imagem.id" :src="imagem.url" alt="Imagem do equipamento">
                     <Link :href="`/equipamento/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
                         Excluir
                     </Link>
@@ -148,14 +148,14 @@ function inputImagem(e) {
                 </div>
                 <div class="mt-3 d-flex justify-content-end">
                     <button type="button" class="btn btn-primary me-3" @click="adicionar()">
-                        Adicionar Imagem
+                        Adicionar imagem
                     </button>
                     <Link :href="`/equipamento/${equipamento.id}/imagens/continuar`" class="btn btn-primary" :class="{ disabled: equipamento.imagens.length == 0 }">
                         Continuar
                     </Link>
                 </div>
             </div>
-            <Modal :id="'modal_' + equipamento.id" ref="modal" modalSizeClass="modal-lg modal-fullscreen-sm-down" title="Adicionar Imagem">
+            <Modal :id="'modal_' + equipamento.id" ref="modal" modalSizeClass="modal-lg modal-fullscreen-sm-down" title="Adicionar imagem">
                 <div class="mb-3">
                     <label for="imagem" />
                     <input id="imagem" type="file" name="imagem" accept="image/*" class="form-control form-control-file" @change="inputImagem">

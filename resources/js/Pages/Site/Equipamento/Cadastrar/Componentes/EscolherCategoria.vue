@@ -36,7 +36,7 @@ function escolherCategoria(id) {
         </div>
 
         <div v-if="resultados.categorias.length == 0" class="alert alert-warning">
-            <span>Nenhuma Categoria Encontrada</span>
+            <span>Nenhuma categoria encontrada</span>
         </div>
 
         <div v-else class="d-flex flex-column gap-3">

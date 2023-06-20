@@ -24,13 +24,13 @@ if (usePage().props.auth.user.tipo_pessoa === PESSOA_FISICA) {
             <div class="d-flex flex-md-row flex-column w-100 mx-auto justify-content-center">
                 <nav class="d-flex flex-column me-5">
                     <Link class="btn mb-3" href="/perfil" :class="{ 'btn-primary': pagina === 'perfil', 'btn-secondary': pagina !== 'perfil' }">
-                        Meus Dados
+                        Meus dados
                     </Link>
                     <Link class="btn mb-3" href="/perfil/equipamentos" :class="{ 'btn-primary': pagina === 'equipamentos', 'btn-secondary': pagina !== 'equipamentos' }">
-                        Meus Equipamentos
+                        Meus equipamentos
                     </Link>
                     <Link class="btn mb-3 btn-secondary" href="/equipamento/cadastrar">
-                        Anunciar Equipamento
+                        Anunciar equipamento
                     </Link>
                     <Link class="btn mb-3 btn-danger align-self-start" href="/sair">
                         Sair

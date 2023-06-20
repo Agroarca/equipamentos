@@ -28,7 +28,7 @@ function submit() {
         <form @submit.prevent="submit">
             <div class="container-600 cadastrar-equipamento caracteristicas">
                 <h2 class="titulo text-center mb-3">
-                    Caracteristicas do Equipamento
+                    Caracteristicas do equipamento
                 </h2>
                 <Navegacao class="mb-3 display-block" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
                 <table class="table table-hover mt-3 display-block">

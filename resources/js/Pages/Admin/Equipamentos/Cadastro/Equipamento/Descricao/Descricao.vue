@@ -26,7 +26,7 @@ function atualizarDescricao() {
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-primary" @click="atualizarDescricao">
-                Atualizar Descrição
+                Atualizar descrição
             </button>
         </div>
     </div>

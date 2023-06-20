@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <AdminLayout titulo="Grupos" buttonText="Adicionar Grupo" link="/admin/administracao/permissoes/grupo/criar">
+    <AdminLayout titulo="Grupos" buttonText="Adicionar grupo" link="/admin/administracao/permissoes/grupo/criar">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-stripped table-hover">
@@ -24,11 +24,11 @@ const props = defineProps({
                                 <div class="grade-botoes">
                                     <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/permissoes`">
                                         <i class="fas fa-pen-to-square pe-1" />
-                                        Editar Permissões
+                                        Editar permissões
                                     </Link>
                                     <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/usuarios`">
                                         <i class="fas fa-pen-to-square pe-1" />
-                                        Editar Usuários
+                                        Editar usuários
                                     </Link>
                                     <Link class="btn btn-secondary" :href="`/admin/administracao/permissoes/grupo/${grupo.id}/editar`">
                                         <i class="fas fa-pen-to-square pe-1" />

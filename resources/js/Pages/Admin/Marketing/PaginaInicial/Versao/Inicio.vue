@@ -12,7 +12,7 @@ const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
-    <AdminLayout titulo="Página Inicial" link="/admin/marketing/pagina/inicial/criar" buttonText="Nova Versão">
+    <AdminLayout titulo="Página inicial" link="/admin/marketing/pagina/inicial/criar" buttonText="Nova versão">
         <div class="card card-default">
             <div class="card-body table-responsive p-0">
                 <table class="table table-striped table-hover">
@@ -23,8 +23,8 @@ const STATUS_VERSAO_CRIADO = 0
                         </th>
                         <th>Status</th>
                         <th>Prioridade</th>
-                        <th>Data Inicial</th>
-                        <th>Data Final</th>
+                        <th>Data inicial</th>
+                        <th>Data final</th>
                         <th>Ações</th>
                     </thead>
                     <tbody>
