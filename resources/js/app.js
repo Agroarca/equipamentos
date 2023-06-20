@@ -18,6 +18,7 @@ const apmConfig = {
     serverUrl: import.meta.env.VITE_APM_SERVER_URL,
     active: import.meta.env.VITE_APM_HABILITADO,
     logLevel: import.meta.env.VITE_APM_LOG_LEVEL,
+    distributedTracingOrigins: ['https://agroarca.com.br'],
 }
 
 const apm = initApm(apmConfig)
