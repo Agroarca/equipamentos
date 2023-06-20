@@ -21,7 +21,7 @@ createInertiaApp({
             .use(plugin)
             .use(ApmVuePlugin, {
                 config: {
-                    serviceName: 'equipamentos',
+                    serviceName: 'equipamentos-js',
                     serverUrl: 'https://agroarca.com.br:2083',
                     active: import.meta.env.VITE_APM_HABILITADO,
                     logLevel: import.meta.env.VITE_APM_LOG_LEVEL,
