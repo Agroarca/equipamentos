@@ -4,7 +4,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getMessaging, getToken } from 'firebase/messaging'
-import { getPerformance } from 'firebase/performance'
 
 let instance
 
@@ -23,7 +22,6 @@ export class Firebase {
     app
     messaging = null
     analytics = null
-    performance = null
 
     constructor() {
         this.app = initializeApp(this.firebaseConfig)
@@ -36,7 +34,6 @@ export class Firebase {
 
         this.loadMessaging()
         this.loadAnalytics()
-        this.loadPerformance()
     }
 
     loadMessaging(): void {
@@ -50,14 +47,6 @@ export class Firebase {
     loadAnalytics(): void {
         try {
             this.analytics = getAnalytics(this.app)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    loadPerformance(): void {
-        try {
-            this.performance = getPerformance(this.app)
         } catch (error) {
             console.error(error)
         }
