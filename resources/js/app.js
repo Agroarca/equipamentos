@@ -9,12 +9,13 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { ApmVuePlugin } from '@elastic/apm-rum-vue'
+import { init as initApm } from '@elastic/apm-rum'
 
 const appName = 'Agroarca'
 
 const apmConfig = {
-    serviceName: 'equipamentos-js',
-    serverUrl: 'https://agroarca.com.br:2083',
+    serviceName: import.meta.env.VITE_APM_SERVICE_NAME,
+    serverUrl: import.meta.env.VITE_APM_SERVER_URL,
     active: import.meta.env.VITE_APM_HABILITADO,
     logLevel: import.meta.env.VITE_APM_LOG_LEVEL,
 }
