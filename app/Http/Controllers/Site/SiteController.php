@@ -14,6 +14,7 @@ use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -29,6 +30,7 @@ class SiteController extends Controller
     public function inicio()
     {
         $versaoPaginaInicial = $this->paginaInicialService->carregarVersaoAtual();
+        Log::info('Log teste - Pagina Inicial');
         return Inertia::render('Site/PaginaInicial/Inicio', compact('versaoPaginaInicial'));
     }
 
