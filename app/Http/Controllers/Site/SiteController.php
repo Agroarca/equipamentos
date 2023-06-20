@@ -35,7 +35,6 @@ class SiteController extends Controller
 
     public function equipamento(int $id)
     {
-        Log::info('Log teste - equipamento');
         $equipamento = Equipamento::aprovado()->with('usuario')->findOrFail($id);
 
         $equipamento->load([
@@ -80,6 +79,7 @@ class SiteController extends Controller
     public function perfil()
     {
         $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
+        Log::info('Log teste - equipamento');
 
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
