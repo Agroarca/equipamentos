@@ -30,12 +30,12 @@ class SiteController extends Controller
     public function inicio()
     {
         $versaoPaginaInicial = $this->paginaInicialService->carregarVersaoAtual();
-        Log::info('Log teste - Pagina Inicial');
         return Inertia::render('Site/PaginaInicial/Inicio', compact('versaoPaginaInicial'));
     }
 
     public function equipamento(int $id)
     {
+        Log::info('Log teste - equipamento');
         $equipamento = Equipamento::aprovado()->with('usuario')->findOrFail($id);
 
         $equipamento->load([
