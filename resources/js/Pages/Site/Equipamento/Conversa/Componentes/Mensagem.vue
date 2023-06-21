@@ -75,7 +75,7 @@ function verificarpodeExcluir() {
                 </div>
             </div>
         </Transition>
-        <Modal :id="'modal_' + mensagem.id" ref="modal" title="Excluir Mensagem">
+        <Modal :id="'modal_' + mensagem.id" ref="modal" title="Excluir mensagem">
 
             <p>Deseja realmente excluir esta mensagem?</p>
             <p class="alert alert-warning">{{ mensagem.mensagem }}</p>

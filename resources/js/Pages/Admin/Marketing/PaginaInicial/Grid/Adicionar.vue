@@ -21,7 +21,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Grade de Imagens">
+    <AdminLayout titulo="Nova grade de imagens">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

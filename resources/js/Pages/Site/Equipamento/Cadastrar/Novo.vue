@@ -16,7 +16,7 @@ const props = defineProps({
 let marca
 let modelo
 
-const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma Marca'))
+const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um modelo' : 'Selecione uma marca'))
 
 const form = useForm({
     id: props.equipamento?.id,
@@ -90,10 +90,10 @@ async function salvarModelo() {
 </script>
 
 <template>
-    <SiteLayout titulo="Cadastrar Equipamento">
+    <SiteLayout titulo="Cadastrar equipamento">
         <div class="container-600 cadastrar-equipamento">
             <h2 class="titulo text-center mb-3">
-                Cadastrar Novo Equipamento
+                Cadastrar novo equipamento
             </h2>
             <Navegacao class="mb-3 d-flex justify-content-center"
                        :passoAtual="1"
@@ -121,7 +121,7 @@ async function salvarModelo() {
                     <SelectAjax
                         v-if="!equipamento?.modelo?.marca"
                         v-model="form.marca_id"
-                        placeholder="Selecione uma Marca"
+                        placeholder="Selecione uma marca"
                         href="/pesquisar/marcas"
                         :preBusca="true"
                         :criarDinamica="true"

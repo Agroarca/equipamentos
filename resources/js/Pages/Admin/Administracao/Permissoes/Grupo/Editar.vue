@@ -17,7 +17,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Grupo">
+    <AdminLayout titulo="Editar grupo">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

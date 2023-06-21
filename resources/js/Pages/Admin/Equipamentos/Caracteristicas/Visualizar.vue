@@ -15,7 +15,7 @@ const mostrarOpcoes = helper.mostrarOpcoes(props.caracteristica.tipo)
 </script>
 
 <template>
-    <AdminLayout titulo="Visualizar Característica">
+    <AdminLayout titulo="Visualizar característica">
         <form>
             <div class="card card-default">
                 <div class="card-body">
@@ -40,7 +40,7 @@ const mostrarOpcoes = helper.mostrarOpcoes(props.caracteristica.tipo)
                         <input id="maximo" class="form-control" type="number" :value="caracteristica.maximo" disabled>
                     </div>
                     <div v-if="mostrarCasasDecimais" class="mb-3">
-                        <label for="quantidade">Quantidade de Casas Decimais</label>
+                        <label for="quantidade">Quantidade de casas decimais</label>
                         <input id="quantidade" class="form-control" type="number" :value="caracteristica.quantidade" disabled>
                     </div>
                 </div>

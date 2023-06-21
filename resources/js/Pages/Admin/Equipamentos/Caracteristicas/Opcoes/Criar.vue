@@ -18,7 +18,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Opção">
+    <AdminLayout titulo="Nova opção">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

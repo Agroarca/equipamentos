@@ -34,7 +34,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Equipamento">
+    <AdminLayout titulo="Editar equipamento">
         <div class="equipamento">
             <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="cadastro" />
             <form @submit.prevent="submit">

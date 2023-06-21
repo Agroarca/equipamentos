@@ -23,7 +23,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Novo Modelo">
+    <AdminLayout titulo="Novo modelo">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

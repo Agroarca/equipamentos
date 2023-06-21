@@ -11,7 +11,7 @@ import { usePage } from '@inertiajs/vue3'
            aria-label="Clique para falar conosco no Whatsapp"
            class="contato">
             <span class="contato-titulo me-4">
-                Fale Conosco
+                Fale conosco
             </span>
             <span class="contato-numero">
                 <i class="fa-brands fa-whatsapp mx-1 fa-lg" />

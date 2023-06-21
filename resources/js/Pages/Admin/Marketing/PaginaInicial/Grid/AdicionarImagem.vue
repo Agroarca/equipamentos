@@ -21,7 +21,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Imagem">
+    <AdminLayout titulo="Nova imagem">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
@@ -32,7 +32,7 @@ function submit() {
                     </div>
                     <div class="mb-3">
                         <div class="alert alert-info mb-0">
-                            <span>A descrição da imagem é usada por Leitores de Tela para informar a Deficientes Visuais o conteúdo da imagem</span>
+                            <span>A descrição da imagem é usada por leitores de tela para informar a <strong>Deficientes Visuais</strong> o conteúdo da imagem</span>
                         </div>
                         <label for="descricao">Descrição</label>
                         <input id="descricao" v-model="form.descricao" class="form-control" type="text" required>
@@ -42,12 +42,12 @@ function submit() {
                         <div class="alert alert-info mb-0">
                             <span>As imagens do grid devem ter largura mínima de 500px</span>
                         </div>
-                        <label for="imagem_desktop">Imagem Desktop</label>
+                        <label for="imagem_desktop">Imagem desktop</label>
                         <input id="imagem_desktop" class="form-control" type="file" required @input="form.imagem_desktop = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_desktop" />
                     </div>
                     <div class="mb-3">
-                        <label for="imagem_mobile">Imagem Mobile <span class="opcional">(Opcional)</span></label>
+                        <label for="imagem_mobile">Imagem mobile <span class="opcional">(Opcional)</span></label>
                         <input id="imagem_mobile" class="form-control" type="file" @input="form.imagem_mobile = $event.target.files[0]">
                         <FormError :error="form.errors.imagem_mobile" />
                     </div>

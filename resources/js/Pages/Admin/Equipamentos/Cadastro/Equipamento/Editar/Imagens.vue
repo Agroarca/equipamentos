@@ -29,7 +29,7 @@ function upload() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar imagens Equipamento">
+    <AdminLayout titulo="Editar imagens equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="imagens" />
         <div class="card card-default">
             <div class="card-header">
@@ -40,12 +40,12 @@ function upload() {
             <div class="card-body">
                 <div class="row mb-3">
                     <button type="button" class="btn btn-primary" @click="adicionar()">
-                        Adicionar Imagem
+                        Adicionar imagem
                     </button>
                 </div>
                 <div class="row">
                     <div v-for="imagem in equipamento.imagens" :key="imagem.id" class="col-12 col-lg-6 col-xl-4 mb-3">
-                        <img class="card-img-top" :src="imagem.url" alt="Imagem do Equipamento">
+                        <img class="card-img-top" :src="imagem.url" alt="Imagem do equipamento">
                         <Link :href="`/admin/equipamentos/${equipamento.id}/imagens/${imagem.id}/excluir`" class="btn btn-danger">
                             Excluir
                         </Link>

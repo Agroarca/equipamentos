@@ -30,10 +30,10 @@ function submit() {
 </script>
 
 <template>
-    <SiteLayout titulo="Editar Equipamento">
+    <SiteLayout titulo="Editar equipamento">
         <div class="container-600 cadastrar-equipamento">
             <h2 class="titulo text-center mb-3">
-                Editar Equipamento
+                Editar equipamento
             </h2>
             <Navegacao class="mb-3 d-flex justify-content-center" :passoAtual="1" :passoCadastro="equipamento?.passo_cadastro ?? 1" :equipamento="equipamento" />
             <form @submit.prevent="submit">

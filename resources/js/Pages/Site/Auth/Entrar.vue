@@ -50,7 +50,7 @@ function submit() {
 
                 <div class="mb-2">
                     <Link class="btn btn-link" href="/senha/recuperar">
-                        Esqueceu sua Senha?
+                        Esqueceu sua senha?
                     </Link>
                 </div>
 

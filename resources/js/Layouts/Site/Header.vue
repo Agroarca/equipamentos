@@ -26,11 +26,11 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                 <a :href="usePage().props.site.contato.link" class="phone" target="_blank" rel="noopener noreferrer" aria-label="Clique para falar conosco no Whatsapp">
                     <i class="fa-brands fa-whatsapp" />
                     <strong>{{ usePage().props.site.contato.telefone }}</strong>
-                    <span class="ps-2">Fale Conosco! </span>
+                    <span class="ps-2">Fale conosco! </span>
                 </a>
                 <Link v-if="isAdmin" class="painel ms-3" href="/admin/dashboard">
                     <i class="fa-solid fa-chart-line" />
-                    <span class="d-none d-sm-inline">Acessar o Painel</span>
+                    <span class="d-none d-sm-inline">Acessar o painel</span>
                 </Link>
             </div>
         </div>
@@ -49,13 +49,13 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                 <Pesquisa />
                 <Link class="header-item header-btn profile-container order-4" href="/perfil">
                     <i class="fas fa-user-circle" />
-                    <span class="d-none d-xxl-block">Minha Conta</span>
+                    <span class="d-none d-xxl-block">Minha conta</span>
                 </Link>
                 <Link v-if="usuarioLogado" class="header-item header-btn notificacao-container order-4" href="/notificacoes">
                     <i class="far fa-bell position-relative">
                         <span v-if="qtdNotificacoesUsuario > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                             {{ qtdNotificacoesUsuario }}
-                            <span class="visually-hidden">Não Lidas</span>
+                            <span class="visually-hidden">Não lidas</span>
                         </span>
                     </i>
                     <span class="visually-hidden">Notificações</span>

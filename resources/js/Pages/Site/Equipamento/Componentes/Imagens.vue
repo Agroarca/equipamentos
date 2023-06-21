@@ -16,7 +16,7 @@ const props = defineProps({
         </div>
         <div class="carousel-inner">
             <div v-for="(imagem, index) in imagens" :key="imagem.id" class="carousel-item" :class="{ active: +index == 0 }">
-                <img :src="imagem.url" :alt="`Imagem ${index} do Equipamento cadastrada pelo anunciante.`">
+                <img :src="imagem.url" :alt="`Imagem ${index} do equipamento cadastrada pelo anunciante.`">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-imagens" data-bs-slide="prev">

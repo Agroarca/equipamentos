@@ -2,10 +2,10 @@ export function tituloTamanhoMinimo(tipo) {
     switch (tipo) {
     case 1:
     case 2:
-        return 'Número Mínimo'
+        return 'Número mínimo'
     case 3:
     case 4:
-        return 'Tamanho Mínimo'
+        return 'Tamanho mínimo'
     default:
         return ''
     }
@@ -15,10 +15,10 @@ export function tituloTamanhoMaximo(tipo) {
     switch (tipo) {
     case 1:
     case 2:
-        return 'Número Máximo'
+        return 'Número máximo'
     case 3:
     case 4:
-        return 'Tamanho Máximo'
+        return 'Tamanho máximo'
     default:
         return ''
     }

@@ -39,7 +39,7 @@ function submit() {
                 </div>
 
                 <div class="mb-3">
-                    <label for="nome">Nome Completo</label>
+                    <label for="nome">Nome completo</label>
                     <input id="nome" v-model="form.nome" class="form-control" type="text" required autocomplete="nome">
                     <FormError :error="form.errors.nome" />
                 </div>

@@ -6,8 +6,8 @@ let linksMenu = ref(usePage().props.site.menu)
 
 if (linksMenu.value.length === 0) {
     linksMenu.value = [
-        { id: 1, nome: 'Todos os Equipamentos', link: '/categoria' },
-        { id: 2, nome: 'Anunciar um Equipamento', link: '/equipamento/cadastrar' },
+        { id: 1, nome: 'Todos os equipamentos', link: '/categoria' },
+        { id: 2, nome: 'Anunciar um equipamento', link: '/equipamento/cadastrar' },
     ]
 }
 

@@ -19,7 +19,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Lista">
+    <AdminLayout titulo="Editar lista">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

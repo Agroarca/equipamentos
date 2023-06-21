@@ -23,7 +23,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar características Equipamento">
+    <AdminLayout titulo="Editar características equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="caracteristicas" />
         <form @submit.prevent="submit">
             <div class="card card-default">

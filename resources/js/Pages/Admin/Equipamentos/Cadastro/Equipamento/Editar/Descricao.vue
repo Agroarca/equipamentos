@@ -17,7 +17,7 @@ function atualizarDescricao() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar descrição Equipamento">
+    <AdminLayout titulo="Editar descrição equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="descricao" />
         <div class="card card-default">
             <div class="card-header">
@@ -30,7 +30,7 @@ function atualizarDescricao() {
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-primary" @click="atualizarDescricao">
-                    Atualizar Descrição
+                    Atualizar descrição
                 </button>
             </div>
         </div>

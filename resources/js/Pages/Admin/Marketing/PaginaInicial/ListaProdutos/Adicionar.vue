@@ -21,7 +21,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Grade de Imagens">
+    <AdminLayout titulo="Nova grade de imagens">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
@@ -36,7 +36,7 @@ function submit() {
                         <FormError :error="form.errors.subtitulo" />
                     </div>
                     <div class="mb-3">
-                        <label for="lista_produtos_id">Lista de Produtos: </label>
+                        <label for="lista_produtos_id">Lista de produtos: </label>
                         <select id="lista_produtos_id" v-model="form.lista_produtos_id" name="lista_produtos_id" class="form-select" required>
                             <option v-for="lista in listasProdutos" :key="lista.id" :value="lista.id">
                                 {{ lista.nome }}

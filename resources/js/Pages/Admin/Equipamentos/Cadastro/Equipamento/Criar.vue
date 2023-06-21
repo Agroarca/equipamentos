@@ -78,7 +78,7 @@ async function salvarModelo() {
 </script>
 
 <template>
-    <AdminLayout titulo="Novo Equipamento">
+    <AdminLayout titulo="Novo equipamento">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

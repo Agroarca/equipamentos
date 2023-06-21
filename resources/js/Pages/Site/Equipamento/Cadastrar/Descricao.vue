@@ -18,10 +18,10 @@ function salvarDescricao() {
 </script>
 
 <template>
-    <SiteLayout titulo="Cadastrar Descrição">
+    <SiteLayout titulo="Cadastrar descrição">
         <div class="container-600 cadastrar-equipamento">
             <h2 class="titulo text-center mb-3">
-                Descrição do Equipamento
+                Descrição do equipamento
             </h2>
             <Navegacao class="mb-3"
                        :passoAtual="3"

@@ -64,10 +64,10 @@ function adicionarUsuario() {
         </div>
         <Paginacao class="mt-4" :links="usuarios.links" />
         <form @submit.prevent="adicionarUsuario">
-            <Modal ref="modal" title="Adicionar Usuário">
+            <Modal ref="modal" title="Adicionar usuário">
                 <SelectAjax
                     v-model="form.usuario_id"
-                    placeholder="Selecione um Usuario"
+                    placeholder="Selecione um usuario"
                     href="/admin/pesquisar/usuario/admin"
                     :preBusca="true" />
                 <template #footer>

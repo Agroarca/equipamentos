@@ -44,7 +44,7 @@ function getNomeNaoLidas(conversa) {
                 <Paginacao class="mt-4" :links="conversas.links" />
                 <div v-if="conversas.data.length == 0">
                     <div class="alert alert-danger">
-                        Nenhuma Conversa encontrada
+                        Nenhuma conversa encontrada
                     </div>
                 </div>
             </div>

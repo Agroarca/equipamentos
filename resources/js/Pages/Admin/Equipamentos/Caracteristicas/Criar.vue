@@ -30,7 +30,7 @@ const mostrarCasasDecimais = computed(() => helper.mostrarCasasDecimais(form.tip
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Característica">
+    <AdminLayout titulo="Nova característica">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
@@ -63,7 +63,7 @@ const mostrarCasasDecimais = computed(() => helper.mostrarCasasDecimais(form.tip
                         <FormError :error="form.errors.maximo" />
                     </div>
                     <div v-if="mostrarCasasDecimais" class="mb-3">
-                        <label for="quantidade">Quantidade de Casas Decimais</label>
+                        <label for="quantidade">Quantidade de casas decimais</label>
                         <input id="quantidade" v-model="form.quantidade" class="form-control" type="number">
                         <FormError :error="form.errors.quantidade" />
                     </div>

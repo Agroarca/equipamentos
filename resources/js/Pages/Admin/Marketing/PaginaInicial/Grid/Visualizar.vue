@@ -13,7 +13,7 @@ const STATUS_VERSAO_CRIADO = 0
 </script>
 
 <template>
-    <AdminLayout titulo="Visualizar Grade de Imagens">
+    <AdminLayout titulo="Visualizar grade de imagens">
         <div class="card card-default mb-5">
             <div class="card-body">
                 <div class="mb-3">
@@ -25,7 +25,7 @@ const STATUS_VERSAO_CRIADO = 0
                     <input id="subtitulo" type="text" class="form-control" name="subtitulo" :value="grid.componente.subtitulo" disabled />
                 </div>
                 <div class="mb-3 form-check">
-                    <label for="tela_cheia">Tela Cheia</label>
+                    <label for="tela_cheia">Tela cheia</label>
                     <input id="tela_cheia" type="checkbox" class="form-check-input" name="tela_cheia" :checked="grid.componente.tela_cheia" disabled />
                 </div>
                 <div class="mb-3">
@@ -95,7 +95,7 @@ const STATUS_VERSAO_CRIADO = 0
             </div>
             <div v-if="versao.status === STATUS_VERSAO_CRIADO" class="card-footer">
                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/${grid.id}/imagem/adicionar`" class="btn btn-primary me-2">
-                    <i class="fas fa-plus-circle pe-1" /> Adicionar Imagem
+                    <i class="fas fa-plus-circle pe-1" /> Adicionar imagem
                 </Link>
             </div>
         </div>

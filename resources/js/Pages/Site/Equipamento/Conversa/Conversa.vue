@@ -167,7 +167,7 @@ function excluirMensagemListener(mensagem: object): void {
                     </div>
                     <Transition name="fade-transition" :duration="100">
                         <button v-if="temNovasMensagens" type="button" class="novas-mensagens" @click="novasMensagens">
-                            <span>Novas Mensagens</span>
+                            <span>Novas mensagens</span>
                         </button>
                     </Transition>
                 </div>

@@ -20,7 +20,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Nova Categoria">
+    <AdminLayout titulo="Nova categoria">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">
@@ -30,7 +30,7 @@ function submit() {
                         <FormError :error="form.errors.nome" />
                     </div>
                     <div class="mb-3">
-                        <label for="categoria_mae">Categoria Mãe: </label>
+                        <label for="categoria_mae">Categoria mãe: </label>
                         <input id="categoria_mae" class="form-control" type="text" :value="categoriaMae?.nome" disabled>
                     </div>
                     <div class="mb-3">

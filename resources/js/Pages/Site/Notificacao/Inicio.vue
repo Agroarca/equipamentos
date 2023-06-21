@@ -17,10 +17,10 @@ const STATUS_NOTIFICACAO_CRIADO = 0
             </div>
             <div class="lista-notificacoes">
                 <Link v-for="notificacao in notificacoes.data" :key="notificacao.id" :href="`/notificacoes/${notificacao.id}`" class="notificacao link-plain">
-                    <span v-if="notificacao.status === STATUS_NOTIFICACAO_CRIADO" class="badge text-bg-warning mb-2">Não Lida</span>
+                    <span v-if="notificacao.status === STATUS_NOTIFICACAO_CRIADO" class="badge text-bg-warning mb-2">Não lida</span>
                     <h5>{{ notificacao.titulo }}</h5>
                     <p>{{ notificacao.texto }}</p>
-                    <span class="btn-link">Clique para Acessar</span>
+                    <span class="btn-link">Clique para acessar</span>
                 </Link>
                 <div v-if="notificacoes.data.length === 0" class="alert alert-danger" role="alert">
                     Nenhuma notificação encontrada

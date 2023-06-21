@@ -24,7 +24,7 @@ function AtualizarStatus() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Equipamento">
+    <AdminLayout titulo="Editar equipamento">
         <Navegacao class="mb-4 d-flex flex-roll justify-content-center" :equipamento="equipamento" paginaAtual="aprovacao" />
         <div class="card card-default">
             <div class="card-header">

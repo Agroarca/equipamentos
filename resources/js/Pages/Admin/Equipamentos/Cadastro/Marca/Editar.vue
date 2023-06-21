@@ -20,7 +20,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Marca">
+    <AdminLayout titulo="Editar marca">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

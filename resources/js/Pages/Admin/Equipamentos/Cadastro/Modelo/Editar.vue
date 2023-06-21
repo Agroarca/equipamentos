@@ -21,7 +21,7 @@ function submit() {
 </script>
 
 <template>
-    <AdminLayout titulo="Editar Modelo">
+    <AdminLayout titulo="Editar modelo">
         <form @submit.prevent="submit">
             <div class="card card-default">
                 <div class="card-body">

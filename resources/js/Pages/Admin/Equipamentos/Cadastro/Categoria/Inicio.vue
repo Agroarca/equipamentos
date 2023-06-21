@@ -24,7 +24,7 @@ const link = props.categoria ? `/admin/categorias/criar/${props.categoria.id}` :
                 <table class="table table-striped table-hover">
                     <thead>
                         <th>Nome</th>
-                        <th>Categoria Mãe</th>
+                        <th>Categoria mãe</th>
                         <th>Ações</th>
                     </thead>
                     <tbody>

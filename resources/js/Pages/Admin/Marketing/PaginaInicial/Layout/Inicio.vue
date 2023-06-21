@@ -15,10 +15,10 @@ const STATUS_VERSAO_APROVADO = 1
 </script>
 
 <template>
-    <AdminLayout :titulo="`Layout da Versão ${versao.id}`">
+    <AdminLayout :titulo="`Layout da versão ${versao.id}`">
         <template #buttons>
             <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/visualizar`" class="btn btn-secondary me-2 d-flex flex-nowrap align-items-center">
-                <i class="fas fa-magnifying-glass pe-1" /> Visualizar Layout
+                <i class="fas fa-magnifying-glass pe-1" /> Visualizar layout
             </Link>
         </template>
 
@@ -46,7 +46,7 @@ const STATUS_VERSAO_APROVADO = 1
                         <tr>
                             <td v-if="versao.status === STATUS_VERSAO_CRIADO" />
                             <td />
-                            <td>Carrossel Principal</td>
+                            <td>Carrossel principal</td>
                             <td>
                                 <Link :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/carrossel/visualizar`" class="btn btn-primary me-2">
                                     <i class="fas fa-magnifying-glass pe-1" /> Visualizar
@@ -93,13 +93,13 @@ const STATUS_VERSAO_APROVADO = 1
             <div class="card-footer">
                 <div class="grade-botoes">
                     <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/grid/adicionar`" class="btn btn-primary me-2">
-                        <i class="fas fa-plus-circle pe-1" /> Adicionar Grade de Imagens
+                        <i class="fas fa-plus-circle pe-1" /> Adicionar grade de imagens
                     </Link>
                     <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/banner/adicionar`" class="btn btn-primary me-2">
-                        <i class="fas fa-plus-circle pe-1" /> Adicionar Banner
+                        <i class="fas fa-plus-circle pe-1" /> Adicionar banner
                     </Link>
                     <Link v-if="versao.status === STATUS_VERSAO_CRIADO" :href="`/admin/marketing/pagina/inicial/${versao.id}/layout/lista/produtos/adicionar`" class="btn btn-primary me-2">
-                        <i class="fas fa-plus-circle pe-1" /> Adicionar Lista de Produtos
+                        <i class="fas fa-plus-circle pe-1" /> Adicionar lista de produtos
                     </Link>
                     <Link v-if="versao.status === STATUS_VERSAO_CRIADO" class="btn btn-success me-2" :href="`/admin/marketing/pagina/inicial/${versao.id}/aprovar`">
                         <i class="fas fa-gears pe-1" />
