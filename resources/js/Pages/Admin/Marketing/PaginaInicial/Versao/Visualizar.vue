@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
 import Inicio from '@/Pages/Site/PaginaInicial/Inicio.vue'
