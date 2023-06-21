@@ -14,6 +14,7 @@ use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -78,6 +79,7 @@ class SiteController extends Controller
     public function perfil()
     {
         $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
+        Log::info('Log teste - equipamento');
 
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
