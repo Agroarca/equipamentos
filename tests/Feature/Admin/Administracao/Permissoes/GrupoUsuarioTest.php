@@ -62,13 +62,13 @@ class GrupoUsuarioTest extends TestCase
         ]);
     }
 
-    public function testPodePesquisarEAdicionarUsuario()
+    public function testPodePesquisarEAdicionarUsuario(): void
     {
         $grupo = Grupo::factory()->create();
         $usuario = Usuario::factory()->create();
 
         $responsePesquisa = $this->actingAs($this->getAdmin())
-            ->get("/admin/pesquisar/usuario/admin?termo=" . $usuario->nome);
+            ->get('/admin/pesquisar/usuario/admin?termo=' . $usuario->nome);
 
         $responsePesquisa->assertStatus(200);
         $responsePesquisa->assertJson([
