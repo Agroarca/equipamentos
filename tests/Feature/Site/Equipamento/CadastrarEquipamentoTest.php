@@ -12,6 +12,8 @@ use App\Models\Equipamentos\Cadastro\Marca;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaInteiro;
+use App\Models\Equipamentos\Caracteristicas\Valor\CaracteristicaTextoLongo;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -377,9 +379,96 @@ class CadastrarEquipamentoTest extends TestCase
             'caracteristica_id' => $caracteristicaInteiro->id,
             'equipamento_id' => $equipamento->id,
         ]);
+
+        $caracteristicaEquipamento = CaracteristicaEquipamento::where([
+            'caracteristica_id' => $caracteristicaInteiro->id,
+            'equipamento_id' => $equipamento->id,
+        ])->first();
+
+        $this->assertDatabaseHas(app(CaracteristicaInteiro::class)->getTable(), [
+            'caracteristica_equipamento_id' => $caracteristicaEquipamento->id,
+            'valor' => 10,
+        ]);
     }
 
     public function testPodeSalvarCaracteristicaTipoTextoLongo(): void
+    {
+        $categoria = Categoria::factory()->create();
+        $caracteristicaTextoLongo = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::TextoLongo->value,
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $valor = Str::random(200);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaTextoLongo->id" => $valor,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('site.equipamento.finalizar', $equipamento->id);
+        $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
+            'caracteristica_id' => $caracteristicaTextoLongo->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $caracteristicaEquipamento = CaracteristicaEquipamento::where([
+            'caracteristica_id' => $caracteristicaTextoLongo->id,
+            'equipamento_id' => $equipamento->id,
+        ])->first();
+
+        $this->assertDatabaseHas(app(caracteristicaTextoLongo::class)->getTable(), [
+            'caracteristica_equipamento_id' => $caracteristicaEquipamento->id,
+            'valor' => $valor,
+        ]);
+    }
+
+    public function testPodeEditarCaracteristicaTipoInt(): void
+    {
+        $categoria = Categoria::factory()->create();
+        $caracteristicaInteiro = Caracteristica::factory()->create([
+            'tipo' => TipoCaracteristica::Inteiro->value,
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $equipamento = Equipamento::factory()->create([
+            'categoria_id' => $categoria->id,
+        ]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaInteiro->id" => 10,
+            ]);
+
+        $response->assertValid();
+        $response->assertRedirectToRoute('site.equipamento.finalizar', $equipamento->id);
+        $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
+            'caracteristica_id' => $caracteristicaInteiro->id,
+            'equipamento_id' => $equipamento->id,
+        ]);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaInteiro->id" => 20,
+            ]);
+
+        $caracteristicaEquipamento = CaracteristicaEquipamento::where([
+            'caracteristica_id' => $caracteristicaInteiro->id,
+            'equipamento_id' => $equipamento->id,
+        ])->first();
+
+        $this->assertDatabaseHas(app(CaracteristicaInteiro::class)->getTable(), [
+            'caracteristica_equipamento_id' => $caracteristicaEquipamento->id,
+            'valor' => 20,
+        ]);
+    }
+
+    public function testPodeEditarCaracteristicaTipoTextoLongo(): void
     {
         $categoria = Categoria::factory()->create();
         $caracteristicaInteiro = Caracteristica::factory()->create([
@@ -401,6 +490,23 @@ class CadastrarEquipamentoTest extends TestCase
         $this->assertDatabaseHas(app(CaracteristicaEquipamento::class)->getTable(), [
             'caracteristica_id' => $caracteristicaInteiro->id,
             'equipamento_id' => $equipamento->id,
+        ]);
+
+        $novaCaracteristica = Str::random(200);
+
+        $response = $this->actingAs($this->getUsuario())
+            ->post("/equipamento/{$equipamento->id}/caracteristicas/salvar", [
+                "carac-$caracteristicaInteiro->id" => $novaCaracteristica,
+            ]);
+
+        $caracteristicaEquipamento = CaracteristicaEquipamento::where([
+            'caracteristica_id' => $caracteristicaInteiro->id,
+            'equipamento_id' => $equipamento->id,
+        ])->first();
+
+        $this->assertDatabaseHas(app(CaracteristicaTextoLongo::class)->getTable(), [
+            'caracteristica_equipamento_id' => $caracteristicaEquipamento->id,
+            'valor' => $novaCaracteristica,
         ]);
     }
 
