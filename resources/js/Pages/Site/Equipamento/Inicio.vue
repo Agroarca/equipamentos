@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
-import { Link } from '@inertiajs/vue3'
+import { Link, Head } from '@inertiajs/vue3'
 import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Imagens from './Componentes/Imagens.vue'
@@ -15,6 +15,15 @@ const props = defineProps({
 <template>
     <SiteLayout :titulo="equipamento.titulo"
                 :metaDescription="`Encontre ${equipamento.titulo} no nosso site. Faça negócios seguros e vantajosos. Não perca a chance, encontre seu equipamento ideal!`">
+        <Head>
+            <meta name="og:title" head-key="meta-og-title" :content="equipamento.titulo + ' - Agroarca'" />
+            <meta name="og:type" head-key="meta-og-type" content="product" />
+            <meta name="og:image" head-key="meta-og-image" :content="equipamento.imagens[0].url" />
+            <meta name="og:image:type" head-key="meta-og-image-type" content="image/png" />
+            <meta name="og:image:width" head-key="meta-og-image-width" content="800" />
+            <meta name="og:image:height" head-key="meta-og-image-height" content="600" />
+            <meta name="og:image:alt" head-key="meta-og-image-alt" :content="'Imagem de ' + equipamento.titulo" />
+        </Head>
         <div class="container equipamento">
             <Categorias :categorias="categorias" />
             <div class="d-flex flex-column flex-md-row align-items-md-start">
