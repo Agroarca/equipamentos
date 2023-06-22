@@ -46,7 +46,9 @@ class SiteController extends Controller
             'imagens',
         ]);
 
-        return Inertia::render('Site/Equipamento/Inicio', compact('equipamento'));
+        $categorias = $this->listaservice->categoriasMae($equipamento->categoria_id);
+
+        return Inertia::render('Site/Equipamento/Inicio', compact('equipamento', 'categorias'));
     }
 
     public function equipamentosPerfil()

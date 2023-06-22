@@ -4,9 +4,11 @@ import { Link } from '@inertiajs/vue3'
 import Formatacao from '@/Componentes/Layout/Helper/Formatacao.vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import Imagens from './Componentes/Imagens.vue'
+import Categorias from './Componentes/Categorias.vue'
 
 const props = defineProps({
     equipamento: Object,
+    categorias: Array,
 })
 </script>
 
@@ -14,6 +16,7 @@ const props = defineProps({
     <SiteLayout :titulo="equipamento.titulo"
                 :metaDescription="`Encontre ${equipamento.titulo} no nosso site. Faça negócios seguros e vantajosos. Não perca a chance, encontre seu equipamento ideal!`">
         <div class="container equipamento">
+            <Categorias :categorias="categorias" />
             <div class="d-flex flex-column flex-md-row align-items-md-start">
                 <Imagens :imagens="equipamento.imagens" class="col-md-8" />
                 <div class="d-flex flex-column col-md-4 ms-md-4 mt-4 mt-md-0">
