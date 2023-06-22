@@ -62,6 +62,34 @@ class GrupoUsuarioTest extends TestCase
         ]);
     }
 
+    public function testPodePesquisarEAdicionarUsuario(): void
+    {
+        $grupo = Grupo::factory()->create();
+        $usuario = Usuario::factory()->create();
+
+        $responsePesquisa = $this->actingAs($this->getAdmin())
+            ->get('/admin/pesquisar/usuario/admin?termo=' . $usuario->nome);
+
+        $responsePesquisa->assertStatus(200);
+        $responsePesquisa->assertJson([
+            [
+                'id' => $usuario->id,
+                'texto' => $usuario->nome,
+            ],
+        ]);
+
+        $response = $this->actingAs($this->getAdminComPermissao('administracao.permissoes.grupo_usuario:adicionar'))
+            ->post("/admin/administracao/permissoes/grupo/$grupo->id/usuarios/adicionar", [
+                'usuario_id' => $usuario->id,
+            ]);
+
+        $response->assertRedirectToRoute('admin.administracao.permissoes.grupo.usuarios', $grupo->id);
+        $this->assertDatabaseHas(app(GrupoUsuario::class)->getTable(), [
+            'grupo_id' => $grupo->id,
+            'usuario_id' => $usuario->id,
+        ]);
+    }
+
     public function testPodeExcluirUsuario(): void
     {
         $grupo = Grupo::factory()->create();
