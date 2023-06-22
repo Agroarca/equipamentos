@@ -16,10 +16,12 @@
 
         .imagem {
             width: 200px;
+            height: 150px;
             border-radius: 1rem;
 
             @mixin breakpoint-down md {
                 width: 100%;
+                height: auto;
             }
         }
 

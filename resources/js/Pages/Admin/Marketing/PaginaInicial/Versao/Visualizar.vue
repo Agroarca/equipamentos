@@ -1,11 +1,12 @@
+<!-- eslint-disable vue/no-setup-props-destructure -->
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import Inicio from '@/Pages/Site/PaginaInicial/Inicio.vue'
 
 const props = defineProps({
     versao: Object,
 })
-
+usePage().props.site.menu = props.versao.menu_links
 </script>
 
 <template>

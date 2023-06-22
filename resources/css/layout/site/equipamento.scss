@@ -1,11 +1,13 @@
 .site-layout .equipamento {
     $border-radius: 12px;
 
-    .imagem {
+    .container-imagens {
         max-width: 800px;
 
-        img {
+        .imagem img {
             border-radius: $border-radius;
+            width: 100%;
+            height: auto;
         }
     }
 
