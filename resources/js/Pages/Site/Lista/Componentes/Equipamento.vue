@@ -14,7 +14,7 @@ const imagem = {
 
 <template>
     <Link class="produto" :href="`/equipamento/${equipamento.id}`">
-        <img class="imagem" :src="imagem.url" :alt="imagem.descricao">
+        <img class="imagem" :src="imagem.url" :alt="imagem.descricao" width="800" height="600">
         <span class="titulo flex-fill">{{ equipamento.titulo }}</span>
         <Formatacao class="valor" tipo="preco" :valor="equipamento.valor" />
         <span class="btn">Quero saber mais!</span>

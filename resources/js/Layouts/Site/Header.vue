@@ -42,7 +42,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                             <source srcset="/img/logo_325x100.webp" type="image/webp" media="(min-width: 1399.98px)">
                             <source srcset="/img/logo_325x100.png" type="image/png" media="(min-width: 1399.98px)">
                             <source srcset="/img/logo_130x40.webp" type="image/webp">
-                            <img class="logo" src="/img/logo_130x40.png" alt="Página Inicial">
+                            <img class="logo" src="/img/logo_130x40.png" alt="Página Inicial" width="325" height="100">
                         </picture>
                     </Link>
                 </div>
