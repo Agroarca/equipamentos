@@ -34,9 +34,14 @@
     cursor: pointer;
 
     @mixin breakpoint-down md {
-        border-radius: 5px;
+        border-radius: 20px;
         font-size: 2rem;
         text-align: center;
+    }
+
+    .imagem {
+        width: 100%;
+        height: auto;
     }
 
     .titulo {

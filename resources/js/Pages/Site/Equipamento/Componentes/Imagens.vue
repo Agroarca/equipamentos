@@ -6,7 +6,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div id="carrossel-imagens" class="carousel slide imagem">
+    <div id="carrossel-imagens" class="carousel slide container-imagens">
         <div class="carousel-indicators">
             <button v-for="(imagem, index) in imagens" :key="imagem.id" type="button" data-bs-target="#carrossel-imagens"
                     :data-bs-slide-to="index"
@@ -15,8 +15,8 @@ const props = defineProps({
                     :aria-label="`Slide ${index}`" />
         </div>
         <div class="carousel-inner">
-            <div v-for="(imagem, index) in imagens" :key="imagem.id" class="carousel-item" :class="{ active: +index == 0 }">
-                <img :src="imagem.url" :alt="`Imagem ${index} do equipamento cadastrada pelo anunciante.`">
+            <div v-for="(imagem, index) in imagens" :key="imagem.id" class="carousel-item imagem" :class="{ active: +index == 0 }">
+                <img :src="imagem.url" :alt="`Imagem ${index} do equipamento cadastrada pelo anunciante.`" width="800" height="600">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-imagens" data-bs-slide="prev">

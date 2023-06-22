@@ -23,7 +23,7 @@ const STATUS_REPROVADO = 5
                 </div>
             </Link>
             <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
-                <img class="imagem"
+                <img class="imagem tamanho-img-equip" width="800" height="600"
                      :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
                      :alt="equipamento.imagens[0]?.descricao ?? 'Imagem do produto'" />
 
