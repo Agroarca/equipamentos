@@ -12,6 +12,7 @@ use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -42,18 +43,21 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $grid = Grid::create($request->only('formato'));
 
-        $componente = new Componente($request->only([
-            'titulo',
-            'subtitulo',
-            'tela_cheia',
-        ]));
+        DB::transaction(function () use ($request, $versao) {
+            $grid = Grid::create($request->only('formato'));
 
-        $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
-        $componente->tipo()->associate($grid);
-        $componente->versao_id = $versao->id;
-        $componente->save();
+            $componente = new Componente($request->only([
+                'titulo',
+                'subtitulo',
+                'tela_cheia',
+            ]));
+
+            $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
+            $componente->tipo()->associate($grid);
+            $componente->versao_id = $versao->id;
+            $componente->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
@@ -97,21 +101,24 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $gridImagem = new GridImagem($request->all());
-        $gridImagem->grid_id = $grid->id;
-        $gridImagem->ordem = $grid->imagens->count() + 1;
 
-        $imagemDesktop = $request->file('imagem_desktop');
-        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
-        $gridImagem->nome_desktop = $imagemDesktop->hashName();
+        DB::transaction(function () use ($request, $grid) {
+            $gridImagem = new GridImagem($request->all());
+            $gridImagem->grid_id = $grid->id;
+            $gridImagem->ordem = $grid->imagens->count() + 1;
 
-        if ($request->hasFile('imagem_mobile')) {
-            $imagemMobile = $request->file('imagem_mobile');
-            $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
-            $gridImagem->nome_mobile = $imagemMobile->hashName();
-        }
+            $imagemDesktop = $request->file('imagem_desktop');
+            $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+            $gridImagem->nome_desktop = $imagemDesktop->hashName();
 
-        $gridImagem->save();
+            if ($request->hasFile('imagem_mobile')) {
+                $imagemMobile = $request->file('imagem_mobile');
+                $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+                $gridImagem->nome_mobile = $imagemMobile->hashName();
+            }
+
+            $gridImagem->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }
@@ -135,9 +142,11 @@ class GridController extends Controller
 
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_desktop);
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_mobile);
-        $gridImagem->delete();
 
-        $grid->imagens()->where('ordem', '>', $gridImagem->ordem)->decrement('ordem');
+        DB::transaction(function () use ($grid, $gridImagem) {
+            $gridImagem->delete();
+            $grid->imagens()->where('ordem', '>', $gridImagem->ordem)->decrement('ordem');
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }
@@ -149,18 +158,21 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $ordem = $gridImagem->ordem;
 
-        if ($ordem <= 1) {
-            throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
-        }
+        DB::transaction(function () use ($grid, $gridImagem) {
+            $ordem = $gridImagem->ordem;
 
-        $imagemPosterior = $grid->imagens()->where('ordem', $ordem - 1)->first();
-        $imagemPosterior->ordem = $ordem;
-        $imagemPosterior->save();
+            if ($ordem <= 1) {
+                throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
+            }
 
-        $gridImagem->ordem = $ordem - 1;
-        $gridImagem->save();
+            $imagemPosterior = $grid->imagens()->where('ordem', $ordem - 1)->first();
+            $imagemPosterior->ordem = $ordem;
+            $imagemPosterior->save();
+
+            $gridImagem->ordem = $ordem - 1;
+            $gridImagem->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }
@@ -172,18 +184,21 @@ class GridController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $ordem = $gridImagem->ordem;
 
-        if ($ordem >= $grid->imagens()->max('ordem')) {
-            throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
-        }
+        DB::transaction(function () use ($grid, $gridImagem) {
+            $ordem = $gridImagem->ordem;
 
-        $imagemPosterior = $grid->imagens()->where('ordem', $ordem + 1)->first();
-        $imagemPosterior->ordem = $ordem;
-        $imagemPosterior->save();
+            if ($ordem >= $grid->imagens()->max('ordem')) {
+                throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
+            }
 
-        $gridImagem->ordem = $ordem + 1;
-        $gridImagem->save();
+            $imagemPosterior = $grid->imagens()->where('ordem', $ordem + 1)->first();
+            $imagemPosterior->ordem = $ordem;
+            $imagemPosterior->save();
+
+            $gridImagem->ordem = $ordem + 1;
+            $gridImagem->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
     }

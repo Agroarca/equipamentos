@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Marketing\PaginaInicial\VersaoRequest;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -87,9 +88,12 @@ class VersaoController extends Controller
                 'status' => 'Não é possivel aprovar uma versão com status diferente de criado',
             ]);
         }
-        $this->paginaInicialService->validarVersao($versao);
-        $versao->status = StatusVersao::Aprovado;
-        $versao->save();
+
+        DB::transaction(function () use ($versao) {
+            $this->paginaInicialService->validarVersao($versao);
+            $versao->status = StatusVersao::Aprovado;
+            $versao->save();
+        });
     }
 
     public function reprovar(Versao $versao)

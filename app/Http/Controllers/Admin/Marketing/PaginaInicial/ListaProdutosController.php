@@ -10,6 +10,7 @@ use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\ListaProdutos\Lista;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -41,18 +42,21 @@ class ListaProdutosController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $lista = Lista::create($request->only('lista_produtos_id'));
 
-        $componente = new Componente($request->only([
-            'titulo',
-            'subtitulo',
-            'tela_cheia',
-        ]));
+        DB::transaction(function () use ($request, $versao) {
+            $lista = Lista::create($request->only('lista_produtos_id'));
 
-        $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
-        $componente->tipo()->associate($lista);
-        $componente->versao_id = $versao->id;
-        $componente->save();
+            $componente = new Componente($request->only([
+                'titulo',
+                'subtitulo',
+                'tela_cheia',
+            ]));
+
+            $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
+            $componente->tipo()->associate($lista);
+            $componente->versao_id = $versao->id;
+            $componente->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
