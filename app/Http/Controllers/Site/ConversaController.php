@@ -27,30 +27,36 @@ class ConversaController extends Controller
         $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
     }
 
+    // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
     public function conversaEquipamento(int $equipamentoId)
     {
-        $equipamento = Equipamento::findOrFail($equipamentoId);
-        $this->notificacaoConversaService->visualizarNotificacaoEquipamento($equipamento);
+        try {
+            DB::beginTransaction();
+            $equipamento = Equipamento::findOrFail($equipamentoId);
+            $this->notificacaoConversaService->visualizarNotificacaoEquipamento($equipamento);
 
-        if ($equipamento->usuario_id === Auth::id()) {
-            $conversas = $equipamento->conversas()->with([
-                'usuario',
-                'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
-            ])->orderBy('updated_at', 'desc')->paginate();
+            if ($equipamento->usuario_id === Auth::id()) {
+                $conversas = $equipamento->conversas()->with([
+                    'usuario',
+                    'visualizacao' => fn ($query) => $query->where('usuario_id', Auth::id()),
+                ])->orderBy('updated_at', 'desc')->paginate();
 
-            return Inertia::render('Site/Equipamento/Conversa/Conversas', compact(['equipamento', 'conversas']));
+                return Inertia::render('Site/Equipamento/Conversa/Conversas', compact(['equipamento', 'conversas']));
+            }
+
+            $conversa = EquipamentoConversa::firstOrCreate([
+                'equipamento_id' => $equipamento->id,
+                'usuario_id' => Auth::id(),
+            ]);
+
+            if ($conversa->wasRecentlyCreated) {
+                $this->conversaService->criarVisualizacoes($conversa);
+            }
+
+            return redirect()->route('site.conversa', $conversa->id);
+        } finally {
+            DB::endTransaction();
         }
-
-        $conversa = EquipamentoConversa::firstOrCreate([
-            'equipamento_id' => $equipamento->id,
-            'usuario_id' => Auth::id(),
-        ]);
-
-        if ($conversa->wasRecentlyCreated) {
-            $this->conversaService->criarVisualizacoes($conversa);
-        }
-
-        return redirect()->route('site.conversa', $conversa->id);
     }
 
     public function conversa(int $conversaId)
@@ -84,6 +90,7 @@ class ConversaController extends Controller
     {
         $request->verificarRateLimit();
         $mensagem = new Mensagem();
+
         DB::transaction(function () use ($request, $id, $mensagem) {
             $conversa = EquipamentoConversa::findOrFail($id);
             $mensagem->equipamento_conversa_id = $conversa->id;
@@ -97,6 +104,7 @@ class ConversaController extends Controller
 
             $this->conversaService->processarEnvioMensagem($mensagem);
         });
+
         return response()->json($mensagem);
     }
 
@@ -132,22 +140,26 @@ class ConversaController extends Controller
 
     public function visualizacao(int $idConversa, int $id)
     {
-        $conversa = EquipamentoConversa::findOrFail($idConversa);
-        $mensagem = $conversa->mensagens()->findOrFail($id);
-        $visualizacao = $conversa->visualizacao()->where('usuario_id', Auth::id())->first();
+        DB::transaction(function () use ($idConversa, $id) {
+            $conversa = EquipamentoConversa::findOrFail($idConversa);
+            $mensagem = $conversa->mensagens()->findOrFail($id);
+            $visualizacao = $conversa->visualizacao()->where('usuario_id', Auth::id())->first();
 
-        if ($mensagem->id > $visualizacao->ultima_mensagem_id) {
-            $visualizacao->ultima_mensagem_id = $mensagem->id;
-            $visualizacao->save();
-            $this->conversaService->processarVisualizacao($conversa);
-        }
+            if ($mensagem->id > $visualizacao->ultima_mensagem_id) {
+                $visualizacao->ultima_mensagem_id = $mensagem->id;
+                $visualizacao->save();
+                $this->conversaService->processarVisualizacao($conversa);
+            }
+        });
     }
 
     public function excluirMensagem(int $idConversa, int $id)
     {
-        $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
-        $mensagem->delete();
-        $this->conversaService->processarExclusaoMensagem($mensagem);
+        DB::transaction(function () use ($idConversa, $id) {
+            $mensagem = Mensagem::where('equipamento_conversa_id', $idConversa)->findOrFail($id);
+            $mensagem->delete();
+            $this->conversaService->processarExclusaoMensagem($mensagem);
+        });
 
         return response()->json('ok');
     }

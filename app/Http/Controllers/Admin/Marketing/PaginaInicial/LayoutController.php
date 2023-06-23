@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -31,7 +32,11 @@ class LayoutController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $this->paginaInicialService->excluirComponente($componente);
+
+        DB::transaction(function () use ($componente) {
+            $this->paginaInicialService->excluirComponente($componente);
+        });
+
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 
@@ -42,7 +47,11 @@ class LayoutController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $this->paginaInicialService->ordemAcima($componente);
+
+        DB::transaction(function () use ($componente) {
+            $this->paginaInicialService->ordemAcima($componente);
+        });
+
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 
@@ -53,7 +62,11 @@ class LayoutController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $this->paginaInicialService->ordemAbaixo($componente);
+
+        DB::transaction(function () use ($componente) {
+            $this->paginaInicialService->ordemAbaixo($componente);
+        });
+
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
 }

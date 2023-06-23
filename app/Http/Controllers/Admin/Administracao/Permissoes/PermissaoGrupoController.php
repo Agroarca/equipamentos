@@ -7,6 +7,7 @@ use App\Models\Administracao\Permissoes\Grupo;
 use App\Models\Administracao\Permissoes\PermissaoGrupo;
 use App\Services\Administracao\Permissoes\PermissoesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -27,7 +28,9 @@ class PermissaoGrupoController extends Controller
     public function salvar(Request $request, Grupo $grupo): mixed
     {
         Gate::authorize('editar', PermissaoGrupo::class);
-        $this->permissoesService->salvarPermissoesGrupo($grupo, $request->permissoes);
+        DB::transaction(function () use ($grupo, $request) {
+            $this->permissoesService->salvarPermissoesGrupo($grupo, $request->permissoes);
+        });
         return redirect()->route('admin.administracao.permissoes.grupo.permissoes', $grupo->id);
     }
 }

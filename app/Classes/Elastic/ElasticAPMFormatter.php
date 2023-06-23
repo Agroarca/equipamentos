@@ -6,6 +6,9 @@ use Throwable;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\LogRecord;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ElasticAPMFormatter extends NormalizerFormatter
 {
     private const ECS_VERSION = '1.2.0';

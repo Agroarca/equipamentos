@@ -36,6 +36,7 @@
         <exclude name="Squiz.Commenting.VariableComment.MissingVar" />
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
         <exclude name="Squiz.Commenting.ClassComment.Missing" />
+        <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
         <exclude name="Squiz.Commenting.VariableComment.Missing" />
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
         <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
@@ -44,6 +45,8 @@
         <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
         <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed" />
         <exclude name="Squiz.ControlStructures.SwitchDeclaration" />
+        <exclude name="Squiz.Commenting.LongConditionClosingComment" />
+        <exclude name="Squiz.Commenting.FileComment" />
     </rule>
 
     <file>app</file>

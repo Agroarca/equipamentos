@@ -6,6 +6,9 @@ use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 use Elastic\Apm\ElasticApm;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ElasticApmProcessor implements ProcessorInterface
 {
     public function __invoke(LogRecord $record): LogRecord

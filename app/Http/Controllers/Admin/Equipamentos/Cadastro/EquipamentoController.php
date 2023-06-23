@@ -17,6 +17,7 @@ use App\Services\Equipamentos\EquipamentoCaracteristicaService;
 use App\Services\Libs\HTMLPurifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -124,9 +125,7 @@ class EquipamentoController extends Controller
         Gate::authorize('aprovarReprovar', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
 
-        if ($equipamento->status === StatusEquipamento::Aprovado
-            || $equipamento->status === StatusEquipamento::Reprovado
-        ) {
+        if (collect([StatusEquipamento::Aprovado, StatusEquipamento::Reprovado])->contains($equipamento->status)) {
             return abort(403, 'Ação não permitida');
         }
 
@@ -180,7 +179,10 @@ class EquipamentoController extends Controller
     {
         Gate::authorize('editarCaracteristicas', Equipamento::class);
         $equipamento = Equipamento::findOrFail($id);
-        $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
+
+        DB::transaction(function () use ($request, $equipamento) {
+            $this->equipCaracService->salvarCaracteristicas($equipamento, $request->all());
+        });
 
         return redirect()->route('admin.equipamentos.editarCaracteristicas', $id);
     }
@@ -206,8 +208,8 @@ class EquipamentoController extends Controller
         $imagem = EquipamentoImagem::where('equipamento_id', $equipamentoId)->findOrFail($imagemId);
         Gate::authorize('excluir', $imagem);
 
-        Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo);
         $imagem->delete();
+        Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo);
 
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }

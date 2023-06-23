@@ -11,6 +11,7 @@ use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -39,30 +40,33 @@ class BannerController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
 
-        $banner = new Banner($request->all());
+        DB::transaction(function () use ($request, $versao) {
+            $banner = new Banner($request->all());
 
-        $imagemDesktop = $request->file('imagem_desktop');
-        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
-        $banner->nome_desktop = $imagemDesktop->hashName();
+            $imagemDesktop = $request->file('imagem_desktop');
+            $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+            $banner->nome_desktop = $imagemDesktop->hashName();
 
-        if ($request->hasFile('imagem_mobile')) {
-            $imagemMobile = $request->file('imagem_mobile');
-            $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
-            $banner->nome_mobile = $imagemMobile->hashName();
-        }
+            if ($request->hasFile('imagem_mobile')) {
+                $imagemMobile = $request->file('imagem_mobile');
+                $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+                $banner->nome_mobile = $imagemMobile->hashName();
+            }
 
-        $banner->save();
+            $banner->save();
 
-        $componente = new Componente($request->only([
-            'titulo',
-            'subtitulo',
-            'tela_cheia',
-        ]));
+            $componente = new Componente($request->only([
+                'titulo',
+                'subtitulo',
+                'tela_cheia',
+            ]));
 
-        $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
-        $componente->tipo()->associate($banner);
-        $componente->versao_id = $versao->id;
-        $componente->save();
+            $componente->ordem = $this->paginaInicialService->proximaOrdem($versao);
+            $componente->tipo()->associate($banner);
+            $componente->versao_id = $versao->id;
+            $componente->save();
+        });
+
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }

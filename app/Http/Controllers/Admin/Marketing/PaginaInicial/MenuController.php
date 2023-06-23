@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Menu\MenuLinkRequest;
 use App\Models\Marketing\PaginaInicial\Menu\MenuLink;
 use App\Models\Marketing\PaginaInicial\Versao;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -71,9 +72,10 @@ class MenuController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
 
-        $menuLink->delete();
-
-        $versao->menuLinks()->where('ordem', '>', $menuLink->ordem)->decrement('ordem');
+        DB::transaction(function () use ($versao, $menuLink) {
+            $menuLink->delete();
+            $versao->menuLinks()->where('ordem', '>', $menuLink->ordem)->decrement('ordem');
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout', $versao);
     }
@@ -86,18 +88,20 @@ class MenuController extends Controller
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
 
-        $ordem = $menuLink->ordem;
+        DB::transaction(function () use ($versao, $menuLink) {
+            $ordem = $menuLink->ordem;
 
-        if ($ordem <= 1) {
-            throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
-        }
+            if ($ordem <= 1) {
+                throw ValidationException::withMessages(['ordem' => 'A imagem já está na primeira posição']);
+            }
 
-        $linkPosterior = $versao->menuLinks()->where('ordem', $ordem - 1)->first();
-        $linkPosterior->ordem = $ordem;
-        $linkPosterior->save();
+            $linkPosterior = $versao->menuLinks()->where('ordem', $ordem - 1)->first();
+            $linkPosterior->ordem = $ordem;
+            $linkPosterior->save();
 
-        $menuLink->ordem = $ordem - 1;
-        $menuLink->save();
+            $menuLink->ordem = $ordem - 1;
+            $menuLink->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout', compact('versao'));
     }
@@ -109,18 +113,21 @@ class MenuController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
-        $ordem = $menuLink->ordem;
 
-        if ($ordem >= $versao->menuLinks()->max('ordem')) {
-            throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
-        }
+        DB::transaction(function () use ($versao, $menuLink) {
+            $ordem = $menuLink->ordem;
 
-        $linkPosterior = $versao->menuLinks()->where('ordem', $ordem + 1)->first();
-        $linkPosterior->ordem = $ordem;
-        $linkPosterior->save();
+            if ($ordem >= $versao->menuLinks()->max('ordem')) {
+                throw ValidationException::withMessages(['ordem' => 'A imagem já está na última posição']);
+            }
 
-        $menuLink->ordem = $ordem + 1;
-        $menuLink->save();
+            $linkPosterior = $versao->menuLinks()->where('ordem', $ordem + 1)->first();
+            $linkPosterior->ordem = $ordem;
+            $linkPosterior->save();
+
+            $menuLink->ordem = $ordem + 1;
+            $menuLink->save();
+        });
 
         return redirect()->route('admin.marketing.paginaInicial.layout', compact('versao'));
     }
