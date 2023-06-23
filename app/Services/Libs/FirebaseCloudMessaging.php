@@ -78,7 +78,7 @@ class FirebaseCloudMessaging
                     ],
                     'android' => [
                         'notification' => [
-                            'click_action' => route('site.notificacao', [$notificacao->id]),
+                            'click_action' => route('site.notificacoes', [$notificacao->id]),
                         ],
                     ],
                     'apns' => [
@@ -90,7 +90,7 @@ class FirebaseCloudMessaging
                     ],
                     'webpush' => [
                         'fcm_options' => [
-                            'link' => route('site.notificacao', [$notificacao->id], true),
+                            'link' => route('site.notificacoes', [$notificacao->id], true),
                         ],
                     ]
                 ],
