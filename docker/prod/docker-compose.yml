@@ -24,6 +24,7 @@ services:
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
         environment:
             - ELASTIC_APM_SERVICE_NODE_NAME=web
+            - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -45,6 +46,7 @@ services:
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
         environment:
             - ELASTIC_APM_SERVICE_NODE_NAME=queue
+            - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian
