@@ -13,6 +13,9 @@ use Monolog\Level;
 use Monolog\LogRecord;
 use Elastic\Apm\Impl\Util\ElasticApmExtensionUtil;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ElasticAPMHandler extends RotatingFileHandler implements FormattableHandlerInterface
 {
     public bool $apmEnabled = false;
