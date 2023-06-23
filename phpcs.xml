@@ -36,7 +36,7 @@
         <exclude name="Squiz.Commenting.VariableComment.MissingVar" />
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
         <exclude name="Squiz.Commenting.ClassComment.Missing" />
-        <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed " />
+        <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
         <exclude name="Squiz.Commenting.VariableComment.Missing" />
         <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
         <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
