@@ -53,9 +53,11 @@ class ConversaController extends Controller
                 $this->conversaService->criarVisualizacoes($conversa);
             }
 
+            DB::commit();
+
             return redirect()->route('site.conversa', $conversa->id);
         } finally {
-            DB::endTransaction();
+            DB::rollBack();
         }
     }
 
