@@ -40,7 +40,7 @@ class VerificarConta extends Mailable
             text: 'auth.verificar-conta-text',
             with: [
                 'url' => $this->getUrl(),
-                'nome' => $this->usuario->nome,
+                'nome' => $this->usuario->nome->explode(' ')[0],
             ]
         );
     }

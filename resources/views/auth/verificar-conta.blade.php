@@ -87,8 +87,8 @@
                 <table class="table-content">
                     <tr>
                         <td class="td-info">
-                            <h1 class="text-color">Bem vindo(a)!</h1>
-                            <p class="text-color">Caro(a) {{ $nome }}, seja bem vindo(a) a Agroarca, click no botão abaixo para confirmar a sua conta</p>
+                            <h1 class="text-color">Bem vindo(a) {{$nome}}!</h1>
+                            <p class="text-color">Seja bem vindo(a) à Agroarca!, Clique no botão abaixo para confirmar a sua conta.</p>
                             <table class="table-link">
                                 <tr>
                                     <td class="td-link">
@@ -98,7 +98,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <p class="text-color">Atenciosamente,<br />{{ config('app.name') }}</p>
+                            <p class="text-color">Atenciosamente,<br />Agroarca Equipamentos.</p>
                             <hr />
                             <p class="text-color">Se você está tendo problemas para clicar no botão "Confirmar", copie e cole este link em seu navegador da web: </p>
                             <p>{{ $url }}</p>
