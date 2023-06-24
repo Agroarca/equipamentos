@@ -215,7 +215,7 @@ class ListaTest extends TestCase
             ->has('filtrosSelecionados', 1));
     }
 
-    public function testPodePesquisarApenasNaPagina()
+    public function testPodePesquisarApenasNaPagina(): void
     {
         $marca1 = Marca::factory()->create();
         $marca2 = Marca::factory()->create();
@@ -237,7 +237,7 @@ class ListaTest extends TestCase
             'modelo_id' => $modelo2->id,
         ]);
 
-        $response = $this->get("/categoria?pesquisa=Equipamento");
+        $response = $this->get('/categoria?pesquisa=Equipamento');
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Site/Lista/Categoria')
