@@ -26,7 +26,7 @@ COPY --from=node-build /app/public/build public/build
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_web.sh
 RUN chmod -R 755 public/build
-RUN cp /app/docker/prod/config-web.ini /usr/local/etc/php/conf.d/config.ini
+RUN cp /app/docker/prod/config-web.ini /usr/local/etc/php/conf.d/z_config.ini
 
 #new relic
 WORKDIR /app/docker/prod/newrelic
