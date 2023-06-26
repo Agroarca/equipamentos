@@ -81,7 +81,6 @@ class SiteController extends Controller
     public function perfil()
     {
         $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
-        Log::warning('Log teste - equipamento');
 
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
