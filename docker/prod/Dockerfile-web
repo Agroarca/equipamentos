@@ -27,3 +27,11 @@ RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_web.sh
 RUN chmod -R 755 public/build
 RUN cp /app/docker/prod/config-web.ini /usr/local/etc/php/conf.d/config.ini
+
+#new relic
+WORKDIR /app/docker/prod/newrelic
+RUN gzip -dc newrelic-php5.tar.gz | tar xf -
+WORKDIR /app/docker/prod/newrelic/newrelic-php5-10.11.0.3-linux
+RUN NR_INSTALL_SILENT=true ./newrelic-install install
+
+WORKDIR /app

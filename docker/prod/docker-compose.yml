@@ -22,6 +22,7 @@ services:
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
         environment:
             - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
+            - NEWRELIC_LICENSE=${NEWRELIC_LICENSE}
     equipamentos_queue:
         image: equipamentos
         container_name: equipamentos_queue
@@ -41,6 +42,7 @@ services:
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
         environment:
             - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
+            - NEWRELIC_LICENSE=${NEWRELIC_LICENSE}
     socketi:
         container_name: socketi
         image: quay.io/soketi/soketi:1.4-16-debian

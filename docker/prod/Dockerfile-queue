@@ -13,5 +13,7 @@ RUN apt update && \
 
 COPY . ./
 
+RUN cp /app/docker/prod/config-queue.ini /usr/local/etc/php/conf.d/config.ini
+
 RUN composer install --optimize-autoloader --no-dev
 RUN chmod +x docker/prod/docker_entrypoint_queue.sh
