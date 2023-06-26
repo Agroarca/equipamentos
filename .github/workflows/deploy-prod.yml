@@ -21,6 +21,14 @@ jobs:
           version: "${{ env.RELEASE_VERSION }}"
           user: "${{ github.actor }}"
 
+      - name: New Relic Application Deployment Marker
+        uses: newrelic/deployment-marker-action@v2.3.0
+        with:
+          apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+          guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID_QUEUE }}
+          version: "${{ env.RELEASE_VERSION }}"
+          user: "${{ github.actor }}"
+
       #### Deploy
       - name: install ssh
         run: |
