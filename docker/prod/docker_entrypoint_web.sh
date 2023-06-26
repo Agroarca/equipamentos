@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "newrelic.license=${NEWRELIC_LICENSE}" > /usr/local/etc/php/conf.d/newrelic.ini
+
 php artisan cache:clear
 php artisan route:clear
 php artisan config:cache
