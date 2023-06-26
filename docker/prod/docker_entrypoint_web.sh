@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "newrelic.license=\"${NEWRELIC_LICENSE}\"" > /usr/local/etc/php/conf.d/newrelic-key.ini
+echo "newrelic.license=\"${NEWRELIC_LICENSE}\"" > /usr/local/etc/php/conf.d/z_newrelic-key.ini
 
 php artisan cache:clear
 php artisan route:clear
