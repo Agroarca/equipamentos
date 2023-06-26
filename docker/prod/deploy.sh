@@ -12,10 +12,6 @@ sudo chmod +x docker/prod/docker_entrypoint_queue.sh
 cd /var/www/equipamentos
 sudo chmod +x deploy.sh
 
-# build elastic-apm
-cd /var/www/equipamentos/projeto/docker/prod/elastic-apm
-sudo docker build -t elastic-apm:latest . --progress plain
-
 # build php
 cd /var/www/equipamentos
 sudo docker compose build --progress plain

@@ -1,7 +1,5 @@
 <?php
 
-use App\Classes\Elastic\ElasticAPMFormatter;
-use App\Classes\Elastic\ElasticAPMHandler;
 use Monolog\Handler\NullHandler;
 
 return [
@@ -30,7 +28,6 @@ return [
             'driver' => 'stack',
             'channels' => [
                 'daily',
-                'elastic',
             ],
             'ignore_exceptions' => false,
         ],
@@ -51,12 +48,6 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
-        ],
-
-        'elastic' => [
-            'driver' => 'monolog',
-            'handler' => ElasticAPMHandler::class,
-            'formatter' => ElasticAPMFormatter::class,
         ],
     ],
 

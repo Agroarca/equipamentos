@@ -22,7 +22,6 @@ class NotificacaoController extends Controller
         return Inertia::render('Site/Notificacao/Inicio', compact('notificacoes'));
     }
 
-    /** phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter */
     public function notificacao(Notificacao $notificacao)
     {
         $notificacao->update(['status' => StatusNotificacao::Visualizado]);

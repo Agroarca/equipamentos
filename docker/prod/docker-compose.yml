@@ -10,7 +10,6 @@ services:
         volumes:
             - /var/www/equipamentos/storage:/app/storage
             - equipamentos-public:/app/public
-            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         ports:
             - 9000:9000
         expose:
@@ -19,11 +18,9 @@ services:
             - equipamentos
             - database
             - nginx
-            - elastic
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_web.sh'
         environment:
-            - ELASTIC_APM_SERVICE_NODE_NAME=web
             - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
     equipamentos_queue:
         image: equipamentos
@@ -33,19 +30,16 @@ services:
             dockerfile: docker/prod/Dockerfile-queue
         volumes:
             - /var/www/equipamentos/storage:/app/storage
-            - /var/www/equipamentos/elastic-apm-key.ini:/usr/local/etc/php/conf.d/elastic-apm-key.ini:ro
         networks:
             - equipamentos
             - database
             - nginx
-            - elastic
         links:
             - redis
             - socketi
         restart: always
         entrypoint: 'docker/prod/docker_entrypoint_queue.sh'
         environment:
-            - ELASTIC_APM_SERVICE_NODE_NAME=queue
             - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
     socketi:
         container_name: socketi
@@ -94,9 +88,6 @@ networks:
         external: true
     nginx:
         name: nginx
-        external: true
-    elastic:
-        name: elastic
         external: true
 
 volumes:
