@@ -24,7 +24,7 @@ services:
             - GOOGLE_APPLICATION_CREDENTIALS=/app/agroarca-equipamentos-credential.json
             - NEWRELIC_LICENSE=${NEWRELIC_LICENSE}
     equipamentos_queue:
-        image: equipamentos
+        image: equipamentos_queue
         container_name: equipamentos_queue
         build:
             context: projeto
