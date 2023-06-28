@@ -35,12 +35,13 @@ class VerificarConta extends Mailable
 
     public function content(): Content
     {
+        $nome = explode(' ', $this->usuario->nome);
         return new Content(
             view: 'auth.verificar-conta',
             text: 'auth.verificar-conta-text',
             with: [
                 'url' => $this->getUrl(),
-                'nome' => $this->usuario->nome,
+                'nome' => $nome[0],
             ]
         );
     }

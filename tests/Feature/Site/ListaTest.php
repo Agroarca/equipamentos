@@ -215,6 +215,36 @@ class ListaTest extends TestCase
             ->has('filtrosSelecionados', 1));
     }
 
+    public function testPodePesquisarApenasNaPagina(): void
+    {
+        $marca1 = Marca::factory()->create();
+        $marca2 = Marca::factory()->create();
+
+        $modelo1 = Modelo::factory()->create([
+            'marca_id' => $marca1->id,
+        ]);
+
+        $modelo2 = Modelo::factory()->create([
+            'marca_id' => $marca2->id,
+        ]);
+
+        Equipamento::factory()->statusAprovado()->count(4)->create([
+            'titulo' => 'Equipamento',
+            'modelo_id' => $modelo1->id,
+        ]);
+
+        Equipamento::factory()->statusAprovado()->count(4)->create([
+            'modelo_id' => $modelo2->id,
+        ]);
+
+        $response = $this->get('/categoria?pesquisa=Equipamento');
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Lista/Categoria')
+            ->has('equipamentos.data', 4)
+            ->has('filtros'));
+    }
+
     public function testPodeFiltrarPorModelo(): void
     {
         $marca1 = Marca::factory()->create();
