@@ -28,12 +28,7 @@ class AddSecurityHeaders
             // Content Security Policy
             $response->header(
                 'Content-Security-Policy',
-                "default-src 'self'; object-src 'none';
-                media-src 'none';
-                style-src 'self' 'unsafe-inline';
-                script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.newrelic.com;
-                connect-src 'self' https://*.googleapis.com https://www.google-analytics.com wss://agroarca.com.br:* blob: https://agroarca.com.br:* https://bam.nr-data.net;
-                img-src 'self' https://imagens.agroarca.com.br data: w3.org/svg/2000 blob:"
+                "default-src 'self'; object-src 'none'; media-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.newrelic.com; connect-src 'self' https://*.googleapis.com https://www.google-analytics.com wss://agroarca.com.br:* blob: https://agroarca.com.br:* https://bam.nr-data.net; img-src 'self' https://imagens.agroarca.com.br data: w3.org/svg/2000 blob:"
             );
         }
         return $response;
