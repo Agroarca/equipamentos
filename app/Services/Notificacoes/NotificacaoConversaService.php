@@ -3,6 +3,7 @@
 namespace App\Services\Notificacoes;
 
 use App\Enums\Notificacoes\StatusNotificacao;
+use App\Jobs\Notificacoes\EnviarNotificacao;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Equipamentos\Conversas\Visualizacao;
@@ -10,9 +11,7 @@ use App\Models\Notificacoes\Equipamentos\NotificacaoConversaEquipamento;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use App\Models\Notificacoes\Notificacao;
-use App\Notifications\Notificacao as NotificationsNotificacao;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class NotificacaoConversaService
@@ -50,7 +49,7 @@ class NotificacaoConversaService
                 $notificacao = $this->criarNotificacao($equipamento, $usuario);
             }
 
-            Notification::send($usuario, new NotificationsNotificacao($notificacao->notificacao));
+            EnviarNotificacao::dispatch($usuario, $notificacao->notificacao);
         });
     }
 

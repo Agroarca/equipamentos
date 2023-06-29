@@ -6,7 +6,6 @@ namespace App\Notifications;
 
 use App\Enums\Notificacoes\StatusNotificacao;
 use App\Models\Notificacoes\Notificacao as NotificacaoModel;
-use App\Notifications\Channel\NotificacaoPushChannel;
 use App\Notifications\Channel\NotificacaoWebSocketChannel;
 use App\Services\Notificacoes\NotificacaoService;
 use Illuminate\Bus\Queueable;
@@ -29,10 +28,7 @@ class Notificacao extends Notification implements ShouldQueue
 
     public function via(mixed $notifiable): array
     {
-        return [
-            NotificacaoWebSocketChannel::class,
-            NotificacaoPushChannel::class,
-        ];
+        return [NotificacaoWebSocketChannel::class];
     }
 
     public function withDelay(mixed $notifiable): array
@@ -40,9 +36,6 @@ class Notificacao extends Notification implements ShouldQueue
         return [
             NotificacaoWebSocketChannel::class => now()->addSeconds(
                 config('equipamentos.notificacoes.notificacao_websocket_delay_secs')
-            ),
-            NotificacaoPushChannel::class => now()->addSeconds(
-                config('equipamentos.notificacoes.notificacao_push_delay_secs')
             ),
         ];
     }
