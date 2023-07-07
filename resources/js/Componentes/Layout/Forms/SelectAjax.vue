@@ -56,7 +56,7 @@ async function onSearchDebounced(search, loading) {
 
     let opcoesEncontradas = selectOptions.value.filter((opcao) => opcao.texto.localeCompare(search) === 0).length
     if (opcoesEncontradas === 0) {
-        selectOptions.value.push({ id: null, texto: `Criar nova opção "${search}"` })
+        selectOptions.value.push({ id: null, texto: search })
     }
 }
 
@@ -89,7 +89,6 @@ function updateModelValue() {
             return
         }
 
-        option.texto = option.texto.replace('Criar nova opção "', '').replace('"', '')
         emit('criarNovaOpcao', option.texto)
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Site\Equipamento;
 
+use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use Illuminate\Support\Str;
@@ -651,23 +652,31 @@ class CadastrarEquipamentoTest extends TestCase
 
     public function testPodePesquisarModelo(): void
     {
-        $marca = Marca::factory()->create();
+        $marca = Marca::factory()->create([
+            'status' => StatusCadastro::Aprovado,
+        ]);
 
         Modelo::factory()->count(5)->create();
         Modelo::factory()->createMany([
             [
                 'nome' => 'Modelo 1',
                 'marca_id' => $marca->id,
+                'status' => StatusCadastro::Aprovado,
             ],
             [
                 'nome' => 'Modelo 2',
                 'marca_id' => $marca->id,
+                'status' => StatusCadastro::Aprovado,
             ],
             [
                 'nome' => 'Modelo 3',
                 'marca_id' => $marca->id,
+                'status' => StatusCadastro::Aprovado,
             ],
-            ['nome' => 'Modelo 4'],
+            [
+                'nome' => 'Modelo 4',
+                'status' => StatusCadastro::Aprovado,
+            ],
         ]);
 
         $response = $this->get("/pesquisar/$marca->id/modelos/?termo=Modelo");

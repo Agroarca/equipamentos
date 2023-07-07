@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
@@ -229,8 +230,12 @@ class EquipamentoController extends Controller
     public function pesquisarMarca(Request $request)
     {
         $marcas = Marca::select('id', 'nome as texto')
-            ->whereFullText('nome', $request->input('termo'))
-            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
+            ->where(function ($query) use ($request) {
+                $query
+                    ->whereFullText('nome', $request->input('termo'))
+                    ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
+            })
+            ->where('status', StatusCadastro::Aprovado)
             ->take(10)
             ->get();
 
@@ -248,6 +253,7 @@ class EquipamentoController extends Controller
             ->when($marcaId, function ($query) use ($marcaId) {
                 $query->where('marca_id', $marcaId);
             })
+            ->where('status', StatusCadastro::Aprovado)
             ->take(10)
             ->get();
 
