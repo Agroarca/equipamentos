@@ -3,6 +3,7 @@
 namespace Database\Factories\Equipamentos\Cadastro;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Models\Cadastro\Cidade;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Models\Usuario;
@@ -23,6 +24,7 @@ class EquipamentoFactory extends Factory
             'categoria_id' => Categoria::factory(),
             'usuario_id' => Usuario::factory(),
             'status' => StatusEquipamento::Criado,
+            'cidade_id' => Cidade::factory(),
         ];
     }
 

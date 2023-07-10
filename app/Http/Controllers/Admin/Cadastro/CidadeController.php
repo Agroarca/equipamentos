@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Cadastro\CidadeRequest;
 use App\Models\Cadastro\Cidade;
 use App\Models\Cadastro\Estado;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -15,7 +14,7 @@ class CidadeController extends Controller
     public function inicio(): mixed
     {
         Gate::authorize('ver', Cidade::class);
-        $cidades = Cidade::with('estado')->paginate();
+        $cidades = Cidade::paginate();
         return Inertia::render('Admin/Cadastro/Cidade/Inicio', compact('cidades'));
     }
 

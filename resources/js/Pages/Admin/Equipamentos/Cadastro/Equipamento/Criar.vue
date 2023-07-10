@@ -29,6 +29,7 @@ const form = useForm({
     marca_id: '',
     modelo_id: '',
     categoria_id: '',
+    cidade_id: '',
 })
 
 watch(() => form.marca_id, (newValue, oldValue) => {
@@ -128,6 +129,15 @@ async function salvarModelo() {
                             </option>
                         </select>
                         <FormError :error="form.errors.categoria_id" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="cidade_id">Cidade</label>
+                        <SelectAjax
+                            v-model="form.cidade_id"
+                            placeholder="Selecione uma cidade"
+                            href="/admin/pesquisar/cidade/"
+                            :preBusca="true" />
+                        <FormError :error="form.errors.cidade_id" />
                     </div>
                 </div>
                 <div class="card-footer">

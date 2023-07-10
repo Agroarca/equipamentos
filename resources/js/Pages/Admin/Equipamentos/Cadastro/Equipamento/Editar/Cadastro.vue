@@ -5,6 +5,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
 import Mask from '@/Componentes/Helper/InputMask'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
+import SelectAjax from '@/Componentes/Layout/Forms/SelectAjax.vue'
 
 const props = defineProps({
     equipamento: Object,
@@ -25,6 +26,7 @@ const form = useForm({
     marca: props.equipamento.modelo.marca.nome,
     modelo: props.equipamento.modelo.nome,
     categoria: props.equipamento.categoria.nome,
+    cidade_id: props.equipamento.cidade_id,
     status: props.equipamento.status,
 })
 
@@ -69,6 +71,16 @@ function submit() {
                             <label for="categoria">Categoria</label>
                             <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
                             <FormError :error="form.errors.categoria" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="cidade_id">Cidade</label>
+                            <SelectAjax
+                                v-model="form.cidade_id"
+                                placeholder="Selecione uma cidade"
+                                href="/admin/pesquisar/cidade/"
+                                :options="equipamento.cidade_id ? [{ id: equipamento.cidade_id, texto: equipamento.cidade.display_name }] : []"
+                                preBusca />
+                            <FormError :error="form.errors.cidade_id" />
                         </div>
                         <div class="mb-3">
                             <label for="status">Status</label>

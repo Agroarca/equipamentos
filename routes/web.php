@@ -5,6 +5,7 @@ use App\Http\Controllers\Site\ConversaController;
 use App\Http\Controllers\Site\EquipamentoController;
 use App\Http\Controllers\Site\ListaController;
 use App\Http\Controllers\Site\NotificacaoController;
+use App\Http\Controllers\Site\PesquisaController;
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,7 @@ Route::name('site')->group(function () {
     Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
     Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
     Route::get('pesquisa/{pesquisa}', [ListaController::class, 'pesquisa'])->name('.pesquisa');
+    Route::get('pesquisar/cidade', [PesquisaController::class, 'cidade'])->name('.cidade');
 
     Route::middleware(['auth'])->group(function () {
         Route::name('.equipamento')->prefix('equipamento')->group(function () {

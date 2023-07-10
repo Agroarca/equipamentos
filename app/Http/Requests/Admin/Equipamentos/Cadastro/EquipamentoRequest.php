@@ -35,6 +35,7 @@ class EquipamentoRequest extends FormRequest
                 'nullable',
                 Rule::in(StatusEquipamento::values()),
             ],
+            'cidade_id' => 'required_without:id|exists:cadastro_cidades,id',
         ];
     }
 

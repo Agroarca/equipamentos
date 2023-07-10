@@ -25,6 +25,7 @@ const form = useForm({
     ano: props.equipamento?.ano,
     modelo_id: props.equipamento?.modelo?.id,
     marca_id: props.equipamento?.modelo?.marca?.id,
+    cidade_id: props.equipamento?.cidade_id,
     categoria_id: props.equipamento?.categoria_id ?? props.categoria?.id,
 })
 
@@ -143,6 +144,15 @@ async function salvarModelo() {
                         @criarNovaOpcao="criarNovoModelo" />
                     <input v-else id="ano" :value="equipamento.modelo.marca.nome" class="form-control" type="text" disabled>
                     <FormError :error="form.errors.modelo_id" />
+                </div>
+                <div class="mb-3">
+                    <label for="cidade_id">Cidade</label>
+                    <SelectAjax
+                        v-model="form.cidade_id"
+                        placeholder="Selecione uma cidade"
+                        href="/admin/pesquisar/cidade/"
+                        :preBusca="true" />
+                    <FormError :error="form.errors.cidade_id" />
                 </div>
                 <div class="mb-3">
                     <label for="categoria_id">Categoria</label>

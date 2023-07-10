@@ -45,6 +45,7 @@ class EquipamentoController extends Controller
             'modelo',
             'modelo.marca',
             'categoria',
+            'cidade',
         ])->findOrFail($id);
 
         if ($equipamento->usuario_id !== Auth::id()) {

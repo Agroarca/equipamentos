@@ -69,6 +69,7 @@ class EquipamentoController extends Controller
             'usuario',
             'modelo',
             'modelo.marca',
+            'cidade',
         ])->findOrFail($id);
 
         Gate::authorize('editar', $equipamento);

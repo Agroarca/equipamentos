@@ -31,6 +31,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
 
     Route::prefix('pesquisar')->name('.pesquisar')->group(function () {
         Route::get('usuario/admin', [PesquisaController::class, 'usuarioAdmin'])->name('.usuarios');
+        Route::get('cidade', [PesquisaController::class, 'cidade'])->name('.cidade');
     });
 
     Route::prefix('categorias')->name('.categorias')->group(function () {

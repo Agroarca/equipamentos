@@ -3,6 +3,7 @@
 namespace App\Models\Equipamentos\Cadastro;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Models\Cadastro\Cidade;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
 use App\Models\Usuario;
@@ -29,6 +30,7 @@ class Equipamento extends Model
         'status',
         'passo_cadastro',
         'motivo_reprovado',
+        'cidade_id',
     ];
 
     protected $casts = [
@@ -68,5 +70,10 @@ class Equipamento extends Model
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
+    }
+
+    public function cidade(): BelongsTo
+    {
+        return $this->belongsTo(Cidade::class);
     }
 }
