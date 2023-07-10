@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin\Cadastro;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Cadastro\EstadoRequest;
 use App\Models\Cadastro\Estado;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class EstadoController extends Controller
@@ -23,7 +24,7 @@ class EstadoController extends Controller
         return Inertia::render('Admin/Cadastro/Estado/Criar');
     }
 
-    public function salvar(Request $request): mixed
+    public function salvar(EstadoRequest $request): mixed
     {
         Gate::authorize('criar', Estado::class);
         Estado::create($request->all());
@@ -32,20 +33,20 @@ class EstadoController extends Controller
 
     public function editar(Estado $estado): mixed
     {
-        Gate::authorize('editar', Estado::class);
+        Gate::authorize('editar', $estado);
         return Inertia::render('Admin/Cadastro/Estado/Editar', compact('estado'));
     }
 
-    public function atualizar(Request $request, Estado $estado): mixed
+    public function atualizar(EstadoRequest $request, Estado $estado): mixed
     {
-        Gate::authorize('editar', Estado::class);
+        Gate::authorize('editar', $estado);
         $estado->update($request->all());
         return redirect()->route('admin.estados');
     }
 
     public function excluir(Estado $estado): mixed
     {
-        Gate::authorize('excluir', Estado::class);
+        Gate::authorize('excluir', $estado);
         $estado->delete();
         return redirect()->route('admin.estados');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Cadastro;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Cadastro\CidadeRequest;
 use App\Models\Cadastro\Cidade;
 use App\Models\Cadastro\Estado;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class CidadeController extends Controller
         return Inertia::render('Admin/Cadastro/Cidade/Criar', compact('estados'));
     }
 
-    public function salvar(Request $request): mixed
+    public function salvar(CidadeRequest $request): mixed
     {
         Gate::authorize('criar', Cidade::class);
         Cidade::create($request->all());
@@ -39,7 +40,7 @@ class CidadeController extends Controller
         return Inertia::render('Admin/Cadastro/Cidade/Editar', compact('cidade', 'estados'));
     }
 
-    public function atualizar(Request $request, Cidade $cidade): mixed
+    public function atualizar(CidadeRequest $request, Cidade $cidade): mixed
     {
         Gate::authorize('editar', Cidade::class);
         $cidade->update($request->all());
