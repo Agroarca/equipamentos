@@ -12,8 +12,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('nome', 50);
-
             $table->foreignId('estado_id')->constrained('cadastro_estados');
+
+            $table->timestamps();
         });
     }
 

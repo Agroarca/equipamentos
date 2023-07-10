@@ -13,6 +13,8 @@ return new class extends Migration
 
             $table->string('nome', 50);
             $table->string('uf', 2);
+
+            $table->timestamps();
         });
     }
 
