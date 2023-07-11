@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cadastro\Cidade;
+use App\Models\Cadastro\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
