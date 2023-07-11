@@ -29,8 +29,9 @@ const props = defineProps({
             <div class="d-flex flex-column flex-md-row align-items-md-start">
                 <Imagens :imagens="equipamento.imagens" class="col-md-8" />
                 <div class="d-flex flex-column col-md-4 ms-md-4 mt-4 mt-md-0">
-                    <div class="info">
+                    <div class="info d-flex flex-column">
                         <span class="ano">Ano: {{ equipamento.ano }}</span>
+                        <span v-if="equipamento.cidade" class="local">Local: {{ equipamento.cidade.display_name }}</span>
                         <h1 class="titulo">
                             {{ equipamento.titulo }}
                         </h1>
@@ -54,7 +55,7 @@ const props = defineProps({
                     </div>
                 </div>
             </div>
-            <div class="descricao-header">
+            <div v-if="equipamento.caracteristicas.length > 0" class="descricao-header">
                 <span>Características</span>
             </div>
             <div v-if="equipamento.caracteristicas.length > 0" class="caracteristicas">
