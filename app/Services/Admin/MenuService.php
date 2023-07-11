@@ -62,6 +62,16 @@ class MenuService
                 'icon' => '',
                 'url' => '/admin/administracao/permissoes/grupo',
             ],
+            [
+                'title' => 'Estados',
+                'icon' => '',
+                'url' => '/admin/estados',
+            ],
+            [
+                'title' => 'Cidades',
+                'icon' => '',
+                'url' => '/admin/cidades',
+            ],
         ];
     }
 }

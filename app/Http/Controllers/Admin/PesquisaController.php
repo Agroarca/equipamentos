@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Usuario\TipoUsuario;
 use App\Http\Controllers\Controller;
+use App\Models\Cadastro\Cidade;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
@@ -22,5 +23,22 @@ class PesquisaController extends Controller
             ->get();
 
         return response()->json($usuarios);
+    }
+
+    public function cidade(Request $request)
+    {
+        $cidades = Cidade::whereFullText('nome', $request->input('termo'))
+            ->orWhere('nome', 'like', '%' . $request->input('termo') . '%')
+            ->take(10)
+            ->get();
+
+        $cidades = $cidades->map(function ($cidade) {
+            return [
+                'id' => $cidade->id,
+                'texto' => $cidade->display_name,
+            ];
+        });
+
+        return response()->json($cidades);
     }
 }

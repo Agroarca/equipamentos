@@ -5,6 +5,7 @@ namespace Tests\Feature\Site\Equipamento;
 use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Models\Cadastro\Cidade;
 use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
@@ -118,6 +119,7 @@ class CadastrarEquipamentoTest extends TestCase
                 'modelo_id' => $equipamento->modelo_id,
                 'marca_id' => $equipamento->modelo->marca_id,
                 'categoria_id' => $equipamento->categoria_id,
+                'cidade_id' => $equipamento->cidade_id,
             ]);
         $response->assertValid();
 
@@ -127,6 +129,7 @@ class CadastrarEquipamentoTest extends TestCase
             'ano' => $equipamento->ano,
             'modelo_id' => $equipamento->modelo_id,
             'categoria_id' => $equipamento->categoria_id,
+            'cidade_id' => $equipamento->cidade_id,
         ]);
     }
 
@@ -749,6 +752,7 @@ class CadastrarEquipamentoTest extends TestCase
                 'descricao' => $equipamento->descricao,
                 'modelo_id' => $modeloResponse->json('id'),
                 'categoria_id' => $equipamento->categoria_id,
+                'cidade_id' => $equipamento->cidade_id,
             ]);
 
         $response->assertValid();
@@ -759,6 +763,24 @@ class CadastrarEquipamentoTest extends TestCase
             'descricao' => $equipamento->descricao,
             'modelo_id' => $modeloResponse->json('id'),
             'categoria_id' => $equipamento->categoria_id,
+            'cidade_id' => $equipamento->cidade_id,
+        ]);
+    }
+
+    public function testPodePesquisarCidade(): void
+    {
+        Cidade::factory()->count(5)->create();
+        $cidade = Cidade::factory()->create();
+
+        $responsePesquisa = $this->actingAs($this->getUsuario())
+            ->get('/pesquisar/cidade?termo=' . $cidade->nome);
+
+        $responsePesquisa->assertStatus(200);
+        $responsePesquisa->assertJson([
+            [
+                'id' => $cidade->id,
+                'texto' => $cidade->display_name,
+            ],
         ]);
     }
 }

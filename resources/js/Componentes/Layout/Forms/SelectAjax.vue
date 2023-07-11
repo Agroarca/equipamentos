@@ -21,10 +21,10 @@ const emit = defineEmits<{(e: 'update:modelValue', value: string): void,
 }>()
 
 const selectOptions = ref([])
+selectOptions.value = props.options ?? []
+
 const onSearch = debounce(onSearchDebounced, 300, { maxWait: 1000 })
 const selectedOption = ref(getOpcaoSelecionada())
-
-selectOptions.value = props.options ?? []
 
 onMounted(() => {
     if (props.preBusca && selectOptions.value.length === 0) {

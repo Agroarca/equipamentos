@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin\Equipamentos\Equipamento;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
 use App\Enums\Usuario\TipoPessoa;
+use App\Models\Cadastro\Cidade;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\Marca;
@@ -135,6 +136,7 @@ class EquipamentoTest extends TestCase
                 'descricao' => $equipamento->descricao,
                 'modelo_id' => $modeloResponse->json('id'),
                 'categoria_id' => $equipamento->categoria_id,
+                'cidade_id' => $equipamento->cidade_id,
                 'marca_id' => $marcaResponse->json('id'),
             ]);
 
@@ -147,6 +149,7 @@ class EquipamentoTest extends TestCase
             'descricao' => $equipamento->descricao,
             'modelo_id' => $modeloResponse->json('id'),
             'categoria_id' => $equipamento->categoria_id,
+            'cidade_id' => $equipamento->cidade_id,
         ]);
     }
 
@@ -163,6 +166,7 @@ class EquipamentoTest extends TestCase
                 'descricao' => $equipamento->descricao,
                 'modelo_id' => $equipamento->modelo_id,
                 'categoria_id' => $equipamento->categoria_id,
+                'cidade_id' => $equipamento->cidade_id,
             ]);
 
         $response->assertValid();
@@ -174,6 +178,7 @@ class EquipamentoTest extends TestCase
             'descricao' => $equipamento->descricao,
             'modelo_id' => $equipamento->modelo_id,
             'categoria_id' => $equipamento->categoria_id,
+            'cidade_id' => $equipamento->cidade_id,
         ]);
     }
 
@@ -190,6 +195,7 @@ class EquipamentoTest extends TestCase
                 'descricao' => $equipamento->descricao,
                 'modelo_id' => $equipamento->modelo_id,
                 'categoria_id' => $equipamento->categoria_id,
+                'cidade_id' => $equipamento->cidade_id,
             ]);
 
         $response->assertStatus(403);
@@ -553,5 +559,22 @@ class EquipamentoTest extends TestCase
             ]);
 
         $response->assertStatus(403);
+    }
+
+    public function testPodePesquisarCidade(): void
+    {
+        Cidade::factory()->count(5)->create();
+        $cidade = Cidade::factory()->create();
+
+        $responsePesquisa = $this->actingAs($this->getAdmin())
+            ->get('/admin/pesquisar/cidade?termo=' . $cidade->nome);
+
+        $responsePesquisa->assertStatus(200);
+        $responsePesquisa->assertJson([
+            [
+                'id' => $cidade->id,
+                'texto' => $cidade->display_name,
+            ],
+        ]);
     }
 }

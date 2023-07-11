@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Cadastro\CidadeController;
+use App\Http\Controllers\Admin\Cadastro\EstadoController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\CategoriaController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\EquipamentoController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\MarcaController;
@@ -29,6 +31,7 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
 
     Route::prefix('pesquisar')->name('.pesquisar')->group(function () {
         Route::get('usuario/admin', [PesquisaController::class, 'usuarioAdmin'])->name('.usuarios');
+        Route::get('cidade', [PesquisaController::class, 'cidade'])->name('.cidade');
     });
 
     Route::prefix('categorias')->name('.categorias')->group(function () {
@@ -109,5 +112,23 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/excluir', [ModeloController::class, 'excluir'])->name('.excluir');
         Route::post('salvar/ajax', [ModeloController::class, 'salvarAjax'])->name('.salvar.ajax');
         Route::get('pesquisar/{marca_id?}', [ModeloController::class, 'pesquisar'])->name('.pesquisar');
+    });
+
+    Route::prefix('cidades')->name('.cidades')->group(function () {
+        Route::get('', [CidadeController::class, 'inicio'])->name('');
+        Route::get('criar', [CidadeController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [CidadeController::class, 'salvar'])->name('.salvar');
+        Route::get('{cidade}/editar', [CidadeController::class, 'editar'])->name('.editar');
+        Route::post('{cidade}/atualizar', [CidadeController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{cidade}/excluir', [CidadeController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('estados')->name('.estados')->group(function () {
+        Route::get('', [EstadoController::class, 'inicio'])->name('');
+        Route::get('criar', [EstadoController::class, 'criar'])->name('.criar');
+        Route::post('salvar', [EstadoController::class, 'salvar'])->name('.salvar');
+        Route::get('{estado}/editar', [EstadoController::class, 'editar'])->name('.editar');
+        Route::post('{estado}/atualizar', [EstadoController::class, 'atualizar'])->name('.atualizar');
+        Route::get('{estado}/excluir', [EstadoController::class, 'excluir'])->name('.excluir');
     });
 });

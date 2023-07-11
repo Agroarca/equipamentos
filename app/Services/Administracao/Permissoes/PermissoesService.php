@@ -60,6 +60,7 @@ class PermissoesService
 
         return [
             $this->administracao($grupo),
+            $this->cadastro($grupo),
             $this->equipamentos($grupo),
             $this->marketing($grupo),
         ];
@@ -86,6 +87,23 @@ class PermissoesService
                     $grupo->permissao('Ver', 'ver');
                     $grupo->permissao('Editar', 'editar');
                 });
+            });
+    }
+
+    private function cadastro(Grupo $grupo): GrupoPermissao
+    {
+        return GrupoPermissao::create('Cadastro', 'cadastro', $grupo)
+            ->grupo('Estado', 'estado', function (GrupoPermissao $grupo): void {
+                $grupo->permissao('Ver', 'ver')
+                    ->permissao('Criar', 'criar')
+                    ->permissao('Editar', 'editar')
+                    ->permissao('Excluir', 'excluir');
+            })
+            ->grupo('Cidade', 'cidade', function (GrupoPermissao $grupo): void {
+                $grupo->permissao('Ver', 'ver')
+                    ->permissao('Criar', 'criar')
+                    ->permissao('Editar', 'editar')
+                    ->permissao('Excluir', 'excluir');
             });
     }
 
