@@ -76,7 +76,7 @@ class RecuperarSenhaTest extends TestCase
             $response = $this->post('/senha/redefinir', [
                 'token' => $notification->token,
                 'email' => $user->email,
-                'password' => 'password',
+                'password' => 'Password123',
             ]);
 
             $response->assertSessionHasNoErrors();

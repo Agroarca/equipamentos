@@ -40,7 +40,7 @@ class RedefinirSenhaController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('status', __($status));
+            return redirect()->route('auth.entrar')->with('mensagem', __($status));
         }
 
         throw ValidationException::withMessages([

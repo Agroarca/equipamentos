@@ -9,7 +9,7 @@ class RedefinirSenhaRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     public function rules(): array
@@ -21,6 +21,13 @@ class RedefinirSenhaRequest extends FormRequest
                 'required',
                 Password::min(8)->mixedCase()->numbers(),
             ],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'password' => 'Senha',
         ];
     }
 }
