@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Site\Auth\EntrarController;
 use App\Http\Controllers\Site\Auth\RecuperarSenhaController;
+use App\Http\Controllers\Site\Auth\RedefinirSenhaController;
 use App\Http\Controllers\Site\Auth\RegistroController;
 use App\Http\Controllers\Site\Auth\VerificarEmailController;
 use Illuminate\Support\Facades\Route;
@@ -13,8 +14,8 @@ Route::name('auth')->group(function () {
     Route::post('registrar', [RegistroController::class, 'registrar'])->name('.registro');
     Route::get('senha/recuperar', [RecuperarSenhaController::class, 'inicio'])->name('.recuperar-senha');
     Route::post('senha/recuperar', [RecuperarSenhaController::class, 'recuperarSenha'])->name('.recuperacao-senha');
-    Route::get('senha/redefinir/{token}', [RecuperarSenhaController::class, 'inicio'])->name('.redefinir-senha');
-    Route::post('senha/redefinir', [RecuperarSenhaController::class, 'redefinirSenha'])->name('.redefinicao-senha');
+    Route::get('senha/redefinir/{token}', [RedefinirSenhaController::class, 'inicio'])->name('.redefinir-senha');
+    Route::post('senha/redefinir', [RedefinirSenhaController::class, 'redefinirSenha'])->name('.redefinicao-senha');
 
     Route::middleware('auth')->group(function () {
         Route::get('sair', [EntrarController::class, 'sair'])->name('.sair');

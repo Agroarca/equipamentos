@@ -56,6 +56,7 @@ class RedefinirSenha extends Mailable
     {
         return route('auth.redefinir-senha', [
             'token' => $this->token,
+            'email' => $this->usuario->email,
         ], true);
     }
 

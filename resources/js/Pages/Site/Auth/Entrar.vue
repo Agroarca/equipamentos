@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import Senha from '@/Componentes/Site/Senha.vue'
@@ -23,6 +23,10 @@ function submit() {
             <form @submit.prevent="submit">
                 <div class="mb-3">
                     <h2>Entrar</h2>
+                </div>
+
+                <div v-if="usePage().props?.mensagem" class="alert alert-success mb-3">
+                    <span>{{ usePage().props?.mensagem }}</span>
                 </div>
 
                 <div class="mb-3">
