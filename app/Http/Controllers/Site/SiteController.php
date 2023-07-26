@@ -44,6 +44,7 @@ class SiteController extends Controller
             'modelo',
             'imagens',
             'cidade',
+            'modelo.marca',
         ]);
 
         $categorias = $this->listaservice->categoriasMae($equipamento->categoria_id);
