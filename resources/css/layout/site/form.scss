@@ -10,7 +10,7 @@
     }
 
     .btn-primary {
-        background-color: $form-btn !important;
+        background-color: #009934 !important;
 
         &:hover,
         &:active {
@@ -19,19 +19,19 @@
     }
 
     .btn-outline-primary {
-        color: $form-btn;
-        border: 1px solid $form-btn;
+        color: #009934;
+        border: 1px solid #009934;
         background-color: transparent;
 
         &:hover,
         &:active {
             color: $form-btn-hover-outline;
-            background-color: $form-btn;
+            background-color: #009934;
         }
     }
 
     .btn-link {
-        color: $form-btn;
+        color: #009934;
         font-family: "Poppins", Arial, Helvetica, sans-serif;
         font-weight: 500;
         text-decoration: none;

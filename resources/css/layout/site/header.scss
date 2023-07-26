@@ -1,11 +1,11 @@
 .site-layout {
     .header-contact {
-        background-color: $header-contact-background;
+        background-color: #009934;
         font-size: 1.125rem;
         color: $header-contact-text;
         font-family: Roboto, sans-serif;
 
-        @mixin breakpoint-down md {
+        @mixin breakpoint-down-md {
             font-size: 1.125rem;
         }
 
@@ -49,7 +49,7 @@
             gap: 30px;
             padding: 0 6rem;
 
-            @mixin breakpoint-down lg {
+            @mixin breakpoint-down-lg {
                 margin-top: .5rem;
                 padding: 0 .5rem;
                 gap: .5rem;
@@ -60,7 +60,7 @@
             width: 325px;
             height: 100px;
 
-            @mixin breakpoint-down xxl {
+            @mixin breakpoint-down-xxl {
                 width: 130px;
                 height: 40px;
             }
@@ -70,7 +70,7 @@
             min-width: 20rem;
             font-size: 1.25rem;
 
-            @mixin breakpoint-down xxl {
+            @mixin breakpoint-down-xxl {
                 font-size: 1rem;
             }
 
@@ -79,7 +79,7 @@
                 height: 4rem;
                 flex-wrap: nowrap;
 
-                @mixin breakpoint-down xxl {
+                @mixin breakpoint-down-xxl {
                     border-radius: .6rem;
                     height: 3rem;
                 }
@@ -91,7 +91,7 @@
                 font-size: inherit;
                 border-radius: inherit;
 
-                @mixin breakpoint-down xxl {
+                @mixin breakpoint-down-xxl {
                     height: 3rem;
                     padding: 0 1rem;
                 }
@@ -113,7 +113,7 @@
             .form-check-label {
                 font-size: 1.25rem;
 
-                @mixin breakpoint-down xxl {
+                @mixin breakpoint-down-xxl {
                     font-size: 1rem;
                 }
             }
@@ -129,7 +129,7 @@
         }
 
         .header-btn {
-            background-color: $profile-button-background;
+            background-color: #009934;
             font-size: 1.125rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
@@ -140,7 +140,7 @@
             height: 4rem;
             padding: 0 1.5rem;
 
-            @mixin breakpoint-down xxl {
+            @mixin breakpoint-down-xxl {
                 height: 3rem;
                 padding: 0 1rem;
             }
@@ -164,7 +164,7 @@
             padding: 1rem 6rem;
             justify-content: space-between;
 
-            @mixin breakpoint-down md {
+            @mixin breakpoint-down-md {
                 padding: .5rem;
                 padding-top: 0;
             }
@@ -175,20 +175,20 @@
                 color: $menu-item-color;
                 text-decoration: none;
 
-                @mixin breakpoint-down md {
+                @mixin breakpoint-down-md {
                     padding: 0 .5rem;
                 }
             }
         }
 
         .menu-button {
-            background-color: $profile-button-background;
+            background-color: #009934;
             font-size: 1.125rem;
             padding: 1.3rem 2.8rem;
             border-radius: 0.8rem;
             color: $profile-button-color;
 
-            @mixin breakpoint-down xxl {
+            @mixin breakpoint-down-xxl {
                 padding: 1rem 1.5rem;
             }
 
