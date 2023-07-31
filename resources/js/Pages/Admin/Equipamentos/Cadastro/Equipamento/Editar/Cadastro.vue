@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Navegacao from './Componentes/Navegacao.vue'
 import Mask from '@/Componentes/Helper/InputMask'
@@ -13,6 +13,10 @@ const props = defineProps({
 })
 
 const elValor = ref(null)
+let marca
+let modelo
+
+const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma marca'))
 
 onMounted(() => {
     Mask.preco(elValor.value)
@@ -28,10 +32,54 @@ const form = useForm({
     categoria: props.equipamento.categoria.nome,
     cidade_id: props.equipamento.cidade_id,
     status: props.equipamento.status,
+    marca_id: props.equipamento.modelo.marca_id,
+    modelo_id: props.equipamento.modelo_id,
 })
 
-function submit() {
-    form.post(`/admin/equipamentos/${props.equipamento.id}/atualizar`)
+watch(() => form.marca_id, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        form.modelo_id = ''
+    }
+})
+
+async function submit() {
+    loader.show()
+    if (!form.marca_id) {
+        await salvarMarca()
+    }
+
+    if (!form.modelo_id) {
+        await salvarModelo()
+    }
+
+    form.post(`/admin/equipamentos/${props.equipamento.id}/atualizar`, { onFinish: () => loader.hide() })
+}
+
+function criarNovaMarca(search) {
+    form.marca_id = ''
+    marca = search
+}
+
+function criarNovoModelo(search) {
+    form.modelo_id = ''
+    modelo = search
+}
+
+async function salvarMarca() {
+    let response = await axios.post('/admin/marcas/salvar/ajax', {
+        nome: marca,
+    })
+
+    form.marca_id = response.data.id
+}
+
+async function salvarModelo() {
+    let response = await axios.post('/admin/modelos/salvar/ajax', {
+        nome: modelo,
+        marca_id: form.marca_id,
+    })
+
+    form.modelo_id = response.data.id
 }
 </script>
 
@@ -59,17 +107,37 @@ function submit() {
                         </div>
                         <div class="mb-3">
                             <label for="marca_id">Marca</label>
-                            <input id="marca_id" v-model="form.marca" class="form-control" type="text" disabled>
+                            <SelectAjax
+                                v-model="form.marca_id"
+                                placeholder="Selecione uma marca"
+                                href="/admin/marcas/pesquisar"
+                                :criarDinamica="true"
+                                :options="equipamento.modelo.marca_id ? [{ id: equipamento.modelo.marca_id, texto: equipamento.modelo.marca.nome }] : []"
+                                preBusca
+                                @criarNovaOpcao="criarNovaMarca" />
                             <FormError :error="form.errors.marca" />
                         </div>
                         <div class="mb-3">
                             <label for="modelo_id">Modelo</label>
-                            <input id="modelo_id" v-model="form.modelo" class="form-control" type="text" disabled>
+                            <SelectAjax
+                                v-model="form.modelo_id"
+                                :disabled="!(form.marca_id || marca)"
+                                :placeholder="placeholderModelo"
+                                :href="form.marca_id ? `/admin/modelos/pesquisar/${form.marca_id}` : null"
+                                :criarDinamica="true"
+                                :options="equipamento.modelo_id ? [{ id: equipamento.modelo_id, texto: equipamento.modelo.nome }] : []"
+                                preBusca
+                                @criarNovaOpcao="criarNovoModelo" />
                             <FormError :error="form.errors.modelo" />
                         </div>
                         <div class="mb-3">
                             <label for="categoria">Categoria</label>
-                            <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
+                            <div class="d-flex">
+                                <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
+                                <Link :href="`/admin/equipamentos/${equipamento.id}/categoria/escolher`" class="btn btn-primary ms-2 text-nowrap">
+                                    Alterar Categoria
+                                </Link>
+                            </div>
                             <FormError :error="form.errors.categoria" />
                         </div>
                         <div class="mb-3">

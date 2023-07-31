@@ -3,10 +3,12 @@
 namespace App\Services\Equipamentos\Cadastro;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
+use Illuminate\Support\Facades\DB;
 
 class EquipamentoService
 {
@@ -74,5 +76,25 @@ class EquipamentoService
         $equipamento->passo_cadastro = 4;
         $equipamento->status = StatusEquipamento::Criado;
         $equipamento->save();
+    }
+
+    /**
+     * Altera a categoria de um equipamento
+     */
+    public function alterarCategoria(Equipamento $equipamento, Categoria $categoria, array $novasCaracteristicas): void
+    {
+        DB::transaction(function () use ($equipamento, $categoria, $novasCaracteristicas): void {
+            $caracteristicas = $this->equipCaracService
+                ->getCaracteristicasAlterarCategoria($equipamento, $categoria);
+
+            $equipamento->categoria_id = $categoria->id;
+            $equipamento->save();
+
+            foreach ($caracteristicas['removidas'] as $carac) {
+                $this->equipCaracService->removerCaracteristica($equipamento, $carac->id);
+            }
+
+            $this->equipCaracService->salvarCaracteristicas($equipamento, $novasCaracteristicas);
+        });
     }
 }

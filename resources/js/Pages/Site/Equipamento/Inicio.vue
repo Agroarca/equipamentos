@@ -32,6 +32,7 @@ const props = defineProps({
                     <div class="info d-flex flex-column">
                         <span class="ano">Ano: {{ equipamento.ano }}</span>
                         <span v-if="equipamento.cidade" class="local">Local: {{ equipamento.cidade.display_name }}</span>
+                        <span>Marca/Modelo: {{ equipamento.modelo.marca.nome }}/{{ equipamento.modelo.nome }}</span>
                         <h1 class="titulo">
                             {{ equipamento.titulo }}
                         </h1>

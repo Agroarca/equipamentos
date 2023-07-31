@@ -6,15 +6,15 @@
         grid-row-gap: 3rem;
         display: grid;
 
-        @mixin breakpoint-down xxl {
+        @mixin breakpoint-down-xxl {
             grid-template-columns: repeat(3, 1fr);
         }
 
-        @mixin breakpoint-down xl {
+        @mixin breakpoint-down-xl {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        @mixin breakpoint-down md {
+        @mixin breakpoint-down-md {
             grid-template-columns: repeat(1, 1fr);
             margin: 0 .5rem;
         }
@@ -33,7 +33,7 @@
     text-decoration: inherit;
     cursor: pointer;
 
-    @mixin breakpoint-down md {
+    @mixin breakpoint-down-md {
         border-radius: 20px;
         font-size: 2rem;
         text-align: center;
@@ -54,19 +54,19 @@
     .valor {
         font-family: "Poppins", Arial, Helvetica, sans-serif;
         padding: 1rem 1.5rem;
-        color: $listagem-valor-color;
+        color: #009934;
         font-size: 1.5rem;
         font-weight: 600;
 
-        @mixin breakpoint-down md {
+        @mixin breakpoint-down-md {
             font-size: 2rem;
         }
     }
 
     .btn {
         background-color: $listagem-btn-background-color;
-        color: $listagem-btn-color;
-        border: 2px solid $listagem-btn-border-color;
+        color: #009934;
+        border: 2px solid #009934;
         border-radius: 12px;
         text-decoration: none;
         margin: 1rem;
@@ -77,7 +77,7 @@
     }
 
     &:hover .btn {
-        background-color: $listagem-btn-hover-background;
+        background-color: #009934;
         color: $listagem-btn-hover-color;
     }
 }

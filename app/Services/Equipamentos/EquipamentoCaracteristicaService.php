@@ -2,6 +2,7 @@
 
 namespace App\Services\Equipamentos;
 
+use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Caracteristicas\Caracteristica;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
@@ -91,5 +92,38 @@ class EquipamentoCaracteristicaService
             $caracValor->valor = $valor;
             $caracValor->save();
         }
+    }
+
+    /**
+     * Remove uma caracteristica de um equipamento
+     */
+    public function removerCaracteristica(Equipamento $equipamento, int $id): void
+    {
+        DB::transaction(function () use ($equipamento, $id): void {
+            $caracEquip = $equipamento->caracteristicas()->firstWhere('caracteristica_id', $id);
+
+            $valorClass = app(get_class($caracEquip->valor));
+            $valorClass->where('caracteristica_equipamento_id', $caracEquip->id)->delete();
+            CaracteristicaEquipamento::where('id', $caracEquip->id)->delete();
+        });
+    }
+
+    /**
+     * Retorna as caracteristicas que serão mantidas, removidas e adicionadas ao alterar a categoria de um equipamento
+     */
+    public function getCaracteristicasAlterarCategoria(Equipamento $equipamento, Categoria $novaCategoria): array
+    {
+        $caracteristicas = $equipamento->caracteristicas->map(function ($carac) {
+            $carac->caracteristica->valor = $carac->valor->valor;
+            return $carac->caracteristica;
+        });
+
+        $novasCaracteristicas = $this->getCaracteristicasCategoriaSemCache($novaCategoria->id);
+
+        return [
+            'mantidas' => $caracteristicas->intersect($novasCaracteristicas),
+            'novas' => $novasCaracteristicas->diff($caracteristicas),
+            'removidas' => $caracteristicas->diff($novasCaracteristicas),
+        ];
     }
 }

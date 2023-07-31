@@ -2,13 +2,13 @@
     flex-wrap: wrap;
 
     .page-link {
-        color: $paginacao-color;
+        color: #009934;
         white-space: nowrap;
     }
 
     .page-link.active {
         color: $paginacao-active-color;
-        background-color: $paginacao-active-background-color;
-        border-color: $paginacao-active-border-color;
+        background-color: #009934;
+        border-color: #009934;
     }
 }
