@@ -132,7 +132,12 @@ async function salvarModelo() {
                         </div>
                         <div class="mb-3">
                             <label for="categoria">Categoria</label>
-                            <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
+                            <div class="d-flex">
+                                <input id="categoria" v-model="form.categoria" class="form-control" type="text" disabled>
+                                <Link :href="`/admin/equipamentos/${equipamento.id}/categoria/escolher`" class="btn btn-primary ms-2 text-nowrap">
+                                    Alterar Categoria
+                                </Link>
+                            </div>
                             <FormError :error="form.errors.categoria" />
                         </div>
                         <div class="mb-3">

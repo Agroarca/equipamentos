@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Equipamentos\Cadastro;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Equipamentos\Cadastro\AlterarCategoriaRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoImagemRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoStatusRequest;
@@ -254,5 +255,45 @@ class EquipamentoController extends Controller
             ->get();
 
         return response()->json($usuarios);
+    }
+
+    public function escolherCategoria(int $id, ?int $categoriaId = null)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('editar', $equipamento);
+
+        $categoria = Categoria::find($categoriaId);
+        $categorias = Categoria::where('categoria_mae_id', $categoriaId)->get();
+
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/EscolherCategoria',
+            compact('equipamento', 'categorias', 'categoria')
+        );
+    }
+
+    public function selecionarCategoria(int $id, int $categoriaId)
+    {
+        $equipamento = Equipamento::with([
+            'categoria',
+        ])->findOrFail($id);
+        Gate::authorize('editar', $equipamento);
+        $categoria = Categoria::findOrFail($categoriaId);
+
+        $caracteristicas = $this->equipCaracService->getCaracteristicasAlterarCategoria($equipamento, $categoria);
+
+        return Inertia::render(
+            'Admin/Equipamentos/Cadastro/Equipamento/Editar/SelecionarCategoria',
+            compact('equipamento', 'categoria', 'caracteristicas')
+        );
+    }
+
+    public function alterarCategoria(AlterarCategoriaRequest $request, int $id, int $categoriaId)
+    {
+        $equipamento = Equipamento::findOrFail($id);
+        Gate::authorize('editar', $equipamento);
+        $categoria = Categoria::findOrFail($categoriaId);
+        $this->equipService->alterarCategoria($equipamento, $categoria, $request->all());
+
+        return redirect()->route('admin.equipamentos.editar', $id);
     }
 }

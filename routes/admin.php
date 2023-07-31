@@ -78,6 +78,9 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{id}/editar/imagens', [EquipamentoController::class, 'editarImagens'])->name('.editarImagens');
         Route::post('{id}/imagens/adicionar', [EquipamentoController::class, 'adicionarImagem'])->name('.imagens.adicionar');
         Route::get('{id}/imagens/{imagemId}/excluir', [EquipamentoController::class, 'excluirImagem'])->name('.imagens.excluir');
+        Route::get('{id}/categoria/escolher/{categoriaId?}', [EquipamentoController::class, 'escolherCategoria'])->name('.categoria.escolher');
+        Route::get('{id}/categoria/selecionar/{categoriaId}', [EquipamentoController::class, 'selecionarCategoria'])->name('.categoria.selecionar');
+        Route::post('{id}/categoria/alterar/{categoriaId}', [EquipamentoController::class, 'alterarCategoria'])->name('.categoria.alterar');
     });
 
     Route::prefix('lista')->name('.lista')->group(function () {
