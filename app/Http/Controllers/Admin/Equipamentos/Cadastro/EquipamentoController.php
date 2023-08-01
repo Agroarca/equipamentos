@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoImagemRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoRequest;
 use App\Http\Requests\Admin\Equipamentos\Cadastro\EquipamentoStatusRequest;
 use App\Http\Requests\Admin\Equipamentos\Caracteristicas\CaracteristicasValorRequest;
+use App\Jobs\Imagens\ConverterEquipamentoImagemJob;
 use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
@@ -202,6 +203,8 @@ class EquipamentoController extends Controller
         $imagem->equipamento_id = $equipamento->id;
         $imagem->save();
 
+        ConverterEquipamentoImagemJob::dispatch($imagem);
+
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }
 
@@ -212,6 +215,7 @@ class EquipamentoController extends Controller
 
         $imagem->delete();
         Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo);
+        Storage::delete($this->equipService->getStoragePathImagem($equipamentoId) . $imagem->nome_arquivo_secundario);
 
         return redirect()->route('admin.equipamentos.editarImagens', $equipamentoId);
     }
