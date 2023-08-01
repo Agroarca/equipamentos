@@ -18,6 +18,7 @@ sudo docker compose build --progress plain
 
 # remove equipamentos
 sudo docker compose down
+sudo chmod -R 777 /var/www/equipamentos/storage
 
 # remove nginx (necessário para atualizar os estáticos)
 cd /var/www/nginx
