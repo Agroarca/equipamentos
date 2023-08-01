@@ -28,7 +28,7 @@
 
         grid-template-columns: repeat(4, 1fr);
 
-        @mixin breakpoint-down-md {
+        @media screen and (max-width: $max-width-md) {
             grid-template-columns: repeat(2, 1fr);
         }
 
@@ -41,7 +41,7 @@
         &.formato-3 {
             grid-template-columns: repeat(3, 1fr);
 
-            @mixin breakpoint-down-md {
+            @media screen and (max-width: $max-width-md) {
                 grid-template-columns: repeat(1, 1fr);
             }
         }
@@ -54,11 +54,11 @@
 
         grid-template-columns: repeat(4, 1fr);
 
-        @mixin breakpoint-down-xl {
+        @media screen and (max-width: $max-width-xl) {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        @mixin breakpoint-down-md {
+        @media screen and (max-width: $max-width-md) {
             grid-template-columns: repeat(1, 1fr);
             margin: 0 .5rem;
         }

@@ -5,7 +5,7 @@
         color: $header-contact-text;
         font-family: Roboto, sans-serif;
 
-        @mixin breakpoint-down-md {
+        @media screen and (max-width: $max-width-md) {
             font-size: 1.125rem;
         }
 
@@ -49,7 +49,7 @@
             gap: 30px;
             padding: 0 6rem;
 
-            @mixin breakpoint-down-lg {
+            @media screen and (max-width: $max-width-lg) {
                 margin-top: .5rem;
                 padding: 0 .5rem;
                 gap: .5rem;
@@ -60,7 +60,7 @@
             width: 325px;
             height: 100px;
 
-            @mixin breakpoint-down-xxl {
+            @media screen and (max-width: $max-width-xxl) {
                 width: 130px;
                 height: 40px;
             }
@@ -70,7 +70,7 @@
             min-width: 20rem;
             font-size: 1.25rem;
 
-            @mixin breakpoint-down-xxl {
+            @media screen and (max-width: $max-width-xxl) {
                 font-size: 1rem;
             }
 
@@ -79,7 +79,7 @@
                 height: 4rem;
                 flex-wrap: nowrap;
 
-                @mixin breakpoint-down-xxl {
+                @media screen and (max-width: $max-width-xxl) {
                     border-radius: .6rem;
                     height: 3rem;
                 }
@@ -91,7 +91,7 @@
                 font-size: inherit;
                 border-radius: inherit;
 
-                @mixin breakpoint-down-xxl {
+                @media screen and (max-width: $max-width-xxl) {
                     height: 3rem;
                     padding: 0 1rem;
                 }
@@ -113,7 +113,7 @@
             .form-check-label {
                 font-size: 1.25rem;
 
-                @mixin breakpoint-down-xxl {
+                @media screen and (max-width: $max-width-xxl) {
                     font-size: 1rem;
                 }
             }
@@ -140,7 +140,7 @@
             height: 4rem;
             padding: 0 1.5rem;
 
-            @mixin breakpoint-down-xxl {
+            @media screen and (max-width: $max-width-xxl) {
                 height: 3rem;
                 padding: 0 1rem;
             }
@@ -164,7 +164,7 @@
             padding: 1rem 6rem;
             justify-content: space-between;
 
-            @mixin breakpoint-down-md {
+            @media screen and (max-width: $max-width-md) {
                 padding: .5rem;
                 padding-top: 0;
             }
@@ -175,7 +175,7 @@
                 color: $menu-item-color;
                 text-decoration: none;
 
-                @mixin breakpoint-down-md {
+                @media screen and (max-width: $max-width-md) {
                     padding: 0 .5rem;
                 }
             }
@@ -188,7 +188,7 @@
             border-radius: 0.8rem;
             color: $profile-button-color;
 
-            @mixin breakpoint-down-xxl {
+            @media screen and (max-width: $max-width-xxl) {
                 padding: 1rem 1.5rem;
             }
 
