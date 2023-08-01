@@ -20,11 +20,11 @@ const props = defineProps({
             <div class="card-body p-0">
                 <table class="table table-striped table-hover">
                     <tbody>
-                        <tr v-for="categoria in categorias" :key="categoria.id">
-                            <td>{{ categoria.nome }}</td>
+                        <tr v-for="cat in categorias" :key="cat.id">
+                            <td>{{ cat.nome }}</td>
                             <td>
-                                <Link :href="`/admin/equipamentos/${equipamento.id}/categoria/escolher/${categoria.id}`" class="btn btn-primary">
-                                    Abrir {{ categoria.nome }}
+                                <Link :href="`/admin/equipamentos/${equipamento.id}/categoria/escolher/${cat.id}`" class="btn btn-primary">
+                                    Abrir {{ cat.nome }}
                                 </Link>
                             </td>
                         </tr>

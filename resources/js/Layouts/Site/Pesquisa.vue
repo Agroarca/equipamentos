@@ -35,7 +35,7 @@ function pesquisar() {
                         {{ textoCheckLista }}
                     </label>
                 </span>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" aria-label="Pesquisar">
                     <i class="fa fa-search" />
                 </button>
             </div>

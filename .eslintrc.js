@@ -104,6 +104,7 @@ module.exports = {
         }],
 
         'vue/no-restricted-html-elements': ['error', 'a'],
+        'vuejs-accessibility/aria-unsupported-elements': 'off',
     },
     // These are added if you chose also to install Jest plugin for Vue CLI
     // With my own modifications here as an example

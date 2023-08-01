@@ -47,7 +47,7 @@ function eventoNotificacao(e: EventoNotificacaoWS) {
                     </Link>
                 </div>
                 <Pesquisa />
-                <Link class="header-item header-btn profile-container order-4" href="/perfil">
+                <Link class="header-item header-btn profile-container order-4" href="/perfil" aria-label="Acessar minha conta">
                     <i class="fas fa-user-circle" />
                     <span class="d-none d-xxl-block">Minha conta</span>
                 </Link>
