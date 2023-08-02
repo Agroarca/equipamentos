@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Carrossel\AdicionarImagemRequest;
+use App\Jobs\Imagens\ConverterImagemCarrosselJob;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use Illuminate\Support\Facades\DB;
@@ -55,6 +56,8 @@ class CarrosselController extends Controller
             $item->nome_arquivo_mobile = $imagemMobile->hashName();
             $item->ordem = $versao->carrosselItens()->count() + 1;
             $item->save();
+
+            ConverterImagemCarrosselJob::dispatch($item);
         });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.carrossel.visualizar', $versao->id);
@@ -71,6 +74,12 @@ class CarrosselController extends Controller
         DB::transaction(function () use ($versao, $item) {
             Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_desktop);
             Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_mobile);
+            Storage::delete(
+                config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_desktop_secundario
+            );
+            Storage::delete(
+                config('equipamentos.imagens.pagina_inicial') . '/' . $item->nome_arquivo_mobile_secundario
+            );
             $item->delete();
 
             $versao->carrosselItens()->where('ordem', '>', $item->ordem)->decrement('ordem');

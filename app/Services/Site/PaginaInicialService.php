@@ -147,6 +147,8 @@ class PaginaInicialService
         $banner = $componente->tipo;
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $banner->nome_desktop);
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $banner->nome_mobile);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $banner->nome_desktop_secundario);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . '/' . $banner->nome_mobile_secundario);
     }
 
     /**

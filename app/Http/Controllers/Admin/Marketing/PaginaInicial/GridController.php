@@ -7,6 +7,7 @@ use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Grid\AdicionarGridRequest;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Grid\AdicionarImagemRequest;
+use App\Jobs\Imagens\ConverterImagemGridJob;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
@@ -118,6 +119,7 @@ class GridController extends Controller
             }
 
             $gridImagem->save();
+            ConverterImagemGridJob::dispatch($gridImagem);
         });
 
         return redirect()->route('admin.marketing.paginaInicial.layout.grid.visualizar', [$versao, $grid]);
@@ -142,6 +144,8 @@ class GridController extends Controller
 
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_desktop);
         Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_mobile);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_desktop_secundario);
+        Storage::delete(config('equipamentos.imagens.pagina_inicial') . $gridImagem->nome_mobile_secundario);
 
         DB::transaction(function () use ($grid, $gridImagem) {
             $gridImagem->delete();

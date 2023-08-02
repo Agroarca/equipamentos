@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Banner\AdicionarBannerRequest;
+use App\Jobs\Imagens\ConverterImagemBannerJob;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
@@ -65,6 +66,8 @@ class BannerController extends Controller
             $componente->tipo()->associate($banner);
             $componente->versao_id = $versao->id;
             $componente->save();
+
+            ConverterImagemBannerJob::dispatch($banner);
         });
 
 

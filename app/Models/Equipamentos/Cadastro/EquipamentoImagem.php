@@ -28,7 +28,7 @@ class EquipamentoImagem extends Model
         'url_secundario',
     ];
 
-    private function getImagemUrl($equipamentoId, $nomeArquivo): string
+    private function getImagemUrl($equipamentoId, $nomeArquivo): ?string
     {
         if ($nomeArquivo === null) {
             return null;

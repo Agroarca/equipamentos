@@ -33,7 +33,7 @@ class GridImagem extends Model
         'url_mobile_secundario',
     ];
 
-    private function getImagemUrl($nomeArquivo): string
+    private function getImagemUrl($nomeArquivo): ?string
     {
         if ($nomeArquivo === null) {
             return null;
