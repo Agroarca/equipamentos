@@ -22,34 +22,53 @@ class Banner extends Model
         'descricao',
         'nome_desktop',
         'nome_mobile',
+        'nome_desktop_secundario',
+        'nome_mobile_secundario',
     ];
 
     protected $appends = [
         'url_desktop',
         'url_mobile',
+        'url_desktop_secundario',
+        'url_mobile_secundario',
     ];
+
+    private function getImagemUrl($nomeArquivo): string
+    {
+        if ($nomeArquivo === null) {
+            return null;
+        }
+
+        return Storage::url(
+            config('equipamentos.imagens.pagina_inicial') . $nomeArquivo
+        );
+    }
 
     public function urlDesktop(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => Storage::url(
-                config('equipamentos.imagens.pagina_inicial') . $attributes['nome_desktop']
-            )
+            get: fn ($value, $attributes) => $this->getImagemUrl($attributes['nome_desktop'])
         );
     }
 
     public function urlMobile(): Attribute
     {
         return Attribute::make(
-            get: function ($value, $attributes) {
-                if ($attributes['nome_mobile'] === null) {
-                    return null;
-                }
+            get: fn ($value, $attributes) => $this->getImagemUrl($attributes['nome_mobile'])
+        );
+    }
 
-                return Storage::url(
-                    config('equipamentos.imagens.pagina_inicial') . $attributes['nome_mobile']
-                );
-            }
+    public function urlDesktopSecundario(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $this->getImagemUrl($attributes['nome_desktop_secundario'])
+        );
+    }
+
+    public function urlMobileSecundario(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $this->getImagemUrl($attributes['nome_mobile_secundario'])
         );
     }
 

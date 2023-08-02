@@ -25,32 +25,34 @@ class EquipamentoImagem extends Model
 
     protected $appends = [
         'url',
-        'url_secundaria',
+        'url_secundario',
     ];
 
-    public function url(): Attribute
+    private function getImagemUrl($equipamentoId, $nomeArquivo): string
     {
+        if ($nomeArquivo === null) {
+            return null;
+        }
+
         $equipService = app(EquipamentoService::class);
-        return Attribute::make(
-            get: fn ($value, $attributes) => Storage::url(
-                $equipService->getStoragePathImagem($attributes['equipamento_id']) . $attributes['nome_arquivo']
-            )
+        return Storage::url(
+            $equipService->getStoragePathImagem($equipamentoId) . $nomeArquivo
         );
     }
 
-    public function urlSecundaria(): Attribute
+    public function url(): Attribute
     {
-        $equipService = app(EquipamentoService::class);
         return Attribute::make(
-            get: function ($value, $attributes) use ($equipService) {
-                if (!array_key_exists('nome_arquivo_secundario', $attributes)) {
-                    return null;
-                }
+            get: fn ($value, $attributes) =>
+            $this->getImagemUrl($attributes['equipamento_id'], $attributes['nome_arquivo'])
+        );
+    }
 
-                $path = $equipService->getStoragePathImagem($attributes['equipamento_id']);
-                $nome = $attributes['nome_arquivo_secundario'];
-                return "$path$nome";
-            }
+    public function urlSecundario(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) =>
+            $this->getImagemUrl($attributes['equipamento_id'], $attributes['nome_arquivo_secundario'])
         );
     }
 

@@ -3,6 +3,9 @@
 namespace App\Services\Imagens;
 
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
+use App\Models\Marketing\PaginaInicial\Banners\Banner;
+use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
+use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -13,6 +16,18 @@ use Illuminate\Support\Str;
  */
 class ConverterImagensService
 {
+    /**
+     * Converte uma imagem para webp
+     */
+    public function converterImagensParaWebp($path, $nome, $extOriginal, $novaExt): void
+    {
+        $imagem = Storage::get("$path$nome.$extOriginal");
+        $data = Image::make($imagem)
+            ->encode($novaExt);
+
+        Storage::put("$path$nome.$novaExt", $data);
+    }
+
     /**
      * Converte a imagem de Equipamento Imagem para webp
      */
@@ -32,14 +47,85 @@ class ConverterImagensService
     }
 
     /**
-     * Converte uma imagem para webp
+     * Converte as imagens de um banner para webp
      */
-    public function converterImagensParaWebp($path, $nome, $extOriginal, $novaExt): void
+    public function converterBanner(Banner $banner): void
     {
-        $imagem = Storage::get("$path$nome.$extOriginal");
-        $data = Image::make($imagem)
-            ->encode($novaExt);
+        $path = config('equipamentos.imagens.pagina_inicial');
+        $nomeOriginal = Str::of($banner->nome_desktop);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
 
-        Storage::put("$path$nome.$novaExt", $data);
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $banner->nome_desktop_secundario = "$nome.webp";
+        $banner->save();
+
+        if ($banner->nome_mobile === null) {
+            return;
+        }
+
+        $nomeOriginal = Str::of($banner->nome_mobile);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
+
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $banner->nome_mobile_secundario = "$nome.webp";
+        $banner->save();
+    }
+
+    /**
+     * Converte as imagens de um carrossel para webp
+     */
+    public function converterCarrossel(CarrosselItem $carrosselItem): void
+    {
+        $path = config('equipamentos.imagens.pagina_inicial');
+        $nomeOriginal = Str::of($carrosselItem->nome_arquivo_desktop);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
+
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $carrosselItem->nome_arquivo_desktop_secundario = "$nome.webp";
+        $carrosselItem->save();
+
+        $nomeOriginal = Str::of($carrosselItem->nome_arquivo_mobile);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
+
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $carrosselItem->nome_arquivo_mobile_secundario = "$nome.webp";
+        $carrosselItem->save();
+    }
+
+    /**
+     * Converte as imagens de um grid para webp
+     */
+    public function converterGridImagem(GridImagem $gridImagem): void
+    {
+        $path = config('equipamentos.imagens.pagina_inicial');
+        $nomeOriginal = Str::of($gridImagem->nome_desktop);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
+
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $gridImagem->nome_desktop_secundario = "$nome.webp";
+        $gridImagem->save();
+
+        if ($gridImagem->nome_mobile === null) {
+            return;
+        }
+
+        $nomeOriginal = Str::of($gridImagem->nome_mobile);
+        $nome = $nomeOriginal->beforeLast('.');
+        $extOriginal = $nomeOriginal->afterLast('.');
+
+        $this->converterImagensParaWebp($path, $nome, $extOriginal, 'webp');
+
+        $gridImagem->nome_mobile_secundario = "$nome.webp";
+        $gridImagem->save();
     }
 }
