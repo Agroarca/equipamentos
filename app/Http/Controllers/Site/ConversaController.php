@@ -27,7 +27,6 @@ class ConversaController extends Controller
         $this->mensagensTempoExcluirSecs = config('equipamentos.mensagens_tempo_excluir_secs');
     }
 
-    // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
     public function conversaEquipamento(int $equipamentoId)
     {
         try {

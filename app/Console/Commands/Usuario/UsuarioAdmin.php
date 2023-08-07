@@ -1,7 +1,6 @@
 <?php
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength
 
 namespace App\Console\Commands\Usuario;
 

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class VerificarEmailController extends Controller
 {
-    // phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
     public function verificar(EmailVerificationRequest $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
