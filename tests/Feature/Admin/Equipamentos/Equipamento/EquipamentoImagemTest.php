@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Admin\Equipamentos\Equipamento;
 
+use App\Jobs\Imagens\ConverterEquipamentoImagemJob;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class EquipamentoImagemTest extends TestCase
@@ -19,6 +21,7 @@ class EquipamentoImagemTest extends TestCase
         $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
+        Queue::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamento = Equipamento::factory()->create();
 
@@ -33,6 +36,7 @@ class EquipamentoImagemTest extends TestCase
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
             'equipamento_id' => $equipamento->id,
         ]);
+        Queue::assertPushed(ConverterEquipamentoImagemJob::class);
     }
 
     public function testNaoPodeEnviarImagemSemPermissao(): void
@@ -40,6 +44,7 @@ class EquipamentoImagemTest extends TestCase
         $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdmin();
         Storage::fake();
+        Queue::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamento = Equipamento::factory()->create();
 
@@ -53,6 +58,7 @@ class EquipamentoImagemTest extends TestCase
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'equipamento_id' => $equipamento->id,
         ]);
+        Queue::assertNotPushed(ConverterEquipamentoImagemJob::class);
     }
 
     public function testNaoPodeEnviarTamanhoMinimo(): void
@@ -60,6 +66,7 @@ class EquipamentoImagemTest extends TestCase
         $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
+        Queue::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 400, 300);
         $equipamento = Equipamento::factory()->create();
 
@@ -73,6 +80,7 @@ class EquipamentoImagemTest extends TestCase
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'equipamento_id' => $equipamento->id,
         ]);
+        Queue::assertNotPushed(ConverterEquipamentoImagemJob::class);
     }
 
     public function testNaoPodeEnviarTamanhoInvalido(): void
@@ -80,6 +88,7 @@ class EquipamentoImagemTest extends TestCase
         $equipService = app(EquipamentoService::class);
         $usuario = $this->getAdminComPermissao('equipamentos.cadastro.equipamento-imagem:adicionar');
         Storage::fake();
+        Queue::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 300);
         $equipamento = Equipamento::factory()->create();
 
@@ -93,6 +102,7 @@ class EquipamentoImagemTest extends TestCase
         $this->assertDatabaseMissing(app(EquipamentoImagem::class)->getTable(), [
             'equipamento_id' => $equipamento->id,
         ]);
+        Queue::assertNotPushed(ConverterEquipamentoImagemJob::class);
     }
 
     public function testPodeExcluirImagem(): void

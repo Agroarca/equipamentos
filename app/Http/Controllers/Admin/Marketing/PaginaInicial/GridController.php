@@ -13,6 +13,7 @@ use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use App\Models\Marketing\PaginaInicial\Versao;
 use App\Services\Site\PaginaInicialService;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;

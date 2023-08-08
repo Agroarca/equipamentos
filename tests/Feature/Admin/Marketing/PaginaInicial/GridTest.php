@@ -4,10 +4,12 @@ namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\Grid\Formato;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
+use App\Jobs\Imagens\ConverterImagemGridJob;
 use App\Models\Marketing\PaginaInicial\Grid\Grid;
 use App\Models\Marketing\PaginaInicial\Grid\GridImagem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
@@ -106,6 +108,7 @@ class GridTest extends PaginaInicialTestBase
     public function testPodeAdicionarImagem(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
         $link = Str::random(10);
@@ -130,11 +133,13 @@ class GridTest extends PaginaInicialTestBase
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
         ]);
+        Queue::assertPushed(ConverterImagemGridJob::class);
     }
 
     public function testPodeAdicionarImagemDeskEMobile(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
         $link = Str::random(10);
@@ -163,6 +168,7 @@ class GridTest extends PaginaInicialTestBase
             'nome_desktop' => $imagemDesktop->hashName(),
             'nome_mobile' => $imagemMobile->hashName(),
         ]);
+        Queue::assertPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeAdicionarSemCampos(): void
@@ -498,6 +504,7 @@ class GridTest extends PaginaInicialTestBase
     public function testNaoPodeAdicionarImagemVersaoAprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
@@ -521,11 +528,13 @@ class GridTest extends PaginaInicialTestBase
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
         ]);
+        Queue::assertNotPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeAdicionarImagemVersaoReprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
@@ -549,11 +558,13 @@ class GridTest extends PaginaInicialTestBase
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
         ]);
+        Queue::assertNotPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeAdicionarImagemVersaoPublicada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Publicado;
         $versao->save();
@@ -577,6 +588,7 @@ class GridTest extends PaginaInicialTestBase
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
         ]);
+        Queue::assertNotPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeExcluirImagemVersaoAprovada(): void
@@ -874,6 +886,7 @@ class GridTest extends PaginaInicialTestBase
     public function testNaoPodeAdicionarImagemSemPermissao(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $grid = $this->criarGrid($versao);
         $link = Str::random(10);
@@ -892,6 +905,7 @@ class GridTest extends PaginaInicialTestBase
             'link' => $link,
             'descricao' => $descricao,
         ]);
+        Queue::assertNotPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeVisualizarImagemSemPermissao(): void

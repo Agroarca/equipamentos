@@ -5,6 +5,7 @@ namespace Tests\Feature\Site\Equipamento;
 use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
 use App\Enums\Equipamentos\Caracteristicas\TipoCaracteristica;
+use App\Jobs\Imagens\ConverterEquipamentoImagemJob;
 use App\Models\Cadastro\Cidade;
 use Illuminate\Support\Str;
 use App\Models\Equipamentos\Cadastro\Categoria;
@@ -18,6 +19,7 @@ use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
@@ -179,6 +181,7 @@ class CadastrarEquipamentoTest extends TestCase
     {
         $equipService = app(EquipamentoService::class);
         Storage::fake();
+        Queue::fake();
         $imagem = UploadedFile::fake()->image('imagem.png', 800, 600);
         $equipamento = Equipamento::factory()->create();
 
@@ -193,6 +196,7 @@ class CadastrarEquipamentoTest extends TestCase
         $this->assertDatabaseHas(app(EquipamentoImagem::class)->getTable(), [
             'equipamento_id' => $equipamento->id,
         ]);
+        Queue::assertPushed(ConverterEquipamentoImagemJob::class);
     }
 
     public function testPodeExcluirImagem(): void
