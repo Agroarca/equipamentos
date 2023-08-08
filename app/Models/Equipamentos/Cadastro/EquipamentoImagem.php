@@ -19,18 +19,40 @@ class EquipamentoImagem extends Model
 
     protected $fillable = [
         'nome_arquivo',
+        'nome_arquivo_secundario',
         'equipamento_id',
     ];
 
-    protected $appends = ['url'];
+    protected $appends = [
+        'url',
+        'url_secundario',
+    ];
+
+    private function getImagemUrl($equipamentoId, $nomeArquivo): ?string
+    {
+        if ($nomeArquivo === null) {
+            return null;
+        }
+
+        $equipService = app(EquipamentoService::class);
+        return Storage::url(
+            $equipService->getStoragePathImagem($equipamentoId) . $nomeArquivo
+        );
+    }
 
     public function url(): Attribute
     {
-        $equipService = app(EquipamentoService::class);
         return Attribute::make(
-            get: fn ($value, $attributes) => Storage::url(
-                $equipService->getStoragePathImagem($attributes['equipamento_id']) . $attributes['nome_arquivo']
-            )
+            get: fn ($value, $attributes) =>
+            $this->getImagemUrl($attributes['equipamento_id'], $attributes['nome_arquivo'])
+        );
+    }
+
+    public function urlSecundario(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) =>
+            $this->getImagemUrl($attributes['equipamento_id'], $attributes['nome_arquivo_secundario'])
         );
     }
 

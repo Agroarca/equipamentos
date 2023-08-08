@@ -3,10 +3,12 @@
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
+use App\Jobs\Imagens\ConverterImagemBannerJob;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
@@ -32,6 +34,7 @@ class BannerTest extends PaginaInicialTestBase
     public function testPodeAdicionar(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(10);
@@ -63,11 +66,13 @@ class BannerTest extends PaginaInicialTestBase
             'subtitulo' => $subtitulo,
             'tela_cheia' => $telaCheia,
         ]);
+        Queue::assertPushed(ConverterImagemBannerJob::class);
     }
 
     public function testPodeAdicionarComMobile(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(10);
@@ -103,6 +108,7 @@ class BannerTest extends PaginaInicialTestBase
             'subtitulo' => $subtitulo,
             'tela_cheia' => $telaCheia,
         ]);
+        Queue::assertPushed(ConverterImagemBannerJob::class);
     }
 
     public function testNaoPodeAdicionarSemCampos(): void
@@ -116,9 +122,10 @@ class BannerTest extends PaginaInicialTestBase
         $response->assertInvalid(['tela_cheia', 'link', 'descricao', 'imagem_desktop']);
     }
 
-    public function testPodeAdicionarDadosInvalidos(): void
+    public function testNaoPodeAdicionarDadosInvalidos(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(1);
@@ -153,6 +160,7 @@ class BannerTest extends PaginaInicialTestBase
             'subtitulo' => $subtitulo,
             'tela_cheia' => $telaCheia,
         ]);
+        Queue::assertNotPushed(ConverterImagemBannerJob::class);
     }
 
     public function testPodeVisualizar(): void
@@ -215,6 +223,7 @@ class BannerTest extends PaginaInicialTestBase
     public function testNaoPodeSalvarVersaoAprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
@@ -232,11 +241,13 @@ class BannerTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Queue::assertNotPushed(ConverterImagemBannerJob::class);
     }
 
     public function testNaoPodeSalvarVersaoReprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
@@ -254,11 +265,13 @@ class BannerTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Queue::assertNotPushed(ConverterImagemBannerJob::class);
     }
 
     public function testNaoPodeSalvarVersaoPublicada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Publicado;
         $versao->save();
@@ -276,6 +289,7 @@ class BannerTest extends PaginaInicialTestBase
 
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
+        Queue::assertNotPushed(ConverterImagemBannerJob::class);
     }
 
     public function testNaoPodeAcessarAdicionarSemPermissao(): void
@@ -291,6 +305,7 @@ class BannerTest extends PaginaInicialTestBase
     public function testNaoPodeAdicionarSemPermissao(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(10);
@@ -320,6 +335,7 @@ class BannerTest extends PaginaInicialTestBase
             'subtitulo' => $subtitulo,
             'tela_cheia' => $telaCheia,
         ]);
+        Queue::assertNotPushed(ConverterImagemBannerJob::class);
     }
 
     public function testNaoPodeVisualizarSemPermissao(): void

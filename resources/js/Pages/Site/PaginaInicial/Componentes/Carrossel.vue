@@ -48,7 +48,9 @@ function next() {
             <div v-for="(item, index) in carrosselItens" :key="item.id" class="carousel-item" :class="{ active: index === 0 }">
                 <Link :href="item.link">
                     <picture>
+                        <source v-if="item.url_mobile_secundario" :srcset="item.url_mobile_secundario" type="image/webp" media="(max-width: 767.98px)">
                         <source :srcset="item.url_mobile" media="(max-width: 767.98px)">
+                        <source v-if="item.url_desktop_secundario" type="image/webp" :srcset="item.url_desktop_secundario">
                         <img :src="item.url_desktop" :alt="item.descricao">
                     </picture>
                 </Link>

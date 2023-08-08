@@ -23,9 +23,12 @@ const STATUS_REPROVADO = 5
                 </div>
             </Link>
             <div v-for="equipamento in equipamentos.data" :key="equipamento.id" class="equipamento">
-                <img class="imagem tamanho-img-equip" width="800" height="600"
-                     :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
-                     :alt="equipamento.imagens[0]?.descricao ?? 'Imagem do produto'" />
+                <picture>
+                    <source v-if="equipamento.imagens[0]?.url_secundario !== null" :srcset="equipamento.imagens[0].url_secundario" type="image/webp">
+                    <img class="imagem tamanho-img-equip" width="800" height="600"
+                         :src="equipamento.imagens[0]?.url ?? '/img/Placeholder.png'"
+                         :alt="equipamento.imagens[0]?.descricao ?? 'Imagem do produto'" />
+                </picture>
 
                 <div class="informacoes">
                     <h3>{{ equipamento.titulo }}</h3>

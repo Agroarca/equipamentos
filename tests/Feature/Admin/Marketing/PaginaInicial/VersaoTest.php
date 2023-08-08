@@ -4,6 +4,9 @@ namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\Grid\Formato;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
+use App\Jobs\Imagens\ConverterImagemBannerJob;
+use App\Jobs\Imagens\ConverterImagemCarrosselJob;
+use App\Jobs\Imagens\ConverterImagemGridJob;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use App\Models\Marketing\PaginaInicial\Componente;
@@ -15,6 +18,7 @@ use App\Models\Marketing\PaginaInicial\Versao;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
@@ -717,6 +721,7 @@ class VersaoTest extends PaginaInicialTestBase
     public function testPodeCriarVersaoCompleta(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
 
         // Criar Carrossel
@@ -742,6 +747,7 @@ class VersaoTest extends PaginaInicialTestBase
             'nome_arquivo_desktop' => $imagemDesktop->hashName(),
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
+        Queue::assertPushed(ConverterImagemCarrosselJob::class);
 
         // Criar Banner
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 1920, 400);
@@ -769,6 +775,7 @@ class VersaoTest extends PaginaInicialTestBase
             'subtitulo' => 'subtitulo',
             'tela_cheia' => true,
         ]);
+        Queue::assertPushed(ConverterImagemBannerJob::class);
 
         // Criar Lista de Produtos
         $lista = Lista::factory()->create();
@@ -831,6 +838,7 @@ class VersaoTest extends PaginaInicialTestBase
             'descricao' => $descricao,
             'nome_desktop' => $imagemDesktop->hashName(),
         ]);
+        Queue::assertPushed(ConverterImagemGridJob::class);
     }
 
     public function testNaoPodeAcessarSemPermissao(): void

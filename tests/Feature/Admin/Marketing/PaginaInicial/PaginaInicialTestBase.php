@@ -118,6 +118,32 @@ class PaginaInicialTestBase extends TestCase
         return $banner;
     }
 
+    protected function criarBannerComImagemDeskEMobile(Versao $versao): Banner
+    {
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+
+        $banner = Banner::factory()->create([
+            'nome_desktop' => $imagemDesktop->hashName(),
+            'nome_mobile' => $imagemMobile->hashName(),
+            'link' => Str::random(10),
+            'descricao' => Str::random(10),
+        ]);
+        $componente = new Componente([
+            'versao_id' => $versao->id,
+            'tela_cheia' => false,
+            'ordem' => 0,
+        ]);
+
+        $componente->tipo()->associate($banner);
+        $componente->save();
+
+        return $banner;
+    }
+
     protected function criarCarrosselItemComImagens(Versao $versao): CarrosselItem
     {
         $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
@@ -141,6 +167,21 @@ class PaginaInicialTestBase extends TestCase
         return GridImagem::factory()->create([
             'grid_id' => $grid->id,
             'nome_desktop' => $imagemDesktop->hashName(),
+        ]);
+    }
+
+    protected function criarGridImagemComImagemDeskEMobile(Grid $grid): GridImagem
+    {
+        $imagemDesktop = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemDesktop->store(config('equipamentos.imagens.pagina_inicial'));
+
+        $imagemMobile = UploadedFile::fake()->image('imagem.png', 500, 500);
+        $imagemMobile->store(config('equipamentos.imagens.pagina_inicial'));
+
+        return GridImagem::factory()->create([
+            'grid_id' => $grid->id,
+            'nome_desktop' => $imagemDesktop->hashName(),
+            'nome_mobile' => $imagemMobile->hashName(),
         ]);
     }
 }

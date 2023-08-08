@@ -16,7 +16,9 @@ let grid = props.componente.tipo as Grid
         <div class="grid-imagens" :class="`formato-${grid.formato}`">
             <Link v-for="imagem in grid.imagens" :key="imagem.id" :href="imagem.link">
                 <picture>
+                    <source v-if="imagem.url_mobile_secundario" :srcset="imagem.url_mobile_secundario" type="image/webp" media="(max-width: 767.98px)">
                     <source v-if="imagem.url_mobile" :srcset="imagem.url_mobile" media="(max-width: 767.98px)">
+                    <source v-if="imagem.url_desktop_secundario" type="image/webp" :srcset="imagem.url_desktop_secundario">
                     <img class="w-100" :src="imagem.url_desktop" :alt="imagem.descricao">
                 </picture>
             </Link>

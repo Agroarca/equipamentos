@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin\Marketing\PaginaInicial;
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Marketing\PaginaInicial\Banner\AdicionarBannerRequest;
+use App\Jobs\Imagens\ConverterImagemBannerJob;
 use App\Models\Marketing\PaginaInicial\Banners\Banner;
 use App\Models\Marketing\PaginaInicial\Componente;
 use App\Models\Marketing\PaginaInicial\Versao;
@@ -29,6 +30,7 @@ class BannerController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
+
         return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Adicionar', compact('versao'));
     }
 
@@ -65,6 +67,8 @@ class BannerController extends Controller
             $componente->tipo()->associate($banner);
             $componente->versao_id = $versao->id;
             $componente->save();
+
+            ConverterImagemBannerJob::dispatch($banner);
         });
 
 

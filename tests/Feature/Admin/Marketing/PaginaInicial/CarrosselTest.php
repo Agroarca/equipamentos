@@ -3,9 +3,11 @@
 namespace Tests\Feature\Admin\Marketing\PaginaInicial;
 
 use App\Enums\Marketing\PaginaInicial\StatusVersao;
+use App\Jobs\Imagens\ConverterImagemCarrosselJob;
 use App\Models\Marketing\PaginaInicial\Carrossel\CarrosselItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Illuminate\Support\Str;
@@ -69,6 +71,7 @@ class CarrosselTest extends PaginaInicialTestBase
     public function testPodeAdicionar(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(10);
@@ -94,6 +97,7 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_desktop' => $imagemDesktop->hashName(),
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
+        Queue::assertPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testNaoPodeAdicionarSemCampos(): void
@@ -108,9 +112,10 @@ class CarrosselTest extends PaginaInicialTestBase
         $response->assertInvalid(['link', 'descricao', 'imagem_desktop', 'imagem_mobile']);
     }
 
-    public function testPodeAdicionarDadosInvalidos(): void
+    public function testNaoPodeAdicionarDadosInvalidos(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(1);
@@ -135,6 +140,7 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_desktop' => $imagemDesktop->hashName(),
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
+        Queue::assertNotPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testPodeVisualizarItem(): void
@@ -230,6 +236,7 @@ class CarrosselTest extends PaginaInicialTestBase
     public function testNaoPodeSalvarVersaoAprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Aprovado;
         $versao->save();
@@ -250,11 +257,13 @@ class CarrosselTest extends PaginaInicialTestBase
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        Queue::assertNotPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testNaoPodeSalvarVersaoReprovada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Reprovado;
         $versao->save();
@@ -275,11 +284,13 @@ class CarrosselTest extends PaginaInicialTestBase
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        Queue::assertNotPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testNaoPodeSalvarVersaoPublicada(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $versao->status = StatusVersao::Publicado;
         $versao->save();
@@ -300,6 +311,7 @@ class CarrosselTest extends PaginaInicialTestBase
         $response->assertStatus(403);
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemDesktop->hashName());
         Storage::assertMissing(config('equipamentos.imagens.pagina_inicial') . $imagemMobile->hashName());
+        Queue::assertNotPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testNaoPodeExcluirVersaoAprovada(): void
@@ -408,6 +420,7 @@ class CarrosselTest extends PaginaInicialTestBase
     public function testNaoPodeAdicionarSemPermissao(): void
     {
         Storage::fake();
+        Queue::fake();
         $versao = $this->getVersaoBase();
         $link = Str::random(10);
         $descricao = Str::random(10);
@@ -430,6 +443,7 @@ class CarrosselTest extends PaginaInicialTestBase
             'nome_arquivo_desktop' => $imagemDesktop->hashName(),
             'nome_arquivo_mobile' => $imagemMobile->hashName(),
         ]);
+        Queue::assertNotPushed(ConverterImagemCarrosselJob::class);
     }
 
     public function testNaoPodeVisualizarItemSemPermissao(): void
