@@ -59,10 +59,6 @@ jobs:
         run: |
             php artisan key:generate
 
-      - name: Install Ubuntu Dependencies
-        run: |
-          apt install -y libmagickwand-dev
-
       - name: Setup PHP with http from source
         uses: shivammathur/setup-php@v2
         with:
