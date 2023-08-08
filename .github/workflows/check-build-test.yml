@@ -63,11 +63,11 @@ jobs:
         run: |
           sudo apt install -y libmagickwand-dev
 
-        - name: Setup PHP with http from source
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: '8.2'
-            extensions: imagick
+      - name: Setup PHP with http from source
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: imagick
 
       - name: Run Testsuite
         run: php artisan test
