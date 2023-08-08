@@ -30,6 +30,7 @@ class BannerController extends Controller
             $nome = $versao->status->name;
             abort(403, "Não é possivel editar uma versao com status $nome");
         }
+
         return Inertia::render('Admin/Marketing/PaginaInicial/Banner/Adicionar', compact('versao'));
     }
 
