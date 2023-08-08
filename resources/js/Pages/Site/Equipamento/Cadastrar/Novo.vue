@@ -150,7 +150,7 @@ async function salvarModelo() {
                     <SelectAjax
                         v-model="form.cidade_id"
                         placeholder="Selecione uma cidade"
-                        href="/admin/pesquisar/cidade/"
+                        href="/pesquisar/cidade/"
                         :preBusca="true" />
                     <FormError :error="form.errors.cidade_id" />
                 </div>
