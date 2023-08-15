@@ -6,7 +6,6 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
-use Illuminate\Support\Str;
 
 class AcessarTest extends TestCase
 {
