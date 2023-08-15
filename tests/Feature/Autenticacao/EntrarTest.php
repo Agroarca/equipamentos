@@ -42,6 +42,7 @@ class EntrarTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
+
     public function testPodeAutenticarCnpj(): void
     {
         $usuario = Usuario::factory()->pessoaJuridica()->create();

@@ -5,6 +5,7 @@ import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import Senha from '@/Componentes/Site/Senha.vue'
 
+/* eslint-disable vue/prop-name-casing */
 const props = defineProps({
     email_cpf_cnpj: String,
 })
