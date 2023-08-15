@@ -1,7 +1,7 @@
 {{ config('app.name') }}
 
 Bem vindo(a)!
-Caro(a) {{ $nome }}, seja bem vindo(a) a Agroarca
+Caro(a) {{ $nome }}, seja bem vindo(a) ao Agroarca
 
 Acesse o endereço abaixo para confirmar sua conta:
 
