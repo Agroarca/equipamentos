@@ -27,8 +27,7 @@ class AcessarController extends Controller
                 ->route('auth.entrar')
                 ->withInput([
                     'email_cpf_cnpj' => $request->email_cpf_cnpj,
-                ])
-                ->with('mensagem', [
+                ])->with('mensagem', [
                     'classeAlert' => 'alert-success',
                     'texto' => 'Encontramos seu cadastro, agora digite sua senha para acessar sua conta.',
                 ]);
@@ -40,8 +39,7 @@ class AcessarController extends Controller
                 'cpf' => $request->cpf,
                 'cnpj' => $request->cnpj,
                 'email' => $request->email,
-            ])
-            ->with('mensagem', [
+            ])->with('mensagem', [
                 'classeAlert' => 'alert-info',
                 'texto' => 'Não encontramos seu cadastro, registre uma nova conta',
             ]);

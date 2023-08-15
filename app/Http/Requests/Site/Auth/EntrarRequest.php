@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Site\Auth;
 
-use App\Models\Usuario;
 use App\Rules\Usuario\CNPJ;
 use App\Rules\Usuario\CPF;
 use App\Rules\Usuario\EmailCpfOuCnpj;
