@@ -28,7 +28,7 @@ class UsuarioFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'tipo_pessoa' => TipoPessoa::Juridica,
-            'cnpj' => '12345678901234',
+            'cnpj' => '43789233000128',
         ]);
     }
 

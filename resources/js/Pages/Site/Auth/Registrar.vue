@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
 import { onMounted } from '@vue/runtime-core'
 import { ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
@@ -7,10 +7,16 @@ import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import Mask from '@/Componentes/Helper/InputMask'
 import Senha from '@/Componentes/Site/Senha.vue'
 
+const props = defineProps({
+    email: String,
+    cpf: String,
+    cnpj: String,
+})
+
 const form = useForm({
     nome: '',
-    email: '',
-    cpf_cnpj: '',
+    email: props.email,
+    cpf_cnpj: props.cpf ?? props.cnpj,
     celular: '',
     password: '',
 })
@@ -35,7 +41,11 @@ function submit() {
         <div class="container-600 auth">
             <form @submit.prevent="submit">
                 <div class="mb-3">
-                    <h2>Registrar</h2>
+                    <h2>Registrar nova conta</h2>
+                </div>
+
+                <div v-if="typeof usePage().props?.mensagem === 'object'" class="alert mb-3" :class="usePage().props?.mensagem?.classeAlert">
+                    <span>{{ usePage().props?.mensagem?.texto }}</span>
                 </div>
 
                 <div class="mb-3">

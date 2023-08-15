@@ -17,12 +17,37 @@ class EntrarTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testPodeAutenticar(): void
+    public function testPodeAutenticarEmail(): void
     {
         $usuario = Usuario::factory()->create();
 
         $response = $this->post('/entrar', [
-            'email' => $usuario->email,
+            'email_cpf_cnpj' => $usuario->email,
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    public function testPodeAutenticarCpf(): void
+    {
+        $usuario = Usuario::factory()->create();
+
+        $response = $this->post('/entrar', [
+            'email_cpf_cnpj' => $usuario->cpf,
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+    public function testPodeAutenticarCnpj(): void
+    {
+        $usuario = Usuario::factory()->pessoaJuridica()->create();
+
+        $response = $this->post('/entrar', [
+            'email_cpf_cnpj' => $usuario->cnpj,
             'password' => 'Password123',
         ]);
 
@@ -48,14 +73,14 @@ class EntrarTest extends TestCase
 
         for ($i = 0; $i < 5; $i++) {
             $response = $this->post('/entrar', [
-                'email' => $usuario->email,
+                'email_cpf_cnpj' => $usuario->email,
                 'password' => 'password-incorreto',
             ]);
-            $response->assertInvalid(['email' => 'Essas credenciais não foram encontradas em nossos registros.']);
+            $response->assertInvalid(['email' => 'O E-mail e/ou a senha estão incorretos.']);
         }
 
         $response = $this->post('/entrar', [
-            'email' => $usuario->email,
+            'email_cpf_cnpj' => $usuario->email,
             'password' => 'password-incorreto',
         ]);
 
@@ -74,13 +99,13 @@ class EntrarTest extends TestCase
         $response = $this->get('/equipamento/cadastrar');
 
         $this->assertGuest();
-        $response->assertRedirectToRoute('auth.entrar');
+        $response->assertRedirectToRoute('auth.acessar');
         $response->assertSessionHas('url.intended', url('/equipamento/cadastrar'));
 
         $response = $this->withSession([
             'url.intended' => url('/equipamento/cadastrar'),
         ])->post('/entrar', [
-            'email' => $usuario->email,
+            'email_cpf_cnpj' => $usuario->email,
             'password' => 'Password123',
         ]);
 

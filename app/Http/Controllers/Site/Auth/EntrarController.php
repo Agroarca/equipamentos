@@ -12,7 +12,7 @@ class EntrarController extends Controller
 {
     public function inicio()
     {
-        return Inertia::render('Site/Auth/Entrar');
+        return Inertia::render('Site/Auth/Entrar', request()->old());
     }
 
     public function entrar(EntrarRequest $request)

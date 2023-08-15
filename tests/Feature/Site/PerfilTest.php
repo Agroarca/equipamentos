@@ -127,7 +127,7 @@ class PerfilTest extends TestCase
         $this->assertGuest();
 
         $responseLogin = $this->post('/entrar', [
-            'email' => $usuario->email,
+            'email_cpf_cnpj' => $usuario->email,
             'password' => 'Password123',
         ]);
 
@@ -156,7 +156,7 @@ class PerfilTest extends TestCase
         $this->assertGuest();
 
         $responseLogin = $this->post('/entrar', [
-            'email' => $usuario->email,
+            'email_cpf_cnpj' => $usuario->email,
             'password' => 'Password',
         ]);
 

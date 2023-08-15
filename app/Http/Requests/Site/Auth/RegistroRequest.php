@@ -133,7 +133,14 @@ class RegistroRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nome.regex' => 'O campo deve conter nome e sobrenome válidos.',
+            'nome' => 'O Nome Completo deve conter nome e sobrenome válidos.',
+            'nome.required' => 'O Nome é obrigatório.',
+            'email.email' => 'O E-mail deve ser um endereço válido.',
+            'email.unique' => 'O E-mail já está sendo utilizado.',
+            'cpf.unique' => 'O CPF já está sendo utilizado.',
+            'cnpj.unique' => 'O CNPJ já está sendo utilizado.',
+            'password.min' => 'A Senha deve conter no mínimo 8 caracteres.',
+            'cpf_cnpj' => 'O CPF ou CNPJ é inválido.',
         ];
     }
 }
