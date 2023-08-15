@@ -16,7 +16,7 @@ const elValor = ref(null)
 let marca
 let modelo
 
-const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um Modelo' : 'Selecione uma marca'))
+const placeholderModelo = computed(() => (form.marca_id ? 'Selecione um modelo' : 'Selecione uma marca'))
 
 onMounted(() => {
     Mask.preco(elValor.value)
