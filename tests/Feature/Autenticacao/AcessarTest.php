@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 
 class AcessarTest extends TestCase
 {
@@ -90,5 +91,41 @@ class AcessarTest extends TestCase
 
         $response->assertRedirectToRoute('auth.registrar');
         $response->assertSessionHasInput('cnpj', $usuario->cnpj);
+    }
+
+    public function testNaoPodeAcessarValorInvalido(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '123',
+        ]);
+
+        $response->assertInvalid(['email_cpf_cnpj']);
+    }
+
+    public function testNaoPodeAcessarEmailInvalido(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => 'aaaa@',
+        ]);
+
+        $response->assertInvalid(['email']);
+    }
+
+    public function testNaoPodeAcessarCpfInvalido(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '00000000000',
+        ]);
+
+        $response->assertInvalid(['cpf']);
+    }
+
+    public function testNaoPodeAcessarCnpjInvalido(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '00000000000000',
+        ]);
+
+        $response->assertInvalid(['cnpj']);
     }
 }
