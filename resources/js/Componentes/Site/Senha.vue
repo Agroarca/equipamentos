@@ -1,15 +1,18 @@
 <script setup lang="ts">
+/* eslint-disable vuejs-accessibility/no-autofocus */
 import { computed, ref } from 'vue'
 /* eslint-disable vuejs-accessibility/form-control-has-label */
 let props = defineProps({
     modelValue: null,
     inputName: String,
     inputId: String,
+    autofocus: Boolean,
 })
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
 
-let mostrarSenha = ref(false)
+const mostrarSenha = ref(false)
+const elInputSenha = ref(null)
 
 const value = computed({
     get() {
@@ -20,11 +23,27 @@ const value = computed({
     },
 })
 
+function focus() {
+    elInputSenha.value.focus()
+}
+
+defineExpose({
+    focus,
+})
+
 </script>
 
 <template>
     <div class="input-group">
-        <input :id="inputId" v-model="value" :name="inputName" class="form-control" :type="mostrarSenha ? 'text' : 'password'" required autocomplete="current-password">
+        <input :id="inputId"
+               ref="elInputSenha"
+               v-model="value"
+               :name="inputName"
+               class="form-control"
+               :type="mostrarSenha ? 'text' : 'password'"
+               autocomplete="current-password"
+               :autofocus="autofocus"
+               required>
         <div class="mostrar-senha input-group-text d-block cursor-pointer" @click.prevent="mostrarSenha = !mostrarSenha">
             <input id="mostrar_senha" v-model="mostrarSenha" class="form-check-input d-none" type="checkbox" />
             <label class="form-check-label cursor-pointer user-select-none" for="mostrar_senha">
