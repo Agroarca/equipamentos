@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useForm, Link, usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+/* eslint-disable vuejs-accessibility/no-autofocus */
+import { useForm, Link, usePage, router } from '@inertiajs/vue3'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import SiteLayout from '@/Layouts/SiteLayout.vue'
 import FormError from '@/Componentes/Layout/Forms/FormError.vue'
 import Senha from '@/Componentes/Site/Senha.vue'
@@ -17,6 +18,8 @@ const form = useForm({
 })
 
 const error = computed(() => getErroEmailCpfCnpj())
+const elEmailCpfCnpj = ref(null)
+const elSenha = ref(null)
 
 function submit() {
     form.post('/entrar', {
@@ -30,6 +33,16 @@ function getErroEmailCpfCnpj() {
         ?? form.errors.cpf
         ?? form.errors.cnpj
 }
+
+onMounted(() => {
+    onUnmounted(router.on('navigate', () => {
+        if (props.email_cpf_cnpj != null) {
+            elSenha.value.focus()
+        } else {
+            elEmailCpfCnpj.value.focus()
+        }
+    }))
+})
 </script>
 
 <template>
@@ -50,13 +63,13 @@ function getErroEmailCpfCnpj() {
 
                 <div class="mb-3">
                     <label for="email_cpf_cnpj">E-mail, CPF ou CNPJ</label>
-                    <input id="email_cpf_cnpj" v-model="form.email_cpf_cnpj" class="form-control" type="email_cpf_cnpj" required autocomplete="email">
+                    <input id="email_cpf_cnpj" ref="elEmailCpfCnpj" v-model="form.email_cpf_cnpj" class="form-control" type="email_cpf_cnpj" required autocomplete="email">
                     <FormError :error="error" />
                 </div>
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <Senha v-model="form.password" inputId="password" inputName="password" />
+                    <Senha ref="elSenha" v-model="form.password" inputId="password" inputName="password" />
                     <FormError :error="form.errors.password" />
                 </div>
 
