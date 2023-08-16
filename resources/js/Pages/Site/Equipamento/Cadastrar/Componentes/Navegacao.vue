@@ -23,17 +23,17 @@ const props = defineProps({
             </Link>
         </li>
         <li class="nav-item">
-            <Link class="nav-link" :class="{ active: passoAtual == 2, disabled: passoCadastro < 1 }" :href="`/equipamento/${equipamento?.id ?? ''}/imagens`">
+            <Link class="nav-link" :class="{ active: passoAtual == 2, disabled: passoCadastro < 1 || equipamento == null }" :href="`/equipamento/${equipamento?.id ?? ''}/imagens`">
                 Imagens
             </Link>
         </li>
         <li class="nav-item">
-            <Link class="nav-link" :class="{ active: passoAtual == 3, disabled: passoCadastro < 2 }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">
+            <Link class="nav-link" :class="{ active: passoAtual == 3, disabled: passoCadastro < 2 || equipamento == null }" :href="`/equipamento/${equipamento?.id ?? ''}/descricao`">
                 Descrição
             </Link>
         </li>
         <li v-if="mostrarCaracteriscas" class="nav-item">
-            <Link class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 3 }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">
+            <Link class="nav-link" :class="{ active: passoAtual == 4, disabled: passoCadastro < 3 || equipamento == null }" :href="`/equipamento/${equipamento?.id ?? ''}/caracteristicas`">
                 Caracteristicas
             </Link>
         </li>
