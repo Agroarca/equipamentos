@@ -30,7 +30,7 @@ function submit() {
                 <h2 class="titulo text-center mb-3">
                     Caracteristicas do equipamento
                 </h2>
-                <Navegacao class="mb-3 display-block" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" />
+                <Navegacao class="mb-3 display-block" :passoAtual="4" :passoCadastro="equipamento.passo_cadastro" :equipamento="equipamento" :mostrarCaracteriscas="true" />
                 <table class="table table-hover mt-3 display-block">
                     <tbody>
                         <tr v-for="caracteristica in caracteristicas" :key="caracteristica.id">
