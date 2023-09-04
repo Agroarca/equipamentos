@@ -39,7 +39,7 @@ class MarcaController extends Controller
     public function editar(int $id)
     {
         Gate::authorize('editar', Marca::class);
-        $marca = Marca::findOrFail($id);
+        $marca = Marca::with('categorias')->findOrFail($id);
         $statusCadastro = StatusCadastro::toArray();
 
         return Inertia::render('Admin/Equipamentos/Cadastro/Marca/Editar', compact('marca', 'statusCadastro'));
