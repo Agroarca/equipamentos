@@ -123,7 +123,7 @@ async function salvarModelo() {
                         v-if="!equipamento?.modelo?.marca"
                         v-model="form.marca_id"
                         placeholder="Selecione uma marca"
-                        href="/pesquisar/marcas"
+                        :href="`/pesquisar/marcas/${categoria?.id}`"
                         :preBusca="true"
                         :criarDinamica="true"
                         required

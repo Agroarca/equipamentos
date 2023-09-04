@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable Generic.Files.LineLength.MaxExceeded
+
 namespace App\Http\Controllers\Site;
 
 use App\Enums\Equipamentos\Cadastro\StatusCadastro;
@@ -14,6 +16,7 @@ use App\Models\Equipamentos\Cadastro\Categoria;
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use App\Models\Equipamentos\Cadastro\EquipamentoImagem;
 use App\Models\Equipamentos\Cadastro\Marca;
+use App\Models\Equipamentos\Cadastro\MarcaCategoria;
 use App\Models\Equipamentos\Cadastro\Modelo;
 use App\Services\Equipamentos\Cadastro\EquipamentoService;
 use App\Services\Equipamentos\EquipamentoCaracteristicaService;
@@ -232,8 +235,11 @@ class EquipamentoController extends Controller
         return Inertia::render('Site/Equipamento/Cadastrar/Finalizar', compact('equipamento'));
     }
 
-    public function pesquisarMarca(Request $request)
+    public function pesquisarMarca(Request $request, $categoriaId = null)
     {
+        $marTbl = app(Marca::class)->getTable();
+        $marCatTbl = app(MarcaCategoria::class)->getTable();
+
         $marcas = Marca::select('id', 'nome as texto')
             ->where(function ($query) use ($request) {
                 $query
@@ -241,6 +247,18 @@ class EquipamentoController extends Controller
                     ->orWhere('nome', 'like', '%' . $request->input('termo') . '%');
             })
             ->where('status', StatusCadastro::Aprovado)
+            ->whereRaw(
+                "(
+                    not exists (select * from $marCatTbl where $marCatTbl.marca_id = $marTbl.id)
+                    or exists (select * from $marCatTbl where $marCatTbl.marca_id = $marTbl.id
+                        and $marCatTbl.categoria_id in (
+                            with recursive cats(id) as (
+                                select id from categorias where @id = id
+                                union all select cat.categoria_mae_id from categorias cat inner join cats on cat.id = cats.id
+                            ) select id from cats , (select @id := ?) inicializacao
+                )))",
+                [$categoriaId]
+            )
             ->take(10)
             ->get();
 

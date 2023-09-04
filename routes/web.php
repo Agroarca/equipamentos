@@ -35,7 +35,7 @@ Route::name('site')->group(function () {
 
     Route::get('anunciante/{anunciante}', [ListaController::class, 'anunciante'])->name('.anunciante');
 
-    Route::get('pesquisar/marcas', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
+    Route::get('pesquisar/marcas/{categoria_id?}', [EquipamentoController::class, 'pesquisarMarca'])->name('.pesquisar.marca');
     Route::get('pesquisar/{marca_id}/modelos', [EquipamentoController::class, 'pesquisarModelo'])->name('.pesquisar.marca.modelo');
     Route::get('pesquisa/{pesquisa}', [ListaController::class, 'pesquisa'])->name('.pesquisa');
     Route::get('pesquisar/cidade', [PesquisaController::class, 'cidade'])->name('.cidade');
