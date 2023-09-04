@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Cadastro\CidadeController;
 use App\Http\Controllers\Admin\Cadastro\EstadoController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\CategoriaController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\EquipamentoController;
+use App\Http\Controllers\Admin\Equipamentos\Cadastro\MarcaCategoriaController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\MarcaController;
 use App\Http\Controllers\Admin\Equipamentos\Cadastro\ModeloController;
 use App\Http\Controllers\Admin\Equipamentos\Caracteristicas\CaracteristicaController;
@@ -133,5 +134,10 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin')->name('admin')-
         Route::get('{estado}/editar', [EstadoController::class, 'editar'])->name('.editar');
         Route::post('{estado}/atualizar', [EstadoController::class, 'atualizar'])->name('.atualizar');
         Route::get('{estado}/excluir', [EstadoController::class, 'excluir'])->name('.excluir');
+    });
+
+    Route::prefix('marca_categoria')->name('.marca_categoria')->group(function () {
+        Route::post('{marca}/adicionar', [MarcaCategoriaController::class, 'adicionar'])->name('.adicionar');
+        Route::get('{marca}/remover/{categoria}', [MarcaCategoriaController::class, 'remover'])->name('.remover');
     });
 });

@@ -6,6 +6,7 @@ use App\Enums\Equipamentos\Cadastro\StatusCadastro;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Marca extends Model
@@ -32,5 +33,15 @@ class Marca extends Model
     public function modelos(): HasMany
     {
         return $this->hasMany(Modelo::class);
+    }
+
+    public function categorias(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Categoria::class,
+            app(MarcaCategoria::class)->getTable(),
+            'marca_id',
+            'categoria_id'
+        );
     }
 }
