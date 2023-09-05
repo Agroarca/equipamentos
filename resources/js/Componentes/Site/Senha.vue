@@ -7,6 +7,7 @@ let props = defineProps({
     inputName: String,
     inputId: String,
     autofocus: Boolean,
+    required: Boolean,
 })
 
 const emit = defineEmits<{(e: 'update:modelValue', value: string): void}>()
@@ -43,7 +44,7 @@ defineExpose({
                :type="mostrarSenha ? 'text' : 'password'"
                autocomplete="current-password"
                :autofocus="autofocus"
-               required>
+               :required="required">
         <div class="mostrar-senha input-group-text d-block cursor-pointer" @click.prevent="mostrarSenha = !mostrarSenha">
             <input id="mostrar_senha" v-model="mostrarSenha" class="form-check-input d-none" type="checkbox" />
             <label class="form-check-label cursor-pointer user-select-none" for="mostrar_senha">

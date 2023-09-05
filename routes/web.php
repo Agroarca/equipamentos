@@ -64,7 +64,8 @@ Route::name('site')->group(function () {
         Route::get('categorias/pesquisar/{id?}', [CategoriaController::class, 'pesquisar'])->name('.categorias.pesquisar');
 
         Route::get('perfil', [SiteController::class, 'perfil'])->name('.perfil');
-        Route::post('perfil/atualizar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
+        Route::get('perfil/editar', [SiteController::class, 'atualizarPerfil'])->name('.perfil.atualizar');
+        Route::post('perfil/salvar', [SiteController::class, 'salvarPerfil'])->name('.perfil.salvar');
 
         Route::get('perfil/equipamentos', [SiteController::class, 'equipamentosPerfil'])->name('.perfil.equipamentos');
         Route::get('equipamento/reprovado/{id}', [SiteController::class, 'equipamentoReprovado'])->name('.equipamento.reprovado');

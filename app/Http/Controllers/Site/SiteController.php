@@ -86,9 +86,15 @@ class SiteController extends Controller
         return Inertia::render('Site/Perfil/Perfil', compact('user'));
     }
 
+    public function atualizarPerfil()
+    {
+        $user = Auth::user()->makeVisible(['cpf', 'cnpj', 'celular'])->toArray();
+        return Inertia::render('Site/Perfil/EditarPerfil', compact('user'));
+    }
+
     // phpcs:disable Squiz.PHP.DisallowComparisonAssignment.AssignedComparison
     // phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-    public function atualizarPerfil(RegistroRequest $request)
+    public function salvarPerfil(RegistroRequest $request)
     {
         $user = Usuario::findOrFail(Auth::user()->id);
 

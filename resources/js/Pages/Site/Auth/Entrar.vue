@@ -69,7 +69,7 @@ onMounted(() => {
 
                 <div class="mb-3">
                     <label for="password">Senha</label>
-                    <Senha ref="elSenha" v-model="form.password" inputId="password" inputName="password" />
+                    <Senha ref="elSenha" v-model="form.password" inputId="password" inputName="password" required />
                     <FormError :error="form.errors.password" />
                 </div>
 
