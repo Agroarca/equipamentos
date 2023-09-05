@@ -23,7 +23,7 @@ function submit() {
         </div>
         <form @submit.prevent="submit">
             <label for="password">Senha</label>
-            <Senha v-model="form.password" inputId="password" inputName="password" :error="form.errors.password" />
+            <Senha v-model="form.password" inputId="password" inputName="password" :error="form.errors.password" required />
             <FormError :error="form.errors.password" />
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">

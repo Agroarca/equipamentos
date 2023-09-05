@@ -22,11 +22,22 @@ class PerfilTest extends TestCase
             ->has('user'));
     }
 
+    public function testPodeEditar(): void
+    {
+        $response = $this->actingAs($this->getUsuario())
+            ->get('/perfil/editar');
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Site/Perfil/EditarPerfil')
+            ->has('user'));
+    }
+
     public function testPodeAlterarDadosSemSenha(): void
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -40,7 +51,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -54,7 +65,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -68,7 +79,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -82,7 +93,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -96,7 +107,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => 'teste@exemple.com',
                 'cpf_cnpj' => $usuario->cpf,
@@ -110,7 +121,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => $usuario->email,
                 'cpf_cnpj' => $usuario->cpf,
@@ -140,7 +151,7 @@ class PerfilTest extends TestCase
     {
         $usuario = $this->getUsuario();
         $response = $this->actingAs($usuario)
-            ->post('/perfil/atualizar', [
+            ->post('/perfil/salvar', [
                 'nome' => 'Nome alterado',
                 'email' => $usuario->email,
                 'cpf_cnpj' => $usuario->cpf,
