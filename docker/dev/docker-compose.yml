@@ -79,6 +79,7 @@ services:
 networks:
     database:
         name: database
+        external: true
     socketi:
         name: socketi
     redis:

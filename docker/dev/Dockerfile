@@ -10,11 +10,11 @@ RUN apt update && \
     docker-php-ext-install bcmath gd pdo_mysql zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install xdebug && \
-    docker-php-ext-enable xdebug
-
 RUN pecl install imagick && \
     docker-php-ext-enable imagick;
+
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
 
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
