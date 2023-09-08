@@ -11,9 +11,9 @@ const props = defineProps({
 
 const TIPO_USUARIO_ADMIN = 1
 
-const preferencias = []
+const preferencias = {}
 props.preferenciasNotificacao.forEach((preferencia) => {
-    preferencias[`preferencia-${preferencia.id}`] = preferencia.valor
+    preferencias[`preferencia-${preferencia.id}`] = preferencia.ativo
 })
 const form = useForm(preferencias)
 
@@ -80,7 +80,6 @@ function submitPreferencias() {
                         <div class="mb-3 form-check form-switch">
                             <input :id="`preferencia-${preferencia.id}`"
                                    v-model="form[`preferencia-${preferencia.id}`]"
-                                   :value="preferencia.nome"
                                    class="form-check-input"
                                    type="checkbox">
 

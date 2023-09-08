@@ -2,8 +2,6 @@
 
 namespace App\Enums\Usuario;
 
-use App\Enums\EnumToArray;
-
 enum TipoPessoa: int
 {
     case Fisica = 0;

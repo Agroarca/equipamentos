@@ -1,5 +1,8 @@
 <?php
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+// phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
+
 namespace App\Services\Notificacoes;
 
 use App\Enums\Administracao\Notificacoes\TipoNotificacaoEnum;
@@ -15,11 +18,10 @@ class NotificacaoAdminService
     {
         $usuario->load(['notificacoesAdmin']);
 
-
         return collect(TipoNotificacaoEnum::toArray())->map(fn ($key, $value) => [
             'id' => $value,
             'nome' => TipoNotificacaoEnum::arrayNomes()[$value],
-            'ativo' => $usuario->notificacoesAdmin->contains('tipo', $value),
+            'ativo' => $usuario->notificacoesAdmin->contains('tipo.value', $value),
         ])->toArray();
     }
 
@@ -29,7 +31,7 @@ class NotificacaoAdminService
     public function salvarPreferenciasNotificacaoUsuario(Usuario $usuario, array $preferencias): void
     {
         foreach (TipoNotificacaoEnum::toArray() as $key => $value) {
-            if (array_key_exists("preferencia-$value", $preferencias)) {
+            if (array_key_exists("preferencia-$key", $preferencias) && $preferencias["preferencia-$key"]) {
                 NotificacaoAdmin::firstOrCreate([
                     'usuario_id' => $usuario->id,
                     'tipo' => $key,

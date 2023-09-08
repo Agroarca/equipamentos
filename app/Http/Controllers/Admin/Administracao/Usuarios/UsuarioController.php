@@ -19,8 +19,6 @@ class UsuarioController extends Controller
 
     public function inicio(): mixed
     {
-        phpinfo();
-        die();
         $usuarios = Usuario::paginate();
         $usuarios->setCollection($usuarios->getCollection()->makeVisible(['cpf', 'cnpj']));
 
