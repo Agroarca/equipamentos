@@ -1,6 +1,6 @@
 # Links Úteis
 
-[Link para instalação]([https://marbled-sky-376.notion.site/Prepara-o-do-ambiente-Equipamentos-2f01d665e2c749bb8a747aed4e53ef54](https://github.com/Agroarca/wiki/blob/main/ambiente/equipamentos.md))
+[Link para instalação](https://github.com/Agroarca/wiki/blob/main/ambiente/equipamentos.md)
 
 [Comandos Úteis](https://marbled-sky-376.notion.site/Comandos-teis-Equipamentos-4c698877cc554500862f135411572419)
 
