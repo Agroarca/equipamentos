@@ -1,6 +1,6 @@
 FROM php:8.2
 
-WORKDIR /var/www/html
+WORKDIR /app
 
 RUN apt update && \
     apt upgrade -y && \
@@ -16,7 +16,7 @@ RUN pecl install xdebug && \
 RUN pecl install imagick && \
     docker-php-ext-enable imagick;
 
-RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
+RUN echo "* * * * * /usr/local/bin/php /app/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 
 EXPOSE 8000
 EXPOSE 9003
