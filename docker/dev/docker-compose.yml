@@ -8,7 +8,7 @@ services:
             context: projeto
             dockerfile: docker/dev/Dockerfile
         volumes:
-            - /app/equipamentos/projeto:/app/html
+            - /app/equipamentos/projeto:/app
             - /app/equipamentos/projeto/docker/dev/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
         ports:
             - 8000:8000
@@ -31,7 +31,7 @@ services:
             context: projeto
             dockerfile: docker/dev/Dockerfile
         volumes:
-            - /app/equipamentos/projeto:/app/html
+            - /app/equipamentos/projeto:/app
             - /app/equipamentos/projeto/docker/dev/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
         networks:
             - database
