@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Administracao\Permissoes\GrupoController;
 use App\Http\Controllers\Admin\Administracao\Permissoes\GrupoUsuarioController;
 use App\Http\Controllers\Admin\Administracao\Permissoes\PermissaoGrupoController;
+use App\Http\Controllers\Admin\Administracao\Usuarios\UsuarioController;
 use App\Http\Middleware\AcessoAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,11 @@ Route::middleware(['auth', AcessoAdmin::class])->prefix('admin/administracao')->
                 Route::get('{usuario}/excluir', [GrupoUsuarioController::class, 'excluir'])->name('.excluir');
             });
         });
+    });
+
+    Route::prefix('usuarios')->name('.usuarios')->group(function () {
+        Route::get('', [UsuarioController::class, 'inicio'])->name('');
+        Route::get('{usuario}/visualizar', [UsuarioController::class, 'visualizar'])->name('.visualizar');
+        Route::post('{usuario}/preferencias/salvar', [UsuarioController::class, 'salvarPreferencias'])->name('.salvarPreferencias');
     });
 });
