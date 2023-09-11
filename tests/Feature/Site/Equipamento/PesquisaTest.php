@@ -84,7 +84,7 @@ class PesquisaTest extends TestCase
     {
         $equipamento = Equipamento::factory()->statusAprovado()->create();
 
-        $response = $this->get('/pesquisa/' . $equipamento->modelo->marca->nome . '?categoria_id=$equipamento->categoria_id');
+        $response = $this->get('/pesquisa/' . $equipamento->modelo->marca->nome . '?categoria_id=' . $equipamento->categoria_id);
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
