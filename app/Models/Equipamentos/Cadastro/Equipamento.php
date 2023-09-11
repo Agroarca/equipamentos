@@ -3,6 +3,7 @@
 namespace App\Models\Equipamentos\Cadastro;
 
 use App\Enums\Equipamentos\Cadastro\StatusEquipamento;
+use App\Events\Equipamento\Cadastro\EquipamentoSaved;
 use App\Models\Cadastro\Cidade;
 use App\Models\Equipamentos\Caracteristicas\CaracteristicaEquipamento;
 use App\Models\Equipamentos\Conversas\EquipamentoConversa;
@@ -35,6 +36,10 @@ class Equipamento extends Model
 
     protected $casts = [
         'status' => StatusEquipamento::class,
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => EquipamentoSaved::class,
     ];
 
     public function scopeAprovado(Builder $query): Builder

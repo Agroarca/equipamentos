@@ -8,6 +8,8 @@ namespace App\Services\Notificacoes;
 use App\Enums\Administracao\Notificacoes\TipoNotificacaoEnum;
 use App\Models\Administracao\Notificacoes\NotificacaoAdmin;
 use App\Models\Usuario;
+use App\Notifications\Equipamentos\Cadastro\EquipamentoEnviadoAprovacaoNotification;
+use Illuminate\Support\Facades\Notification;
 
 class NotificacaoAdminService
 {
@@ -42,6 +44,22 @@ class NotificacaoAdminService
                     'tipo' => $key,
                 ])->delete();
             }
+        }
+    }
+
+    /**
+     * Notifica os administradores que um equipamento foi enviado para aprovação.
+     */
+    public function notificarEquipamentoEnviadoAprovacao(): void
+    {
+        $usuarios = Usuario::whereIn('id', fn ($q) => $q
+            ->select('usuario_id')
+            ->from(app(NotificacaoAdmin::class)->getTable())
+            ->where('tipo', TipoNotificacaoEnum::ProdutoEnviadoAprovacao))
+            ->get();
+
+        foreach ($usuarios as $usuario) {
+            Notification::send($usuario, new EquipamentoEnviadoAprovacaoNotification());
         }
     }
 }
