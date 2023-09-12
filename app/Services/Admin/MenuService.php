@@ -72,6 +72,11 @@ class MenuService
                 'icon' => '',
                 'url' => '/admin/cidades',
             ],
+            [
+                'title' => 'Usuarios',
+                'icon' => '',
+                'url' => '/admin/administracao/usuarios',
+            ],
         ];
     }
 }

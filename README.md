@@ -6,7 +6,6 @@
 
 [Diretrizes de Programação](https://marbled-sky-376.notion.site/Diretrizes-de-programa-o-b33a13e75d074dffbd73a9a7b2c39be0)
 
-
 ## Documentações
 
 [Laravel](https://laravel.com/docs/10.x)
@@ -43,5 +42,5 @@ php artisan migrate:rollback
 Checks antes do PR
 
 ```
-npm run build && npm run eslint && vendor/bin/phpcs && ./container.sh php artisan test
+npm run build && npm run eslint && ./container.sh vendor/bin/phpcs && ./container.sh php artisan test
 ```

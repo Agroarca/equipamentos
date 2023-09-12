@@ -4,7 +4,6 @@ namespace Tests\Feature\Site\Equipamento;
 
 use App\Models\Equipamentos\Cadastro\Equipamento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -26,7 +25,6 @@ class PesquisaTest extends TestCase
         $equipamento = Equipamento::factory()->statusAprovado()->create();
 
         $response = $this->get("/pesquisa/$equipamento->titulo");
-        Log::info("/pesquisa/$equipamento->titulo");
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
@@ -86,7 +84,7 @@ class PesquisaTest extends TestCase
     {
         $equipamento = Equipamento::factory()->statusAprovado()->create();
 
-        $response = $this->get('/pesquisa/' . $equipamento->modelo->marca->nome . `?categoria_id=$equipamento->categoria_id`);
+        $response = $this->get('/pesquisa/' . $equipamento->modelo->marca->nome . '?categoria_id=' . $equipamento->categoria_id);
 
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page

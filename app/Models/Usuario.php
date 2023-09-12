@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Usuario\TipoPessoa;
 use App\Enums\Usuario\TipoUsuario;
+use App\Models\Administracao\Notificacoes\NotificacaoAdmin;
 use App\Models\Administracao\Permissoes\Grupo;
 use App\Models\Notificacoes\Notificacao;
 use App\Models\Equipamentos\Cadastro\Equipamento;
@@ -65,5 +66,10 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     public function notificacoes(): HasMany
     {
         return $this->hasMany(Notificacao::class);
+    }
+
+    public function notificacoesAdmin(): HasMany
+    {
+        return $this->hasMany(NotificacaoAdmin::class);
     }
 }
