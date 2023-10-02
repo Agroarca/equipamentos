@@ -44,6 +44,18 @@ class AcessarTest extends TestCase
         $response->assertSessionHasInput('email_cpf_cnpj', $usuario->cpf);
     }
 
+    public function testPodeAcessarUsuarioComCpfFormatado(): void
+    {
+        Usuario::factory()->create();
+
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '220.183.990-55',
+        ]);
+
+        $response->assertRedirectToRoute('auth.entrar');
+        $response->assertSessionHasInput('email_cpf_cnpj', '220.183.990-55');
+    }
+
     public function testPodeAcessarUsuarioComCnpj(): void
     {
         $usuario = Usuario::factory()->pessoaJuridica()->create();
@@ -54,6 +66,17 @@ class AcessarTest extends TestCase
 
         $response->assertRedirectToRoute('auth.entrar');
         $response->assertSessionHasInput('email_cpf_cnpj', $usuario->cnpj);
+    }
+
+    public function testPodeAcessarUsuarioComCnpjFormatado(): void
+    {
+        Usuario::factory()->pessoaJuridica()->create();
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '43.789.233/0001-28',
+        ]);
+
+        $response->assertRedirectToRoute('auth.entrar');
+        $response->assertSessionHasInput('email_cpf_cnpj', '43.789.233/0001-28');
     }
 
     public function testPodeAcessarUsuarioNovoComEmail(): void
@@ -80,6 +103,16 @@ class AcessarTest extends TestCase
         $response->assertSessionHasInput('cpf', $usuario->cpf);
     }
 
+    public function testPodeAcessarUsuarioNovoComCpfFormatado(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '235.935.490-69',
+        ]);
+
+        $response->assertRedirectToRoute('auth.registrar');
+        $response->assertSessionHasInput('cpf', '235.935.490-69');
+    }
+
     public function testPodeAcessarUsuarioNovoComCnpj(): void
     {
         $usuario = Usuario::factory()->pessoaJuridica()->make();
@@ -90,6 +123,16 @@ class AcessarTest extends TestCase
 
         $response->assertRedirectToRoute('auth.registrar');
         $response->assertSessionHasInput('cnpj', $usuario->cnpj);
+    }
+
+    public function testPodeAcessarUsuarioNovoComCnpjFormatado(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '85.323.146/0001-20',
+        ]);
+
+        $response->assertRedirectToRoute('auth.registrar');
+        $response->assertSessionHasInput('cnpj', '85.323.146/0001-20');
     }
 
     public function testNaoPodeAcessarValorInvalido(): void
@@ -119,10 +162,28 @@ class AcessarTest extends TestCase
         $response->assertInvalid(['cpf']);
     }
 
+    public function testNaoPodeAcessarCpfInvalidoFormatado(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '000.000.000-00',
+        ]);
+
+        $response->assertInvalid(['cpf']);
+    }
+
     public function testNaoPodeAcessarCnpjInvalido(): void
     {
         $response = $this->post('/acessar', [
             'email_cpf_cnpj' => '00000000000000',
+        ]);
+
+        $response->assertInvalid(['cnpj']);
+    }
+
+    public function testNaoPodeAcessarCnpjInvalidoFormatado(): void
+    {
+        $response = $this->post('/acessar', [
+            'email_cpf_cnpj' => '00.000.000/0000-00',
         ]);
 
         $response->assertInvalid(['cnpj']);

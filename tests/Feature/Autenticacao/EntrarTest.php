@@ -43,12 +43,36 @@ class EntrarTest extends TestCase
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
+    public function testPodeAutenticarCpfFormatado(): void
+    {
+        Usuario::factory()->create();
+        $response = $this->post('/entrar', [
+            'email_cpf_cnpj' => '220.183.990-55',
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
     public function testPodeAutenticarCnpj(): void
     {
         $usuario = Usuario::factory()->pessoaJuridica()->create();
 
         $response = $this->post('/entrar', [
             'email_cpf_cnpj' => $usuario->cnpj,
+            'password' => 'Password123',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(RouteServiceProvider::HOME);
+    }
+
+    public function testPodeAutenticarCnpjFormatado(): void
+    {
+        Usuario::factory()->pessoaJuridica()->create();
+        $response = $this->post('/entrar', [
+            'email_cpf_cnpj' => '43.789.233/0001-28',
             'password' => 'Password123',
         ]);
 
