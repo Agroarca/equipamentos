@@ -10,12 +10,21 @@ class EmailCpfOuCnpj implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (Str::of($value)->isMatch('/\D/')) {
+        if (Str::of($value)->contains('@')) {
             return;
         }
 
-        if (strlen($value) === 11 || strlen($value) === 14) {
-            return;
+        $cleaned = Str::of($value)->replaceMatches('/\W/', '');
+        $digitos = Str::of($value)->replaceMatches('/\D/', '');
+
+        if ($cleaned->length() === $digitos->length()) {
+            if ($digitos->length() === 14) {
+                return;
+            }
+
+            if ($digitos->length() === 11) {
+                return;
+            }
         }
 
         $fail("O $attribute deve ser um e-mail, CPF ou CNPJ válido.");

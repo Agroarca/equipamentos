@@ -56,25 +56,23 @@ class AcessarRequest extends FormRequest
 
     public function prepareForValidation(): void
     {
-        if (Str::of($this->email_cpf_cnpj)->isMatch('/\D/')) {
+        if (Str::of($this->email_cpf_cnpj)->contains('@')) {
             $this->merge([
                 'email' => $this->email_cpf_cnpj,
             ]);
-            return;
         }
 
-        if (strlen($this->email_cpf_cnpj) === 11) {
-            $this->merge([
-                'cpf' => $this->email_cpf_cnpj,
-            ]);
-            return;
-        }
-
-        if (strlen($this->email_cpf_cnpj) === 14) {
+        $digitos = Str::of($this->email_cpf_cnpj)->replaceMatches('/\D/', '');
+        if ($digitos->length() === 14) {
             $this->merge([
                 'cnpj' => $this->email_cpf_cnpj,
             ]);
-            return;
+        }
+
+        if ($digitos->length() === 11) {
+            $this->merge([
+                'cpf' => $this->email_cpf_cnpj,
+            ]);
         }
     }
 }
