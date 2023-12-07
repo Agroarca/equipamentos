@@ -173,6 +173,9 @@ async function salvarModelo() {
                         <button type="submit" class="btn btn-primary">
                             <i class="fa-solid fa-floppy-disk me-1" />Salvar
                         </button>
+                        <Link :href="`/admin/equipamentos/${equipamento.id}/excluir`" class="btn btn-danger">
+                            <i class="fa-solid fa-eraser me-1" />Excluir
+                        </Link>
                     </div>
                 </div>
             </form>

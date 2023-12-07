@@ -33,7 +33,7 @@ const URLAtual = computed(() => window.location.href)
             <meta name="og:description" head-key="meta-og-description" :content="metaDescription" />
             <meta name="og:url" head-key="meta-og-url" :content="URLAtual" />
             <meta name="og:type" head-key="meta-og-type" content="website" />
-            <meta name="og:image" head-key="meta-og-image" content="https://agroarca.com.br/img/logo-vertical.png" />
+            <meta name="og:image" head-key="meta-og-image" content="https://equipamentos.pilati.dev/img/logo-vertical.png" />
             <meta name="og:image:type" head-key="meta-og-image-type" content="image/png" />
             <meta name="og:image:width" head-key="meta-og-image-width" content="512" />
             <meta name="og:image:height" head-key="meta-og-image-height" content="512" />

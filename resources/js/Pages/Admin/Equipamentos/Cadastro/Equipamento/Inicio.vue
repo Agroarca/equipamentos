@@ -31,10 +31,6 @@ const props = defineProps({
                                         <i class="fas fa-pen-to-square pe-1" />
                                         Editar
                                     </Link>
-                                    <Link class="btn btn-danger" :href="`/admin/equipamentos/${equipamento.id}/excluir`">
-                                        <i class="fas fa-eraser pe-1" />
-                                        Excluir
-                                    </Link>
                                 </div>
                             </td>
                         </tr>

@@ -16,11 +16,11 @@ let dadosEstruturados = {
         '@type': 'SearchAction',
         target: {
             '@type': 'EntryPoint',
-            urlTemplate: 'https://agroarca.com.br/pesquisa/{search_term}',
+            urlTemplate: 'https://equipamentos.pilati.dev/pesquisa/{search_term}',
         },
         'query-input': 'required name=search_term',
     }],
-    url: 'https://agroarca.com.br',
+    url: 'https://equipamentos.pilati.dev',
 }
 
 const versao = new Versao(
