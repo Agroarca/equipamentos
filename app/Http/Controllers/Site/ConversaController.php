@@ -70,13 +70,13 @@ class ConversaController extends Controller
         $conversa->visualizacao = $conversa->visualizacao()->where('usuario_id', $usuarioId)->first();
 
         $mensagensAnteriores = $conversa->mensagens()
-            ->where('id', '<=', $conversa->visualizacao?->ultima_mensagem_id)
+            ->where('id', '<=', $conversa->visualizacao->ultima_mensagem_id)
             ->latest('id')
             ->take($this->mensagensPorPagina)
             ->get();
 
         $mensagensProximas = $conversa->mensagens()
-            ->where('id', '>', $conversa->visualizacao?->ultima_mensagem_id)
+            ->where('id', '>', $conversa->visualizacao->ultima_mensagem_id)
             ->get();
 
         $conversa->mensagens = collect([$mensagensAnteriores, $mensagensProximas])->collapse()->sortBy('id')->values();
